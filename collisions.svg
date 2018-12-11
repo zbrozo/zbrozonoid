@@ -1,0 +1,496 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 744.09448819 1052.3622047"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="collisions.svg">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.35"
+     inkscape:cx="377.01086"
+     inkscape:cy="-613.95328"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1850"
+     inkscape:window-height="1057"
+     inkscape:window-x="1912"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:10;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4138"
+       width="344.28571"
+       height="137.14285"
+       x="48.57143"
+       y="126.64792" />
+    <ellipse
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:15.38981056;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path4148"
+       cx="406.42859"
+       cy="122.36218"
+       rx="90.876518"
+       ry="91.59082" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="566.56854"
+       y="95.236763"
+       id="text4150"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4152"
+         x="566.56854"
+         y="95.236763">Xmin, !Xmax, !Ymin, Ymax</tspan><tspan
+         sodipodi:role="line"
+         x="566.56854"
+         y="145.23677"
+         id="tspan4320">Corner.TopRight</tspan></text>
+    <rect
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:10;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4138-1"
+       width="344.28571"
+       height="137.14285"
+       x="90.000008"
+       y="473.07233" />
+    <ellipse
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:15.38981056;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path4148-2"
+       cx="60.714291"
+       cy="453.0723"
+       rx="90.876518"
+       ry="91.59082" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="545.81885"
+       y="457.72211"
+       id="text4150-7"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4152-1"
+         x="545.81885"
+         y="457.72211">!Xmin, Xmax, !Ymin, Ymax</tspan><tspan
+         sodipodi:role="line"
+         x="545.81885"
+         y="507.72211"
+         id="tspan4322">Corner.TopLeft</tspan></text>
+    <rect
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:10;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4138-0"
+       width="344.28571"
+       height="137.14285"
+       x="41.42857"
+       y="813.07233" />
+    <ellipse
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:15.38981056;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path4148-9"
+       cx="399.28574"
+       cy="947.35797"
+       rx="90.876518"
+       ry="91.59082" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="523.90588"
+       y="855.33289"
+       id="text4150-7-7"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4152-1-0"
+         x="523.90588"
+         y="855.33289">Xmin, !Xmax, Ymin, !Ymax</tspan><tspan
+         sodipodi:role="line"
+         x="523.90588"
+         y="905.33289"
+         id="tspan4324">Corner.BottomRight</tspan></text>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot4220"
+       style="fill:black;stroke:none;stroke-opacity:1;stroke-width:1px;stroke-linejoin:miter;stroke-linecap:butt;fill-opacity:1;font-family:sans-serif;font-style:normal;font-weight:normal;font-size:40px;line-height:125%;letter-spacing:0px;word-spacing:0px"><flowRegion
+         id="flowRegion4222"><rect
+           id="rect4224"
+           width="705.71429"
+           height="304.28571"
+           x="-32.857143"
+           y="758.07648" /></flowRegion><flowPara
+         id="flowPara4226" /></flowRoot>    <rect
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:10;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4138-0-9"
+       width="344.28571"
+       height="137.14285"
+       x="63.362728"
+       y="1202.2292" />
+    <ellipse
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:15.38981056;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path4148-9-4"
+       cx="67.624466"
+       cy="1340.3032"
+       rx="90.876518"
+       ry="91.59082" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="519.55865"
+       y="1254.7524"
+       id="text4150-7-7-3"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4152-1-0-9"
+         x="519.55865"
+         y="1254.7524">!Xmin, Xmax, Ymin, !Ymax</tspan><tspan
+         sodipodi:role="line"
+         x="519.55865"
+         y="1304.7524"
+         id="tspan4326">Corner.BottomLeft</tspan></text>
+    <rect
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:10;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4138-06"
+       width="344.28571"
+       height="137.14285"
+       x="1270.5106"
+       y="502.25589" />
+    <ellipse
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:15.38981056;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path4148-0"
+       cx="1442.6536"
+       cy="472.25586"
+       rx="90.876518"
+       ry="91.59082" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="1727.6534"
+       y="399.39874"
+       id="text4150-9"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4152-4"
+         x="1727.6534"
+         y="399.39874">Xmin, Xmax, !Ymin, Ymax</tspan><tspan
+         sodipodi:role="line"
+         x="1727.6534"
+         y="449.39874"
+         id="tspan4316">Edge.Top</tspan></text>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot4276"
+       style="fill:black;stroke:none;stroke-opacity:1;stroke-width:1px;stroke-linejoin:miter;stroke-linecap:butt;fill-opacity:1;font-family:sans-serif;font-style:normal;font-weight:normal;font-size:40px;line-height:125%;letter-spacing:0px;word-spacing:0px"><flowRegion
+         id="flowRegion4278"><rect
+           id="rect4280"
+           width="960"
+           height="324.28571"
+           x="798.57141"
+           y="-64.780655" /></flowRegion><flowPara
+         id="flowPara4282" /></flowRoot>    <rect
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:10;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4138-06-3"
+       width="344.28571"
+       height="137.14285"
+       x="1273.5017"
+       y="847.97015" />
+    <ellipse
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:15.38981056;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path4148-0-4"
+       cx="1444.2161"
+       cy="1017.9702"
+       rx="90.876518"
+       ry="91.59082" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="1670.6445"
+       y="1010.8273"
+       id="text4150-9-5"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4152-4-5"
+         x="1670.6445"
+         y="1010.8273">Xmin, Xmax, Ymin, !Ymax</tspan><tspan
+         sodipodi:role="line"
+         x="1670.6445"
+         y="1060.8273"
+         id="tspan4318">Edge.Bottom</tspan><tspan
+         sodipodi:role="line"
+         x="1670.6445"
+         y="1110.8273"
+         id="tspan4308" /></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="1340.0001"
+       y="72.362206"
+       id="text4310"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4312"
+         x="1340.0001"
+         y="72.362206" /><tspan
+         sodipodi:role="line"
+         x="1340.0001"
+         y="122.36221"
+         id="tspan4314" /></text>
+    <rect
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:10;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4138-06-2"
+       width="344.28571"
+       height="137.14285"
+       x="1342.3328"
+       y="1255.4493" />
+    <ellipse
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:15.38981056;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path4148-0-8"
+       cx="1259.9172"
+       cy="1320.4037"
+       rx="90.876518"
+       ry="91.59082" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="1769.171"
+       y="1294.0135"
+       id="text4150-9-1"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4152-4-4"
+         x="1769.171"
+         y="1294.0135">!Xmin, Xmax, !Ymin, !Ymax</tspan><tspan
+         sodipodi:role="line"
+         x="1769.171"
+         y="1344.0135"
+         id="tspan4316-4">Edge.Left</tspan></text>
+    <rect
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:10;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4138-06-2-5"
+       width="344.28571"
+       height="137.14285"
+       x="1251.5293"
+       y="1536.9309" />
+    <ellipse
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:15.38981056;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path4148-0-8-0"
+       cx="1680.251"
+       cy="1607.9462"
+       rx="90.876518"
+       ry="91.59082" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="1955.1493"
+       y="1577.5154"
+       id="text4150-9-1-6"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4152-4-4-8"
+         x="1955.1493"
+         y="1577.5154">Xmin, !Xmax, !Ymin, !Ymax</tspan><tspan
+         sodipodi:role="line"
+         x="1955.1493"
+         y="1627.5154"
+         id="tspan4316-4-4">Edge.Right</tspan></text>
+    <rect
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:10;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4138-8"
+       width="344.28571"
+       height="137.14285"
+       x="-976.6012"
+       y="1849.769" />
+    <circle
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:23.33489609;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path4148-1"
+       cx="-587.51849"
+       cy="1905.8859"
+       r="138.33255" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="-381.83252"
+       y="1885.028"
+       id="text4150-97"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4152-7"
+         x="-381.83252"
+         y="1885.028">Xmin, !Xmax, !Ymin, !Ymax, Ybelow, Yabove</tspan><tspan
+         sodipodi:role="line"
+         x="-381.83252"
+         y="1935.028"
+         id="tspan4320-1">Corner.TopRight</tspan></text>
+    <rect
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:10;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4138-1-9"
+       width="344.28571"
+       height="137.14285"
+       x="-935.17261"
+       y="2196.1934" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="-479.35382"
+       y="2180.8433"
+       id="text4150-7-8"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4152-1-08"
+         x="-479.35382"
+         y="2180.8433">!Xmin, Xmax, !Ymin, Ymax</tspan><tspan
+         sodipodi:role="line"
+         x="-479.35382"
+         y="2230.8433"
+         id="tspan4322-9">Corner.TopLeft</tspan></text>
+    <rect
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:10;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4138-0-91"
+       width="344.28571"
+       height="137.14285"
+       x="-926.6012"
+       y="3007.6221" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="-444.12393"
+       y="3049.8826"
+       id="text4150-7-7-9"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4152-1-0-6"
+         x="-444.12393"
+         y="3049.8826">Xmin, !Xmax, Ymin, !Ymax</tspan><tspan
+         sodipodi:role="line"
+         x="-444.12393"
+         y="3099.8826"
+         id="tspan4324-8">Corner.BottomRight</tspan></text>
+    <rect
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:10;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4138-0-9-7"
+       width="344.28571"
+       height="137.14285"
+       x="-918.95276"
+       y="3333.9219" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="-462.75687"
+       y="3386.4451"
+       id="text4150-7-7-3-0"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4152-1-0-9-7"
+         x="-462.75687"
+         y="3386.4451">!Xmin, Xmax, Ymin, !Ymax</tspan><tspan
+         sodipodi:role="line"
+         x="-462.75687"
+         y="3436.4451"
+         id="tspan4326-2">Corner.BottomLeft</tspan></text>
+    <circle
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:23.33489609;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path4148-1-4"
+       cx="-994.28571"
+       cy="2243.7908"
+       r="138.33255" />
+    <circle
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:23.33489609;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path4148-1-9"
+       cx="-748.57141"
+       cy="3060.9336"
+       r="138.33255" />
+    <circle
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:23.33489609;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path4148-1-5"
+       cx="-748.57135"
+       cy="3543.7905"
+       r="138.33255" />
+    <rect
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:10;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4138-0-9-7-7"
+       width="344.28571"
+       height="137.14285"
+       x="-904.05219"
+       y="2682.7849" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="-447.85629"
+       y="2735.3081"
+       id="text4150-7-7-3-0-8"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4152-1-0-9-7-2"
+         x="-447.85629"
+         y="2735.3081">!Xmin, Xmax, Ymin, !Ymax</tspan><tspan
+         sodipodi:role="line"
+         x="-447.85629"
+         y="2785.3081"
+         id="tspan4326-2-5">Corner.BottomLeft</tspan></text>
+    <circle
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:23.33489609;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path4148-1-5-0"
+       cx="-730.81366"
+       cy="2612.6536"
+       r="138.33255" />
+    <rect
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:10;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4138-0-9-7-8"
+       width="344.28571"
+       height="137.14285"
+       x="-895"
+       y="4032.3621" />
+    <ellipse
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:51.00328445;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path4148-1-5-5"
+       cx="-725.71423"
+       cy="4110.9341"
+       rx="301.6412"
+       ry="303.06979" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="2331.4287"
+       y="1415.2194"
+       id="text4363"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4365"
+         x="2331.4287"
+         y="1415.2194"></tspan><tspan
+         sodipodi:role="line"
+         x="2331.4287"
+         y="1465.2194"
+         id="tspan4367" /></text>
+  </g>
+</svg>
