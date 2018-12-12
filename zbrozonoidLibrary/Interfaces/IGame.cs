@@ -23,10 +23,16 @@ namespace zbrozonoidLibrary.Interfaces
     {
         event EventHandler<BackgroundEventArgs> OnChangeBackground;
 
+        bool ShouldGo { get; set; }
+
+        void Initialize();
+
         void SetScreenSize(int width, int height);
+
         void GetScreenSize(out int width, out int height);
 
         IBallManager GetBallManager();
+
         BorderManager GetBorderManager();
 
         void GetPadPosition(out int posx, out int posy);
@@ -40,6 +46,8 @@ namespace zbrozonoidLibrary.Interfaces
         void Action();
 
         void SetPadMove(int delta);
+
+        void SetBallMove();
 
         void SetPadMinPosition();
 

@@ -41,7 +41,9 @@ namespace zbrozonoidLibrary
         private readonly IBallManager ballManager;
         private readonly BorderManager borderManager;
         private readonly IScreenCollisionManager screenCollisionManager;
-        private readonly IRandomGenerator randomGenerator = new RandomGenerator();
+        private readonly IRandomGenerator randomGenerator; 
+
+        public bool ShouldGo { get; set; }
 
         public Game()
         {
@@ -61,6 +63,7 @@ namespace zbrozonoidLibrary
             collisionManager = new CollisionManager();
             collisionManagerForMoveReversion = new CollisionManager();
             screenCollisionManager = new ScreenCollisionManager(screen);
+            randomGenerator = new RandomGenerator();
 
             ballManager = new BallManager();
             borderManager = new BorderManager();
@@ -70,7 +73,10 @@ namespace zbrozonoidLibrary
             IBall ball = new Ball(randomGenerator);
             ball.SetSize(15, 15);
             ballManager.Add(ball);
+        }
 
+        public void Initialize()
+        {
             InitializeNewLevel();
         }
 
@@ -198,13 +204,14 @@ namespace zbrozonoidLibrary
 
         private bool DoAction(IBall ball)
         {
-            ball.MoveBall();
+            if (ShouldGo)
+            {
+                ball.MoveBall();
+            }
+
             screenCollisionManager.DetectAndVerify(ball);
 
-            VerifyBorderCollision(pad);
             bool borderHit = VerifyBorderCollision(ball);
-
-            collisionManager.Prepare();
 
             if (collisionManager.Detect(pad, ball))
             {
@@ -217,6 +224,7 @@ namespace zbrozonoidLibrary
                 return false;
             }
 
+            collisionManager.Prepare();
             bool result = DetectBrickCollision(ball);
             if (result)
             {
@@ -361,7 +369,25 @@ namespace zbrozonoidLibrary
                 return;
             }
             padElement.PosX += delta;
+
             screenCollisionManager.DetectAndVerify(pad);
+            VerifyBorderCollision(pad);
+        }
+
+        public void SetBallMove()
+        {
+            ballManager.First();
+            while (!ballManager.IsLast())
+            {
+                if (!(ballManager.GetCurrent() is IElement))
+                {
+                    continue;
+                }
+
+                SetBallStartPosition(ballManager.GetCurrent());
+
+                ballManager.Next();
+            }
         }
 
         public void SetPadMinPosition()

@@ -30,15 +30,21 @@ namespace zbrozonoid_sfml
 
     public class Window
     {
-        private readonly Game game;
+        private readonly IGame game;
 
         private readonly RenderWindow app;
 
         private Image backgroundImage;
 
+        private Sprite background;
+
+        private Text pressButtonToPlayMessage;
+
         private Vector2i currentMousePosition = new Vector2i();
 
         private Vector2i previousMousePosition = new Vector2i();
+
+        private Font font;
 
         Dictionary<int, Color> colors = new Dictionary<int, Color>
                                             {
@@ -60,16 +66,23 @@ namespace zbrozonoid_sfml
                                                 { 15, new Color(187, 187, 187) }
                                             };
 
-        public Window(Game game)
+        public Window(IGame game)
         {
             this.game = game;
 
             game.GetScreenSize(out int width, out int height);
-            app = new RenderWindow(new VideoMode((uint)width, (uint)height), "Zbrożonoid - free arkanoid clone");
+            app = new RenderWindow(new VideoMode((uint)width, (uint)height), "Zbrożonoid - a free arkanoid clone");
             app.SetVerticalSyncEnabled(true);
+            
             app.Closed += OnClose;
             app.MouseMoved += OnMouseMove;
             app.MouseLeft += OnMouseLeft;
+            app.MouseButtonPressed += OnMouseButtonPressed;
+        }
+
+        private void OnMouseButtonPressed(object sender, MouseButtonEventArgs e)
+        {
+            game.ShouldGo = true;
         }
 
         public void OnChangeBackground(object sender, BackgroundEventArgs e)
@@ -80,6 +93,8 @@ namespace zbrozonoid_sfml
             }
 
             LoadBackground(e.Value);
+            Texture backgroundTexture = new Texture(backgroundImage);
+            background = new Sprite(backgroundTexture);
         }
 
         private void OnMouseLeft(object sender, EventArgs e)
@@ -112,14 +127,21 @@ namespace zbrozonoid_sfml
             previousMousePosition = pos;
 
             game.SetPadMove(delta);
+
+            if (!game.ShouldGo)
+            {
+                game.SetBallMove();
+            }
+        }
+
+        public void Initialize()
+        {
+            LoadFont("Bungee-Regular.ttf");
+            pressButtonToPlayMessage = PreparePressButtonToPlayMessage();
         }
 
         public void Run()
         {
-            LoadBackground(game.GetBackgroundPath());
-            Texture backgroundTexture = new Texture(backgroundImage);
-            Sprite background = new Sprite(backgroundTexture);
-
             app.SetMouseCursorVisible(false);
 
             game.GetScreenSize(out int width, out int height);
@@ -134,11 +156,20 @@ namespace zbrozonoid_sfml
 
                 game.Action();
 
-                app.Draw(background);
+                if (background != null)
+                {
+                    app.Draw(background);
+                }
+
                 DrawBorders(app);
                 DrawBricks(app);
                 DrawPad(app);
                 DrawBall(app);
+
+                if (!game.ShouldGo)
+                {
+                    app.Draw(pressButtonToPlayMessage);
+                }
 
                 // Update the window
                 app.Display();
@@ -250,5 +281,37 @@ namespace zbrozonoid_sfml
                 backgroundImage = new Image(resourceStream);
             }
         }
+
+        private void LoadFont(string name)
+        {
+            name = name.Replace("/", ".");
+            name = "zbrozonoidAssets.Fonts." + name;
+
+            AssemblyName assemblyName = new AssemblyName(@"zbrozonoidAssets");
+            Assembly assembly = Assembly.Load(assemblyName);
+
+            Stream resourceStream = assembly.GetManifestResourceStream(name);
+            if (resourceStream is null)
+            {
+                return;
+            }
+
+            font = new Font(resourceStream);
+        }
+
+        private Text PreparePressButtonToPlayMessage()
+        {
+            uint charSize = 50;
+            Text message = new Text("Press mouse button to play", font, charSize);
+            message.Color = new Color(Color.White);
+
+            game.GetScreenSize(out int width, out int height);
+            FloatRect localBounds = message.GetLocalBounds();
+            Vector2f rect = new Vector2f((width - localBounds.Width) / 2, (float)height / 4 - localBounds.Height / 2);
+            message.Position = rect;
+
+            return message;
+        }
+
     }
 }
