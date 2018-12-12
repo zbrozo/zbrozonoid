@@ -249,6 +249,8 @@ namespace zbrozonoidLibrary
 
         private void InitializeNewLevel()
         {
+            ShouldGo = false;
+
             ballManager.First();
             IBall ball = ballManager.GetCurrent();
             SetBallStartPosition(ball);

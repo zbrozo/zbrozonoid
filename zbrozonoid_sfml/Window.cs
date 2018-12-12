@@ -78,6 +78,12 @@ namespace zbrozonoid_sfml
             app.MouseMoved += OnMouseMove;
             app.MouseLeft += OnMouseLeft;
             app.MouseButtonPressed += OnMouseButtonPressed;
+            app.Resized += OnResized;
+        }
+
+        private void OnResized(object sender, SizeEventArgs e)
+        {
+            // TODO
         }
 
         private void OnMouseButtonPressed(object sender, MouseButtonEventArgs e)
@@ -87,12 +93,9 @@ namespace zbrozonoid_sfml
 
         public void OnChangeBackground(object sender, BackgroundEventArgs e)
         {
-            if (backgroundImage != null)
-            {
-                backgroundImage.Dispose();
-            }
+            backgroundImage?.Dispose();
+            backgroundImage = LoadBackground(e.Value);
 
-            LoadBackground(e.Value);
             Texture backgroundTexture = new Texture(backgroundImage);
             background = new Sprite(backgroundTexture);
         }
@@ -136,7 +139,8 @@ namespace zbrozonoid_sfml
 
         public void Initialize()
         {
-            LoadFont("Bungee-Regular.ttf");
+            font?.Dispose();
+            font = LoadFont("Bungee-Regular.ttf");
             pressButtonToPlayMessage = PreparePressButtonToPlayMessage();
         }
 
@@ -156,23 +160,34 @@ namespace zbrozonoid_sfml
 
                 game.Action();
 
-                if (background != null)
-                {
-                    app.Draw(background);
-                }
-
+                DrawBackground(app);
                 DrawBorders(app);
                 DrawBricks(app);
                 DrawPad(app);
                 DrawBall(app);
-
-                if (!game.ShouldGo)
-                {
-                    app.Draw(pressButtonToPlayMessage);
-                }
+                DrawTexts(app);
 
                 // Update the window
                 app.Display();
+            }
+
+            font?.Dispose();
+            background?.Dispose();
+        }
+
+        private void DrawTexts(RenderWindow app)
+        {
+            if (!game.ShouldGo)
+            {
+                app.Draw(pressButtonToPlayMessage);
+            }
+        }
+
+        private void DrawBackground(RenderWindow app)
+        {
+            if (background != null)
+            {
+                app.Draw(background);
             }
         }
 
@@ -256,7 +271,7 @@ namespace zbrozonoid_sfml
 
                 CircleShape circle = new CircleShape();
                 circle.Position = new Vector2f(posX, posY);
-                circle.Radius = 10;
+                circle.Radius = (float) width / 2;
                 circle.FillColor = Color.Cyan;
 
                 app.Draw(circle);
@@ -265,7 +280,7 @@ namespace zbrozonoid_sfml
             }
         }
 
-        private void LoadBackground(string name)
+        private Image LoadBackground(string name)
         {
             name = name.Replace("/", ".");
             name = "zbrozonoidAssets." + name;
@@ -276,13 +291,15 @@ namespace zbrozonoid_sfml
             using (Stream resourceStream = assembly.GetManifestResourceStream(name))
             {
                 if (resourceStream == null)
-                    return;
+                {
+                    return null;
+                }
 
-                backgroundImage = new Image(resourceStream);
+                return new Image(resourceStream);
             }
         }
 
-        private void LoadFont(string name)
+        private Font LoadFont(string name)
         {
             name = name.Replace("/", ".");
             name = "zbrozonoidAssets.Fonts." + name;
@@ -293,10 +310,10 @@ namespace zbrozonoid_sfml
             Stream resourceStream = assembly.GetManifestResourceStream(name);
             if (resourceStream is null)
             {
-                return;
+                return null;
             }
 
-            font = new Font(resourceStream);
+            return new Font(resourceStream);
         }
 
         private Text PreparePressButtonToPlayMessage()
