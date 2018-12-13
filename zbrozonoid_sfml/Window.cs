@@ -94,10 +94,7 @@ namespace zbrozonoid_sfml
 
         private void OnMouseButtonPressed(object sender, MouseButtonEventArgs e)
         {
-            if (!game.ShouldGo)
-            {
-                game.StartPlay();
-            }
+            game.StartPlay();
         }
 
         public void OnChangeBackground(object sender, BackgroundEventArgs e)
@@ -273,15 +270,8 @@ namespace zbrozonoid_sfml
         private void DrawBall(RenderWindow app)
         {
             var ballManager = game.GetBallManager();
-            ballManager.First();
-            while (!ballManager.IsLast())
+            foreach(IBall ball in ballManager)
             {
-                IBall ball = ballManager.GetCurrent();
-                if (ball == null)
-                {
-                    continue;
-                }
-
                 ball.GetPosition(out var posX, out var posY);
                 ball.GetSize(out var width, out var height);
 
@@ -293,8 +283,6 @@ namespace zbrozonoid_sfml
                 circle.FillColor = Color.Cyan;
 
                 app.Draw(circle);
-
-                ballManager.Next();
             }
         }
 

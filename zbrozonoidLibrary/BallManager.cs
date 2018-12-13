@@ -16,55 +16,53 @@ along with this program.If not, see<https://www.gnu.org/licenses/>.
 */
 namespace zbrozonoidLibrary
 {
+    using System.Collections;
     using System.Collections.Generic;
 
+    using zbrozonoidLibrary.Enumerators;
     using zbrozonoidLibrary.Interfaces;
 
     public class BallManager : IBallManager
     {
+        public int Count => balls.Count;
+
+        public bool IsReadOnly { get; } = false;
+
         private readonly List<IBall> balls = new List<IBall>();
-        private int Index { get; set; }
 
         public void Add(IBall ball)
         {
             balls.Add(ball);
         }
 
-        public IBall First()
+        public void Clear()
         {
-            Index = 0;
-            return GetCurrent();
+            balls.Clear();
         }
 
-        public IBall Next()
+        public bool Contains(IBall ball)
         {
-            if (Index >= balls.Count)
-            {
-                return null;
-            }
-
-            ++Index;
-
-            return GetCurrent();
+            return balls.Contains(ball);
         }
 
-        public bool IsLast()
+        public void CopyTo(IBall[] ballsArray, int arrayIndex)
         {
-            if (Index >= balls.Count)
-            {
-                return true;
-            }
-            return false;
+            balls.CopyTo(ballsArray, arrayIndex);
         }
 
-        public IBall GetCurrent()
+        public bool Remove(IBall item)
         {
-            if (balls.Count == 0 || Index >= balls.Count)
+            return balls.Remove(item);
+        }
+
+        public IBall GetFirst()
+        {
+            if (Count > 0)
             {
-                return null;
+                return balls[0];
             }
 
-            return balls[Index];
+            return null;
         }
 
         public void LeaveOnlyOne()
@@ -73,6 +71,16 @@ namespace zbrozonoidLibrary
             {
                 balls.RemoveRange(1, balls.Count - 1);
             }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return (IEnumerator)GetEnumerator();
+        }
+
+        public IEnumerator<IBall> GetEnumerator()
+        {
+            return new BallEnum(balls);
         }
     }
 }

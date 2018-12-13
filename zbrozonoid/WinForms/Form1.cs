@@ -251,15 +251,8 @@ namespace zbrozonoid
         private void DrawBall(Graphics g)
         {
             var ballManager = Game.GetBallManager();
-            ballManager.First();
-            while (!ballManager.IsLast())
+            foreach(IBall ball in ballManager)
             {
-                IBall ball = ballManager.GetCurrent();
-                if (ball == null)
-                {
-                    continue;
-                }
-
                 ball.GetPosition(out var posX , out var posY);
                 ball.GetSize(out var width, out var height);
 
@@ -270,8 +263,6 @@ namespace zbrozonoid
                 //g.FillRectangle(myBrush, new Rectangle(posX, posY, width, height));
 
                 myBrush.Dispose();
-
-                ballManager.Next();
             }
         }
 

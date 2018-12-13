@@ -165,15 +165,8 @@ namespace zbrozonoidLibrary
 
         public void Action()
         {
-            ballManager.First();
-            while (!ballManager.IsLast())
+            foreach(IBall ball in ballManager)
             {
-                IBall ball = ballManager.GetCurrent();
-                if (ball == null)
-                {
-                    continue;
-                }
-
                 int speed = ball.Speed;
                 for (int i = 0; i < speed; ++i)
                 {
@@ -182,8 +175,6 @@ namespace zbrozonoidLibrary
                         break;
                     }
                 }
-
-                ballManager.Next();
             }
 
             if (levelManager.VerifyAllBricksAreHit())
@@ -202,8 +193,16 @@ namespace zbrozonoidLibrary
 
             if (screenCollisionManager.DetectAndVerify(ball))
             {
-                --Lives;
-                ShouldGo = false;
+                if (ballManager.Count > 1)
+                {
+                    // TODO
+                }
+                else
+                {
+                    --Lives;
+                    ShouldGo = false;
+                }
+
                 return false;
             }
 
@@ -372,17 +371,9 @@ namespace zbrozonoidLibrary
 
         public void SetBallMove()
         {
-            ballManager.First();
-            while (!ballManager.IsLast())
+            foreach (IBall ball in ballManager)
             {
-                if (!(ballManager.GetCurrent() is IElement))
-                {
-                    continue;
-                }
-
-                SetBallStartPosition(ballManager.GetCurrent());
-
-                ballManager.Next();
+                SetBallStartPosition(ball);
             }
         }
 
@@ -425,6 +416,11 @@ namespace zbrozonoidLibrary
 
         public void StartPlay()
         {
+            if (ShouldGo)
+            {
+                return;
+            }
+
             if (Lives < 0)
             {
                 Lives = 3;
@@ -438,8 +434,12 @@ namespace zbrozonoidLibrary
         {
             ballManager.LeaveOnlyOne();
 
-            ballManager.First();
-            IBall ball = ballManager.GetCurrent();
+            IBall ball = ballManager.GetFirst();
+            if (ball is null)
+            {
+                return;
+            }
+
             SetBallStartPosition(ball);
         }
 

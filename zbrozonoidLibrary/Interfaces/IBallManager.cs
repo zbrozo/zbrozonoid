@@ -16,17 +16,11 @@ along with this program.If not, see<https://www.gnu.org/licenses/>.
 */
 namespace zbrozonoidLibrary.Interfaces
 {
-    public interface IBallManager
+    using System.Collections.Generic;
+
+    public interface IBallManager : ICollection<IBall>
     {
-       void Add(IBall ball);
-
-        IBall First();
-
-        IBall Next();
-
-        bool IsLast();
-
-        IBall GetCurrent();
+        IBall GetFirst();
 
         void LeaveOnlyOne();
     }
