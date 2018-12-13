@@ -20,5 +20,6 @@ namespace zbrozonoidLibrary.Interfaces
     {
         bool DetectAndVerify(IPad pad);
         bool DetectAndVerify(IBall ball);
+        bool Detect(IBall ball);
     }
 }

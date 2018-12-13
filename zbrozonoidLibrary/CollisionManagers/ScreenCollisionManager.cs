@@ -1,4 +1,4 @@
-﻿namespace zbrozonoid.CollisionManagers
+﻿namespace zbrozonoidLibrary.CollisionManagers
 {
     using zbrozonoidLibrary.Interfaces;
 
@@ -66,6 +66,39 @@
 
             return false;
         }
+
+        public bool Detect(IBall ball)
+        {
+            ball.GetSize(out int width, out int height);
+
+            if (!(ball is IElement ballElement))
+            {
+                return false;
+            }
+
+            if (ballElement.PosX < -width)
+            {
+                return true;
+            }
+
+            if (ballElement.PosX > screen.Width)
+            {
+                return true;
+            }
+
+            if (ballElement.PosY < -height)
+            {
+                return true;
+            }
+
+            if (ballElement.PosY > screen.Height)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
 
     }
 }

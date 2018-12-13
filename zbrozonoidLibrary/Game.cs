@@ -21,6 +21,7 @@ namespace zbrozonoidLibrary
 
     using zbrozonoid.CollisionManagers;
 
+    using zbrozonoidLibrary.CollisionManagers;
     using zbrozonoidLibrary.Interfaces;
 
     public class Game : IGame
@@ -144,6 +145,8 @@ namespace zbrozonoidLibrary
 
             ball.SavedPosX = ballElement.PosX;
             ball.SavedPosY = ballElement.PosY;
+
+            ball.Iteration = 0;
         }
 
         private void RestartBallYPosition(IBall ball)
@@ -165,8 +168,15 @@ namespace zbrozonoidLibrary
 
         public void Action()
         {
+            uint ballsOutOfScreen = 0;
             foreach(IBall ball in ballManager)
             {
+                if (screenCollisionManager.Detect(ball))
+                {
+                    ++ballsOutOfScreen;
+                    continue;
+                }
+
                 int speed = ball.Speed;
                 for (int i = 0; i < speed; ++i)
                 {
@@ -175,6 +185,12 @@ namespace zbrozonoidLibrary
                         break;
                     }
                 }
+            }
+
+            if (ballsOutOfScreen == ballManager.Count)
+            {
+                --Lives;
+                ShouldGo = false;
             }
 
             if (levelManager.VerifyAllBricksAreHit())
@@ -191,18 +207,9 @@ namespace zbrozonoidLibrary
                 ball.MoveBall();
             }
 
-            if (screenCollisionManager.DetectAndVerify(ball))
+            if (screenCollisionManager.Detect(ball))
             {
-                if (ballManager.Count > 1)
-                {
-                    // TODO
-                }
-                else
-                {
-                    --Lives;
-                    ShouldGo = false;
-                }
-
+                ball.SavePosition();
                 return false;
             }
 
