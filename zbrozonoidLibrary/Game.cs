@@ -34,16 +34,26 @@ namespace zbrozonoidLibrary
         private int ScreenHeight = 768;
 
         private readonly IScreen screen;
+
         private readonly IPad pad;
+
         private readonly ILevelManager levelManager;
+
         private readonly ICollisionManager collisionManager;
+
         private readonly ICollisionManager collisionManagerForMoveReversion;
+
         private readonly IBallManager ballManager;
+
         private readonly BorderManager borderManager;
+
         private readonly IScreenCollisionManager screenCollisionManager;
-        private readonly IRandomGenerator randomGenerator; 
+
+        private readonly IRandomGenerator randomGenerator;
 
         public bool ShouldGo { get; set; }
+
+        public int Lives { get; set; } = -1;
 
         public Game()
         {
@@ -114,24 +124,6 @@ namespace zbrozonoidLibrary
             pad.GetSize(out width, out height);
         }
 
-        public void LeftPressed()
-        {
-            (pad as IElement).PosX -= padMovementSpeed;
-            if ((pad as IElement).PosX <= 0)
-            {
-                (pad as IElement).PosX = 0;
-            }
-        }
-
-        public void RightPressed()
-        {
-            (pad as IElement).PosX += padMovementSpeed;
-            if ((pad as IElement).PosX > screen.Width - (pad as IElement).Width)
-            {
-                (pad as IElement).PosX = screen.Width - (pad as IElement).Width;
-            }
-        }
-
         private void SetBallStartPosition(IBall ball)
         {
             Logger.Instance.Write("---SetStartPosition---");
@@ -198,7 +190,6 @@ namespace zbrozonoidLibrary
             {
                 levelManager.Next();
                 InitializeNewLevel();
-                ballManager.LeaveOnlyOne();
             }
         }
 
@@ -209,7 +200,12 @@ namespace zbrozonoidLibrary
                 ball.MoveBall();
             }
 
-            screenCollisionManager.DetectAndVerify(ball);
+            if (screenCollisionManager.DetectAndVerify(ball))
+            {
+                --Lives;
+                ShouldGo = false;
+                return false;
+            }
 
             bool borderHit = VerifyBorderCollision(ball);
 
@@ -251,9 +247,7 @@ namespace zbrozonoidLibrary
         {
             ShouldGo = false;
 
-            ballManager.First();
-            IBall ball = ballManager.GetCurrent();
-            SetBallStartPosition(ball);
+            ReinitBall();
 
             BackgroundEventArgs background = new BackgroundEventArgs(levelManager.GetCurrent().BackgroundPath);
             OnChangeBackground?.Invoke(this, background);
@@ -427,6 +421,26 @@ namespace zbrozonoidLibrary
         public string GetBackgroundPath()
         {
             return levelManager.GetCurrent().BackgroundPath;
+        }
+
+        public void StartPlay()
+        {
+            if (Lives < 0)
+            {
+                Lives = 3;
+            }
+
+            ReinitBall();
+
+            ShouldGo = true;
+        }
+        private void ReinitBall()
+        {
+            ballManager.LeaveOnlyOne();
+
+            ballManager.First();
+            IBall ball = ballManager.GetCurrent();
+            SetBallStartPosition(ball);
         }
 
     }

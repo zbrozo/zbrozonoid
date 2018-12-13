@@ -176,7 +176,6 @@ namespace zbrozonoid
         {
             if (e.KeyCode == Keys.RControlKey)
             {
-                Game.RightPressed();
                 UpdateScreen();
             }
         }

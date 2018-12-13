@@ -25,6 +25,8 @@ namespace zbrozonoidLibrary.Interfaces
 
         bool ShouldGo { get; set; }
 
+        int Lives { get; set; }
+
         void Initialize();
 
         void SetScreenSize(int width, int height);
@@ -39,10 +41,6 @@ namespace zbrozonoidLibrary.Interfaces
 
         void GetPadSize(out int width, out int height);
 
-        void LeftPressed();
-
-        void RightPressed();
-
         void Action();
 
         void SetPadMove(int delta);
@@ -56,6 +54,8 @@ namespace zbrozonoidLibrary.Interfaces
         List<IBrick> GetBricks();
 
         string GetBackgroundPath();
+
+        void StartPlay();
 
     }
 }

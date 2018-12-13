@@ -30,6 +30,8 @@ namespace zbrozonoid_sfml
 
     public class Window
     {
+        private const string Name = "Zbrożonoid - a free arkanoid clone";
+
         private readonly IGame game;
 
         private readonly RenderWindow app;
@@ -39,6 +41,10 @@ namespace zbrozonoid_sfml
         private Sprite background;
 
         private Text pressButtonToPlayMessage;
+
+        private Text livesMessage;
+
+        private Text gameOverMessage;
 
         private Vector2i currentMousePosition = new Vector2i();
 
@@ -71,7 +77,7 @@ namespace zbrozonoid_sfml
             this.game = game;
 
             game.GetScreenSize(out int width, out int height);
-            app = new RenderWindow(new VideoMode((uint)width, (uint)height), "Zbrożonoid - a free arkanoid clone");
+            app = new RenderWindow(new VideoMode((uint)width, (uint)height), Name);
             app.SetVerticalSyncEnabled(true);
             
             app.Closed += OnClose;
@@ -88,7 +94,10 @@ namespace zbrozonoid_sfml
 
         private void OnMouseButtonPressed(object sender, MouseButtonEventArgs e)
         {
-            game.ShouldGo = true;
+            if (!game.ShouldGo)
+            {
+                game.StartPlay();
+            }
         }
 
         public void OnChangeBackground(object sender, BackgroundEventArgs e)
@@ -142,6 +151,7 @@ namespace zbrozonoid_sfml
             font?.Dispose();
             font = LoadFont("Bungee-Regular.ttf");
             pressButtonToPlayMessage = PreparePressButtonToPlayMessage();
+            gameOverMessage = PrepareGameOverMessage();
         }
 
         public void Run()
@@ -181,6 +191,14 @@ namespace zbrozonoid_sfml
             {
                 app.Draw(pressButtonToPlayMessage);
             }
+
+            if (game.Lives < 0)
+            {
+                app.Draw(gameOverMessage);
+            }
+
+            livesMessage = PrepareLivesMessage();
+            app.Draw(livesMessage);
         }
 
         private void DrawBackground(RenderWindow app)
@@ -325,6 +343,38 @@ namespace zbrozonoid_sfml
             game.GetScreenSize(out int width, out int height);
             FloatRect localBounds = message.GetLocalBounds();
             Vector2f rect = new Vector2f((width - localBounds.Width) / 2, (float)height / 4 - localBounds.Height / 2);
+            message.Position = rect;
+
+            return message;
+        }
+
+        private Text PrepareLivesMessage()
+        {
+            uint charSize = 20;
+            int lives = game.Lives >= 0 ? game.Lives : 0;
+            Text message = new Text($"Lives: {lives}", font, charSize);
+            message.Color = new Color(Color.White);
+
+            game.GetScreenSize(out int width, out int height);
+            FloatRect localBounds = message.GetLocalBounds();
+
+            int offsetX = 20;
+            int offsetY = 30;
+            Vector2f rect = new Vector2f(offsetX, (float)height - localBounds.Height - offsetY);
+            message.Position = rect;
+
+            return message;
+        }
+
+        private Text PrepareGameOverMessage()
+        {
+            uint charSize = 50;
+            Text message = new Text("game over", font, charSize);
+            message.Color = new Color(Color.White);
+
+            game.GetScreenSize(out int width, out int height);
+            FloatRect localBounds = message.GetLocalBounds();
+            Vector2f rect = new Vector2f((width - localBounds.Width) / 2, (float)height / 6 - localBounds.Height / 2);
             message.Position = rect;
 
             return message;
