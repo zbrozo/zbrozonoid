@@ -19,10 +19,8 @@ namespace zbrozonoidLibrary
     using System;
     using System.Collections.Generic;
 
-    using zbrozonoid.CollisionManagers;
-
-    using zbrozonoidLibrary.CollisionManagers;
     using zbrozonoidLibrary.Interfaces;
+    using zbrozonoidLibrary.Managers;
 
     public class Game : IGame
     {

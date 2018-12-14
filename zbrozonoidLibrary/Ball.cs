@@ -18,8 +18,6 @@ namespace zbrozonoidLibrary
 {
     using System;
 
-    using zbrozonoid;
-
     using zbrozonoidLibrary.Interfaces;
 
     public class Ball : IBall, IElement

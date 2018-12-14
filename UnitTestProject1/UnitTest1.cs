@@ -5,8 +5,7 @@
 
     using zbrozonoidLibrary;
     using zbrozonoidLibrary.Interfaces;
-
-    using zbrozonoid.CollisionManagers;
+    using zbrozonoidLibrary.Managers;
 
     [TestFixture]
     public class UnitTest1

@@ -14,7 +14,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.If not, see<https://www.gnu.org/licenses/>.
 */
-namespace zbrozonoidLibrary
+namespace zbrozonoidLibrary.Managers
 {
     using System.Collections;
     using System.Collections.Generic;
@@ -22,57 +22,65 @@ namespace zbrozonoidLibrary
     using zbrozonoidLibrary.Enumerators;
     using zbrozonoidLibrary.Interfaces;
 
-    public class BorderManager : IBorderManager
+    public class BallManager : IBallManager
     {
-        public int Count => borders.Count;
+        public int Count => balls.Count;
 
         public bool IsReadOnly { get; } = false;
 
-        private readonly List<IBorder> borders = new List<IBorder>();
+        private readonly List<IBall> balls = new List<IBall>();
 
-        public void Create(IScreen screen)
+        public void Add(IBall ball)
         {
-            Border border1 = new Border(screen, Edge.Bottom);
-            borders.Add(border1);
-            Border border2 = new Border(screen, Edge.Left);
-            borders.Add(border2);
-            Border border3 = new Border(screen, Edge.Right);
-            borders.Add(border3);
-        }
-
-        public void Add(IBorder border)
-        {
-            borders.Add(border);
+            balls.Add(ball);
         }
 
         public void Clear()
         {
-            borders.Clear();
+            balls.Clear();
         }
 
-        public bool Contains(IBorder border)
+        public bool Contains(IBall ball)
         {
-            return borders.Contains(border);
+            return balls.Contains(ball);
         }
 
-        public void CopyTo(IBorder[] ballsArray, int arrayIndex)
+        public void CopyTo(IBall[] ballsArray, int arrayIndex)
         {
-            borders.CopyTo(ballsArray, arrayIndex);
+            balls.CopyTo(ballsArray, arrayIndex);
         }
 
-        public bool Remove(IBorder item)
+        public bool Remove(IBall item)
         {
-            return borders.Remove(item);
+            return balls.Remove(item);
+        }
+
+        public IBall GetFirst()
+        {
+            if (Count > 0)
+            {
+                return balls[0];
+            }
+
+            return null;
+        }
+
+        public void LeaveOnlyOne()
+        {
+            if (balls.Count > 1)
+            {
+                balls.RemoveRange(1, balls.Count - 1);
+            }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return GetEnumerator();
+            return (IEnumerator)GetEnumerator();
         }
 
-        public IEnumerator<IBorder> GetEnumerator()
+        public IEnumerator<IBall> GetEnumerator()
         {
-            return new BorderEnum(borders);
+            return new BallEnum(balls);
         }
     }
 }
