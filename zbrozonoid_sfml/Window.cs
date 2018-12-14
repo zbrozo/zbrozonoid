@@ -337,7 +337,8 @@ namespace zbrozonoid_sfml
         {
             uint charSize = 20;
             int lives = game.Lives >= 0 ? game.Lives : 0;
-            Text message = new Text($"Lives: {lives}", font, charSize);
+            int scores = game.Scores;
+            Text message = new Text($"Lives: {lives}   Scores: {scores:D5}", font, charSize);
             message.Color = new Color(Color.White);
 
             game.GetScreenSize(out int width, out int height);

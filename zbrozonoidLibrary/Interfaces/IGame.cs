@@ -27,6 +27,8 @@ namespace zbrozonoidLibrary.Interfaces
 
         int Lives { get; set; }
 
+        int Scores { get; set; }
+
         void Initialize();
 
         void SetScreenSize(int width, int height);

@@ -54,6 +54,8 @@ namespace zbrozonoidLibrary
 
         public int Lives { get; set; } = -1;
 
+        public int Scores { get; set; } = 0;
+
         public Game()
         {
 
@@ -228,6 +230,7 @@ namespace zbrozonoidLibrary
                 if (collisionManager.HitBrick(out BrickType type))
                 {
                     --levelManager.GetCurrent().BeatableBricksNumber;
+                    Scores++;
 
                     ExecuteAdditionalEffect(type);
                 }
@@ -434,6 +437,7 @@ namespace zbrozonoidLibrary
             if (Lives < 0)
             {
                 Lives = 3;
+                Scores = 0;
 
                 levelManager.Reset();
                 levelManager.MoveNext();
@@ -444,6 +448,7 @@ namespace zbrozonoidLibrary
 
             ShouldGo = true;
         }
+
         private void ReinitBall()
         {
             ballManager.LeaveOnlyOne();
