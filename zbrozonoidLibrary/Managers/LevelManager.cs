@@ -52,6 +52,11 @@ namespace zbrozonoidLibrary.Managers
             index.MoveNext();
         }
 
+        public void Reset()
+        {
+            index.Reset();
+        }
+
         public bool VerifyAllBricksAreHit()
         {
             if (level?.BeatableBricksNumber <= 0)

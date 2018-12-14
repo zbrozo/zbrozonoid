@@ -423,6 +423,10 @@ namespace zbrozonoidLibrary
             if (Lives < 0)
             {
                 Lives = 3;
+
+                levelManager.Reset();
+                levelManager.MoveNext();
+                levelManager.Load();
             }
 
             ReinitBall();
