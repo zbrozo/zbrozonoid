@@ -67,8 +67,6 @@ namespace zbrozonoidLibrary
             pad.SetSize(100, 24);
 
             levelManager = new LevelManager();
-            levelManager.First();
-
             collisionManager = new CollisionManager();
             collisionManagerForMoveReversion = new CollisionManager();
             screenCollisionManager = new ScreenCollisionManager(screen);
@@ -193,7 +191,6 @@ namespace zbrozonoidLibrary
 
             if (levelManager.VerifyAllBricksAreHit())
             {
-                levelManager.Next();
                 InitializeNewLevel();
             }
         }
@@ -252,6 +249,9 @@ namespace zbrozonoidLibrary
             ShouldGo = false;
 
             ReinitBall();
+
+            levelManager.MoveNext();
+            levelManager.Load();
 
             BackgroundEventArgs background = new BackgroundEventArgs(levelManager.GetCurrent().BackgroundPath);
             OnChangeBackground?.Invoke(this, background);

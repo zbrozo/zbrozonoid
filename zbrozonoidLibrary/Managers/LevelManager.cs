@@ -16,6 +16,9 @@ along with this program.If not, see<https://www.gnu.org/licenses/>.
 */
 namespace zbrozonoidLibrary.Managers
 {
+    using System.Collections;
+
+    using zbrozonoidLibrary.Enumerators;
     using zbrozonoidLibrary.Interfaces;
 
     public class LevelManager : ILevelManager
@@ -24,34 +27,29 @@ namespace zbrozonoidLibrary.Managers
         private string LevelPath = "zbrozonoidAssets.Levels.";
 
         private readonly string[] levelNames = new string[] {"Level1.xml", "Level2.xml"};
-
-        private int levelNr;
-
+        
         private readonly ILevel level = new Level();
 
-        public bool First()
+        private readonly IEnumerator index;
+
+        public LevelManager()
         {
-            levelNr = 0;
-
-
-            return level.Load(LevelPath + levelNames[levelNr]);
+            index = GetEnumerator();
         }
 
-        public bool Next()
+        public bool Load()
         {
-            ++levelNr;
-            if (levelNr >= levelNames.Length)
-            {
-                Logger.Instance.Write("Level goes from first");
-                return First();
-            }
-
-            return level.Load(LevelPath + levelNames[levelNr]);
+            return level.Load(LevelPath + index.Current);
         }
 
         public ILevel GetCurrent()
         {
             return level;
+        }
+
+        public void MoveNext()
+        {
+            index.MoveNext();
         }
 
         public bool VerifyAllBricksAreHit()
@@ -62,6 +60,16 @@ namespace zbrozonoidLibrary.Managers
             }
 
             return false;
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return (IEnumerator)GetEnumerator();
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            return new LevelEnum(levelNames);
         }
 
     }

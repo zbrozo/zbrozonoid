@@ -16,12 +16,13 @@ along with this program.If not, see<https://www.gnu.org/licenses/>.
 */
 namespace zbrozonoidLibrary.Interfaces
 {
-    public interface ILevelManager
+    using System.Collections;
+
+    public interface ILevelManager : IEnumerable
     {
+        bool Load();
 
-        bool First();
-
-        bool Next();
+        void MoveNext();
 
         ILevel GetCurrent();
 
