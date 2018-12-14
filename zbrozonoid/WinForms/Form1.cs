@@ -312,16 +312,14 @@ namespace zbrozonoid
         {
             var borderManager = Game.GetBorderManager();
 
-            borderManager.First();
-            while (!borderManager.IsLast())
+            foreach(IBorder border in borderManager)
             {
-                var element = borderManager.GetCurrent() as IElement;
+                var element = border as IElement;
 
                 System.Drawing.SolidBrush myBrush = new System.Drawing.SolidBrush(System.Drawing.Color.Bisque);
                 g.FillRectangle(myBrush, new Rectangle(element.PosX, element.PosY, element.Width, element.Height));
                 myBrush.Dispose();
 
-                borderManager.Next();
             }
         }
 

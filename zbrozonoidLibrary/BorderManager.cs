@@ -16,62 +16,63 @@ along with this program.If not, see<https://www.gnu.org/licenses/>.
 */
 namespace zbrozonoidLibrary
 {
+    using System.Collections;
     using System.Collections.Generic;
 
+    using zbrozonoidLibrary.Enumerators;
     using zbrozonoidLibrary.Interfaces;
 
-    public class BorderManager
+    public class BorderManager : IBorderManager
     {
-        private List<IBorder> Borders = new List<IBorder>();
+        public int Count => borders.Count;
 
-        private int Index = 0;
+        public bool IsReadOnly { get; } = false;
+
+        private readonly List<IBorder> borders = new List<IBorder>();
 
         public void Create(IScreen screen)
         {
             Border border1 = new Border(screen, Edge.Bottom);
-            Borders.Add(border1);
+            borders.Add(border1);
             Border border2 = new Border(screen, Edge.Left);
-            Borders.Add(border2);
+            borders.Add(border2);
             Border border3 = new Border(screen, Edge.Right);
-            Borders.Add(border3);
+            borders.Add(border3);
         }
 
-        public IBorder First()
+        public void Add(IBorder border)
         {
-            Index = 0;
-            return GetCurrent();
+            borders.Add(border);
         }
 
-        public IBorder Next()
+        public void Clear()
         {
-            if (Index >= Borders.Count)
-            {
-                return null;
-            }
-
-            ++Index;
-
-            return GetCurrent();
+            borders.Clear();
         }
 
-        public bool IsLast()
+        public bool Contains(IBorder border)
         {
-            if (Index >= Borders.Count)
-            {
-                return true;
-            }
-            return false;
+            return borders.Contains(border);
         }
 
-        public IBorder GetCurrent()
+        public void CopyTo(IBorder[] ballsArray, int arrayIndex)
         {
-            if (Borders.Count == 0 || Index >= Borders.Count)
-            {
-                return null;
-            }
-
-            return Borders[Index];
+            borders.CopyTo(ballsArray, arrayIndex);
         }
 
+        public bool Remove(IBorder item)
+        {
+            return borders.Remove(item);
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        public IEnumerator<IBorder> GetEnumerator()
+        {
+            return new BorderEnum(borders);
+        }
     }
 }

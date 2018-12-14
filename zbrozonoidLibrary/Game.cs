@@ -46,7 +46,7 @@ namespace zbrozonoidLibrary
 
         private readonly IBallManager ballManager;
 
-        private readonly BorderManager borderManager;
+        private readonly IBorderManager borderManager;
 
         private readonly IScreenCollisionManager screenCollisionManager;
 
@@ -261,29 +261,25 @@ namespace zbrozonoidLibrary
 
         private void VerifyBorderCollision(IPad pad)
         {
-            borderManager.First();
-            while (!borderManager.IsLast())
+            foreach(IBorder border in borderManager)
             {
-                IBorderCollisionManager borderCollisionManager = new BorderCollisionManager(borderManager.GetCurrent(), collisionManager);
+                IBorderCollisionManager borderCollisionManager = new BorderCollisionManager(border, collisionManager);
                 if (borderCollisionManager.DetectAndVerify(pad))
                 {
                     break;
                 }
-                borderManager.Next();
             }
         }
 
         private bool VerifyBorderCollision(IBall ball)
         {
-            borderManager.First();
-            while (!borderManager.IsLast())
+            foreach(IBorder border in borderManager)
             {
-                IBorderCollisionManager borderCollisionManager = new BorderCollisionManager(borderManager.GetCurrent(), collisionManager);
+                IBorderCollisionManager borderCollisionManager = new BorderCollisionManager(border, collisionManager);
                 if (borderCollisionManager.DetectAndVerify(ball))
                 {
                     return true;
                 }
-                borderManager.Next();
             }
             return false;
         }
@@ -300,15 +296,13 @@ namespace zbrozonoidLibrary
 
                 ball.SavePosition();
 
-                borderManager.First();
-                while (!borderManager.IsLast())
+                foreach(IBorder border in borderManager)
                 {
-                    if (collisionManagerForMoveReversion.Detect(borderManager.GetCurrent(), ball))
+                    if (collisionManagerForMoveReversion.Detect(border, ball))
                     {
                         SetBallStartPosition(ball);
                         break;
                     }
-                    borderManager.Next();
                 }
 
                 if (screenCollisionManager.DetectAndVerify(ball))
@@ -411,7 +405,7 @@ namespace zbrozonoidLibrary
             return levelManager.GetCurrent().Bricks;
         }
 
-        public BorderManager GetBorderManager()
+        public IBorderManager GetBorderManager()
         {
             return borderManager;
         }

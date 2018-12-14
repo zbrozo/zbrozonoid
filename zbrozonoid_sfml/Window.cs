@@ -210,10 +210,9 @@ namespace zbrozonoid_sfml
         {
             var borderManager = game.GetBorderManager();
 
-            borderManager.First();
-            while (!borderManager.IsLast())
+            foreach(IBorder border in borderManager)
             {
-                var element = borderManager.GetCurrent() as IElement;
+                var element = border as IElement;
                 if (element is null)
                 {
                     continue;
@@ -225,8 +224,6 @@ namespace zbrozonoid_sfml
                 rectangle.FillColor = Color.White;
 
                 app.Draw(rectangle);
-
-                borderManager.Next();
             }
         }
 

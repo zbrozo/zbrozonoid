@@ -35,7 +35,7 @@ namespace zbrozonoidLibrary.Interfaces
 
         IBallManager GetBallManager();
 
-        BorderManager GetBorderManager();
+        IBorderManager GetBorderManager();
 
         void GetPadPosition(out int posx, out int posy);
 
