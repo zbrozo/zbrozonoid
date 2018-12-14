@@ -7,7 +7,7 @@
       <Bricks>
         <Brick column="0" color="13" type="1" />
         <Brick column="1" color="11" type="1" />
-        <Brick column="2" color="13" type="1" />
+        <Brick column="2" color="13" type="4" />
         <Brick column="3" color="11" type="1" />
         <Brick column="4" color="13" type="1" />
         <Brick column="5" color="11" type="1" />

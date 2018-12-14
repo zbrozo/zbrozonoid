@@ -21,7 +21,8 @@ namespace zbrozonoidLibrary.Interfaces
         None = 0,
         Normal = 1,
         Solid = 2,
-        ThreeBalls = 3
+        ThreeBalls = 3,
+        DestroyerBall = 4
     }
 
     public interface IBrick

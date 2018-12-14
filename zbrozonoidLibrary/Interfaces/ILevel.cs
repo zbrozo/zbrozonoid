@@ -23,7 +23,6 @@ namespace zbrozonoidLibrary.Interfaces
         List<IBrick> Bricks { get; set; }
         string BackgroundPath { get; set; }
         int BeatableBricksNumber { get; set; }
-
         bool Load(string fileName);
     }
 }

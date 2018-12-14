@@ -272,7 +272,7 @@ namespace zbrozonoid_sfml
                 ball.GetPosition(out var posX, out var posY);
                 ball.GetSize(out var width, out var height);
 
-                //DrawTail(g, ball);
+                DrawTail(app, ball);
 
                 CircleShape circle = new CircleShape();
                 circle.Position = new Vector2f(posX, posY);
@@ -365,5 +365,47 @@ namespace zbrozonoid_sfml
             return message;
         }
 
+        private void DrawTail(RenderWindow app, IBall ball)
+        {
+            ITail tail = ball.GetTail();
+            if (tail != null)
+            {
+                IContainer<Position> positions = tail.Get();
+                positions.First();
+                int i = 0;
+                int opacity = 150;
+                while (!positions.IsLast())
+                {
+                    ++i;
+                    if (i % 14 == 0)
+                    {
+                        if (opacity < 0)
+                        {
+                            break;
+                        }
+
+                        Position? position = positions.GetCurrent();
+                        if (position != null)
+                        {
+                            ball.GetSize(out var width, out var height);
+
+                            Color color = Color.Cyan;
+                            color.A = (byte) opacity;
+
+                            CircleShape circle = new CircleShape();
+                            circle.Position = new Vector2f(position.Value.X, position.Value.Y);
+                            circle.Radius = (float)width / 2;
+                            circle.FillColor = color;
+                            app.Draw(circle);
+                        }
+
+                        opacity = opacity - 60;
+
+                    }
+
+                    positions.Next();
+                }
+            }
+        }
     }
 }

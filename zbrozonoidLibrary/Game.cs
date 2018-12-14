@@ -232,7 +232,8 @@ namespace zbrozonoidLibrary
                     ExecuteAdditionalEffect(type);
                 }
 
-                if (!borderHit)
+                bool destroyerBall = ball.GetTail() != null;
+                if (!borderHit && !destroyerBall)
                 {
                     collisionManager.Bounce(ball);
                 }
@@ -351,6 +352,16 @@ namespace zbrozonoidLibrary
                         ballManager.Add(ball2);
                         break;
                     }
+                case BrickType.DestroyerBall:
+                    {
+                        foreach (IBall ball in ballManager)
+                        {
+                            ITail tail = new Tail();
+                            ball.AddTail(tail);
+                        }
+                        break;
+                    }
+
                 default:
                     break;
             }
