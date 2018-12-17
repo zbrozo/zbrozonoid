@@ -14,13 +14,39 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.If not, see<https://www.gnu.org/licenses/>.
 */
-namespace zbrozonoidLibrary.Interfaces
+namespace zbrozonoidLibrary.Managers
 {
     using System.Collections.Generic;
+    using zbrozonoidLibrary.Interfaces;
 
-    using zbrozonoidLibrary;
-
-    public interface ITail : ICollection<Position>
+    public class TailManager : ITailManager
     {
+        private readonly Dictionary<IBall, ITail> tails = new Dictionary<IBall, ITail>();
+
+        public void Add(IBall ball)
+        {
+            ITail tail = new Tail();
+            tails.Add(ball, tail);
+        }
+
+        public void Remove(IBall ball)
+        {
+            tails.Remove(ball);
+        }
+
+        public ITail Find(IBall ball)
+        {
+            if (tails.ContainsKey(ball))
+            {
+                return tails[ball];
+            }
+
+            return null;
+        }
+
+        public void Clear()
+        {
+            tails.Clear();
+        }
     }
 }

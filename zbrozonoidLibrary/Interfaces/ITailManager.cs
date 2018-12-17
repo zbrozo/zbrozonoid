@@ -16,11 +16,14 @@ along with this program.If not, see<https://www.gnu.org/licenses/>.
 */
 namespace zbrozonoidLibrary.Interfaces
 {
-    using System.Collections.Generic;
-
-    using zbrozonoidLibrary;
-
-    public interface ITail : ICollection<Position>
+    public interface ITailManager
     {
+        void Add(IBall ball);
+
+        void Remove(IBall ball);
+
+        ITail Find(IBall ball);
+
+        void Clear();
     }
 }

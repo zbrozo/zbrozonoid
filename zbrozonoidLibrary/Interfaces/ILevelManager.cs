@@ -26,6 +26,8 @@ namespace zbrozonoidLibrary.Interfaces
 
         void Reset();
 
+        void Restart();
+
         ILevel GetCurrent();
 
         bool VerifyAllBricksAreHit();

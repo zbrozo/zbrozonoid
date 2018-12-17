@@ -18,28 +18,31 @@ namespace zbrozonoidLibrary.Enumerators
 {
     using System;
     using System.Collections;
+    using System.Collections.Generic;
 
-    public class LevelEnum : IEnumerator
+    public class TailEnum : IEnumerator<Position>
     {
-        private readonly string[] levelNames;
+        private readonly List<Position> tail;
 
         int position = -1;
 
-        public LevelEnum(string[] levelNames)
+        public TailEnum(List<Position> tail)
         {
-            this.levelNames = levelNames;
+            this.tail = tail;
         }
 
         public bool MoveNext()
         {
             position++;
-            return position < levelNames.Length;
+            return position < tail.Count;
         }
 
         public void Reset()
         {
             position = -1;
         }
+
+        void IDisposable.Dispose() { }
 
         object IEnumerator.Current
         {
@@ -49,13 +52,13 @@ namespace zbrozonoidLibrary.Enumerators
             }
         }
 
-        public string Current
+        public Position Current
         {
             get
             {
                 try
                 {
-                    return levelNames[position];
+                    return tail[position];
                 }
                 catch (IndexOutOfRangeException)
                 {

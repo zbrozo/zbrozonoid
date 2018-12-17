@@ -29,6 +29,8 @@ namespace zbrozonoidLibrary.Interfaces
 
         int Scores { get; set; }
 
+        ITailManager TailManager { get; }
+
         void Initialize();
 
         void SetScreenSize(int width, int height);

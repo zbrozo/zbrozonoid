@@ -268,14 +268,12 @@ namespace zbrozonoid
 
         private void DrawTail(Graphics g, IBall ball)
         {
-            ITail tail = ball.GetTail();
+            ITail tail = Game.TailManager.Find(ball);
             if (tail != null)
             {
-                IContainer<Position> positions = tail.Get();
-                positions.First();
                 int i = 0;
                 int opacity = 150;
-                while (!positions.IsLast())
+                foreach(Position position in tail)
                 {
                     ++i;
                     if (i % 12 == 0)
@@ -285,25 +283,17 @@ namespace zbrozonoid
                             opacity = 0;
                         }
 
-                        Position? position = positions.GetCurrent();
-                        if (position != null)
-                        {
                             ball.GetSize(out var width, out var height);
 
                             SolidBrush tailBrush = new SolidBrush(Color.FromArgb(opacity, Color.LightCoral));
                             g.FillEllipse(
                                 tailBrush,
-                                new Rectangle(position.Value.X, position.Value.Y, width, height));
+                                new Rectangle(position.X, position.Y, width, height));
                             tailBrush.Dispose();
-
-                        }
 
                         opacity = opacity - 40;
 
                     }
-
-
-                    positions.Next();
                 }
             }
         }

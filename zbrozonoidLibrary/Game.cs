@@ -26,8 +26,6 @@ namespace zbrozonoidLibrary
     {
         public event EventHandler<BackgroundEventArgs> OnChangeBackground;
 
-        private int padMovementSpeed = 10;
-
         private int ScreenWidth = 1024;
 
         private int ScreenHeight = 768;
@@ -50,11 +48,15 @@ namespace zbrozonoidLibrary
 
         private readonly IRandomGenerator randomGenerator;
 
+        private readonly ITailManager tailManager;
+
         public bool ShouldGo { get; set; }
 
         public int Lives { get; set; } = -1;
 
         public int Scores { get; set; } = 0;
+
+        public ITailManager TailManager => tailManager;
 
         public Game()
         {
@@ -73,9 +75,10 @@ namespace zbrozonoidLibrary
             collisionManagerForMoveReversion = new CollisionManager();
             screenCollisionManager = new ScreenCollisionManager(screen);
             randomGenerator = new RandomGenerator();
-
+            tailManager = new TailManager();
             ballManager = new BallManager();
             borderManager = new BorderManager();
+
             borderManager.Create(screen);
             VerifyBorderCollision(pad);
 
@@ -235,7 +238,7 @@ namespace zbrozonoidLibrary
                     ExecuteAdditionalEffect(type);
                 }
 
-                bool destroyerBall = ball.GetTail() != null;
+                bool destroyerBall = IsBallDestroyer(ball);
                 if (!borderHit && !destroyerBall)
                 {
                     collisionManager.Bounce(ball);
@@ -243,7 +246,7 @@ namespace zbrozonoidLibrary
                 return false;
             }
 
-            ball.SavePosition();
+            SavePosition(ball);
 
             return true;
         }
@@ -359,8 +362,7 @@ namespace zbrozonoidLibrary
                     {
                         foreach (IBall ball in ballManager)
                         {
-                            ITail tail = new Tail();
-                            ball.AddTail(tail);
+                            tailManager.Add(ball);
                         }
                         break;
                     }
@@ -439,9 +441,7 @@ namespace zbrozonoidLibrary
                 Lives = 3;
                 Scores = 0;
 
-                levelManager.Reset();
-                levelManager.MoveNext();
-                levelManager.Load();
+                levelManager.Restart();
             }
 
             ReinitBall();
@@ -451,6 +451,8 @@ namespace zbrozonoidLibrary
 
         private void ReinitBall()
         {
+            tailManager.Clear();
+
             ballManager.LeaveOnlyOne();
 
             IBall ball = ballManager.GetFirst();
@@ -462,5 +464,24 @@ namespace zbrozonoidLibrary
             SetBallStartPosition(ball);
         }
 
+        private bool IsBallDestroyer(IBall ball)
+        {
+            return tailManager.Find(ball) != null;
+        }
+
+        private void SavePosition(IBall ball)
+        {
+            ball.SavePosition();
+
+            if (ball is IElement element)
+            {
+                ITail tail = tailManager.Find(ball);
+                if (!(tail is null))
+                {
+                    Position position = new Position { X = element.PosX, Y = element.PosY };
+                    tail.Add(position);
+                }
+            }
+        }
     }
 }

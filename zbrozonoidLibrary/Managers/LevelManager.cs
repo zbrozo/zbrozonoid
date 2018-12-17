@@ -67,6 +67,13 @@ namespace zbrozonoidLibrary.Managers
             return false;
         }
 
+        public void Restart()
+        {
+            Reset();
+            MoveNext();
+            Load();
+        }
+
         IEnumerator IEnumerable.GetEnumerator()
         {
             return (IEnumerator)GetEnumerator();

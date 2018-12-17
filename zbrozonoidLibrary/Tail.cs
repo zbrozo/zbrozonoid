@@ -16,22 +16,21 @@ along with this program.If not, see<https://www.gnu.org/licenses/>.
 */
 namespace zbrozonoidLibrary
 {
+    using System.Collections;
     using System.Collections.Generic;
 
+    using zbrozonoidLibrary.Enumerators;
     using zbrozonoidLibrary.Interfaces;
 
     public class Tail : ITail
     {
+        public int Count => positions.Count;
+
+        public bool IsReadOnly { get; } = false;
+
         private readonly List<Position> positions = new List<Position>();
 
-        private readonly IContainer<Position> tail;
-
         private int max = 200;
-
-        public Tail()
-        {
-            tail = new Container<Position>(positions);
-        }
 
         public void Add(Position position)
         {
@@ -42,9 +41,34 @@ namespace zbrozonoidLibrary
             }
         }
 
-        public IContainer<Position> Get()
+        public void Clear()
         {
-            return tail;
+            positions.Clear();
+        }
+
+        public bool Remove(Position position)
+        {
+            return positions.Remove(position);
+        }
+
+        public bool Contains(Position position)
+        {
+            return positions.Contains(position);
+        }
+
+        public void CopyTo(Position[] positions, int arrayIndex)
+        {
+            this.positions.CopyTo(positions, arrayIndex);
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return (IEnumerator)GetEnumerator();
+        }
+
+        public IEnumerator<Position> GetEnumerator()
+        {
+            return new TailEnum(positions);
         }
     }
 }

@@ -36,8 +36,6 @@ namespace zbrozonoidLibrary
         public int SavedPosY { get; set; }
         public int Speed { get; set; }
 
-        private ITail tail = null;
-
         private readonly IRandomGenerator randomGenerator;
 
         public Ball(IRandomGenerator randomGenerator)
@@ -49,16 +47,6 @@ namespace zbrozonoidLibrary
 
             DirectionX = randomGenerator.GenerateDirection();
             DirectionY = 1;
-        }
-
-        public void AddTail(ITail tail)
-        {
-            this.tail = tail;
-        }
-
-        public ITail GetTail()
-        {
-            return tail;
         }
 
         public void SetSize(int width, int height)
@@ -326,9 +314,6 @@ namespace zbrozonoidLibrary
 
         public void SavePosition()
         {
-            Position position = new Position { X = PosX, Y = PosY };
-            tail?.Add(position);
-
             SavedPosX = PosX;
             SavedPosY = PosY;
         }

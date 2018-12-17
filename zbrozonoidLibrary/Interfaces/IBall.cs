@@ -28,8 +28,6 @@ namespace zbrozonoidLibrary.Interfaces
         int SavedPosY { get; set; }
         int Speed { get; set; }
 
-        void AddTail(ITail tail);
-        ITail GetTail();
         void SetSize(int width, int height);
         void GetPosition(out int posX, out int posY);
         void GetSize(out int width, out int height);
