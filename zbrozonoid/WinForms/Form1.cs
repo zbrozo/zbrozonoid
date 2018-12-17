@@ -159,7 +159,7 @@ namespace zbrozonoid
 
             grafx = context.Allocate(this.CreateGraphics(), new Rectangle(0, 0, this.Width, this.Height));
 
-            LoadBackground(game.GetBackgroundPath());
+            LoadBackground(game.BackgroundPath);
         }
 
         private void WindowSizeChanged(object sender, EventArgs e)
@@ -250,7 +250,7 @@ namespace zbrozonoid
 
         private void DrawBall(Graphics g)
         {
-            var ballManager = Game.GetBallManager();
+            var ballManager = Game.BallManager;
             foreach(IBall ball in ballManager)
             {
                 ball.GetPosition(out var posX , out var posY);
@@ -300,7 +300,7 @@ namespace zbrozonoid
 
         private void DrawBorders(Graphics g)
         {
-            var borderManager = Game.GetBorderManager();
+            var borderManager = Game.BorderManager;
 
             foreach(IBorder border in borderManager)
             {
@@ -315,7 +315,7 @@ namespace zbrozonoid
 
         private void DrawBricks(Graphics g)
         {
-            List<IBrick> bricks = Game.GetBricks();
+            List<IBrick> bricks = Game.Bricks;
 
             foreach(var entry in bricks)
             {

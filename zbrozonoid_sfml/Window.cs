@@ -208,7 +208,7 @@ namespace zbrozonoid_sfml
 
         private void DrawBorders(RenderWindow app)
         {
-            var borderManager = game.GetBorderManager();
+            var borderManager = game.BorderManager;
 
             foreach(IBorder border in borderManager)
             {
@@ -243,7 +243,7 @@ namespace zbrozonoid_sfml
 
         private void DrawBricks(RenderWindow app)
         {
-            List<IBrick> bricks = game.GetBricks();
+            List<IBrick> bricks = game.Bricks;
 
             foreach (var entry in bricks)
             {
@@ -266,7 +266,7 @@ namespace zbrozonoid_sfml
 
         private void DrawBall(RenderWindow app)
         {
-            var ballManager = game.GetBallManager();
+            var ballManager = game.BallManager;
             foreach(IBall ball in ballManager)
             {
                 ball.GetPosition(out var posX, out var posY);

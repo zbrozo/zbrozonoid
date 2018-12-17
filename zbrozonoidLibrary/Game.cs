@@ -57,6 +57,10 @@ namespace zbrozonoidLibrary
         public int Scores { get; set; } = 0;
 
         public ITailManager TailManager => tailManager;
+        public IBorderManager BorderManager => borderManager;
+        public IBallManager BallManager => ballManager;
+        public List<IBrick> Bricks => levelManager.GetCurrent().Bricks;
+        public string BackgroundPath => levelManager.GetCurrent().BackgroundPath;
 
         public Game()
         {
@@ -114,11 +118,6 @@ namespace zbrozonoidLibrary
             }
             posx = padElement.PosX;
             posy = padElement.PosY;
-        }
-
-        public IBallManager GetBallManager()
-        {
-            return ballManager;
         }
 
         public void GetPadSize(out int width, out int height)
@@ -412,21 +411,6 @@ namespace zbrozonoidLibrary
             GetPadSize(out int width, out int heigth);
             GetScreenSize(out int screenWidth, out int screenHeigth);
             padElement.PosX = screenWidth - width;
-        }
-
-        public List<IBrick> GetBricks()
-        {
-            return levelManager.GetCurrent().Bricks;
-        }
-
-        public IBorderManager GetBorderManager()
-        {
-            return borderManager;
-        }
-
-        public string GetBackgroundPath()
-        {
-            return levelManager.GetCurrent().BackgroundPath;
         }
 
         public void StartPlay()

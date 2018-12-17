@@ -24,22 +24,19 @@ namespace zbrozonoidLibrary.Interfaces
         event EventHandler<BackgroundEventArgs> OnChangeBackground;
 
         bool ShouldGo { get; set; }
-
         int Lives { get; set; }
-
         int Scores { get; set; }
-
         ITailManager TailManager { get; }
+        IBorderManager BorderManager { get; }
+        IBallManager BallManager { get; }
+        List<IBrick> Bricks { get; }
+        string BackgroundPath { get; }
 
         void Initialize();
 
         void SetScreenSize(int width, int height);
 
         void GetScreenSize(out int width, out int height);
-
-        IBallManager GetBallManager();
-
-        IBorderManager GetBorderManager();
 
         void GetPadPosition(out int posx, out int posy);
 
@@ -54,10 +51,6 @@ namespace zbrozonoidLibrary.Interfaces
         void SetPadMinPosition();
 
         void SetPadMaxPosition();
-
-        List<IBrick> GetBricks();
-
-        string GetBackgroundPath();
 
         void StartPlay();
 
