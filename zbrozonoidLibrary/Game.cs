@@ -32,7 +32,7 @@ namespace zbrozonoidLibrary
 
         private readonly IScreen screen;
 
-        private readonly IPad pad;
+       // private readonly IPad pad;
 
         private readonly ILevelManager levelManager;
 
@@ -50,6 +50,8 @@ namespace zbrozonoidLibrary
 
         private readonly ITailManager tailManager;
 
+        private readonly IPadManager padManager;
+
         public bool ShouldGo { get; set; }
 
         public int Lives { get; set; } = -1;
@@ -59,6 +61,7 @@ namespace zbrozonoidLibrary
         public ITailManager TailManager => tailManager;
         public IBorderManager BorderManager => borderManager;
         public IBallManager BallManager => ballManager;
+        public IPadManager PadManager => padManager;
         public List<IBrick> Bricks => levelManager.GetCurrent().Bricks;
         public string BackgroundPath => levelManager.GetCurrent().BackgroundPath;
 
@@ -71,8 +74,8 @@ namespace zbrozonoidLibrary
                              Height = ScreenHeight
                          };
 
-            pad = new Pad();
-            pad.SetSize(100, 24);
+           // pad = new Pad();
+           // pad.SetSize(100, 24);
 
             levelManager = new LevelManager();
             collisionManager = new CollisionManager();
@@ -82,9 +85,17 @@ namespace zbrozonoidLibrary
             tailManager = new TailManager();
             ballManager = new BallManager();
             borderManager = new BorderManager();
+            padManager = new PadManager(screen);
+
+            padManager.Add(Edge.Top);
+            padManager.Add(Edge.Bottom);
 
             borderManager.Create(screen);
-            VerifyBorderCollision(pad);
+
+            foreach (var pad in padManager)
+            {
+                VerifyBorderCollision(pad);
+            }
 
             IBall ball = new Ball(randomGenerator);
             ball.SetSize(15, 15);
@@ -108,7 +119,7 @@ namespace zbrozonoidLibrary
             height = ScreenHeight;
         }
 
-        public void GetPadPosition(out int posx, out int posy)
+        public void GetPadPosition(IPad pad, out int posx, out int posy)
         {
             posx = 0;
             posy = 0;
@@ -120,12 +131,12 @@ namespace zbrozonoidLibrary
             posy = padElement.PosY;
         }
 
-        public void GetPadSize(out int width, out int height)
+        public void GetPadSize(IPad pad, out int width, out int height)
         {
             pad.GetSize(out width, out height);
         }
 
-        private void SetBallStartPosition(IBall ball)
+        private void SetBallStartPosition(IPad pad, IBall ball)
         {
             Logger.Instance.Write("---SetStartPosition---");
 
@@ -149,7 +160,7 @@ namespace zbrozonoidLibrary
             ball.Iteration = 0;
         }
 
-        private void RestartBallYPosition(IBall ball)
+        private void RestartBallYPosition(IPad pad, IBall ball)
         {
             Logger.Instance.Write("---RestartBallYPosition---");
 
@@ -214,15 +225,18 @@ namespace zbrozonoidLibrary
 
             bool borderHit = VerifyBorderCollision(ball);
 
-            if (collisionManager.Detect(pad, ball))
+            foreach (IPad pad in padManager)
             {
-                pad.LogData();
+                if (collisionManager.Detect(pad, ball))
+                {
+                    pad.LogData();
 
-                CorrectBallPosition(ball);
-                collisionManager.Bounce(ball);
+                    CorrectBallPosition(pad, ball);
+                    collisionManager.Bounce(ball);
 
-                ball.LogData();
-                return false;
+                    ball.LogData();
+                    return false;
+                }
             }
 
             collisionManager.Prepare();
@@ -288,13 +302,13 @@ namespace zbrozonoidLibrary
             return false;
         }
 
-        private void CorrectBallPosition(IBall ball)
+        private void CorrectBallPosition(IPad pad, IBall ball)
         {
             while (collisionManagerForMoveReversion.Detect(pad, ball))
             {
                 if (!ball.MoveBall(true))
                 {
-                    RestartBallYPosition(ball);
+                    RestartBallYPosition(pad, ball);
                     return;
                 }
 
@@ -304,14 +318,14 @@ namespace zbrozonoidLibrary
                 {
                     if (collisionManagerForMoveReversion.Detect(border, ball))
                     {
-                        SetBallStartPosition(ball);
+                        SetBallStartPosition(pad, ball);
                         break;
                     }
                 }
 
                 if (screenCollisionManager.DetectAndVerify(ball))
                 {
-                    SetBallStartPosition(ball);
+                    SetBallStartPosition(pad, ball);
                     break;
                 }
 
@@ -346,14 +360,16 @@ namespace zbrozonoidLibrary
             {
                 case BrickType.ThreeBalls:
                     {
+                        IPad pad = padManager.GetFirst();
+
                         IBall ball1 = new Ball(randomGenerator);
                         ball1.SetSize(15, 15);
-                        SetBallStartPosition(ball1);
+                        SetBallStartPosition(pad, ball1);
                         ballManager.Add(ball1);
 
                         IBall ball2 = new Ball(randomGenerator);
                         ball2.SetSize(15, 15);
-                        SetBallStartPosition(ball2);
+                        SetBallStartPosition(pad, ball2);
                         ballManager.Add(ball2);
                         break;
                     }
@@ -373,44 +389,27 @@ namespace zbrozonoidLibrary
 
         public void SetPadMove(int delta)
         {
-            if (!(pad is IElement padElement))
+            foreach (IPad pad in padManager)
             {
-                return;
-            }
-            padElement.PosX += delta;
+                if (!(pad is IElement padElement))
+                {
+                    return;
+                }
 
-            screenCollisionManager.DetectAndVerify(pad);
-            VerifyBorderCollision(pad);
+                padElement.PosX += delta;
+
+                screenCollisionManager.DetectAndVerify(pad);
+                VerifyBorderCollision(pad);
+            }
         }
 
         public void SetBallMove()
         {
             foreach (IBall ball in ballManager)
             {
-                SetBallStartPosition(ball);
+                IPad pad = padManager.GetFirst();
+                SetBallStartPosition(pad, ball);
             }
-        }
-
-        public void SetPadMinPosition()
-        {
-            if (!(pad is IElement padElement))
-            {
-                return;
-            }
-
-            padElement.PosX = 0;
-        }
-
-        public void SetPadMaxPosition()
-        {
-            if (!(pad is IElement padElement))
-            {
-                return;
-            }
-
-            GetPadSize(out int width, out int heigth);
-            GetScreenSize(out int screenWidth, out int screenHeigth);
-            padElement.PosX = screenWidth - width;
         }
 
         public void StartPlay()
@@ -445,7 +444,8 @@ namespace zbrozonoidLibrary
                 return;
             }
 
-            SetBallStartPosition(ball);
+            IPad pad = padManager.GetFirst();
+            SetBallStartPosition(pad, ball);
         }
 
         private bool IsBallDestroyer(IBall ball)

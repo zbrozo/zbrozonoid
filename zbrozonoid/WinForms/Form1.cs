@@ -235,17 +235,20 @@ namespace zbrozonoid
 
         private void DrawPad(Graphics g)
         {
-            Game.GetPadPosition(out int posX, out int posY);
-            Game.GetPadSize(out var width, out var height);
+            foreach (IPad pad in Game.PadManager)
+            {
+                Game.GetPadPosition(pad,out int posX, out int posY);
+                Game.GetPadSize(pad, out var width, out var height);
 
-            LinearGradientBrush linGrBrush = new LinearGradientBrush(
-                new Point(0, 20),
-                new Point(0, 70),
-                Color.LightBlue,   // Opaque red
-                Color.Blue);  // Opaque blue
+                LinearGradientBrush linGrBrush = new LinearGradientBrush(
+                    new Point(0, 20),
+                    new Point(0, 70),
+                    Color.LightBlue, // Opaque red
+                    Color.Blue); // Opaque blue
 
-            g.FillRectangle(linGrBrush, new Rectangle(posX, posY, width, height));
-            linGrBrush.Dispose();
+                g.FillRectangle(linGrBrush, new Rectangle(posX, posY, width, height));
+                linGrBrush.Dispose();
+            }
         }
 
         private void DrawBall(Graphics g)

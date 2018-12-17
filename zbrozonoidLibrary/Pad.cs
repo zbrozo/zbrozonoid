@@ -25,6 +25,7 @@ namespace zbrozonoidLibrary
         public int Width { get; set; }
         public int Height { get; set; }
         private int OffsetY { get; set; }
+        
 
         public Pad()
         {

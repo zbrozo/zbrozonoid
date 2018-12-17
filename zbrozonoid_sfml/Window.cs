@@ -229,16 +229,19 @@ namespace zbrozonoid_sfml
 
         private void DrawPad(RenderWindow app)
         {
-            game.GetPadPosition(out int posX, out int posY);
-            game.GetPadSize(out var width, out var height);
+            foreach (IPad pad in game.PadManager)
+            {
+                game.GetPadPosition(pad, out int posX, out int posY);
+                game.GetPadSize(pad, out var width, out var height);
 
-            VertexArray rect = new VertexArray(PrimitiveType.Quads, 4);
-            rect.Append(new Vertex(new Vector2f(posX, posY), Color.White));
-            rect.Append(new Vertex(new Vector2f(posX + width, posY), Color.White));
-            rect.Append(new Vertex(new Vector2f(posX + width, posY + height), Color.Blue));
-            rect.Append(new Vertex(new Vector2f(posX, posY + height), Color.Blue));
+                VertexArray rect = new VertexArray(PrimitiveType.Quads, 4);
+                rect.Append(new Vertex(new Vector2f(posX, posY), Color.White));
+                rect.Append(new Vertex(new Vector2f(posX + width, posY), Color.White));
+                rect.Append(new Vertex(new Vector2f(posX + width, posY + height), Color.Blue));
+                rect.Append(new Vertex(new Vector2f(posX, posY + height), Color.Blue));
 
-            app.Draw(rect);
+                app.Draw(rect);
+            }
         }
 
         private void DrawBricks(RenderWindow app)

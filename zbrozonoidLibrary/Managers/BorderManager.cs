@@ -32,12 +32,10 @@ namespace zbrozonoidLibrary.Managers
 
         public void Create(IScreen screen)
         {
-            Border border1 = new Border(screen, Edge.Bottom);
+            Border border1 = new Border(screen, Edge.Left);
             borders.Add(border1);
-            Border border2 = new Border(screen, Edge.Left);
+            Border border2 = new Border(screen, Edge.Right);
             borders.Add(border2);
-            Border border3 = new Border(screen, Edge.Right);
-            borders.Add(border3);
         }
 
         public void Add(IBorder border)

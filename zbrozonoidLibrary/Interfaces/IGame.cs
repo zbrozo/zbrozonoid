@@ -29,6 +29,7 @@ namespace zbrozonoidLibrary.Interfaces
         ITailManager TailManager { get; }
         IBorderManager BorderManager { get; }
         IBallManager BallManager { get; }
+        IPadManager PadManager { get; }
         List<IBrick> Bricks { get; }
         string BackgroundPath { get; }
 
@@ -38,19 +39,15 @@ namespace zbrozonoidLibrary.Interfaces
 
         void GetScreenSize(out int width, out int height);
 
-        void GetPadPosition(out int posx, out int posy);
+        void GetPadPosition(IPad pad, out int posx, out int posy);
 
-        void GetPadSize(out int width, out int height);
+        void GetPadSize(IPad pad, out int width, out int height);
 
         void Action();
 
         void SetPadMove(int delta);
 
         void SetBallMove();
-
-        void SetPadMinPosition();
-
-        void SetPadMaxPosition();
 
         void StartPlay();
 
