@@ -20,21 +20,21 @@ namespace zbrozonoidLibrary.Enumerators
     using System.Collections;
     using System.Collections.Generic;
 
-    public class TailEnum : IEnumerator<Position>
+    public class PositionEnum : IEnumerator<Position>
     {
-        private readonly List<Position> tail;
+        private readonly List<Position> positions;
 
         int position = -1;
 
-        public TailEnum(List<Position> tail)
+        public PositionEnum(List<Position> positions)
         {
-            this.tail = tail;
+            this.positions = positions;
         }
 
         public bool MoveNext()
         {
             position++;
-            return position < tail.Count;
+            return position < positions.Count;
         }
 
         public void Reset()
@@ -58,7 +58,7 @@ namespace zbrozonoidLibrary.Enumerators
             {
                 try
                 {
-                    return tail[position];
+                    return positions[position];
                 }
                 catch (IndexOutOfRangeException)
                 {

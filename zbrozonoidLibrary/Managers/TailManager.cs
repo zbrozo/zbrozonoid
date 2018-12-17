@@ -16,7 +16,9 @@ along with this program.If not, see<https://www.gnu.org/licenses/>.
 */
 namespace zbrozonoidLibrary.Managers
 {
+    using System.Collections;
     using System.Collections.Generic;
+
     using zbrozonoidLibrary.Interfaces;
 
     public class TailManager : ITailManager
@@ -33,7 +35,7 @@ namespace zbrozonoidLibrary.Managers
         {
             tails.Remove(ball);
         }
-
+        
         public ITail Find(IBall ball)
         {
             if (tails.ContainsKey(ball))
@@ -43,10 +45,21 @@ namespace zbrozonoidLibrary.Managers
 
             return null;
         }
-
+        
         public void Clear()
         {
             tails.Clear();
+        }
+
+        public IEnumerator<ITail> GetEnumerator()
+        {
+            return tails.Values.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            //forces use of the non-generic implementation on the Values collection
+            return ((IEnumerable)tails.Values).GetEnumerator();
         }
     }
 }
