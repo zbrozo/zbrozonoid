@@ -15,7 +15,7 @@ You should have received a copy of the GNU General Public License
 along with this program.If not, see<https://www.gnu.org/licenses/>.
 */
 
-namespace zbrozonoid_sfml
+namespace zbrozonoid
 {
     using zbrozonoidLibrary;
     using zbrozonoidLibrary.Interfaces;
@@ -28,6 +28,7 @@ namespace zbrozonoid_sfml
             Window window = new Window(game);
 
             game.OnChangeBackground += window.OnChangeBackground;
+            game.OnBrickHit += window.OnBrickHit;
 
             game.Initialize();
             window.Initialize();

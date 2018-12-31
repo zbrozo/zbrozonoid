@@ -14,7 +14,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.If not, see<https://www.gnu.org/licenses/>.
 */
-namespace zbrozonoid_sfml
+namespace zbrozonoid
 {
     using System;
     using System.Collections.Generic;
@@ -28,9 +28,20 @@ namespace zbrozonoid_sfml
     using zbrozonoidLibrary;
     using zbrozonoidLibrary.Interfaces;
 
+    internal class Brick
+    {
+        public bool IsVisible { get; set; } = true;
+        public RectangleShape Rect { get; set; }
+
+        public Brick(RectangleShape rect)
+        {
+            Rect = rect;
+        }
+    }
+
     public class Window
     {
-        private const string Name = "Zbrożonoid - a free arkanoid clone";
+        private const string Name = "Zbrozonoid - a free arkanoid clone";
 
         private readonly IGame game;
 
@@ -51,6 +62,8 @@ namespace zbrozonoid_sfml
         private Vector2i previousMousePosition = new Vector2i();
 
         private Font font;
+
+        private List<Brick> bricksToDraw = new List<Brick>();
 
         Dictionary<int, Color> colors = new Dictionary<int, Color>
                                             {
@@ -77,9 +90,17 @@ namespace zbrozonoid_sfml
             this.game = game;
 
             game.GetScreenSize(out int width, out int height);
-            app = new RenderWindow(new VideoMode((uint)width, (uint)height), Name);
+
+            ContextSettings settings = new ContextSettings();
+            settings.DepthBits = 32;
+            settings.StencilBits = 8;
+            settings.AntialiasingLevel = 4;
+            settings.MajorVersion = 3;
+            settings.MinorVersion = 0;
+
+            app = new RenderWindow(new VideoMode((uint)width, (uint)height), Name, Styles.Default, settings);
             app.SetVerticalSyncEnabled(true);
-            
+
             app.Closed += OnClose;
             app.MouseMoved += OnMouseMove;
             app.MouseLeft += OnMouseLeft;
@@ -99,6 +120,8 @@ namespace zbrozonoid_sfml
 
         public void OnChangeBackground(object sender, BackgroundEventArgs e)
         {
+            PrepareBricksToDraw();
+
             backgroundImage?.Dispose();
             backgroundImage = LoadBackground(e.Value);
 
@@ -106,11 +129,16 @@ namespace zbrozonoid_sfml
             background = new Sprite(backgroundTexture);
         }
 
+        public void OnBrickHit(object sender, BrickHitEventArgs arg)
+        {
+            bricksToDraw[arg.Number].IsVisible = false;
+        }
+
         private void OnMouseLeft(object sender, EventArgs e)
         {
             game.GetScreenSize(out int width, out int height);
             Vector2i pos = new Vector2i(width / 2, height / 2);
-            Mouse.SetPosition(pos, app);
+            //Mouse.SetPosition(pos, app);
         }
 
         private void OnClose(object sender, EventArgs e)
@@ -120,10 +148,8 @@ namespace zbrozonoid_sfml
             window.Close();
         }
 
-        void OnMouseMove(object sender, EventArgs e)
+        void OnMouseMove(object sender, MouseMoveEventArgs args)
         {
-            MouseMoveEventArgs args = (MouseMoveEventArgs)e;
-
             currentMousePosition.X = args.X;
             currentMousePosition.Y = args.Y;
 
@@ -131,9 +157,10 @@ namespace zbrozonoid_sfml
 
             game.GetScreenSize(out int width, out int height);
             Vector2i pos = new Vector2i(width / 2, height / 2);
-            Mouse.SetPosition(pos, app);
 
-            previousMousePosition = pos;
+            //Mouse.SetPosition(pos, app);
+
+            previousMousePosition = currentMousePosition;
 
             game.SetPadMove(delta);
 
@@ -153,7 +180,7 @@ namespace zbrozonoid_sfml
 
         public void Run()
         {
-            app.SetMouseCursorVisible(false);
+            //app.SetMouseCursorVisible(false);
 
             game.GetScreenSize(out int width, out int height);
             Vector2i pos = new Vector2i(width / 2, height / 2);
@@ -210,10 +237,10 @@ namespace zbrozonoid_sfml
         {
             var borderManager = game.BorderManager;
 
-            foreach(IBorder border in borderManager)
+            foreach (IBorder border in borderManager)
             {
                 var element = border as IElement;
-                if (element is null)
+                if (element == null)
                 {
                     continue;
                 }
@@ -229,10 +256,12 @@ namespace zbrozonoid_sfml
 
         private void DrawPad(RenderWindow app)
         {
+
             foreach (IPad pad in game.PadManager)
             {
                 game.GetPadPosition(pad, out int posX, out int posY);
-                game.GetPadSize(pad, out var width, out var height);
+
+                game.GetPadSize(pad, out int width, out int height);
 
                 VertexArray rect = new VertexArray(PrimitiveType.Quads, 4);
                 rect.Append(new Vertex(new Vector2f(posX, posY), Color.White));
@@ -240,29 +269,18 @@ namespace zbrozonoid_sfml
                 rect.Append(new Vertex(new Vector2f(posX + width, posY + height), Color.Blue));
                 rect.Append(new Vertex(new Vector2f(posX, posY + height), Color.Blue));
 
+
                 app.Draw(rect);
             }
         }
 
         private void DrawBricks(RenderWindow app)
         {
-            List<IBrick> bricks = game.Bricks;
-
-            foreach (var entry in bricks)
+            foreach (Brick brick in bricksToDraw)
             {
-                IBrick brick = entry;
-
-                if (!brick.Hit && brick.Type > 0)
+                if (brick.IsVisible)
                 {
-                    if (colors.TryGetValue((int)brick.ColorNumber, out Color color))
-                    {
-                        RectangleShape rectangle = new RectangleShape();
-                        rectangle.Position = new Vector2f(brick.PosX, brick.PosY);
-                        rectangle.Size = new Vector2f(brick.Width, brick.Height);
-                        rectangle.FillColor = color;
-
-                        app.Draw(rectangle);
-                    }
+                    app.Draw(brick.Rect);
                 }
             }
         }
@@ -270,16 +288,16 @@ namespace zbrozonoid_sfml
         private void DrawBall(RenderWindow app)
         {
             var ballManager = game.BallManager;
-            foreach(IBall ball in ballManager)
+            foreach (IBall ball in ballManager)
             {
-                ball.GetPosition(out var posX, out var posY);
-                ball.GetSize(out var width, out var height);
+                ball.GetPosition(out int posX, out int posY);
+                ball.GetSize(out int width, out int height);
 
                 DrawTail(app, ball);
 
                 CircleShape circle = new CircleShape();
                 circle.Position = new Vector2f(posX, posY);
-                circle.Radius = (float) width / 2;
+                circle.Radius = (float)width / 2;
                 circle.FillColor = Color.Cyan;
 
                 app.Draw(circle);
@@ -314,7 +332,7 @@ namespace zbrozonoid_sfml
             Assembly assembly = Assembly.Load(assemblyName);
 
             Stream resourceStream = assembly.GetManifestResourceStream(name);
-            if (resourceStream is null)
+            if (resourceStream == null)
             {
                 return null;
             }
@@ -376,7 +394,7 @@ namespace zbrozonoid_sfml
             {
                 int i = 0;
                 int opacity = 150;
-                foreach(Position position in tail)
+                foreach (Position position in tail)
                 {
                     ++i;
                     if (i % 14 == 0)
@@ -386,7 +404,7 @@ namespace zbrozonoid_sfml
                             break;
                         }
 
-                        ball.GetSize(out var width, out var height);
+                        ball.GetSize(out int width, out int height);
 
                         Color color = Color.Cyan;
                         color.A = (byte)opacity;
@@ -403,6 +421,27 @@ namespace zbrozonoid_sfml
             }
         }
 
+        private void PrepareBricksToDraw()
+        {
+            bricksToDraw.Clear();
 
+            List<IBrick> bricks = game.Bricks;
+            foreach (IBrick brick in bricks)
+            {
+                if (/*!brick.Hit &&*/ brick.Type > 0)
+                {
+                    if (colors.TryGetValue((int)brick.ColorNumber, out Color color))
+                    {
+                        RectangleShape rectangle = new RectangleShape();
+                        rectangle.Position = new Vector2f(brick.PosX, brick.PosY);
+                        rectangle.Size = new Vector2f(brick.Width, brick.Height);
+                        rectangle.FillColor = color;
+
+                        Brick brickToDraw = new Brick(rectangle);
+                        bricksToDraw.Add(brickToDraw);
+                    }
+                }
+            }
+        }
     }
 }
