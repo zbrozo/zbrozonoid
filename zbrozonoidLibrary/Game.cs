@@ -25,14 +25,13 @@ namespace zbrozonoidLibrary
     public class Game : IGame
     {
         public event EventHandler<BackgroundEventArgs> OnChangeBackground;
+        public event EventHandler<BrickHitEventArgs> OnBrickHit;
 
         private int ScreenWidth = 1024;
 
         private int ScreenHeight = 768;
 
         private readonly IScreen screen;
-
-       // private readonly IPad pad;
 
         private readonly ILevelManager levelManager;
 
@@ -65,6 +64,20 @@ namespace zbrozonoidLibrary
         public List<IBrick> Bricks => levelManager.GetCurrent().Bricks;
         public string BackgroundPath => levelManager.GetCurrent().BackgroundPath;
 
+        public class BrickHit
+        {
+            public BrickHit(int number, IBrick brick)
+            {
+                Number = number;
+                Brick = brick;
+            }
+
+            public int Number { get; set; }
+            public IBrick Brick { get; set; }
+        }
+
+        private readonly List<BrickHit> bricksHit = new List<BrickHit>();
+
         public Game()
         {
 
@@ -73,9 +86,6 @@ namespace zbrozonoidLibrary
                              Width = ScreenWidth,
                              Height = ScreenHeight
                          };
-
-           // pad = new Pad();
-           // pad.SetSize(100, 24);
 
             levelManager = new LevelManager();
             collisionManager = new CollisionManager();
@@ -123,10 +133,13 @@ namespace zbrozonoidLibrary
         {
             posx = 0;
             posy = 0;
-            if (!(pad is IElement padElement))
-            {
-                return;
-            }
+
+			IElement padElement = pad as IElement;
+			if (padElement == null)
+			{
+				return;
+			}
+
             posx = padElement.PosX;
             posy = padElement.PosY;
         }
@@ -217,11 +230,13 @@ namespace zbrozonoidLibrary
                 ball.MoveBall();
             }
 
-            if (screenCollisionManager.Detect(ball))
+            if (screenCollisionManager.DetectAndVerify(ball))
             {
                 ball.SavePosition();
                 return false;
             }
+
+            collisionManager.bricksHit = null;
 
             bool borderHit = VerifyBorderCollision(ball);
 
@@ -239,12 +254,22 @@ namespace zbrozonoidLibrary
                 }
             }
 
-            collisionManager.Prepare();
+            //collisionManager.Prepare();
             bool result = DetectBrickCollision(ball);
             if (result)
             {
+                List<IBrick> bricks = new List<IBrick>();
+                foreach (var value in bricksHit)
+                {
+                    bricks.Add(value.Brick);
+                }
+                collisionManager.bricksHit = bricks;
+
                 if (collisionManager.HitBrick(out BrickType type))
                 {
+                    BrickHitEventArgs brickHitArgs = new BrickHitEventArgs(bricksHit[0].Number);
+                    OnBrickHit?.Invoke(this, brickHitArgs);
+
                     --levelManager.GetCurrent().BeatableBricksNumber;
                     Scores++;
 
@@ -266,7 +291,7 @@ namespace zbrozonoidLibrary
 
         private void InitializeNewLevel()
         {
-            ShouldGo = false;
+            ShouldGo = true;
 
             ReinitBall();
 
@@ -334,21 +359,27 @@ namespace zbrozonoidLibrary
 
         private bool DetectBrickCollision(IBall ball)
         {
+            bricksHit.Clear();
+
             List<IBrick> bricks = levelManager.GetCurrent().Bricks;
 
             bool result = false;
+            int id = 0;
             foreach (var value in bricks)
             {
                 IBrick brick = value;
                 if (brick.Hit || !brick.IsVisible())
                 {
+                    ++id;
                     continue;
                 }
 
                 if (collisionManager.Detect(brick, ball))
                 {
+                    bricksHit.Add(new BrickHit(id, brick));
                     result = true;
                 }
+                ++id;
             }
             return result;
         }
@@ -391,7 +422,8 @@ namespace zbrozonoidLibrary
         {
             foreach (IPad pad in padManager)
             {
-                if (!(pad is IElement padElement))
+				    IElement padElement = pad as IElement;
+				    if (padElement == null)
                 {
                     return;
                 }
@@ -439,7 +471,7 @@ namespace zbrozonoidLibrary
             ballManager.LeaveOnlyOne();
 
             IBall ball = ballManager.GetFirst();
-            if (ball is null)
+            if (ball == null)
             {
                 return;
             }
@@ -457,10 +489,11 @@ namespace zbrozonoidLibrary
         {
             ball.SavePosition();
 
-            if (ball is IElement element)
+            IElement element = ball as IElement;
+            if (ball == null)
             {
                 ITail tail = tailManager.Find(ball);
-                if (!(tail is null))
+				    if (tail != null)
                 {
                     Position position = new Position { X = element.PosX, Y = element.PosY };
                     tail.Add(position);
