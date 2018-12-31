@@ -1,65 +1,29 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2003
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "zbrozonoid_winforms", "zbrozonoid\zbrozonoid_winforms.csproj", "{24003F3C-F0FF-427D-BEBE-DEC7AD260680}"
-	ProjectSection(ProjectDependencies) = postProject
-		{DE930B36-65B4-44C5-8463-D75E3034BBEB} = {DE930B36-65B4-44C5-8463-D75E3034BBEB}
-		{038F4871-3778-40D0-B564-ED45F19BD31F} = {038F4871-3778-40D0-B564-ED45F19BD31F}
-	EndProjectSection
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "zbrozonoid", "zbrozonoid\zbrozonoid.csproj", "{6B5C45CE-6081-4CB1-BDB3-6065B6E4E219}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{491EC6AD-434E-4775-B2C9-D8789CB0828A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "zbrozonoidLibrary", "zbrozonoidLibrary\zbrozonoidLibrary.csproj", "{E7D3C331-2757-4963-B21C-EBF7EAA05111}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject1", "UnitTestProject1\UnitTestProject1.csproj", "{8C8C5053-56D9-4CDB-A440-C5E4B4016D75}"
-	ProjectSection(ProjectDependencies) = postProject
-		{8ED8B311-AA0B-4C39-ABA6-FADACC58230A} = {8ED8B311-AA0B-4C39-ABA6-FADACC58230A}
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "zbrozonoid_sfml", "zbrozonoid_sfml\zbrozonoid_sfml.csproj", "{8ED8B311-AA0B-4C39-ABA6-FADACC58230A}"
-	ProjectSection(ProjectDependencies) = postProject
-		{DE930B36-65B4-44C5-8463-D75E3034BBEB} = {DE930B36-65B4-44C5-8463-D75E3034BBEB}
-		{038F4871-3778-40D0-B564-ED45F19BD31F} = {038F4871-3778-40D0-B564-ED45F19BD31F}
-	EndProjectSection
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "zbrozonoidLibrary", "zbrozonoidLibrary\zbrozonoidLibrary.csproj", "{038F4871-3778-40D0-B564-ED45F19BD31F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "zbrozonoidAssets", "zbrozonoidAssets\zbrozonoidAssets.csproj", "{DE930B36-65B4-44C5-8463-D75E3034BBEB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "zbrozonoidAssets", "zbrozonoidAssets\zbrozonoidAssets.csproj", "{F685B5FD-651C-48F9-8C3D-A34487E6BF0F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{24003F3C-F0FF-427D-BEBE-DEC7AD260680}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{24003F3C-F0FF-427D-BEBE-DEC7AD260680}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{24003F3C-F0FF-427D-BEBE-DEC7AD260680}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{24003F3C-F0FF-427D-BEBE-DEC7AD260680}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8C8C5053-56D9-4CDB-A440-C5E4B4016D75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8C8C5053-56D9-4CDB-A440-C5E4B4016D75}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8C8C5053-56D9-4CDB-A440-C5E4B4016D75}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8C8C5053-56D9-4CDB-A440-C5E4B4016D75}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8ED8B311-AA0B-4C39-ABA6-FADACC58230A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8ED8B311-AA0B-4C39-ABA6-FADACC58230A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8ED8B311-AA0B-4C39-ABA6-FADACC58230A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8ED8B311-AA0B-4C39-ABA6-FADACC58230A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{038F4871-3778-40D0-B564-ED45F19BD31F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{038F4871-3778-40D0-B564-ED45F19BD31F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{038F4871-3778-40D0-B564-ED45F19BD31F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{038F4871-3778-40D0-B564-ED45F19BD31F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DE930B36-65B4-44C5-8463-D75E3034BBEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DE930B36-65B4-44C5-8463-D75E3034BBEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DE930B36-65B4-44C5-8463-D75E3034BBEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DE930B36-65B4-44C5-8463-D75E3034BBEB}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{8C8C5053-56D9-4CDB-A440-C5E4B4016D75} = {491EC6AD-434E-4775-B2C9-D8789CB0828A}
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {1BCCC825-908C-459B-B7D3-6C4B5EE01D41}
+		{6B5C45CE-6081-4CB1-BDB3-6065B6E4E219}.Debug|x86.ActiveCfg = Debug|x86
+		{6B5C45CE-6081-4CB1-BDB3-6065B6E4E219}.Debug|x86.Build.0 = Debug|x86
+		{6B5C45CE-6081-4CB1-BDB3-6065B6E4E219}.Release|x86.ActiveCfg = Release|x86
+		{6B5C45CE-6081-4CB1-BDB3-6065B6E4E219}.Release|x86.Build.0 = Release|x86
+		{E7D3C331-2757-4963-B21C-EBF7EAA05111}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E7D3C331-2757-4963-B21C-EBF7EAA05111}.Debug|x86.Build.0 = Debug|Any CPU
+		{E7D3C331-2757-4963-B21C-EBF7EAA05111}.Release|x86.ActiveCfg = Release|Any CPU
+		{E7D3C331-2757-4963-B21C-EBF7EAA05111}.Release|x86.Build.0 = Release|Any CPU
+		{F685B5FD-651C-48F9-8C3D-A34487E6BF0F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F685B5FD-651C-48F9-8C3D-A34487E6BF0F}.Debug|x86.Build.0 = Debug|Any CPU
+		{F685B5FD-651C-48F9-8C3D-A34487E6BF0F}.Release|x86.ActiveCfg = Release|Any CPU
+		{F685B5FD-651C-48F9-8C3D-A34487E6BF0F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
