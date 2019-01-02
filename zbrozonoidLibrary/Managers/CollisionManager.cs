@@ -33,7 +33,7 @@ namespace zbrozonoidLibrary.Managers
         public bool XLeftOutside { get; set; }
         public bool XRightOutside { get; set; }
 
-        private readonly List<IBrick> bricksHit = new List<IBrick>();
+        public List<IBrick> bricksHit { get; set; }
 
         private bool Check(IElement first, IElement second)
         {
@@ -113,7 +113,7 @@ namespace zbrozonoidLibrary.Managers
         {
             if (Check(first as IElement, second as IElement))
             {
-                bricksHit.Add(first);
+                //bricksHit.Add(first);
                 return true;
             }
             return false;
@@ -121,7 +121,7 @@ namespace zbrozonoidLibrary.Managers
 
         public void Bounce(IBall ball)
         {
-            if (bricksHit.Count == 0)
+            if (bricksHit == null || bricksHit.Count == 0)
             {
                 BounceBall(ball);
                 return;
@@ -324,11 +324,12 @@ namespace zbrozonoidLibrary.Managers
             return false;
         }
 
+        /*
         public void Prepare()
         {
             bricksHit.Clear();
         }
-
+        */
         public bool HitBrick(out BrickType type)
         {
             type = BrickType.None;
