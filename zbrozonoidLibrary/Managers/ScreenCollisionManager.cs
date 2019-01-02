@@ -29,8 +29,7 @@ namespace zbrozonoidLibrary.Managers
 
         public bool DetectAndVerify(IPad pad)
         {
-            IElement padElement = pad as IElement;
-            if (padElement == null)
+            if (!(pad is IElement padElement))
             {
                 return false;
             }
@@ -50,8 +49,7 @@ namespace zbrozonoidLibrary.Managers
 
         public bool DetectAndVerify(IBall ball)
         {
-            IElement ballElement = ball as IElement;
-            if (ballElement == null)
+            if (!(ball is IElement ballElement))
             {
                 return false;
             }
