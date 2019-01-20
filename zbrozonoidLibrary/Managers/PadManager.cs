@@ -34,7 +34,10 @@ namespace zbrozonoidLibrary.Managers
         public void Add(Edge edge)
         {
             IPad pad = new Pad();
-            pad.SetSize(100, 24);
+
+            int width = 100;
+            int height = 24;
+            pad.SetSize(width, height);
 
             int offset = 50;
 
@@ -47,7 +50,7 @@ namespace zbrozonoidLibrary.Managers
                     }
                 case Edge.Bottom:
                     {
-                        (pad as IElement).PosY = screen.Height - offset;
+                        (pad as IElement).PosY = screen.Height - height - offset;
                         break;
                     }
                 default:
