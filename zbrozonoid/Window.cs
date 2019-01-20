@@ -57,10 +57,6 @@ namespace zbrozonoid
 
         private Text gameOverMessage;
 
-        private Vector2i currentMousePosition = new Vector2i();
-
-        private Vector2i previousMousePosition = new Vector2i();
-
         private Font font;
 
         private List<Brick> bricksToDraw = new List<Brick>();
@@ -85,6 +81,8 @@ namespace zbrozonoid
                                                 { 15, new Color(187, 187, 187) }
                                             };
 
+        private bool Pause = false;
+
         public Window(IGame game)
         {
             this.game = game;
@@ -103,9 +101,20 @@ namespace zbrozonoid
 
             app.Closed += OnClose;
             app.MouseMoved += OnMouseMove;
-            app.MouseLeft += OnMouseLeft;
             app.MouseButtonPressed += OnMouseButtonPressed;
+            app.KeyPressed += OnKeyPressed;
             app.Resized += OnResized;
+        }
+
+        private void OnKeyPressed(object sender, KeyEventArgs e)
+        {
+            if (e.Code == Keyboard.Key.Escape)
+            {
+                game.ShouldGo = false;
+                Pause = true;
+
+                app.SetMouseCursorVisible(true);
+            }
         }
 
         private void OnResized(object sender, SizeEventArgs e)
@@ -134,13 +143,6 @@ namespace zbrozonoid
             bricksToDraw[arg.Number].IsVisible = false;
         }
 
-        private void OnMouseLeft(object sender, EventArgs e)
-        {
-            game.GetScreenSize(out int width, out int height);
-            Vector2i pos = new Vector2i(width / 2, height / 2);
-            //Mouse.SetPosition(pos, app);
-        }
-
         private void OnClose(object sender, EventArgs e)
         {
             // Close the window when OnClose event is received
@@ -150,17 +152,12 @@ namespace zbrozonoid
 
         void OnMouseMove(object sender, MouseMoveEventArgs args)
         {
-            currentMousePosition.X = args.X;
-            currentMousePosition.Y = args.Y;
-
-            int delta = currentMousePosition.X - previousMousePosition.X;
+            int current = args.X;
 
             game.GetScreenSize(out int width, out int height);
             Vector2i pos = new Vector2i(width / 2, height / 2);
 
-            //Mouse.SetPosition(pos, app);
-
-            previousMousePosition = currentMousePosition;
+            int delta = current - pos.X;
 
             game.SetPadMove(delta);
 
@@ -178,19 +175,29 @@ namespace zbrozonoid
             gameOverMessage = PrepareGameOverMessage();
         }
 
-        public void Run()
+        private void SetMousePointerInTheMiddleOfTheScreen()
         {
-            //app.SetMouseCursorVisible(false);
-
             game.GetScreenSize(out int width, out int height);
             Vector2i pos = new Vector2i(width / 2, height / 2);
             Mouse.SetPosition(pos, app);
+        }
+
+
+        public void Run()
+        {
+            app.SetMouseCursorVisible(false);
+            SetMousePointerInTheMiddleOfTheScreen();
 
             // Start the game loop
             while (app.IsOpen)
             {
                 // Process events
                 app.DispatchEvents();
+
+                if (!Pause)
+                {
+                    SetMousePointerInTheMiddleOfTheScreen();
+                }
 
                 game.Action();
 
@@ -268,8 +275,6 @@ namespace zbrozonoid
                 rect.Append(new Vertex(new Vector2f(posX + width, posY), Color.White));
                 rect.Append(new Vertex(new Vector2f(posX + width, posY + height), Color.Blue));
                 rect.Append(new Vertex(new Vector2f(posX, posY + height), Color.Blue));
-
-
                 app.Draw(rect);
             }
         }
