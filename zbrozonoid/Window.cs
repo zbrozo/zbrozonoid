@@ -124,16 +124,19 @@ namespace zbrozonoid
 
         private void OnMouseButtonPressed(object sender, MouseButtonEventArgs e)
         {
-            game.StartPlay();
+            if (!game.ShouldGo)
+            {
+                game.StartPlay();
+            }
         }
 
-        public void OnChangeBackground(object sender, BackgroundEventArgs e)
+        public void OnChangeLevel(object sender, LevelEventArgs e)
         {
             PrepareBricksToDraw();
 
             backgroundImage?.Dispose();
-            backgroundImage = LoadBackground(e.Value);
-
+            backgroundImage = LoadBackground(e.Background);
+                
             Texture backgroundTexture = new Texture(backgroundImage);
             background = new Sprite(backgroundTexture);
         }

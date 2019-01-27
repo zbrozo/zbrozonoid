@@ -19,12 +19,12 @@ namespace zbrozonoidLibrary
 {
     using System;
 
-    public class BackgroundEventArgs : EventArgs
+    public class LevelEventArgs : EventArgs
     {
-        public BackgroundEventArgs(string value)
+        public LevelEventArgs(string background)
         {
-            Value = value;
+            Background = background;
         }
-        public string Value { get; set; }
+        public string Background { get; set; }
     }
 }

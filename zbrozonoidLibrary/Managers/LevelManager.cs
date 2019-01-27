@@ -28,7 +28,7 @@ namespace zbrozonoidLibrary.Managers
 
         private readonly string[] levelNames = new string[] {"Level1.xml", "Level2.xml"};
         
-        private readonly ILevel level = new Level();
+        private ILevel level;
 
         private readonly IEnumerator index;
 
@@ -39,6 +39,7 @@ namespace zbrozonoidLibrary.Managers
 
         public bool Load()
         {
+            level = new Level();
             return level.Load(LevelPath + index.Current);
         }
 

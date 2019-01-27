@@ -24,7 +24,7 @@ namespace zbrozonoidLibrary
 
     public class Game : IGame
     {
-        public event EventHandler<BackgroundEventArgs> OnChangeBackground;
+        public event EventHandler<LevelEventArgs> OnChangeLevel;
         public event EventHandler<BrickHitEventArgs> OnBrickHit;
 
         private int ScreenWidth = 1024;
@@ -51,7 +51,7 @@ namespace zbrozonoidLibrary
 
         private readonly IPadManager padManager;
 
-        public bool ShouldGo { get; set; }
+        public bool ShouldGo { get; set; } = false;
 
         public int Lives { get; set; } = -1;
 
@@ -114,7 +114,8 @@ namespace zbrozonoidLibrary
 
         public void Initialize()
         {
-            InitializeNewLevel();
+            InitializeNewLevel(true);
+           // StartPlay();
         }
 
         public void SetScreenSize(int width, int height)
@@ -219,7 +220,7 @@ namespace zbrozonoidLibrary
 
             if (levelManager.VerifyAllBricksAreHit())
             {
-                InitializeNewLevel();
+                InitializeNewLevel(false);
             }
         }
 
@@ -230,7 +231,8 @@ namespace zbrozonoidLibrary
                 ball.MoveBall();
             }
 
-            if (screenCollisionManager.DetectAndVerify(ball))
+            // in this place you can change to DetectAndVerify to make balls bounce from screen borders
+            if (screenCollisionManager.Detect(ball))
             {
                 ball.SavePosition();
                 return false;
@@ -289,17 +291,22 @@ namespace zbrozonoidLibrary
             return true;
         }
 
-        private void InitializeNewLevel()
+        private void InitializeNewLevel(bool restart)
         {
-            ShouldGo = true;
-
             ReinitBall();
 
-            levelManager.MoveNext();
-            levelManager.Load();
+            if (restart)
+            {
+                levelManager.Restart();
+            }
+            else
+            {
+                levelManager.MoveNext();
+                levelManager.Load();
+            }
 
-            BackgroundEventArgs background = new BackgroundEventArgs(levelManager.GetCurrent().BackgroundPath);
-            OnChangeBackground?.Invoke(this, background);
+            LevelEventArgs background = new LevelEventArgs(levelManager.GetCurrent().BackgroundPath);
+            OnChangeLevel?.Invoke(this, background);
         }
 
         private void VerifyBorderCollision(IPad pad)
@@ -456,10 +463,12 @@ namespace zbrozonoidLibrary
                 Lives = 3;
                 Scores = 0;
 
-                levelManager.Restart();
+                InitializeNewLevel(true);
+            } 
+            else
+            {
+                ReinitBall();
             }
-
-            ReinitBall();
 
             ShouldGo = true;
         }
@@ -499,6 +508,7 @@ namespace zbrozonoidLibrary
                     tail.Add(position);
                 }
             }
+
         }
     }
 }

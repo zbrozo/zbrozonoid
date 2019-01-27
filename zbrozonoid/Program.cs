@@ -27,7 +27,7 @@ namespace zbrozonoid
             IGame game = new Game();
             Window window = new Window(game);
 
-            game.OnChangeBackground += window.OnChangeBackground;
+            game.OnChangeLevel += window.OnChangeLevel;
             game.OnBrickHit += window.OnBrickHit;
 
             game.Initialize();

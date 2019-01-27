@@ -42,7 +42,7 @@ namespace zbrozonoidLibrary
 
         private const int BlockHeight = 25;
 
-        private const int StartY = 300;
+        private const int StartY = 250;
 
         public bool Load(string fileName)
         {

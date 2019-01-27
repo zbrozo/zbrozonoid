@@ -21,7 +21,7 @@ namespace zbrozonoidLibrary.Interfaces
 
     public interface IGame
     {
-        event EventHandler<BackgroundEventArgs> OnChangeBackground;
+        event EventHandler<LevelEventArgs> OnChangeLevel;
         event EventHandler<BrickHitEventArgs> OnBrickHit;
 
         bool ShouldGo { get; set; }
