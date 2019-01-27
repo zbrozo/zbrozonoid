@@ -499,7 +499,7 @@ namespace zbrozonoidLibrary
             ball.SavePosition();
 
             IElement element = ball as IElement;
-            if (ball == null)
+            if (ball != null)
             {
                 ITail tail = tailManager.Find(ball);
 				    if (tail != null)
