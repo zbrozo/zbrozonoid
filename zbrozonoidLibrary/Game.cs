@@ -205,6 +205,8 @@ namespace zbrozonoidLibrary
                 int speed = ball.Speed;
                 for (int i = 0; i < speed; ++i)
                 {
+
+                    
                     if (!DoAction(ball))
                     {
                         break;
@@ -260,23 +262,7 @@ namespace zbrozonoidLibrary
             bool result = DetectBrickCollision(ball);
             if (result)
             {
-                List<IBrick> bricks = new List<IBrick>();
-                foreach (var value in bricksHit)
-                {
-                    bricks.Add(value.Brick);
-                }
-                collisionManager.bricksHit = bricks;
-
-                if (collisionManager.HitBrick(out BrickType type))
-                {
-                    BrickHitEventArgs brickHitArgs = new BrickHitEventArgs(bricksHit[0].Number);
-                    OnBrickHit?.Invoke(this, brickHitArgs);
-
-                    --levelManager.GetCurrent().BeatableBricksNumber;
-                    Scores++;
-
-                    ExecuteAdditionalEffect(type);
-                }
+                HandleBrickCollision();
 
                 bool destroyerBall = IsBallDestroyer(ball);
                 if (!borderHit && !destroyerBall)
@@ -364,7 +350,7 @@ namespace zbrozonoidLibrary
             }
         }
 
-        private bool DetectBrickCollision(IBall ball)
+        public bool DetectBrickCollision(IBall ball)
         {
             bricksHit.Clear();
 
@@ -391,6 +377,21 @@ namespace zbrozonoidLibrary
             return result;
         }
 
+        public void HandleBrickCollision()
+        {
+            collisionManager.bricksHit = GetBricksHit();
+
+            if (collisionManager.HitBrick(out BrickType type))
+            {
+                BrickHitEventArgs brickHitArgs = new BrickHitEventArgs(bricksHit[0].Number);
+                OnBrickHit?.Invoke(this, brickHitArgs);
+
+                --levelManager.GetCurrent().BeatableBricksNumber;
+                Scores++;
+
+                ExecuteAdditionalEffect(type);
+            }
+        }
 
         private void ExecuteAdditionalEffect(BrickType type)
         {
@@ -509,6 +510,16 @@ namespace zbrozonoidLibrary
                 }
             }
 
+        }
+
+        private List<IBrick> GetBricksHit()
+        {
+            List<IBrick> bricks = new List<IBrick>();
+            foreach (var value in bricksHit)
+            {
+                bricks.Add(value.Brick);
+            }
+            return bricks;
         }
     }
 }
