@@ -205,8 +205,6 @@ namespace zbrozonoidLibrary
                 int speed = ball.Speed;
                 for (int i = 0; i < speed; ++i)
                 {
-
-                    
                     if (!DoAction(ball))
                     {
                         break;
@@ -233,47 +231,27 @@ namespace zbrozonoidLibrary
                 ball.MoveBall();
             }
 
-            // in this place you can change to DetectAndVerify to make balls bounce from screen borders
-            if (screenCollisionManager.Detect(ball))
+            if (HandleScreenCollision(ball))
             {
                 ball.SavePosition();
                 return false;
             }
 
-            collisionManager.bricksHit = null;
+            bool borderHit = HandleBorderCollision(ball);
 
-            bool borderHit = VerifyBorderCollision(ball);
-
-            foreach (IPad pad in padManager)
+            if (HandlePadCollision(ball))
             {
-                if (collisionManager.Detect(pad, ball))
-                {
-                    pad.LogData();
-
-                    CorrectBallPosition(pad, ball);
-                    collisionManager.Bounce(ball);
-
-                    ball.LogData();
-                    return false;
-                }
+                SavePosition(ball);
+                return false;
             }
 
-            //collisionManager.Prepare();
-            bool result = DetectBrickCollision(ball);
-            if (result)
+            if (HandleBrickCollision(ball, borderHit))
             {
-                HandleBrickCollision();
-
-                bool destroyerBall = IsBallDestroyer(ball);
-                if (!borderHit && !destroyerBall)
-                {
-                    collisionManager.Bounce(ball);
-                }
+                SavePosition(ball);
                 return false;
             }
 
             SavePosition(ball);
-
             return true;
         }
 
@@ -307,7 +285,7 @@ namespace zbrozonoidLibrary
             }
         }
 
-        private bool VerifyBorderCollision(IBall ball)
+        private bool HandleBorderCollision(IBall ball)
         {
             foreach(IBorder border in borderManager)
             {
@@ -352,6 +330,7 @@ namespace zbrozonoidLibrary
 
         public bool DetectBrickCollision(IBall ball)
         {
+            collisionManager.bricksHit = null;
             bricksHit.Clear();
 
             List<IBrick> bricks = levelManager.GetCurrent().Bricks;
@@ -377,6 +356,35 @@ namespace zbrozonoidLibrary
             return result;
         }
 
+        public bool HandleScreenCollision(IBall ball)
+        {
+            // in this place you can change to DetectAndVerify to make balls bounce from screen borders
+            if (screenCollisionManager.Detect(ball))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public bool HandleBrickCollision(IBall ball, bool borderHit)
+        {
+            bool result = DetectBrickCollision(ball);
+            if (result)
+            {
+                HandleBrickCollision();
+
+                bool destroyerBall = IsBallDestroyer(ball);
+                if (!borderHit && !destroyerBall)
+                {
+                    collisionManager.Bounce(ball);
+                }
+
+                return true;
+            }
+
+            return false;
+        }
+
         public void HandleBrickCollision()
         {
             collisionManager.bricksHit = GetBricksHit();
@@ -391,6 +399,24 @@ namespace zbrozonoidLibrary
 
                 ExecuteAdditionalEffect(type);
             }
+        }
+
+        public bool HandlePadCollision(IBall ball)
+        {
+            foreach (IPad pad in padManager)
+            {
+                if (collisionManager.Detect(pad, ball))
+                {
+                    pad.LogData();
+
+                    CorrectBallPosition(pad, ball);
+                    collisionManager.Bounce(ball);
+
+                    ball.LogData();
+                    return true;
+                }
+            }
+            return false;
         }
 
         private void ExecuteAdditionalEffect(BrickType type)
