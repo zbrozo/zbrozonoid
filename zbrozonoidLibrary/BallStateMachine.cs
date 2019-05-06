@@ -13,9 +13,14 @@ namespace zbrozonoidLibrary
 
         IBallState currentState;
 
-        public BallStateMachine(Game game, IPadManager padManager)
+        public BallStateMachine(Game game, 
+                                IScreenCollisionManager screenCollisionManager,
+                                ICollisionManager collisionManager,
+                                IPadManager padManager,
+                                IBorderManager borderManager,
+                                ILevelManager levelManager)
         {
-            ballInGameState = new BallInGameState(game);
+            ballInGameState = new BallInGameState(game, screenCollisionManager, collisionManager, padManager, borderManager, levelManager);
             ballInMenuState = new BallInMenuState(game, padManager);
 
             currentState = ballInMenuState;
