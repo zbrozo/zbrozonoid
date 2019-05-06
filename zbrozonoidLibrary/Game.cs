@@ -37,8 +37,6 @@ namespace zbrozonoidLibrary
 
         private readonly ICollisionManager collisionManager;
 
-        private readonly ICollisionManager collisionManagerForMoveReversion;
-
         private readonly IBallManager ballManager;
 
         private readonly IBorderManager borderManager;
@@ -66,20 +64,6 @@ namespace zbrozonoidLibrary
         public List<IBrick> Bricks => levelManager.GetCurrent().Bricks;
         public string BackgroundPath => levelManager.GetCurrent().BackgroundPath;
 
-        public class BrickHit
-        {
-            public BrickHit(int number, IBrick brick)
-            {
-                Number = number;
-                Brick = brick;
-            }
-
-            public int Number { get; set; }
-            public IBrick Brick { get; set; }
-        }
-
-        private readonly List<BrickHit> bricksHit = new List<BrickHit>();
-
         public Game()
         {
 
@@ -91,7 +75,6 @@ namespace zbrozonoidLibrary
 
             levelManager = new LevelManager();
             collisionManager = new CollisionManager();
-            collisionManagerForMoveReversion = new CollisionManager();
             screenCollisionManager = new ScreenCollisionManager(screen);
             randomGenerator = new RandomGenerator();
             tailManager = new TailManager();
@@ -99,7 +82,7 @@ namespace zbrozonoidLibrary
             borderManager = new BorderManager();
             padManager = new PadManager(screen);
 
-            ballStateMachine = new BallStateMachine(this, padManager);
+            ballStateMachine = new BallStateMachine(this, screenCollisionManager, collisionManager, padManager, borderManager, levelManager);
 
             padManager.Add(Edge.Top);
             padManager.Add(Edge.Bottom);
@@ -178,7 +161,7 @@ namespace zbrozonoidLibrary
             ball.Iteration = 0;
         }
 
-        private void RestartBallYPosition(IPad pad, IBall ball)
+        public void RestartBallYPosition(IPad pad, IBall ball)
         {
             Logger.Instance.Write("---RestartBallYPosition---");
 
@@ -249,6 +232,7 @@ namespace zbrozonoidLibrary
             OnChangeLevel?.Invoke(this, background);
         }
 
+
         private void VerifyBorderCollision(IPad pad)
         {
             foreach(IBorder border in borderManager)
@@ -261,109 +245,9 @@ namespace zbrozonoidLibrary
             }
         }
 
-        public bool HandleBorderCollision(IBall ball)
+        public void HandleBrickCollision(List<BrickHit> bricksHit)
         {
-            foreach(IBorder border in borderManager)
-            {
-                IBorderCollisionManager borderCollisionManager = new BorderCollisionManager(border, collisionManager);
-                if (borderCollisionManager.DetectAndVerify(ball))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        private void CorrectBallPosition(IPad pad, IBall ball)
-        {
-            while (collisionManagerForMoveReversion.Detect(pad, ball))
-            {
-                if (!ball.MoveBall(true))
-                {
-                    RestartBallYPosition(pad, ball);
-                    return;
-                }
-
-                ball.SavePosition();
-
-                foreach(IBorder border in borderManager)
-                {
-                    if (collisionManagerForMoveReversion.Detect(border, ball))
-                    {
-                        SetBallStartPosition(pad, ball);
-                        break;
-                    }
-                }
-
-                if (screenCollisionManager.DetectAndVerify(ball))
-                {
-                    SetBallStartPosition(pad, ball);
-                    break;
-                }
-
-            }
-        }
-
-        public bool DetectBrickCollision(IBall ball)
-        {
-            collisionManager.bricksHit = null;
-            bricksHit.Clear();
-
-            List<IBrick> bricks = levelManager.GetCurrent().Bricks;
-
-            bool result = false;
-            int id = 0;
-            foreach (var value in bricks)
-            {
-                IBrick brick = value;
-                if (brick.Hit || !brick.IsVisible())
-                {
-                    ++id;
-                    continue;
-                }
-
-                if (collisionManager.Detect(brick, ball))
-                {
-                    bricksHit.Add(new BrickHit(id, brick));
-                    result = true;
-                }
-                ++id;
-            }
-            return result;
-        }
-
-        public bool HandleScreenCollision(IBall ball)
-        {
-            // in this place you can change to DetectAndVerify to make balls bounce from screen borders
-            if (screenCollisionManager.Detect(ball))
-            {
-                return true;
-            }
-            return false;
-        }
-
-        public bool HandleBrickCollision(IBall ball, bool borderHit)
-        {
-            bool result = DetectBrickCollision(ball);
-            if (result)
-            {
-                HandleBrickCollision();
-
-                bool destroyerBall = IsBallDestroyer(ball);
-                if (!borderHit && !destroyerBall)
-                {
-                    collisionManager.Bounce(ball);
-                }
-
-                return true;
-            }
-
-            return false;
-        }
-
-        public void HandleBrickCollision()
-        {
-            collisionManager.bricksHit = GetBricksHit();
+            collisionManager.bricksHit = GetBricksHit(bricksHit);
 
             if (collisionManager.HitBrick(out BrickType type))
             {
@@ -375,24 +259,6 @@ namespace zbrozonoidLibrary
 
                 ExecuteAdditionalEffect(type);
             }
-        }
-
-        public bool HandlePadCollision(IBall ball)
-        {
-            foreach (IPad pad in padManager)
-            {
-                if (collisionManager.Detect(pad, ball))
-                {
-                    pad.LogData();
-
-                    CorrectBallPosition(pad, ball);
-                    collisionManager.Bounce(ball);
-
-                    ball.LogData();
-                    return true;
-                }
-            }
-            return false;
         }
 
         private void ExecuteAdditionalEffect(BrickType type)
@@ -493,7 +359,7 @@ namespace zbrozonoidLibrary
             SetBallStartPosition(pad, ball);
         }
 
-        private bool IsBallDestroyer(IBall ball)
+        public bool IsBallDestroyer(IBall ball)
         {
             return tailManager.Find(ball) != null;
         }
@@ -515,7 +381,7 @@ namespace zbrozonoidLibrary
 
         }
 
-        private List<IBrick> GetBricksHit()
+        private List<IBrick> GetBricksHit(List<BrickHit> bricksHit)
         {
             List<IBrick> bricks = new List<IBrick>();
             foreach (var value in bricksHit)
