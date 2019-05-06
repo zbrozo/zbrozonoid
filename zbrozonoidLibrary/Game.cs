@@ -51,6 +51,8 @@ namespace zbrozonoidLibrary
 
         private readonly IPadManager padManager;
 
+        private readonly BallStateMachine ballStateMachine;
+
         public bool ShouldGo { get; set; } = false;
 
         public int Lives { get; set; } = -1;
@@ -96,6 +98,8 @@ namespace zbrozonoidLibrary
             ballManager = new BallManager();
             borderManager = new BorderManager();
             padManager = new PadManager(screen);
+
+            ballStateMachine = new BallStateMachine(this, padManager);
 
             padManager.Add(Edge.Top);
             padManager.Add(Edge.Bottom);
@@ -150,7 +154,7 @@ namespace zbrozonoidLibrary
             pad.GetSize(out width, out height);
         }
 
-        private void SetBallStartPosition(IPad pad, IBall ball)
+        public void SetBallStartPosition(IPad pad, IBall ball)
         {
             Logger.Instance.Write("---SetStartPosition---");
 
@@ -199,60 +203,32 @@ namespace zbrozonoidLibrary
                 if (screenCollisionManager.Detect(ball))
                 {
                     ++ballsOutOfScreen;
-                    continue;
+                    //continue;
                 }
 
                 int speed = ball.Speed;
                 for (int i = 0; i < speed; ++i)
                 {
-                    if (!DoAction(ball))
+                    if (!ballStateMachine.action(ball))
                     {
                         break;
                     }
                 }
             }
 
+
             if (ballsOutOfScreen == ballManager.Count)
             {
                 --Lives;
+
                 ShouldGo = false;
+                ballStateMachine.goToInMenu();
             }
 
             if (levelManager.VerifyAllBricksAreHit())
             {
                 InitializeNewLevel(false);
             }
-        }
-
-        private bool DoAction(IBall ball)
-        {
-            if (ShouldGo)
-            {
-                ball.MoveBall();
-            }
-
-            if (HandleScreenCollision(ball))
-            {
-                ball.SavePosition();
-                return false;
-            }
-
-            bool borderHit = HandleBorderCollision(ball);
-
-            if (HandlePadCollision(ball))
-            {
-                SavePosition(ball);
-                return false;
-            }
-
-            if (HandleBrickCollision(ball, borderHit))
-            {
-                SavePosition(ball);
-                return false;
-            }
-
-            SavePosition(ball);
-            return true;
         }
 
         private void InitializeNewLevel(bool restart)
@@ -285,7 +261,7 @@ namespace zbrozonoidLibrary
             }
         }
 
-        private bool HandleBorderCollision(IBall ball)
+        public bool HandleBorderCollision(IBall ball)
         {
             foreach(IBorder border in borderManager)
             {
@@ -498,6 +474,7 @@ namespace zbrozonoidLibrary
             }
 
             ShouldGo = true;
+            ballStateMachine.goToInGame();
         }
 
         private void ReinitBall()
@@ -521,7 +498,7 @@ namespace zbrozonoidLibrary
             return tailManager.Find(ball) != null;
         }
 
-        private void SavePosition(IBall ball)
+        public void SavePosition(IBall ball)
         {
             ball.SavePosition();
 
@@ -529,7 +506,7 @@ namespace zbrozonoidLibrary
             if (ball != null)
             {
                 ITail tail = tailManager.Find(ball);
-				    if (tail != null)
+                if (tail != null)
                 {
                     Position position = new Position { X = element.PosX, Y = element.PosY };
                     tail.Add(position);
