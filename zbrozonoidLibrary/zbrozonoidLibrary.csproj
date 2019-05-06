@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -8,6 +8,7 @@
     <RootNamespace>zbrozonoidLibrary</RootNamespace>
     <AssemblyName>zbrozonoidLibrary</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,7 +34,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BackgroundEventArgs.cs" />
     <Compile Include="Ball.cs" />
     <Compile Include="Border.cs" />
@@ -80,6 +80,17 @@
     <Compile Include="Managers\ScreenCollisionManager.cs" />
     <Compile Include="Managers\TailManager.cs" />
     <Compile Include="BrickHitEventArgs.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="BallStateMachine.cs" />
+    <Compile Include="States\BallInGameState.cs" />
+    <Compile Include="Interfaces\States\IBallState.cs" />
+    <Compile Include="States\BallInMenuState.cs" />
+    <Compile Include="BrickHit.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+    <Folder Include="States\" />
+    <Folder Include="Interfaces\States\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
