@@ -163,11 +163,6 @@ namespace zbrozonoid
             int delta = current - pos.X;
 
             game.SetPadMove(delta);
-
-            if (!game.ShouldGo)
-            {
-                game.SetBallMove();
-            }
         }
 
         public void Initialize()
