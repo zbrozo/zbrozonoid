@@ -28,17 +28,6 @@ namespace zbrozonoid
     using zbrozonoidLibrary;
     using zbrozonoidLibrary.Interfaces;
 
-    internal class Brick
-    {
-        public bool IsVisible { get; set; } = true;
-        public RectangleShape Rect { get; set; }
-
-        public Brick(RectangleShape rect)
-        {
-            Rect = rect;
-        }
-    }
-
     public class Window
     {
         private const string Name = "Zbrozonoid - a free arkanoid clone";
@@ -49,19 +38,17 @@ namespace zbrozonoid
 
         private Image backgroundImage;
 
-        private Sprite background;
+        public Text pressButtonToPlayMessage;
 
-        private Text pressButtonToPlayMessage;
+        public Text livesMessage;
 
-        private Text livesMessage;
+        public Text gameOverMessage;
 
-        private Text gameOverMessage;
+        public Font font;
 
-        private Font font;
+        public List<Brick> bricksToDraw = new List<Brick>();
 
-        private List<Brick> bricksToDraw = new List<Brick>();
-
-        Dictionary<int, Color> colors = new Dictionary<int, Color>
+        private Dictionary<int, Color> colors = new Dictionary<int, Color>
                                             {
                                                 { 0, Color.Black },
                                                 { 1, Color.White },
@@ -83,12 +70,18 @@ namespace zbrozonoid
 
         private bool Pause = false;
 
+        private AppStateMachine appStateMachine;
+
+        private IDrawGameObjects drawGameObjects;
+
+        public Sprite background;
+
         public Window(IGame game)
         {
             this.game = game;
-
+            
             game.GetScreenSize(out int width, out int height);
-
+            
             ContextSettings settings = new ContextSettings();
             settings.DepthBits = 32;
             settings.StencilBits = 8;
@@ -104,6 +97,11 @@ namespace zbrozonoid
             app.MouseButtonPressed += OnMouseButtonPressed;
             app.KeyPressed += OnKeyPressed;
             app.Resized += OnResized;
+
+
+            drawGameObjects = new DrawGameObjects(app, this, game);
+
+            appStateMachine = new AppStateMachine(this, drawGameObjects);
         }
 
         private void OnKeyPressed(object sender, KeyEventArgs e)
@@ -180,7 +178,6 @@ namespace zbrozonoid
             Mouse.SetPosition(pos, app);
         }
 
-
         public void Run()
         {
             app.SetMouseCursorVisible(false);
@@ -199,12 +196,7 @@ namespace zbrozonoid
 
                 game.Action();
 
-                DrawBackground(app);
-                DrawBorders(app);
-                DrawBricks(app);
-                DrawPad(app);
-                DrawBall(app);
-                DrawTexts(app);
+                appStateMachine.Action();
 
                 // Update the window
                 app.Display();
@@ -212,99 +204,6 @@ namespace zbrozonoid
 
             font?.Dispose();
             background?.Dispose();
-        }
-
-        private void DrawTexts(RenderWindow app)
-        {
-            if (!game.ShouldGo)
-            {
-                app.Draw(pressButtonToPlayMessage);
-            }
-
-            if (game.Lives < 0)
-            {
-                app.Draw(gameOverMessage);
-            }
-
-            livesMessage = PrepareLivesMessage();
-            app.Draw(livesMessage);
-        }
-
-        private void DrawBackground(RenderWindow app)
-        {
-            if (background != null)
-            {
-                app.Draw(background);
-            }
-        }
-
-        private void DrawBorders(RenderWindow app)
-        {
-            var borderManager = game.BorderManager;
-
-            foreach (IBorder border in borderManager)
-            {
-                var element = border as IElement;
-                if (element == null)
-                {
-                    continue;
-                }
-
-                RectangleShape rectangle = new RectangleShape();
-                rectangle.Position = new Vector2f(element.PosX, element.PosY);
-                rectangle.Size = new Vector2f(element.Width, element.Height);
-                rectangle.FillColor = Color.White;
-
-                app.Draw(rectangle);
-            }
-        }
-
-        private void DrawPad(RenderWindow app)
-        {
-
-            foreach (IPad pad in game.PadManager)
-            {
-                game.GetPadPosition(pad, out int posX, out int posY);
-
-                game.GetPadSize(pad, out int width, out int height);
-
-                VertexArray rect = new VertexArray(PrimitiveType.Quads, 4);
-                rect.Append(new Vertex(new Vector2f(posX, posY), Color.White));
-                rect.Append(new Vertex(new Vector2f(posX + width, posY), Color.White));
-                rect.Append(new Vertex(new Vector2f(posX + width, posY + height), Color.Blue));
-                rect.Append(new Vertex(new Vector2f(posX, posY + height), Color.Blue));
-                app.Draw(rect);
-            }
-        }
-
-        private void DrawBricks(RenderWindow app)
-        {
-            foreach (Brick brick in bricksToDraw)
-            {
-                if (brick.IsVisible)
-                {
-                    app.Draw(brick.Rect);
-                }
-            }
-        }
-
-        private void DrawBall(RenderWindow app)
-        {
-            var ballManager = game.BallManager;
-            foreach (IBall ball in ballManager)
-            {
-                ball.GetPosition(out int posX, out int posY);
-                ball.GetSize(out int width, out int height);
-
-                DrawTail(app, ball);
-
-                CircleShape circle = new CircleShape();
-                circle.Position = new Vector2f(posX, posY);
-                circle.Radius = (float)width / 2;
-                circle.FillColor = Color.Cyan;
-
-                app.Draw(circle);
-            }
         }
 
         private Image LoadBackground(string name)
@@ -357,7 +256,7 @@ namespace zbrozonoid
             return message;
         }
 
-        private Text PrepareLivesMessage()
+        public Text PrepareLivesMessage()
         {
             uint charSize = 20;
             int lives = game.Lives >= 0 ? game.Lives : 0;
@@ -388,40 +287,6 @@ namespace zbrozonoid
             message.Position = rect;
 
             return message;
-        }
-
-        private void DrawTail(RenderWindow app, IBall ball)
-        {
-            ITail tail = game.TailManager.Find(ball);
-            if (tail != null)
-            {
-                int i = 0;
-                int opacity = 150;
-                foreach (Position position in tail)
-                {
-                    ++i;
-                    if (i % 14 == 0)
-                    {
-                        if (opacity < 0)
-                        {
-                            break;
-                        }
-
-                        ball.GetSize(out int width, out int height);
-
-                        Color color = Color.Cyan;
-                        color.A = (byte)opacity;
-
-                        CircleShape circle = new CircleShape();
-                        circle.Position = new Vector2f(position.X, position.Y);
-                        circle.Radius = (float)width / 2;
-                        circle.FillColor = color;
-                        app.Draw(circle);
-
-                        opacity = opacity - 60;
-                    }
-                }
-            }
         }
 
         private void PrepareBricksToDraw()
