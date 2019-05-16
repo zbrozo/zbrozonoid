@@ -186,7 +186,6 @@ namespace zbrozonoidLibrary
                 if (screenCollisionManager.Detect(ball))
                 {
                     ++ballsOutOfScreen;
-                    //continue;
                 }
 
                 int speed = ball.Speed;
