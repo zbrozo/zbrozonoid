@@ -16,6 +16,7 @@ along with this program.If not, see<https://www.gnu.org/licenses/>.
 */
 
 using System;
+using zbrozonoid.States;
 
 namespace zbrozonoid
 {
@@ -24,8 +25,18 @@ namespace zbrozonoid
         private Window window;
         private IDrawGameObjects draw;
 
+        private AppInMenuState menuState;
+        private AppInPlayState playState;
+        private AppInGameOverState gameOverState;
+
+        private IAppState currentState;
+
         public AppStateMachine(Window window, IDrawGameObjects draw)
         {
+            menuState = new AppInMenuState();
+            playState = new AppInPlayState();
+            gameOverState = new AppInGameOverState();
+
             this.window = window;
             this.draw = draw;
         }
@@ -38,6 +49,23 @@ namespace zbrozonoid
             draw.DrawPad();
             draw.DrawBall();
             draw.DrawTexts();
+
+            currentState.Action();
+        }
+
+        public void gotoMenu()
+        {
+            currentState = menuState;
+        }
+
+        public void gotoPlay()
+        {
+            currentState = playState;
+        }
+
+        public void gotoGameOver()
+        {
+            currentState = gameOverState;
         }
 
     }
