@@ -38,6 +38,10 @@
     <Compile Include="DrawGameObjects.cs" />
     <Compile Include="IDrawGameObjects.cs" />
     <Compile Include="Brick.cs" />
+    <Compile Include="States\AppInGameOverState.cs" />
+    <Compile Include="States\AppInMenuState.cs" />
+    <Compile Include="States\AppInPlayState.cs" />
+    <Compile Include="States\IAppState.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\zbrozonoidLibrary\zbrozonoidLibrary.csproj">
