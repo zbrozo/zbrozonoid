@@ -3,12 +3,12 @@ using zbrozonoidLibrary.Interfaces.States;
 
 namespace zbrozonoidLibrary.States
 {
-    public class BallInMenuState : IBallState
+    public class BallInIdleState : IBallState
     {
         private Game game;
         private IPadManager padManager; 
 
-        public BallInMenuState(Game game, IPadManager padManager)
+        public BallInIdleState(Game game, IPadManager padManager)
         {
             this.game = game;
             this.padManager = padManager;

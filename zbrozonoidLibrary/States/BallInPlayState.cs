@@ -6,7 +6,7 @@ using zbrozonoidLibrary.Managers;
 
 namespace zbrozonoidLibrary.States
 {
-    public class BallInGameState : IBallState
+    public class BallInPlayState : IBallState
     {
         private Game game;
         private readonly IScreenCollisionManager screenCollisionManager;
@@ -16,7 +16,7 @@ namespace zbrozonoidLibrary.States
         private readonly ICollisionManager collisionManagerForMoveReversion;
         private readonly ILevelManager levelManager;
 
-        public BallInGameState(Game game, IScreenCollisionManager screenCollisionManager, ICollisionManager collisionManager, IPadManager padManager,IBorderManager borderManager, ILevelManager levelManager)
+        public BallInPlayState(Game game, IScreenCollisionManager screenCollisionManager, ICollisionManager collisionManager, IPadManager padManager,IBorderManager borderManager, ILevelManager levelManager)
         {
             this.game = game;
             this.screenCollisionManager = screenCollisionManager;

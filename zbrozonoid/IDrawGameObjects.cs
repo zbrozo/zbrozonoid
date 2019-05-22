@@ -15,26 +15,24 @@ You should have received a copy of the GNU General Public License
 along with this program.If not, see<https://www.gnu.org/licenses/>.
 */
 
+using System;
+using System.Collections.Generic;
+using SFML.Graphics;
+
 namespace zbrozonoid
 {
-    using zbrozonoidLibrary;
-    using zbrozonoidLibrary.Interfaces;
-
-    static class Program
+    public interface IDrawGameObjects
     {
-        static void Main(string[] args)
-        {
-            IGame game = new Game();
-            Window window = new Window(game);
+        void DrawBackground(Sprite background);
+        void DrawBorders();
+        void DrawBricks(List<Brick> bricksToDraw);
+        void DrawBall();
+        void DrawPad();
+        void DrawTexts();
 
-            game.OnChangeLevel += window.OnChangeLevel;
-            game.OnBrickHit += window.OnBrickHit;
-            game.OnLostBallsEvent += window.OnLostBalls;
+        void DrawLivesAndScoresInfo();
+        void DrawGameOver();
+        void DrawPressPlayToPlay();
 
-            game.Initialize();
-            window.Initialize();
-
-            window.Run();
-        }
     }
 }

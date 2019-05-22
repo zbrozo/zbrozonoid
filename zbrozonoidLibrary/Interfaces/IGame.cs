@@ -23,10 +23,11 @@ namespace zbrozonoidLibrary.Interfaces
     {
         event EventHandler<LevelEventArgs> OnChangeLevel;
         event EventHandler<BrickHitEventArgs> OnBrickHit;
+        event EventHandler<EventArgs> OnLostBallsEvent;
 
-        bool ShouldGo { get; set; }
-        int Lives { get; set; }
-        int Scores { get; set; }
+        void OnLostBalls(object sender, EventArgs args);
+
+        IGameState GameState { get; }
         ITailManager TailManager { get; }
         IBorderManager BorderManager { get; }
         IBallManager BallManager { get; }

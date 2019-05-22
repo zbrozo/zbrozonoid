@@ -26,6 +26,7 @@ namespace zbrozonoidLibrary
     {
         public event EventHandler<LevelEventArgs> OnChangeLevel;
         public event EventHandler<BrickHitEventArgs> OnBrickHit;
+        public event EventHandler<EventArgs> OnLostBallsEvent;
 
         private int ScreenWidth = 1024;
 
@@ -51,11 +52,7 @@ namespace zbrozonoidLibrary
 
         private readonly BallStateMachine ballStateMachine;
 
-        public bool ShouldGo { get; set; } = false;
-
-        public int Lives { get; set; } = -1;
-
-        public int Scores { get; set; } = 0;
+        private readonly IGameState gameState;
 
         public ITailManager TailManager => tailManager;
         public IBorderManager BorderManager => borderManager;
@@ -63,6 +60,7 @@ namespace zbrozonoidLibrary
         public IPadManager PadManager => padManager;
         public List<IBrick> Bricks => levelManager.GetCurrent().Bricks;
         public string BackgroundPath => levelManager.GetCurrent().BackgroundPath;
+        public IGameState GameState => gameState;
 
         public Game()
         {
@@ -81,6 +79,7 @@ namespace zbrozonoidLibrary
             ballManager = new BallManager();
             borderManager = new BorderManager();
             padManager = new PadManager(screen);
+            gameState = new GameState();
 
             ballStateMachine = new BallStateMachine(this, screenCollisionManager, collisionManager, padManager, borderManager, levelManager);
 
@@ -97,6 +96,8 @@ namespace zbrozonoidLibrary
             IBall ball = new Ball(randomGenerator);
             ball.SetSize(15, 15);
             ballManager.Add(ball);
+
+            OnLostBallsEvent += OnLostBalls;
         }
 
         public void Initialize()
@@ -180,14 +181,13 @@ namespace zbrozonoidLibrary
 
         public void Action()
         {
-            uint ballsOutOfScreen = 0;
+            //uint ballsOutOfScreen = 0;
             foreach(IBall ball in ballManager)
             {
-                if (screenCollisionManager.Detect(ball))
-                {
-                    ++ballsOutOfScreen;
-                    //continue;
-                }
+                //if (screenCollisionManager.Detect(ball))
+                //{
+                //    ++ballsOutOfScreen;
+                //}
 
                 int speed = ball.Speed;
                 for (int i = 0; i < speed; ++i)
@@ -197,15 +197,6 @@ namespace zbrozonoidLibrary
                         break;
                     }
                 }
-            }
-
-
-            if (ballsOutOfScreen == ballManager.Count)
-            {
-                --Lives;
-
-                ShouldGo = false;
-                ballStateMachine.goToInMenu();
             }
 
             if (levelManager.VerifyAllBricksAreHit())
@@ -255,7 +246,7 @@ namespace zbrozonoidLibrary
                 OnBrickHit?.Invoke(this, brickHitArgs);
 
                 --levelManager.GetCurrent().BeatableBricksNumber;
-                Scores++;
+                gameState.Scores++;
 
                 ExecuteAdditionalEffect(type);
             }
@@ -322,15 +313,16 @@ namespace zbrozonoidLibrary
 
         public void StartPlay()
         {
-            if (ShouldGo)
+            if (gameState.ShouldGo)
             {
                 return;
             }
 
-            if (Lives < 0)
+            if (gameState.Lives < 0)
             {
-                Lives = 3;
-                Scores = 0;
+                gameState.Lives = 3;
+                gameState.Scores = 0;
+                gameState.BallsOutOfScreen = 0;
 
                 InitializeNewLevel(true);
             } 
@@ -339,8 +331,9 @@ namespace zbrozonoidLibrary
                 ReinitBall();
             }
 
-            ShouldGo = true;
-            ballStateMachine.goToInGame();
+            gameState.ShouldGo = true;
+            gameState.BallsOutOfScreen = 0;
+            ballStateMachine.goIntoPlay();
         }
 
         private void ReinitBall()
@@ -390,5 +383,18 @@ namespace zbrozonoidLibrary
             }
             return bricks;
         }
+
+        public void LostBalls()
+        {
+            OnLostBallsEvent?.Invoke(this, null);
+        }
+
+        public void OnLostBalls(object sender, EventArgs args)
+        {
+            --GameState.Lives;
+            gameState.ShouldGo = false;
+            ballStateMachine.goIntoIdle();
+        }
+
     }
 }
