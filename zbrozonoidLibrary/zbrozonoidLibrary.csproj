@@ -82,12 +82,12 @@
     <Compile Include="BrickHitEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BallStateMachine.cs" />
-    <Compile Include="States\BallInGameState.cs" />
     <Compile Include="Interfaces\States\IBallState.cs" />
-    <Compile Include="States\BallInMenuState.cs" />
     <Compile Include="BrickHit.cs" />
     <Compile Include="GameState.cs" />
     <Compile Include="Interfaces\IGameState.cs" />
+    <Compile Include="States\BallInIdleState.cs" />
+    <Compile Include="States\BallInPlayState.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
