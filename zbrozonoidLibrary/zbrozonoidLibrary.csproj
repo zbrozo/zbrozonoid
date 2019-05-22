@@ -86,6 +86,8 @@
     <Compile Include="Interfaces\States\IBallState.cs" />
     <Compile Include="States\BallInMenuState.cs" />
     <Compile Include="BrickHit.cs" />
+    <Compile Include="GameState.cs" />
+    <Compile Include="Interfaces\IGameState.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
