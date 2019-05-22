@@ -16,11 +16,8 @@ namespace zbrozonoidLibrary.States
 
         public bool action(IBall ball)
         {
-            if (!game.ShouldGo)
-            {
-                IPad pad = padManager.GetFirst();
-                game.SetBallStartPosition(pad, ball);
-            }
+            IPad pad = padManager.GetFirst();
+            game.SetBallStartPosition(pad, ball);
             return true;
         }
     }

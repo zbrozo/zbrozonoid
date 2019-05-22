@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using zbrozonoidLibrary.Interfaces;
 using zbrozonoidLibrary.Interfaces.States;
 using zbrozonoidLibrary.Managers;
-using static zbrozonoidLibrary.Game;
 
 namespace zbrozonoidLibrary.States
 {
@@ -31,13 +30,17 @@ namespace zbrozonoidLibrary.States
 
         public bool action(IBall ball)
         {
-            if (game.ShouldGo)
+            if (game.GameState.ShouldGo)
             {
                 ball.MoveBall();
             }
 
             if (HandleScreenCollision(ball))
             {
+                game.GameState.BallsOutOfScreen++;
+
+                CheckBallsOutOfScreen();
+
                 ball.SavePosition();
                 return false;
             }
@@ -178,6 +181,13 @@ namespace zbrozonoidLibrary.States
             return result;
         }
 
+        protected void CheckBallsOutOfScreen()
+        {
+            if (game.GameState.BallsOutOfScreen == game.BallManager.Count)
+            {
+                game.LostBalls();
+            }
+        }
 
     }
 }
