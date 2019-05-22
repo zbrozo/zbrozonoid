@@ -29,5 +29,10 @@ namespace zbrozonoid
         void DrawBall();
         void DrawPad();
         void DrawTexts();
+
+        void DrawLivesAndScoresInfo();
+        void DrawGameOver();
+        void DrawPressPlayToPlay();
+
     }
 }
