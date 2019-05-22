@@ -3,12 +3,16 @@ namespace zbrozonoid.States
 {
     public class AppInPlayState : IAppState
     {
-        public AppInPlayState()
+        private IDrawGameObjects draw;
+
+        public AppInPlayState(IDrawGameObjects draw)
         {
+            this.draw = draw;
         }
 
         public void Action()
         {
+            draw.DrawLivesAndScoresInfo();
         }
     }
 }

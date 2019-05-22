@@ -3,13 +3,16 @@ namespace zbrozonoid.States
 {
     public class AppInMenuState : IAppState
     {
-        public AppInMenuState()
+        private IDrawGameObjects draw;
+
+        public AppInMenuState(IDrawGameObjects draw)
         {
+            this.draw = draw;
         }
 
         public void Action()
         {
-
+            draw.DrawPressPlayToPlay();
         }
 
     }
