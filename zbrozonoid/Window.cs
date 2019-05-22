@@ -79,7 +79,7 @@ namespace zbrozonoid
         public Window(IGame game)
         {
             this.game = game;
-            
+
             game.GetScreenSize(out int width, out int height);
             
             ContextSettings settings = new ContextSettings();
@@ -102,13 +102,14 @@ namespace zbrozonoid
             drawGameObjects = new DrawGameObjects(app, this, game);
 
             appStateMachine = new AppStateMachine(this, drawGameObjects);
+            appStateMachine.gotoMenu();
         }
 
         private void OnKeyPressed(object sender, KeyEventArgs e)
         {
             if (e.Code == Keyboard.Key.Escape)
             {
-                game.ShouldGo = false;
+                game.GameState.ShouldGo = false;
                 Pause = true;
 
                 app.SetMouseCursorVisible(true);
@@ -122,11 +123,17 @@ namespace zbrozonoid
 
         private void OnMouseButtonPressed(object sender, MouseButtonEventArgs e)
         {
+            appStateMachine.Transitions(game);
+
+            /*
             if (!game.ShouldGo)
             {
                 game.StartPlay();
+                appStateMachine.gotoPlay();
             }
+            */
         }
+
 
         public void OnChangeLevel(object sender, LevelEventArgs e)
         {
@@ -137,6 +144,19 @@ namespace zbrozonoid
                 
             Texture backgroundTexture = new Texture(backgroundImage);
             background = new Sprite(backgroundTexture);
+        }
+
+
+        public void OnLostBalls(object sender, EventArgs args)
+        {
+            if (game.GameState.Lives < 0)
+            {
+                appStateMachine.gotoGameOver();
+            }
+            else
+            {
+                appStateMachine.gotoMenu();
+            }
         }
 
         public void OnBrickHit(object sender, BrickHitEventArgs arg)
@@ -259,8 +279,8 @@ namespace zbrozonoid
         public Text PrepareLivesMessage()
         {
             uint charSize = 20;
-            int lives = game.Lives >= 0 ? game.Lives : 0;
-            int scores = game.Scores;
+            int lives = game.GameState.Lives >= 0 ? game.GameState.Lives : 0;
+            int scores = game.GameState.Scores;
             Text message = new Text($"Lives: {lives}   Scores: {scores:D5}", font, charSize);
             message.Color = new Color(Color.White);
 
