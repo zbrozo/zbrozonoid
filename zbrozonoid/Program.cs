@@ -29,6 +29,7 @@ namespace zbrozonoid
 
             game.OnChangeLevel += window.OnChangeLevel;
             game.OnBrickHit += window.OnBrickHit;
+            game.OnLostBallsEvent += window.OnLostBalls;
 
             game.Initialize();
             window.Initialize();
