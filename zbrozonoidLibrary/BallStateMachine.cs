@@ -31,12 +31,12 @@ namespace zbrozonoidLibrary
             return currentState.action(ball);
         }
 
-        public void goToInMenu()
+        public void goIntoIdle()
         {
             currentState = ballInIdleState;
         }
 
-        public void goToInGame()
+        public void goIntoPlay()
         {
             currentState = ballInPlayState;
         }

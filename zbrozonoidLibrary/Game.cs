@@ -333,7 +333,7 @@ namespace zbrozonoidLibrary
 
             gameState.ShouldGo = true;
             gameState.BallsOutOfScreen = 0;
-            ballStateMachine.goToInGame();
+            ballStateMachine.goIntoPlay();
         }
 
         private void ReinitBall()
@@ -393,7 +393,7 @@ namespace zbrozonoidLibrary
         {
             --GameState.Lives;
             gameState.ShouldGo = false;
-            ballStateMachine.goToInMenu();
+            ballStateMachine.goIntoIdle();
         }
 
     }
