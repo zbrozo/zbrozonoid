@@ -8,8 +8,8 @@ namespace zbrozonoidLibrary
 
     public class BallStateMachine
     {
-        private BallInGameState ballInGameState;
-        private BallInMenuState ballInMenuState;
+        private readonly BallInPlayState ballInPlayState;
+        private readonly BallInIdleState ballInIdleState;
 
         IBallState currentState;
 
@@ -20,10 +20,10 @@ namespace zbrozonoidLibrary
                                 IBorderManager borderManager,
                                 ILevelManager levelManager)
         {
-            ballInGameState = new BallInGameState(game, screenCollisionManager, collisionManager, padManager, borderManager, levelManager);
-            ballInMenuState = new BallInMenuState(game, padManager);
+            ballInPlayState = new BallInPlayState(game, screenCollisionManager, collisionManager, padManager, borderManager, levelManager);
+            ballInIdleState = new BallInIdleState(game, padManager);
 
-            currentState = ballInMenuState;
+            currentState = ballInIdleState;
         }
 
         public bool action(IBall ball)
@@ -33,12 +33,12 @@ namespace zbrozonoidLibrary
 
         public void goToInMenu()
         {
-            currentState = ballInMenuState;
+            currentState = ballInIdleState;
         }
 
         public void goToInGame()
         {
-            currentState = ballInGameState;
+            currentState = ballInPlayState;
         }
 
     }
