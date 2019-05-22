@@ -144,21 +144,48 @@ namespace zbrozonoid
             }
         }
 
+        public void DrawLivesAndScoresInfo()
+        {
+            window.livesMessage = window.PrepareLivesMessage();
+            renderWindow.Draw(window.livesMessage);
+        }
+
+        public void DrawGameOver()
+        {
+            if (game.GameState.Lives < 0)
+            {
+                renderWindow.Draw(window.gameOverMessage);
+            }
+        }
+
+
+        public void DrawPressPlayToPlay()
+        {
+            if (!game.GameState.ShouldGo)
+            {
+                //if (game.Lives >= 0)
+                //{
+                    renderWindow.Draw(window.pressButtonToPlayMessage);
+                //}
+            }
+        }
+
         public void DrawTexts()
         {
-            if (!game.ShouldGo)
+            if (!game.GameState.ShouldGo)
             {
-                if (game.Lives >= 0)
+                if (game.GameState.Lives >= 0)
                 {
                     renderWindow.Draw(window.pressButtonToPlayMessage);
                 }
                 else
                 {
+                    /*
                     if (game.Lives < 0)
                     {
                         renderWindow.Draw(window.gameOverMessage);
                     }
-
+                    */
                     game.GetScreenSize(out int width, out int height);
 /*
                     for (int i = 0; i < window.menu.Count; ++i)
@@ -181,8 +208,6 @@ namespace zbrozonoid
                 }
             }
 
-            window.livesMessage = window.PrepareLivesMessage();
-            renderWindow.Draw(window.livesMessage);
         }
 
     }
