@@ -70,7 +70,7 @@ namespace zbrozonoid
 
         private bool Pause = false;
 
-        private AppStateMachine appStateMachine;
+        private ViewStateMachine appStateMachine;
 
         private IDrawGameObjects drawGameObjects;
 
@@ -101,7 +101,7 @@ namespace zbrozonoid
 
             drawGameObjects = new DrawGameObjects(app, this, game);
 
-            appStateMachine = new AppStateMachine(this, drawGameObjects);
+            appStateMachine = new ViewStateMachine(this, drawGameObjects);
             appStateMachine.gotoMenu();
         }
 

@@ -34,14 +34,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Window.cs" />
-    <Compile Include="AppStateMachine.cs" />
     <Compile Include="DrawGameObjects.cs" />
     <Compile Include="IDrawGameObjects.cs" />
     <Compile Include="Brick.cs" />
-    <Compile Include="States\AppInGameOverState.cs" />
-    <Compile Include="States\AppInMenuState.cs" />
-    <Compile Include="States\AppInPlayState.cs" />
-    <Compile Include="States\IAppState.cs" />
+    <Compile Include="Views\GameBeginView.cs" />
+    <Compile Include="Views\GameOverView.cs" />
+    <Compile Include="Views\GamePlayView.cs" />
+    <Compile Include="Views\IGameView.cs" />
+    <Compile Include="ViewStateMachine.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\zbrozonoidLibrary\zbrozonoidLibrary.csproj">
