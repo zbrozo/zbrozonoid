@@ -24,6 +24,8 @@ namespace zbrozonoid
     public class ViewStateMachine
     {
         private Window window;
+        private IViewModel viewModel;
+
         private IDrawGameObjects draw;
 
         private IGameView menuState;
@@ -32,7 +34,7 @@ namespace zbrozonoid
 
         private IGameView currentState;
 
-        public ViewStateMachine(Window window, IDrawGameObjects draw)
+        public ViewStateMachine(Window window, IViewModel viewModel, IDrawGameObjects draw)
         {
             menuState = new GameBeginView(draw);
             playState = new GamePlayView(draw);
@@ -40,13 +42,14 @@ namespace zbrozonoid
 
             this.window = window;
             this.draw = draw;
+            this.viewModel = viewModel;
         }
 
         public void Action()
         {
             draw.DrawBackground(window.background);
             draw.DrawBorders();
-            draw.DrawBricks(window.bricksToDraw);
+            draw.DrawBricks(viewModel.Bricks);
             draw.DrawPad();
             draw.DrawBall();
 

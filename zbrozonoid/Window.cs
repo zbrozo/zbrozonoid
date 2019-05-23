@@ -46,8 +46,6 @@ namespace zbrozonoid
 
         public Font font;
 
-        public List<Brick> bricksToDraw = new List<Brick>();
-
         private Dictionary<int, Color> colors = new Dictionary<int, Color>
                                             {
                                                 { 0, Color.Black },
@@ -73,6 +71,8 @@ namespace zbrozonoid
         private ViewStateMachine appStateMachine;
 
         private IDrawGameObjects drawGameObjects;
+
+        private IViewModel viewModel;
 
         public Sprite background;
 
@@ -100,8 +100,9 @@ namespace zbrozonoid
 
 
             drawGameObjects = new DrawGameObjects(app, this, game);
+            viewModel = new ViewModel(game);
 
-            appStateMachine = new ViewStateMachine(this, drawGameObjects);
+            appStateMachine = new ViewStateMachine(this, viewModel, drawGameObjects);
             appStateMachine.gotoMenu();
         }
 
@@ -137,7 +138,7 @@ namespace zbrozonoid
 
         public void OnChangeLevel(object sender, LevelEventArgs e)
         {
-            PrepareBricksToDraw();
+            viewModel.PrepareBricksToDraw();
 
             backgroundImage?.Dispose();
             backgroundImage = LoadBackground(e.Background);
@@ -161,7 +162,7 @@ namespace zbrozonoid
 
         public void OnBrickHit(object sender, BrickHitEventArgs arg)
         {
-            bricksToDraw[arg.Number].IsVisible = false;
+            viewModel.Bricks[arg.Number].IsVisible = false;
         }
 
         private void OnClose(object sender, EventArgs e)
@@ -309,27 +310,5 @@ namespace zbrozonoid
             return message;
         }
 
-        private void PrepareBricksToDraw()
-        {
-            bricksToDraw.Clear();
-
-            List<IBrick> bricks = game.Bricks;
-            foreach (IBrick brick in bricks)
-            {
-                if (/*!brick.Hit &&*/ brick.Type > 0)
-                {
-                    if (colors.TryGetValue((int)brick.ColorNumber, out Color color))
-                    {
-                        RectangleShape rectangle = new RectangleShape();
-                        rectangle.Position = new Vector2f(brick.PosX, brick.PosY);
-                        rectangle.Size = new Vector2f(brick.Width, brick.Height);
-                        rectangle.FillColor = color;
-
-                        Brick brickToDraw = new Brick(rectangle);
-                        bricksToDraw.Add(brickToDraw);
-                    }
-                }
-            }
-        }
     }
 }
