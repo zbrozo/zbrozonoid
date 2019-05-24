@@ -28,13 +28,13 @@ namespace zbrozonoid
     {
         private RenderWindow renderWindow;
         private IGame game;
-        private Window window;
+        private IViewModel viewModel;
 
-        public DrawGameObjects(RenderWindow renderWindow, Window window, IGame game)
+        public DrawGameObjects(RenderWindow renderWindow, IViewModel viewModel, IGame game)
         {
             this.renderWindow = renderWindow;
             this.game = game;
-            this.window = window;
+            this.viewModel = viewModel;
         }
 
         public void DrawBackground(Sprite background)
@@ -146,15 +146,14 @@ namespace zbrozonoid
 
         public void DrawLivesAndScoresInfo()
         {
-            window.livesMessage = window.PrepareLivesMessage();
-            renderWindow.Draw(window.livesMessage);
+            renderWindow.Draw(viewModel.LiveAndScoresMessage);
         }
 
         public void DrawGameOver()
         {
             if (game.GameState.Lives < 0)
             {
-                renderWindow.Draw(window.gameOverMessage);
+                renderWindow.Draw(viewModel.GameOverMessage);
             }
         }
 
@@ -165,7 +164,7 @@ namespace zbrozonoid
             {
                 //if (game.Lives >= 0)
                 //{
-                    renderWindow.Draw(window.pressButtonToPlayMessage);
+                    renderWindow.Draw(viewModel.PressButtonToPlayMessage);
                 //}
             }
         }
@@ -176,7 +175,7 @@ namespace zbrozonoid
             {
                 if (game.GameState.Lives >= 0)
                 {
-                    renderWindow.Draw(window.pressButtonToPlayMessage);
+                    renderWindow.Draw(viewModel.PressButtonToPlayMessage);
                 }
                 else
                 {

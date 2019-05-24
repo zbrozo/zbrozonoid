@@ -18,8 +18,6 @@ namespace zbrozonoid
 {
     using System;
     using System.Collections.Generic;
-    using System.IO;
-    using System.Reflection;
 
     using SFML.System;
     using SFML.Graphics;
@@ -36,36 +34,6 @@ namespace zbrozonoid
 
         private readonly RenderWindow app;
 
-        private Image backgroundImage;
-
-        public Text pressButtonToPlayMessage;
-
-        public Text livesMessage;
-
-        public Text gameOverMessage;
-
-        public Font font;
-
-        private Dictionary<int, Color> colors = new Dictionary<int, Color>
-                                            {
-                                                { 0, Color.Black },
-                                                { 1, Color.White },
-                                                { 2, Color.Red },
-                                                { 3, Color.Cyan },
-                                                { 4, new Color(204, 68, 204) },
-                                                { 5, Color.Green },
-                                                { 6, Color.Blue },
-                                                { 7, Color.Yellow },
-                                                { 8, new Color(221, 136, 85) },
-                                                { 9, new Color(255, 119, 199) },
-                                                { 10, new Color(255, 119, 119) }, // LightRed
-                                                { 11, new Color(51, 51, 51) },
-                                                { 12, new Color(119, 119, 119) },
-                                                { 13, new Color(170, 255, 102) },
-                                                { 14, new Color(0, 136, 255) },
-                                                { 15, new Color(187, 187, 187) }
-                                            };
-
         private bool Pause = false;
 
         private ViewStateMachine appStateMachine;
@@ -73,8 +41,6 @@ namespace zbrozonoid
         private IDrawGameObjects drawGameObjects;
 
         private IViewModel viewModel;
-
-        public Sprite background;
 
         public Window(IGame game)
         {
@@ -98,10 +64,8 @@ namespace zbrozonoid
             app.KeyPressed += OnKeyPressed;
             app.Resized += OnResized;
 
-
-            drawGameObjects = new DrawGameObjects(app, this, game);
             viewModel = new ViewModel(game);
-
+            drawGameObjects = new DrawGameObjects(app, viewModel, game);
             appStateMachine = new ViewStateMachine(this, viewModel, drawGameObjects);
             appStateMachine.gotoMenu();
         }
@@ -139,14 +103,8 @@ namespace zbrozonoid
         public void OnChangeLevel(object sender, LevelEventArgs e)
         {
             viewModel.PrepareBricksToDraw();
-
-            backgroundImage?.Dispose();
-            backgroundImage = LoadBackground(e.Background);
-                
-            Texture backgroundTexture = new Texture(backgroundImage);
-            background = new Sprite(backgroundTexture);
+            viewModel.PrepareBackground(e.Background);
         }
-
 
         public void OnLostBalls(object sender, EventArgs args)
         {
@@ -186,10 +144,6 @@ namespace zbrozonoid
 
         public void Initialize()
         {
-            font?.Dispose();
-            font = LoadFont("Bungee-Regular.ttf");
-            pressButtonToPlayMessage = PreparePressButtonToPlayMessage();
-            gameOverMessage = PrepareGameOverMessage();
         }
 
         private void SetMousePointerInTheMiddleOfTheScreen()
@@ -223,92 +177,8 @@ namespace zbrozonoid
                 app.Display();
             }
 
-            font?.Dispose();
-            background?.Dispose();
+            //font?.Dispose();
+            //background?.Dispose();
         }
-
-        private Image LoadBackground(string name)
-        {
-            name = name.Replace("/", ".");
-            name = "zbrozonoidAssets." + name;
-
-            AssemblyName assemblyName = new AssemblyName(@"zbrozonoidAssets");
-            Assembly assembly = Assembly.Load(assemblyName);
-
-            using (Stream resourceStream = assembly.GetManifestResourceStream(name))
-            {
-                if (resourceStream == null)
-                {
-                    return null;
-                }
-
-                return new Image(resourceStream);
-            }
-        }
-
-        private Font LoadFont(string name)
-        {
-            name = name.Replace("/", ".");
-            name = "zbrozonoidAssets.Fonts." + name;
-
-            AssemblyName assemblyName = new AssemblyName(@"zbrozonoidAssets");
-            Assembly assembly = Assembly.Load(assemblyName);
-
-            Stream resourceStream = assembly.GetManifestResourceStream(name);
-            if (resourceStream == null)
-            {
-                return null;
-            }
-
-            return new Font(resourceStream);
-        }
-
-        private Text PreparePressButtonToPlayMessage()
-        {
-            uint charSize = 50;
-            Text message = new Text("Press mouse button to play", font, charSize);
-            message.Color = new Color(Color.White);
-
-            game.GetScreenSize(out int width, out int height);
-            FloatRect localBounds = message.GetLocalBounds();
-            Vector2f rect = new Vector2f((width - localBounds.Width) / 2, (float)height / 4 - localBounds.Height / 2);
-            message.Position = rect;
-
-            return message;
-        }
-
-        public Text PrepareLivesMessage()
-        {
-            uint charSize = 20;
-            int lives = game.GameState.Lives >= 0 ? game.GameState.Lives : 0;
-            int scores = game.GameState.Scores;
-            Text message = new Text($"Lives: {lives}   Scores: {scores:D5}", font, charSize);
-            message.Color = new Color(Color.White);
-
-            game.GetScreenSize(out int width, out int height);
-            FloatRect localBounds = message.GetLocalBounds();
-
-            int offsetX = 20;
-            int offsetY = 30;
-            Vector2f rect = new Vector2f(offsetX, (float)height - localBounds.Height - offsetY);
-            message.Position = rect;
-
-            return message;
-        }
-
-        private Text PrepareGameOverMessage()
-        {
-            uint charSize = 50;
-            Text message = new Text("game over", font, charSize);
-            message.Color = new Color(Color.White);
-
-            game.GetScreenSize(out int width, out int height);
-            FloatRect localBounds = message.GetLocalBounds();
-            Vector2f rect = new Vector2f((width - localBounds.Width) / 2, (float)height / 6 - localBounds.Height / 2);
-            message.Position = rect;
-
-            return message;
-        }
-
     }
 }

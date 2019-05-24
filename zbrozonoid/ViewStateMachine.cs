@@ -47,7 +47,7 @@ namespace zbrozonoid
 
         public void Action()
         {
-            draw.DrawBackground(window.background);
+            draw.DrawBackground(viewModel.Background);
             draw.DrawBorders();
             draw.DrawBricks(viewModel.Bricks);
             draw.DrawPad();
