@@ -18,8 +18,7 @@ namespace zbrozonoidLibrary.Managers
 {
     using System.Collections;
     using System.Collections.Generic;
-
-    using zbrozonoidLibrary.Enumerators;
+        
     using zbrozonoidLibrary.Interfaces;
 
     public class BallManager : IBallManager
@@ -75,12 +74,12 @@ namespace zbrozonoidLibrary.Managers
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return (IEnumerator)GetEnumerator();
+            return GetEnumerator();
         }
 
         public IEnumerator<IBall> GetEnumerator()
         {
-            return new BallEnum(balls);
+            return balls.GetEnumerator();
         }
     }
 }

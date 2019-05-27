@@ -324,12 +324,6 @@ namespace zbrozonoidLibrary.Managers
             return false;
         }
 
-        /*
-        public void Prepare()
-        {
-            bricksHit.Clear();
-        }
-        */
         public bool HitBrick(out BrickType type)
         {
             type = BrickType.None;

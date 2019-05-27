@@ -18,7 +18,6 @@ namespace zbrozonoidLibrary.Managers
 {
     using System.Collections;
 
-    using zbrozonoidLibrary.Enumerators;
     using zbrozonoidLibrary.Interfaces;
 
     public class LevelManager : ILevelManager
@@ -77,12 +76,12 @@ namespace zbrozonoidLibrary.Managers
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return (IEnumerator)GetEnumerator();
+            return GetEnumerator();
         }
 
         public IEnumerator GetEnumerator()
         {
-            return new LevelEnum(levelNames);
+            return levelNames.GetEnumerator();
         }
 
     }

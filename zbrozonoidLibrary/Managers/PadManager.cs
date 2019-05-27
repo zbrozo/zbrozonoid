@@ -67,7 +67,6 @@ namespace zbrozonoidLibrary.Managers
             return e.Current.Value;
         }
 
-
         public IEnumerator<IPad> GetEnumerator()
         {
             return pads.Values.GetEnumerator();
@@ -75,8 +74,7 @@ namespace zbrozonoidLibrary.Managers
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            //forces use of the non-generic implementation on the Values collection
-            return ((IEnumerable)pads.Values).GetEnumerator();
+            return (pads.Values).GetEnumerator();
         }
     }
 }

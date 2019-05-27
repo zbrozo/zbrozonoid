@@ -58,8 +58,7 @@ namespace zbrozonoidLibrary.Managers
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            //forces use of the non-generic implementation on the Values collection
-            return ((IEnumerable)tails.Values).GetEnumerator();
+            return (tails.Values).GetEnumerator();
         }
     }
 }

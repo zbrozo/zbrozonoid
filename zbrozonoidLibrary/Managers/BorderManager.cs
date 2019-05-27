@@ -19,8 +19,7 @@ namespace zbrozonoidLibrary.Managers
     using System.Collections;
     using System.Collections.Generic;
 
-    using zbrozonoidLibrary.Enumerators;
-    using zbrozonoidLibrary.Interfaces;
+        using zbrozonoidLibrary.Interfaces;
 
     public class BorderManager : IBorderManager
     {
@@ -70,7 +69,7 @@ namespace zbrozonoidLibrary.Managers
 
         public IEnumerator<IBorder> GetEnumerator()
         {
-            return new BorderEnum(borders);
+            return borders.GetEnumerator(); 
         }
     }
 }
