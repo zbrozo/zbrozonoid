@@ -38,7 +38,6 @@
     <Compile Include="Ball.cs" />
     <Compile Include="Border.cs" />
     <Compile Include="Brick.cs" />
-    <Compile Include="Container.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Level.cs" />
     <Compile Include="Log.cs" />
@@ -58,7 +57,6 @@
     <Compile Include="Interfaces\IBorderManager.cs" />
     <Compile Include="Interfaces\IBrick.cs" />
     <Compile Include="Interfaces\ICollisionManager.cs" />
-    <Compile Include="Interfaces\IContainer.cs" />
     <Compile Include="Interfaces\IElement.cs" />
     <Compile Include="Interfaces\IGame.cs" />
     <Compile Include="Interfaces\ILevel.cs" />
