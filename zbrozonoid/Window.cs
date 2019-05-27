@@ -160,8 +160,7 @@ namespace zbrozonoid
                 app.Display();
             }
 
-            //font?.Dispose();
-            //background?.Dispose();
+            viewModel.Dispose();
         }
     }
 }

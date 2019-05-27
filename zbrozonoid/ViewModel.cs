@@ -76,6 +76,12 @@ namespace zbrozonoid
             PressButtonToPlayMessage = PreparePressButtonToPlayMessage();
         }
 
+        public void Dispose()
+        {
+            Font?.Dispose();
+            backgroundImage?.Dispose();
+        }
+
         public void PrepareBricksToDraw()
         {
             bricksToDraw.Clear();
@@ -204,6 +210,7 @@ namespace zbrozonoid
 
             return message;
         }
+
 
     }
 }

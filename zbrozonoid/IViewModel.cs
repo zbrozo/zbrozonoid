@@ -20,7 +20,7 @@ using SFML.Graphics;
 
 namespace zbrozonoid
 {
-    public interface IViewModel
+    public interface IViewModel : IDisposable
     {
         List<Brick> Bricks { get; }
         Sprite Background { get; }
