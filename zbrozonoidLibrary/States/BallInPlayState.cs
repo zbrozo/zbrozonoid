@@ -30,10 +30,7 @@ namespace zbrozonoidLibrary.States
 
         public bool action(IBall ball)
         {
-            if (game.GameState.ShouldGo)
-            {
-                ball.MoveBall();
-            }
+            ball.MoveBall();
 
             if (HandleScreenCollision(ball))
             {

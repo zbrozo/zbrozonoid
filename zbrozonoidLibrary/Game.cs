@@ -313,7 +313,7 @@ namespace zbrozonoidLibrary
 
         public void StartPlay()
         {
-            if (gameState.ShouldGo)
+            if (!ballStateMachine.IsBallInIdleState())
             {
                 return;
             }
@@ -331,7 +331,6 @@ namespace zbrozonoidLibrary
                 ReinitBall();
             }
 
-            gameState.ShouldGo = true;
             gameState.BallsOutOfScreen = 0;
             ballStateMachine.goIntoPlay();
         }
@@ -392,7 +391,6 @@ namespace zbrozonoidLibrary
         public void OnLostBalls(object sender, EventArgs args)
         {
             --GameState.Lives;
-            gameState.ShouldGo = false;
             ballStateMachine.goIntoIdle();
         }
 

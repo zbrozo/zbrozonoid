@@ -1,20 +1,18 @@
 ﻿using System;
 namespace zbrozonoid.Views
 {
-    public class GameBeginView : IGameView
+    public class StartPlayView : IGameView
     {
         private IDrawGameObjects draw;
 
-        public GameBeginView(IDrawGameObjects draw)
+        public StartPlayView(IDrawGameObjects draw)
         {
             this.draw = draw;
         }
 
         public void Action()
         {
-            draw.DrawTitle();
             draw.DrawPressPlayToPlay();
         }
-
     }
 }

@@ -144,6 +144,11 @@ namespace zbrozonoid
             }
         }
 
+        public void DrawTitle()
+        {
+            renderWindow.Draw(viewModel.Title);
+        }
+
         public void DrawLivesAndScoresInfo()
         {
             renderWindow.Draw(viewModel.LiveAndScoresMessage);
@@ -151,62 +156,13 @@ namespace zbrozonoid
 
         public void DrawGameOver()
         {
-            if (game.GameState.Lives < 0)
-            {
-                renderWindow.Draw(viewModel.GameOverMessage);
-            }
+            renderWindow.Draw(viewModel.GameOverMessage);
         }
 
 
         public void DrawPressPlayToPlay()
         {
-            if (!game.GameState.ShouldGo)
-            {
-                //if (game.Lives >= 0)
-                //{
-                    renderWindow.Draw(viewModel.PressButtonToPlayMessage);
-                //}
-            }
-        }
-
-        public void DrawTexts()
-        {
-            if (!game.GameState.ShouldGo)
-            {
-                if (game.GameState.Lives >= 0)
-                {
-                    renderWindow.Draw(viewModel.PressButtonToPlayMessage);
-                }
-                else
-                {
-                    /*
-                    if (game.Lives < 0)
-                    {
-                        renderWindow.Draw(window.gameOverMessage);
-                    }
-                    */
-                    game.GetScreenSize(out int width, out int height);
-/*
-                    for (int i = 0; i < window.menu.Count; ++i)
-                    {
-
-                        IMenuItem name = window.menu[i];
-
-                        uint charSize = 50;
-                        Text message = new Text(name.getName(), window.font, charSize);
-                        FloatRect localBounds = message.GetLocalBounds();
-
-                        message.Color = new Color(Color.White);
-                        Vector2f rect = new Vector2f((width - localBounds.Width) / 2, (float)height / 6 - localBounds.Height / 2 + (localBounds.Height * i));
-                        message.Position = rect;
-
-
-                        renderWindow.Draw(message);
-                    }
-                    */
-                }
-            }
-
+            renderWindow.Draw(viewModel.PressButtonToPlayMessage);
         }
 
     }

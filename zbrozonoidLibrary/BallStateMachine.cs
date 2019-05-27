@@ -41,5 +41,9 @@ namespace zbrozonoidLibrary
             currentState = ballInPlayState;
         }
 
+        public bool IsBallInIdleState()
+        {
+            return currentState is BallInIdleState;
+        }
     }
 }

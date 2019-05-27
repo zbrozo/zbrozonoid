@@ -28,17 +28,19 @@ namespace zbrozonoid
 
         private IDrawGameObjects draw;
 
-        private IGameView menuState;
-        private IGameView playState;
-        private IGameView gameOverState;
+        private IGameView gameBegin;
+        private IGameView gamePlay;
+        private IGameView gameOver;
+        private IGameView startPlay;
 
         private IGameView currentState;
 
         public ViewStateMachine(Window window, IViewModel viewModel, IDrawGameObjects draw)
         {
-            menuState = new GameBeginView(draw);
-            playState = new GamePlayView(draw);
-            gameOverState = new GameOverView(draw);
+            gameBegin = new GameBeginView(draw);
+            gamePlay = new GamePlayView(draw);
+            gameOver = new GameOverView(draw);
+            startPlay = new StartPlayView(draw);
 
             this.window = window;
             this.draw = draw;
@@ -61,28 +63,52 @@ namespace zbrozonoid
 
         public void Transitions(IGame game)
         {
-            if (!game.GameState.ShouldGo)
+            if (currentState is GameBeginView)
             {
+                currentState = gamePlay;
                 game.StartPlay();
-                gotoPlay();
+                return;
             }
 
+            if (currentState is GamePlayView && game.GameState.Lives < 0)
+            {
+                currentState = gameOver;
+                return;
+            }
 
+            if (currentState is GamePlayView && game.GameState.Lives >= 0)
+            {
+                currentState = startPlay;
+                return;
+            }
+
+            if (currentState is StartPlayView)
+            {
+                currentState = gamePlay;
+                game.StartPlay();
+                return;
+            }
+
+            if (currentState is GameOverView)
+            {
+                currentState = gameBegin;
+                return;
+            }
         }
 
         public void gotoMenu()
         {
-            currentState = menuState;
+            currentState = gameBegin;
         }
 
         public void gotoPlay()
         {
-            currentState = playState;
+            currentState = gamePlay;
         }
 
         public void gotoGameOver()
         {
-            currentState = gameOverState;
+            currentState = gameOver;
         }
 
     }

@@ -5,8 +5,6 @@ namespace zbrozonoidLibrary
 {
     public class GameState : IGameState
     {
-        public bool ShouldGo { get; set; } = false;
-
         public int Lives { get; set; } = -1;
 
         public int Scores { get; set; } = 0;

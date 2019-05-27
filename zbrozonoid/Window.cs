@@ -74,7 +74,6 @@ namespace zbrozonoid
         {
             if (e.Code == Keyboard.Key.Escape)
             {
-                game.GameState.ShouldGo = false;
                 Pause = true;
 
                 app.SetMouseCursorVisible(true);
@@ -89,16 +88,7 @@ namespace zbrozonoid
         private void OnMouseButtonPressed(object sender, MouseButtonEventArgs e)
         {
             appStateMachine.Transitions(game);
-
-            /*
-            if (!game.ShouldGo)
-            {
-                game.StartPlay();
-                appStateMachine.gotoPlay();
-            }
-            */
         }
-
 
         public void OnChangeLevel(object sender, LevelEventArgs e)
         {
@@ -108,14 +98,7 @@ namespace zbrozonoid
 
         public void OnLostBalls(object sender, EventArgs args)
         {
-            if (game.GameState.Lives < 0)
-            {
-                appStateMachine.gotoGameOver();
-            }
-            else
-            {
-                appStateMachine.gotoMenu();
-            }
+            appStateMachine.Transitions(game);
         }
 
         public void OnBrickHit(object sender, BrickHitEventArgs arg)

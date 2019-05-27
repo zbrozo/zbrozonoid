@@ -26,6 +26,7 @@ namespace zbrozonoid
         Sprite Background { get; }
         Font Font { get; }
 
+        Text Title { get; }
         Text GameOverMessage { get; }
         Text LiveAndScoresMessage { get; }
         Text PressButtonToPlayMessage { get; }

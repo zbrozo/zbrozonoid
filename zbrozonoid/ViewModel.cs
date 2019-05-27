@@ -62,6 +62,7 @@ namespace zbrozonoid
             get { return PrepareLivesAndScoresMessage(); }
         }
 
+        public Text Title { get; set; }
         public Text GameOverMessage { get; set; }
         public Text PressButtonToPlayMessage { get; set; }
 
@@ -70,6 +71,7 @@ namespace zbrozonoid
             this.game = game;
 
             Font = LoadFont("Bungee-Regular.ttf");
+            Title = PrepareTitle();
             GameOverMessage = PrepareGameOverMessage();
             PressButtonToPlayMessage = PreparePressButtonToPlayMessage();
         }
@@ -140,6 +142,20 @@ namespace zbrozonoid
 
                 return new Image(resourceStream);
             }
+        }
+
+        private Text PrepareTitle()
+        {
+            uint charSize = 50;
+            Text message = new Text("zbrozonoid", Font, charSize);
+            message.Color = new Color(Color.White);
+
+            game.GetScreenSize(out int width, out int height);
+            FloatRect localBounds = message.GetLocalBounds();
+            Vector2f rect = new Vector2f((width - localBounds.Width) / 2, (float)height / 6 - localBounds.Height / 3);
+            message.Position = rect;
+
+            return message;
         }
 
         private Text PrepareGameOverMessage()
