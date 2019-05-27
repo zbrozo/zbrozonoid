@@ -68,7 +68,7 @@ namespace zbrozonoidLibrary
 
         public IEnumerator<Position> GetEnumerator()
         {
-            return new PositionEnum(positions);
+            return positions.GetEnumerator();
         }
     }
 }
