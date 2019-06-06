@@ -42,7 +42,6 @@
     <Compile Include="Level.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="Pad.cs" />
-    <Compile Include="Position.cs" />
     <Compile Include="RandomGenerator.cs" />
     <Compile Include="Screen.cs" />
     <Compile Include="Tail.cs" />
