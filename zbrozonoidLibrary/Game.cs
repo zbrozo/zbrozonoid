@@ -169,8 +169,6 @@ namespace zbrozonoidLibrary
                 }
             }
 
-            ballManager.Merge();
-
             if (levelManager.VerifyAllBricksAreHit())
             {
                 InitializeNewLevel(false);

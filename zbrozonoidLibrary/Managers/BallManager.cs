@@ -28,17 +28,10 @@ namespace zbrozonoidLibrary.Managers
         public bool IsReadOnly { get; } = false;
 
         private readonly List<IBall> balls = new List<IBall>();
-        private readonly List<IBall> addBalls = new List<IBall>();
 
         public void Add(IBall ball)
         {
-            addBalls.Add(ball);
-        }
-
-        public void Merge()
-        {
-            balls.AddRange(addBalls);
-            addBalls.Clear();
+            balls.Add(ball);
         }
 
         public void Clear()
@@ -86,8 +79,7 @@ namespace zbrozonoidLibrary.Managers
 
         public IEnumerator<IBall> GetEnumerator()
         {
-            //return new BallEnum(balls);
-            return balls.GetEnumerator();
+            return new BallEnum(balls);
         }
     }
 }
