@@ -34,18 +34,15 @@ namespace zbrozonoidLibrary.Managers
         {
             if (collisionManager.Detect(border, pad))
             {
-                IElement borderElement = border as IElement;
-                IElement padElement = pad as IElement;
-
                 if (border.Type == Edge.Left)
                 {
-                    padElement.PosX = borderElement.PosX + borderElement.Width;
+                    pad.Boundary.Min = new Vector2(border.Boundary.Max.X, pad.Boundary.Min.Y);
                     return true;
                 }
 
                 if (border.Type == Edge.Right)
                 {
-                    padElement.PosX = borderElement.PosX - padElement.Width;
+                    pad.Boundary.Min = new Vector2(border.Boundary.Min.X - pad.Boundary.Size.X, pad.Boundary.Min.Y);
                     return true;
                 }
             }

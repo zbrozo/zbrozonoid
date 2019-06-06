@@ -23,5 +23,7 @@ namespace zbrozonoidLibrary.Interfaces
         IBall GetFirst();
 
         void LeaveOnlyOne();
+
+        void Merge();
     }
 }

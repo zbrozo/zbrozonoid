@@ -16,7 +16,7 @@ along with this program.If not, see<https://www.gnu.org/licenses/>.
 */
 namespace zbrozonoidLibrary.Interfaces
 {
-    public interface IBall
+    public interface IBall : IBoundary
     {
         int OffsetX { get; set; }
         int OffsetY { get; set; }

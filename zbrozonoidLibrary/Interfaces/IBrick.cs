@@ -25,12 +25,8 @@ namespace zbrozonoidLibrary.Interfaces
         DestroyerBall = 4
     }
 
-    public interface IBrick
+    public interface IBrick : IBoundary
     {
-        int PosX { get; set; }
-        int PosY { get; set; }
-        int Width { get; set; }
-        int Height { get; set; }
         int ColorNumber { get; set; }
         BrickType Type { get; set; }
         bool Hit { get; set; }

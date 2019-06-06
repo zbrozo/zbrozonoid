@@ -18,7 +18,7 @@ namespace zbrozonoidLibrary.Managers
 {
     using System.Collections;
     using System.Collections.Generic;
-        
+    using zbrozonoidLibrary.Enumerators;
     using zbrozonoidLibrary.Interfaces;
 
     public class BallManager : IBallManager
@@ -28,10 +28,17 @@ namespace zbrozonoidLibrary.Managers
         public bool IsReadOnly { get; } = false;
 
         private readonly List<IBall> balls = new List<IBall>();
+        private readonly List<IBall> addBalls = new List<IBall>();
 
         public void Add(IBall ball)
         {
-            balls.Add(ball);
+            addBalls.Add(ball);
+        }
+
+        public void Merge()
+        {
+            balls.AddRange(addBalls);
+            addBalls.Clear();
         }
 
         public void Clear()
@@ -79,6 +86,7 @@ namespace zbrozonoidLibrary.Managers
 
         public IEnumerator<IBall> GetEnumerator()
         {
+            //return new BallEnum(balls);
             return balls.GetEnumerator();
         }
     }

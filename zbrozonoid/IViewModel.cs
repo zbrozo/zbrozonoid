@@ -22,6 +22,8 @@ namespace zbrozonoid
 {
     public interface IViewModel : IDisposable
     {
+        Font LoadFont(string name);
+
         List<Brick> Bricks { get; }
         Sprite Background { get; }
         Font Font { get; }

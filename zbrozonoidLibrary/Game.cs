@@ -103,7 +103,6 @@ namespace zbrozonoidLibrary
         public void Initialize()
         {
             InitializeNewLevel(true);
-           // StartPlay();
         }
 
         public void SetScreenSize(int width, int height)
@@ -120,17 +119,9 @@ namespace zbrozonoidLibrary
 
         public void GetPadPosition(IPad pad, out int posx, out int posy)
         {
-            posx = 0;
-            posy = 0;
-
-			IElement padElement = pad as IElement;
-			if (padElement == null)
-			{
-				return;
-			}
-
-            posx = padElement.PosX;
-            posy = padElement.PosY;
+            posx = pad.Boundary.Min.X;
+            posy = pad.Boundary.Min.Y;
+            Logger.Instance.Write($"Pad position {posx}, {posy}");
         }
 
         public void GetPadSize(IPad pad, out int width, out int height)
@@ -142,22 +133,15 @@ namespace zbrozonoidLibrary
         {
             Logger.Instance.Write("---SetStartPosition---");
 
-            IElement ballElement = ball as IElement;
-            IElement padElement = pad as IElement;
+            int x = pad.Boundary.Min.X + pad.Boundary.Size.X / 2 - ball.Boundary.Size.X / 2;
+            int y = pad.Boundary.Max.Y;
+            ball.Boundary.Min = new Vector2(x, y);
 
-            if (ballElement == null || padElement == null)
-            {
-                return;
-            }
+            ball.OffsetX = x;
+            ball.OffsetY = y;
 
-            ballElement.PosX = padElement.PosX + padElement.Width / 2 - ballElement.Width / 2;
-            ballElement.PosY = padElement.PosY + padElement.Height;
-            
-            ball.OffsetX = ballElement.PosX;
-            ball.OffsetY = ballElement.PosY;
-
-            ball.SavedPosX = ballElement.PosX;
-            ball.SavedPosY = ballElement.PosY;
+            ball.SavedPosX = x;
+            ball.SavedPosY = y;
 
             ball.Iteration = 0;
         }
@@ -166,29 +150,15 @@ namespace zbrozonoidLibrary
         {
             Logger.Instance.Write("---RestartBallYPosition---");
 
-            IElement ballElement = ball as IElement;
-            IElement padElement = pad as IElement;
-
-            if (ballElement == null || padElement == null)
-            {
-                return;
-            }
-
-            ballElement.PosY = padElement.PosY + padElement.Height;
-            ball.OffsetY = ballElement.PosY;
-            ball.SavedPosY = ballElement.PosY;
+            ball.Boundary.Min = new Vector2(ball.Boundary.Min.X, pad.Boundary.Max.Y);
+            ball.OffsetY = ball.Boundary.Min.Y;
+            ball.SavedPosY = ball.Boundary.Min.Y;
         }
 
         public void Action()
         {
-            //uint ballsOutOfScreen = 0;
             foreach(IBall ball in ballManager)
             {
-                //if (screenCollisionManager.Detect(ball))
-                //{
-                //    ++ballsOutOfScreen;
-                //}
-
                 int speed = ball.Speed;
                 for (int i = 0; i < speed; ++i)
                 {
@@ -199,17 +169,19 @@ namespace zbrozonoidLibrary
                 }
             }
 
+            ballManager.Merge();
+
             if (levelManager.VerifyAllBricksAreHit())
             {
                 InitializeNewLevel(false);
             }
         }
 
-        private void InitializeNewLevel(bool restart)
+        private void InitializeNewLevel(bool restartLevel)
         {
             ReinitBall();
 
-            if (restart)
+            if (restartLevel)
             {
                 levelManager.Restart();
             }
@@ -289,13 +261,7 @@ namespace zbrozonoidLibrary
         {
             foreach (IPad pad in padManager)
             {
-				    IElement padElement = pad as IElement;
-				    if (padElement == null)
-                {
-                    return;
-                }
-
-                padElement.PosX += delta;
+                pad.Boundary.Min = new Vector2(pad.Boundary.Min.X + delta, pad.Boundary.Min.Y);
 
                 screenCollisionManager.DetectAndVerify(pad);
                 VerifyBorderCollision(pad);
@@ -360,17 +326,12 @@ namespace zbrozonoidLibrary
         {
             ball.SavePosition();
 
-            IElement element = ball as IElement;
-            if (ball != null)
+            ITail tail = tailManager.Find(ball);
+            if (tail != null)
             {
-                ITail tail = tailManager.Find(ball);
-                if (tail != null)
-                {
-                    Position position = new Position { X = element.PosX, Y = element.PosY };
-                    tail.Add(position);
-                }
+                Position position = new Position { X = ball.Boundary.Min.X, Y = ball.Boundary.Min.Y };
+                tail.Add(position);
             }
-
         }
 
         private List<IBrick> GetBricksHit(List<BrickHit> bricksHit)

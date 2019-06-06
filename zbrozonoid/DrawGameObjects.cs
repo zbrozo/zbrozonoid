@@ -48,15 +48,9 @@ namespace zbrozonoid
 
             foreach (IBorder border in borderManager)
             {
-                var element = border as IElement;
-                if (element == null)
-                {
-                    continue;
-                }
-
                 RectangleShape rectangle = new RectangleShape();
-                rectangle.Position = new Vector2f(element.PosX, element.PosY);
-                rectangle.Size = new Vector2f(element.Width, element.Height);
+                rectangle.Position = new Vector2f(border.Boundary.Min.X, border.Boundary.Min.Y);
+                rectangle.Size = new Vector2f(border.Boundary.Size.X, border.Boundary.Size.Y);
                 rectangle.FillColor = Color.White;
 
                 renderWindow.Draw(rectangle);

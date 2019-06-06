@@ -45,12 +45,14 @@ namespace zbrozonoidLibrary.Managers
             {
                 case Edge.Top:
                     {
-                        (pad as IElement).PosY = offset;
+                        pad.Boundary.Min = new Vector2(pad.Boundary.Min.X, offset);
+                        //pad.PosY = offset;
                         break;
                     }
                 case Edge.Bottom:
                     {
-                        (pad as IElement).PosY = screen.Height - height - offset;
+                        pad.Boundary.Min = new Vector2(pad.Boundary.Min.X, screen.Height - height - offset);
+                        //(pad as IElement).PosY = screen.Height - height - offset;
                         break;
                     }
                 default:

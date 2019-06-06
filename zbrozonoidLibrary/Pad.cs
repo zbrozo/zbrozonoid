@@ -18,32 +18,26 @@ namespace zbrozonoidLibrary
 {
     using zbrozonoidLibrary.Interfaces;
 
-    public class Pad : IPad, IElement
+    public class Pad : IPad
     {
-        public int PosX { get; set; }
-        public int PosY { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
+        public Rectangle Boundary { get; set; } = new Rectangle();
         private int OffsetY { get; set; }
-        
 
         public Pad()
         {
             OffsetY = 20;
-            PosY = OffsetY;
-
+            Boundary.Min = new Vector2(0, OffsetY);
         }
 
         public void SetSize(int width, int height)
         {
-            Width = width;
-            Height = height;
+            Boundary.Size = new Vector2(width, height);
         }
 
         public void GetSize(out int width, out int height)
         {
-            width = Width;
-            height = Height;
+            width = Boundary.Size.X;
+            height = Boundary.Size.Y;
         }
 
         public void LogData()
@@ -51,10 +45,10 @@ namespace zbrozonoidLibrary
             Logger.Instance.Write(
                 string.Format(
                     "Pad: {0}, {1}, {2}, {3}",
-                    PosX,
-                    PosY,
-                    Width,
-                    Height));
+                    Boundary.Min.X,
+                    Boundary.Min.Y,
+                    Boundary.Size.X,
+                    Boundary.Size.Y));
         }
     }
 }

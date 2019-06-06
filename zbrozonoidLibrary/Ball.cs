@@ -20,12 +20,10 @@ namespace zbrozonoidLibrary
 
     using zbrozonoidLibrary.Interfaces;
 
-    public class Ball : IBall, IElement
+    public class Ball : IBall
     {
-        public int PosX { get; set; }
-        public int PosY { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
+        public Rectangle Boundary { get; set; } = new Rectangle();
+
         public int OffsetX { get; set; }
         public int OffsetY { get; set; }
         public int DirectionX { get; set; }
@@ -51,20 +49,19 @@ namespace zbrozonoidLibrary
 
         public void SetSize(int width, int height)
         {
-            Width = width;
-            Height = height;
+            Boundary.Size = new Vector2(width, height);
         }
 
         public void GetPosition(out int posX, out int posY)
         {
-            posX = PosX;
-            posY = PosY;
+            posX = Boundary.Min.X;
+            posY = Boundary.Min.Y;
         }
 
         public void GetSize(out int width, out int height)
         {
-            width = Width;
-            height = Height;
+            width = Boundary.Size.X;
+            height = Boundary.Size.Y;
         }
 
         public bool MoveBall(bool reverse = false)
@@ -102,8 +99,10 @@ namespace zbrozonoidLibrary
             int posX = CalculateBallPositionX(Degree, Iteration);
             int posY = CalculateBallPositionY(Degree, Iteration);
 
-            PosX = posX * DirectionX + OffsetX;
 
+            int PosX = posX * DirectionX + OffsetX;
+
+            int PosY = 0;
             if (DirectionY == -1)
             {
                 PosY = OffsetY - posY;
@@ -112,6 +111,8 @@ namespace zbrozonoidLibrary
             {
                 PosY = OffsetY + posY;
             }
+
+            Boundary.Min = new Vector2(PosX, PosY);
         }
 
 
@@ -314,8 +315,8 @@ namespace zbrozonoidLibrary
 
         public void SavePosition()
         {
-            SavedPosX = PosX;
-            SavedPosY = PosY;
+            SavedPosX = Boundary.Min.X;
+            SavedPosY = Boundary.Min.Y;
         }
 
         public void CalculateNewDegree()
@@ -329,10 +330,10 @@ namespace zbrozonoidLibrary
                 string.Format(
                     "Ball {0}: {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}",
                     reverse ? "reverse" : "",
-                    PosX,
-                    PosY,
-                    Width,
-                    Height,
+                    Boundary.Min.X,
+                    Boundary.Min.Y,
+                    Boundary.Size.X,
+                    Boundary.Size.Y,
                     OffsetX,
                     OffsetY,
                     DirectionX,

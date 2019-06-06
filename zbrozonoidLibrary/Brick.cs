@@ -18,22 +18,18 @@ namespace zbrozonoidLibrary
 {
     using zbrozonoidLibrary.Interfaces;
 
-    public class Brick : IBrick, IElement
+    public class Brick : IBrick
     {
-        public int PosX { get; set; }
-        public int PosY { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
+        public Rectangle Boundary { get; set; } = new Rectangle();
+
         public int ColorNumber { get; set; }
         public BrickType Type { get; set; }
         public bool Hit { get; set; }
 
         public Brick(BrickType type, int x, int y, int width = 50, int height = 25)
         {
-            PosX = x;
-            PosY = y;
-            Width = width;
-            Height = height;
+            Boundary.Min = new Vector2(x, y);
+            Boundary.Size = new Vector2(width, height);
             Type = type;
             Hit = false;
         }

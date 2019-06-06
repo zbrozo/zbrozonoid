@@ -94,8 +94,8 @@ namespace zbrozonoid
                     if (colors.TryGetValue((int)brick.ColorNumber, out Color color))
                     {
                         RectangleShape rectangle = new RectangleShape();
-                        rectangle.Position = new Vector2f(brick.PosX, brick.PosY);
-                        rectangle.Size = new Vector2f(brick.Width, brick.Height);
+                        rectangle.Position = new Vector2f(brick.Boundary.Min.X, brick.Boundary.Min.Y);
+                        rectangle.Size = new Vector2f(brick.Boundary.Size.X, brick.Boundary.Size.Y);
                         rectangle.FillColor = color;
 
                         Brick brickToDraw = new Brick(rectangle);
@@ -114,7 +114,7 @@ namespace zbrozonoid
             Background = new Sprite(backgroundTexture);
         }
 
-        private Font LoadFont(string name)
+        public Font LoadFont(string name)
         {
             name = name.Replace("/", ".");
             name = "zbrozonoidAssets.Fonts." + name;

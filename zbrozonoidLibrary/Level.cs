@@ -121,10 +121,11 @@ namespace zbrozonoidLibrary
             {
                 ColorNumber = d.Attribute("color")?.Value != "" ? Convert.ToInt32(d.Attribute("color")?.Value) : 0,
                 Type = d.Attribute("type")?.Value != "" ? (BrickType) Convert.ToInt32(d.Attribute("type")?.Value) : 0,
-                PosX = Convert.ToInt32(d.Attribute("column")?.Value) * BlockWidth + Margin,
-                PosY = rowNumber * BlockHeight + StartY,
-                Width = BlockWidth,
-                Height = BlockHeight,
+                Boundary = new Rectangle(
+                    Convert.ToInt32(d.Attribute("column")?.Value) * BlockWidth + Margin,
+                    rowNumber * BlockHeight + StartY,
+                    BlockWidth,
+                    BlockHeight),
                 Hit = false
             }).ToList();
 

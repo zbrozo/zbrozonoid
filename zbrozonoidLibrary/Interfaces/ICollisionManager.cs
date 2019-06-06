@@ -32,7 +32,6 @@ namespace zbrozonoidLibrary.Interfaces
         bool XLeftOutside { get; set; }
         bool XRightOutside { get; set; }
 
-        //void Prepare();
         bool Detect(IBorder first, IPad second);
         bool Detect(IBorder first, IBall second);
         bool Detect(IPad first, IBall second);

@@ -16,11 +16,10 @@ along with this program.If not, see<https://www.gnu.org/licenses/>.
 */
 namespace zbrozonoidLibrary.Interfaces
 {
-    public interface IPad
+    public interface IPad : IBoundary
     {
         void SetSize(int width, int height);
         void GetSize(out int width, out int height);
         void LogData();
-
     }
 }

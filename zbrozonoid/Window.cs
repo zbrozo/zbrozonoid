@@ -17,7 +17,6 @@ along with this program.If not, see<https://www.gnu.org/licenses/>.
 namespace zbrozonoid
 {
     using System;
-    using System.Collections.Generic;
 
     using SFML.System;
     using SFML.Graphics;
@@ -55,7 +54,7 @@ namespace zbrozonoid
             settings.MajorVersion = 3;
             settings.MinorVersion = 0;
 
-            app = new RenderWindow(new VideoMode((uint)width, (uint)height), Name, Styles.Default, settings);
+            app = new RenderWindow(new VideoMode((uint)width, (uint)height), Name);
             app.SetVerticalSyncEnabled(true);
 
             app.Closed += OnClose;

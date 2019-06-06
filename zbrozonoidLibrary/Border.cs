@@ -18,12 +18,10 @@ namespace zbrozonoidLibrary
 {
     using zbrozonoidLibrary.Interfaces;
 
-    public class Border : IBorder, IElement
+    public class Border : IBorder
     {
-        public int PosX { get; set; }
-        public int PosY { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
+        public Rectangle Boundary { get; set; } = new Rectangle();
+
         public Edge Type { get; set; }
 
         private int borderSize = 12;
@@ -36,26 +34,20 @@ namespace zbrozonoidLibrary
             {
                 case Edge.Bottom:
                     {
-                        PosX = 0;
-                        PosY = screen.Height - borderSize;
-                        Width = screen.Width;
-                        Height = borderSize;
+                        Boundary.Min = new Vector2(0, screen.Height - borderSize);
+                        Boundary.Size = new Vector2(screen.Width, borderSize);
                         break;
                     }
                 case Edge.Left:
                     {
-                        PosX = 0;
-                        PosY = 0;
-                        Width = borderSize;
-                        Height = screen.Height;
+                        Boundary.Min = new Vector2(0, 0);
+                        Boundary.Size = new Vector2(borderSize, screen.Height);
                         break;
                     }
                 case Edge.Right:
                     {
-                        PosX = screen.Width - borderSize;
-                        PosY = 0;
-                        Width = borderSize;
-                        Height = screen.Height;
+                        Boundary.Min = new Vector2(screen.Width - borderSize, 0);
+                        Boundary.Size = new Vector2(borderSize, screen.Height);
                         break;
                     }
                 default:

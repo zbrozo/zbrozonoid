@@ -35,19 +35,23 @@ namespace zbrozonoidLibrary.Managers
 
         public List<IBrick> bricksHit { get; set; }
 
-        private bool Check(IElement first, IElement second)
+        private bool Check(IBoundary first, IBoundary second)
         {
             // second element inside first element
-            bool XLeftInside = second.PosX > first.PosX && second.PosX < first.PosX + first.Width;
-            bool XRightInside = (second.PosX + second.Width > first.PosX) && (second.PosX + second.Width < first.PosX + first.Width);
-            bool YTopInside = (second.PosY > first.PosY) && (second.PosY < first.PosY + first.Height);
-            bool YBottomInside = (second.PosY + second.Height > first.PosY) && (second.PosY + second.Height < first.PosY + first.Height);
+            bool XLeftInside = second.Boundary.Min.X > first.Boundary.Min.X  
+                               && second.Boundary.Min.X < first.Boundary.Max.X;
+            bool XRightInside = second.Boundary.Max.X > first.Boundary.Min.X 
+                                && second.Boundary.Max.X < first.Boundary.Max.X;
+            bool YTopInside = second.Boundary.Min.Y > first.Boundary.Min.Y 
+                              && second.Boundary.Min.Y < first.Boundary.Max.Y;
+            bool YBottomInside = second.Boundary.Max.Y > first.Boundary.Min.Y
+                                 && second.Boundary.Max.Y < first.Boundary.Max.Y;
 
             // second element outside first element
-            bool XLeftOutside = second.PosX <= first.PosX;
-            bool XRightOutside = second.PosX + second.Width >= first.PosX + first.Width;
-            bool YTopOutside = second.PosY <= first.PosY;
-            bool YBottomOutside = second.PosY + second.Height >= first.PosY + first.Height;
+            bool XLeftOutside = second.Boundary.Min.X <= first.Boundary.Min.X;
+            bool XRightOutside = second.Boundary.Max.X >= first.Boundary.Max.X;
+            bool YTopOutside = second.Boundary.Min.Y <= first.Boundary.Min.Y;
+            bool YBottomOutside = second.Boundary.Max.Y >= first.Boundary.Max.Y;
 
             if ((XLeftInside || XRightInside) && (YTopInside || YBottomInside))
             {
@@ -96,22 +100,22 @@ namespace zbrozonoidLibrary.Managers
 
         public bool Detect(IBorder first, IPad second)
         {
-            return Check(first as IElement, second as IElement);
+            return Check(first as IBoundary, second as IBoundary);
         }
 
         public bool Detect(IBorder first, IBall second)
         {
-            return Check(first as IElement, second as IElement);
+            return Check(first as IBoundary, second as IBoundary);
         }
 
         public bool Detect(IPad first, IBall second)
         {
-            return Check(first as IElement, second as IElement);
+            return Check(first as IBoundary, second as IBoundary);
         }
 
         public bool Detect(IBrick first, IBall second)
         {
-            if (Check(first as IElement, second as IElement))
+            if (Check(first as IBoundary, second as IBoundary))
             {
                 //bricksHit.Add(first);
                 return true;
@@ -349,10 +353,10 @@ namespace zbrozonoidLibrary.Managers
                 return false;
             }
 
-            var PosY = bricksHit[0].PosY;
+            var PosY = bricksHit[0].Boundary.Min.Y;
             foreach (var value in bricksHit)
             {
-                if (PosY != value.PosY)
+                if (PosY != value.Boundary.Min.Y)
                 {
                     return false;
                 }
@@ -368,10 +372,10 @@ namespace zbrozonoidLibrary.Managers
                 return false;
             }
 
-            var PosX = bricksHit[0].PosX;
+            var PosX = bricksHit[0].Boundary.Min.X;
             foreach (var value in bricksHit)
             {
-                if (PosX != value.PosX)
+                if (PosX != value.Boundary.Min.X)
                 {
                     return false;
                 }

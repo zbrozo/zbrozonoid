@@ -29,19 +29,14 @@ namespace zbrozonoidLibrary.Managers
 
         public bool DetectAndVerify(IPad pad)
         {
-            if (!(pad is IElement padElement))
+            if (pad.Boundary.Min.X <= 0)
             {
-                return false;
+                pad.Boundary.Min = new Vector2(0, pad.Boundary.Min.Y);
             }
 
-            if (padElement.PosX <= 0)
+            if (pad.Boundary.Min.X > screen.Width - pad.Boundary.Size.X)
             {
-                padElement.PosX = 0;
-            }
-
-            if (padElement.PosX > screen.Width - padElement.Width)
-            {
-                padElement.PosX = screen.Width - padElement.Width;
+                pad.Boundary.Min = new Vector2(screen.Width - pad.Boundary.Size.X, pad.Boundary.Min.Y);
             }
 
             return false;
@@ -49,32 +44,27 @@ namespace zbrozonoidLibrary.Managers
 
         public bool DetectAndVerify(IBall ball)
         {
-            if (!(ball is IElement ballElement))
+            if (ball.Boundary.Min.X < 0)
             {
-                return false;
-            }
-
-            if (ballElement.PosX < 0)
-            {
-                ballElement.PosX = 0;
+                ball.Boundary.Min = new Vector2(0, ball.Boundary.Min.Y);
                 return ball.Bounce(Edge.Right);
             }
 
-            if (ballElement.PosX > screen.Width - ballElement.Width)
+            if (ball.Boundary.Min.X > screen.Width - ball.Boundary.Size.X)
             {
-                ballElement.PosX = screen.Width - ballElement.Width;
+                ball.Boundary.Min = new Vector2(screen.Width - ball.Boundary.Size.X, ball.Boundary.Min.Y);
                 return ball.Bounce(Edge.Left);
             }
 
-            if (ballElement.PosY < 0)
+            if (ball.Boundary.Min.Y < 0)
             {
-                ballElement.PosY = 0;
+                ball.Boundary.Min = new Vector2(ball.Boundary.Min.X, 0);
                 return ball.Bounce(Edge.Bottom);
             }
 
-            if (ballElement.PosY > screen.Height - ballElement.Height)
+            if (ball.Boundary.Min.Y > screen.Height - ball.Boundary.Size.Y)
             {
-                ballElement.PosY = screen.Height - ballElement.Height;
+                ball.Boundary.Min = new Vector2(ball.Boundary.Min.X, screen.Height - ball.Boundary.Size.Y);
                 return ball.Bounce(Edge.Top);
             }
 
@@ -85,27 +75,22 @@ namespace zbrozonoidLibrary.Managers
         {
             ball.GetSize(out int width, out int height);
 
-            if (!(ball is IElement ballElement))
-            {
-                return false;
-            }
-
-            if (ballElement.PosX < -width)
+            if (ball.Boundary.Min.X < -width)
             {
                 return true;
             }
 
-            if (ballElement.PosX > screen.Width)
+            if (ball.Boundary.Min.X > screen.Width)
             {
                 return true;
             }
 
-            if (ballElement.PosY < -height)
+            if (ball.Boundary.Min.Y < -height)
             {
                 return true;
             }
 
-            if (ballElement.PosY > screen.Height)
+            if (ball.Boundary.Min.Y > screen.Height)
             {
                 return true;
             }
