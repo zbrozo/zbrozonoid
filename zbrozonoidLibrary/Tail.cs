@@ -18,8 +18,6 @@ namespace zbrozonoidLibrary
 {
     using System.Collections;
     using System.Collections.Generic;
-
-    using zbrozonoidLibrary.Enumerators;
     using zbrozonoidLibrary.Interfaces;
 
     public class Tail : ITail
@@ -28,11 +26,11 @@ namespace zbrozonoidLibrary
 
         public bool IsReadOnly { get; } = false;
 
-        private readonly List<Position> positions = new List<Position>();
+        private readonly List<Vector2> positions = new List<Vector2>();
 
         private int max = 200;
 
-        public void Add(Position position)
+        public void Add(Vector2 position)
         {
             positions.Insert(0, position);
             if (positions.Count > max)
@@ -46,27 +44,27 @@ namespace zbrozonoidLibrary
             positions.Clear();
         }
 
-        public bool Remove(Position position)
+        public bool Remove(Vector2 position)
         {
             return positions.Remove(position);
         }
 
-        public bool Contains(Position position)
+        public bool Contains(Vector2 position)
         {
             return positions.Contains(position);
         }
 
-        public void CopyTo(Position[] positions, int arrayIndex)
+        public void CopyTo(Vector2[] positions, int arrayIndex)
         {
             this.positions.CopyTo(positions, arrayIndex);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return (IEnumerator)GetEnumerator();
+            return GetEnumerator();
         }
 
-        public IEnumerator<Position> GetEnumerator()
+        public IEnumerator<Vector2> GetEnumerator()
         {
             return positions.GetEnumerator();
         }

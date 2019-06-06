@@ -327,7 +327,7 @@ namespace zbrozonoidLibrary
             ITail tail = tailManager.Find(ball);
             if (tail != null)
             {
-                Position position = new Position { X = ball.Boundary.Min.X, Y = ball.Boundary.Min.Y };
+                Vector2 position = new Vector2 ( ball.Boundary.Min.X, ball.Boundary.Min.Y );
                 tail.Add(position);
             }
         }
