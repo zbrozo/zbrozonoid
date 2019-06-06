@@ -20,13 +20,13 @@ namespace zbrozonoidLibrary.Enumerators
     using System.Collections;
     using System.Collections.Generic;
 
-    public class PositionEnum : IEnumerator<Position>
+    public class PositionEnum : IEnumerator<Vector2>
     {
-        private readonly List<Position> positions;
+        private readonly List<Vector2> positions;
 
         int position = -1;
 
-        public PositionEnum(List<Position> positions)
+        public PositionEnum(List<Vector2> positions)
         {
             this.positions = positions;
         }
@@ -52,7 +52,7 @@ namespace zbrozonoidLibrary.Enumerators
             }
         }
 
-        public Position Current
+        public Vector2 Current
         {
             get
             {

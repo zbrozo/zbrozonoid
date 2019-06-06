@@ -111,7 +111,7 @@ namespace zbrozonoid
             {
                 int i = 0;
                 int opacity = 150;
-                foreach (Position position in tail)
+                foreach (Vector2 position in tail)
                 {
                     ++i;
                     if (i % 14 == 0)

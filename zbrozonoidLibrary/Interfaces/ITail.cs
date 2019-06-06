@@ -18,7 +18,7 @@ namespace zbrozonoidLibrary.Interfaces
 {
     using System.Collections.Generic;
 
-    using zbrozonoidLibrary;
+    using Position = Vector2;
 
     public interface ITail : ICollection<Position>
     {
