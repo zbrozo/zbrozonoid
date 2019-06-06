@@ -17,7 +17,7 @@ along with this program.If not, see<https://www.gnu.org/licenses/>.
 
 using System;
 using zbrozonoid.Views;
-using zbrozonoidLibrary.Interfaces;
+using zbrozonoidEngine.Interfaces;
 
 namespace zbrozonoid
 {

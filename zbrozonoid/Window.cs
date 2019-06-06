@@ -22,8 +22,8 @@ namespace zbrozonoid
     using SFML.Graphics;
     using SFML.Window;
 
-    using zbrozonoidLibrary;
-    using zbrozonoidLibrary.Interfaces;
+    using zbrozonoidEngine;
+    using zbrozonoidEngine.Interfaces;
 
     public class Window
     {

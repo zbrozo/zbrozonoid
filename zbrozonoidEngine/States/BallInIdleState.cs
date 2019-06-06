@@ -1,7 +1,7 @@
-﻿using zbrozonoidLibrary.Interfaces;
-using zbrozonoidLibrary.Interfaces.States;
+﻿using zbrozonoidEngine.Interfaces;
+using zbrozonoidEngine.Interfaces.States;
 
-namespace zbrozonoidLibrary.States
+namespace zbrozonoidEngine.States
 {
     public class BallInIdleState : IBallState
     {

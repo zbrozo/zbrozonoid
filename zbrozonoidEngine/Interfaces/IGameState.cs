@@ -1,5 +1,5 @@
 ﻿using System;
-namespace zbrozonoidLibrary.Interfaces
+namespace zbrozonoidEngine.Interfaces
 {
     public interface IGameState
     {

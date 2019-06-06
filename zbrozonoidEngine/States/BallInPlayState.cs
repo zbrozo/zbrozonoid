@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using zbrozonoidLibrary.Interfaces;
-using zbrozonoidLibrary.Interfaces.States;
-using zbrozonoidLibrary.Managers;
+using zbrozonoidEngine.Interfaces;
+using zbrozonoidEngine.Interfaces.States;
+using zbrozonoidEngine.Managers;
 
-namespace zbrozonoidLibrary.States
+namespace zbrozonoidEngine.States
 {
     public class BallInPlayState : IBallState
     {

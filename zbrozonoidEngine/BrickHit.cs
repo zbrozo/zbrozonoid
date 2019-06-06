@@ -1,7 +1,7 @@
 ﻿using System;
-using zbrozonoidLibrary.Interfaces;
+using zbrozonoidEngine.Interfaces;
 
-namespace zbrozonoidLibrary
+namespace zbrozonoidEngine
 {
     public class BrickHit
     {

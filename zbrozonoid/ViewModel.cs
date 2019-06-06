@@ -20,8 +20,8 @@ using System.IO;
 using System.Reflection;
 using SFML.Graphics;
 using SFML.System;
-using zbrozonoidLibrary;
-using zbrozonoidLibrary.Interfaces;
+using zbrozonoidEngine;
+using zbrozonoidEngine.Interfaces;
 
 namespace zbrozonoid
 {

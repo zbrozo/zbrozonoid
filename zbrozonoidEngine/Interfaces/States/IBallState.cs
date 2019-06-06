@@ -1,5 +1,5 @@
 ﻿using System;
-namespace zbrozonoidLibrary.Interfaces.States
+namespace zbrozonoidEngine.Interfaces.States
 {
     public interface IBallState
     {

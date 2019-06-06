@@ -14,11 +14,11 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.If not, see<https://www.gnu.org/licenses/>.
 */
-namespace zbrozonoidLibrary
+namespace zbrozonoidEngine
 {
     using System.Collections;
     using System.Collections.Generic;
-    using zbrozonoidLibrary.Interfaces;
+    using zbrozonoidEngine.Interfaces;
 
     public class Tail : ITail
     {

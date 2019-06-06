@@ -18,8 +18,8 @@ along with this program.If not, see<https://www.gnu.org/licenses/>.
 using System.Collections.Generic;
 using SFML.Graphics;
 using SFML.System;
-using zbrozonoidLibrary;
-using zbrozonoidLibrary.Interfaces;
+using zbrozonoidEngine;
+using zbrozonoidEngine.Interfaces;
 
 namespace zbrozonoid
 {

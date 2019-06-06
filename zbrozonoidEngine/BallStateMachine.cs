@@ -1,9 +1,9 @@
 ﻿using System;
-using zbrozonoidLibrary.Interfaces;
-using zbrozonoidLibrary.Interfaces.States;
-using zbrozonoidLibrary.States;
+using zbrozonoidEngine.Interfaces;
+using zbrozonoidEngine.Interfaces.States;
+using zbrozonoidEngine.States;
 
-namespace zbrozonoidLibrary
+namespace zbrozonoidEngine
 {
 
     public class BallStateMachine

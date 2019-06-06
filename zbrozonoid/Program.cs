@@ -17,8 +17,8 @@ along with this program.If not, see<https://www.gnu.org/licenses/>.
 
 namespace zbrozonoid
 {
-    using zbrozonoidLibrary;
-    using zbrozonoidLibrary.Interfaces;
+    using zbrozonoidEngine;
+    using zbrozonoidEngine.Interfaces;
 
     static class Program
     {
