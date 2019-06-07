@@ -143,7 +143,7 @@ namespace zbrozonoid
             renderWindow.Draw(viewModel.Title);
         }
 
-        public void DrawLivesAndScoresInfo()
+        public void DrawLifesAndScoresInfo()
         {
             renderWindow.Draw(viewModel.LiveAndScoresMessage);
         }

@@ -3,7 +3,7 @@ namespace zbrozonoidEngine.Interfaces
 {
     public interface IGameState
     {
-        int Lives { get; set; }
+        int Lifes { get; set; }
 
         int Scores { get; set; }
 

@@ -30,7 +30,7 @@ namespace zbrozonoid
         void DrawPad();
 
         void DrawTitle();
-        void DrawLivesAndScoresInfo();
+        void DrawLifesAndScoresInfo();
         void DrawGameOver();
         void DrawPressPlayToPlay();
 

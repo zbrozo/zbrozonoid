@@ -282,9 +282,9 @@ namespace zbrozonoidEngine
                 return;
             }
 
-            if (gameState.Lives < 0)
+            if (gameState.Lifes < 0)
             {
-                gameState.Lives = 3;
+                gameState.Lifes = 3;
                 gameState.Scores = 0;
                 gameState.BallsOutOfScreen = 0;
 
@@ -349,7 +349,7 @@ namespace zbrozonoidEngine
 
         public void OnLostBalls(object sender, EventArgs args)
         {
-            --GameState.Lives;
+            --GameState.Lifes;
             ballStateMachine.goIntoIdle();
         }
 

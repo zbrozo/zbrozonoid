@@ -12,7 +12,7 @@ namespace zbrozonoid.Views
 
         public void Action()
         {
-            draw.DrawLivesAndScoresInfo();
+            draw.DrawLifesAndScoresInfo();
         }
     }
 }

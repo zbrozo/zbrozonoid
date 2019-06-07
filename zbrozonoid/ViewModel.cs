@@ -59,7 +59,7 @@ namespace zbrozonoid
 
         public Text LiveAndScoresMessage
         {
-            get { return PrepareLivesAndScoresMessage(); }
+            get { return PrepareLifesAndScoresMessage(); }
         }
 
         public Text Title { get; set; }
@@ -178,12 +178,12 @@ namespace zbrozonoid
             return message;
         }
 
-        private Text PrepareLivesAndScoresMessage()
+        private Text PrepareLifesAndScoresMessage()
         {
             uint charSize = 20;
-            int lives = game.GameState.Lives >= 0 ? game.GameState.Lives : 0;
+            int lifes = game.GameState.Lifes >= 0 ? game.GameState.Lifes : 0;
             int scores = game.GameState.Scores;
-            Text message = new Text($"Lives: {lives}   Scores: {scores:D5}", Font, charSize);
+            Text message = new Text($"Lifes: {lifes}   Scores: {scores:D5}", Font, charSize);
             message.FillColor = Color.White;
 
             game.GetScreenSize(out int width, out int height);

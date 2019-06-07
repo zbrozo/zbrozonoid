@@ -68,13 +68,13 @@ namespace zbrozonoid
                 return;
             }
 
-            if (currentState is GamePlayView && game.GameState.Lives < 0)
+            if (currentState is GamePlayView && game.GameState.Lifes < 0)
             {
                 currentState = gameOver;
                 return;
             }
 
-            if (currentState is GamePlayView && game.GameState.Lives >= 0)
+            if (currentState is GamePlayView && game.GameState.Lifes >= 0)
             {
                 currentState = startPlay;
                 return;
