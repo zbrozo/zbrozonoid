@@ -65,7 +65,7 @@ namespace zbrozonoid
 
             viewModel = new ViewModel(game);
             drawGameObjects = new DrawGameObjects(app, viewModel, game);
-            appStateMachine = new ViewStateMachine(this, viewModel, drawGameObjects);
+            appStateMachine = new ViewStateMachine(viewModel, drawGameObjects);
             appStateMachine.gotoMenu();
         }
 

@@ -23,7 +23,6 @@ namespace zbrozonoid
 {
     public class ViewStateMachine
     {
-        private Window window;
         private IViewModel viewModel;
 
         private IDrawGameObjects draw;
@@ -35,14 +34,13 @@ namespace zbrozonoid
 
         private IGameView currentState;
 
-        public ViewStateMachine(Window window, IViewModel viewModel, IDrawGameObjects draw)
+        public ViewStateMachine(IViewModel viewModel, IDrawGameObjects draw)
         {
             gameBegin = new GameBeginView(draw);
             gamePlay = new GamePlayView(draw);
             gameOver = new GameOverView(draw);
             startPlay = new StartPlayView(draw);
 
-            this.window = window;
             this.draw = draw;
             this.viewModel = viewModel;
         }
