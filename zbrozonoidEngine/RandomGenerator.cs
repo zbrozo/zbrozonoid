@@ -23,12 +23,6 @@ namespace zbrozonoidEngine
     public class RandomGenerator : IRandomGenerator
     {
         private readonly Random random = new Random();
-        public int GenerateDegree()
-        {
-            int degreeRangeMin = 40;
-            int degreeRangeMax = 80;
-            return random.Next(degreeRangeMin, degreeRangeMax);
-        }
 
         public int GenerateSpeed()
         {
@@ -45,19 +39,33 @@ namespace zbrozonoidEngine
             return pos == 0 ? -1 : 1;
         }
 
-        public double CalculateNewDegree(double Degree)
+        public int GenerateDegree(int Degree, int RangeOffset)
         {
-            double degreeRangeMax = 30;
-            do
+            const int degreeMargin = 10;
+            const int degreeRangeMax = 30;
+            int degree = random.Next(degreeRangeMax);
+            Degree += degree - degreeRangeMax / 2;
+            Degree += degreeRangeMax / 2;
+
+            if (RangeOffset == 0)
             {
-                double degree = random.Next((int)degreeRangeMax);
-                Degree += degree - degreeRangeMax / 2;
-                Degree = Math.Abs(Degree);
+                Degree += degreeMargin;
             }
-            while (Degree < 10.0 || Degree > 80.0);
+            else if (RangeOffset == 1)
+            {
+                Degree += degreeRangeMax;
+            }
+            else if (RangeOffset == 2)
+            {
+                Degree += degreeRangeMax * 2;
+                Degree -= degreeMargin;
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException();
+            }
 
             return Degree;
         }
-
     }
 }

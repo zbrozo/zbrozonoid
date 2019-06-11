@@ -18,12 +18,10 @@ namespace zbrozonoidEngine.Interfaces
 {
     public interface IRandomGenerator
     {
-        int GenerateDegree();
-
         int GenerateSpeed();
 
         int GenerateDirection();
 
-        double CalculateNewDegree(double Degree);
+        int GenerateDegree(int Degree = 0, int RangeOffset = 0);
     }
 }
