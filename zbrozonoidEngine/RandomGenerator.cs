@@ -39,23 +39,23 @@ namespace zbrozonoidEngine
             return pos == 0 ? -1 : 1;
         }
 
-        public int GenerateDegree(int Degree, int RangeOffset)
+        public int GenerateDegree(int Degree, DegreeType range)
         {
             const int degreeMargin = 10;
             const int degreeRangeMax = 30;
             int degree = random.Next(degreeRangeMax);
-            Degree += degree - degreeRangeMax / 2;
+            Degree = degree - degreeRangeMax / 2;
             Degree += degreeRangeMax / 2;
 
-            if (RangeOffset == 0)
+            if (range == DegreeType.Corner)
             {
                 Degree += degreeMargin;
             }
-            else if (RangeOffset == 1)
+            else if (range == DegreeType.Average)
             {
                 Degree += degreeRangeMax;
             }
-            else if (RangeOffset == 2)
+            else if (range == DegreeType.Centre)
             {
                 Degree += degreeRangeMax * 2;
                 Degree -= degreeMargin;

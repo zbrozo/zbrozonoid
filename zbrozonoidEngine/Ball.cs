@@ -40,10 +40,9 @@ namespace zbrozonoidEngine
         {
             this.randomGenerator = randomGenerator;
 
-            Degree = randomGenerator.GenerateDegree(0, 2);
-            Speed = 6; //randomGenerator.GenerateSpeed();
-
-            DirectionX = randomGenerator.GenerateDirection();
+            Degree = 50;  
+            Speed = 6;
+            DirectionX = 1; 
             DirectionY = 1;
         }
 
@@ -99,22 +98,20 @@ namespace zbrozonoidEngine
             int posX = CalculateBallPositionX(Degree, Iteration);
             int posY = CalculateBallPositionY(Degree, Iteration);
 
-
-            int PosX = posX * DirectionX + OffsetX;
-
-            int PosY = 0;
+            int screenY = 0;
             if (DirectionY == -1)
             {
-                PosY = OffsetY - posY;
+                screenY = OffsetY - posY;
             }
             else
             {
-                PosY = OffsetY + posY;
+                screenY = OffsetY + posY;
             }
 
-            Boundary.Min = new Vector2(PosX, PosY);
-        }
+            int screenX = posX * DirectionX + OffsetX;
 
+            Boundary.Min = new Vector2(screenX, screenY);
+        }
 
         private int CalculateBallPositionX(double angle, double c)
         {
@@ -319,9 +316,9 @@ namespace zbrozonoidEngine
             SavedPosY = Boundary.Min.Y;
         }
 
-        public void CalculateNewDegree()
+        public void CalculateNewDegree(DegreeType range)
         {
-            Degree = randomGenerator.GenerateDegree(Degree);
+            Degree = randomGenerator.GenerateDegree(Degree, range);
         }
 
         public void LogData(bool reverse = false)

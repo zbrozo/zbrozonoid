@@ -160,18 +160,19 @@ namespace zbrozonoidEngine.Managers
         {
             if (BounceSmallBall(ball))
             {
+                ball.CalculateNewDegree(DegreeType.Centre);
                 return;
             }
 
             if (BounceBallFromCorner(ball))
             {
-                ball.CalculateNewDegree();
+                ball.CalculateNewDegree(DegreeType.Corner);
                 return;
             }
 
             if (BounceBigBall(ball))
             {
-                ball.CalculateNewDegree();
+                ball.CalculateNewDegree(DegreeType.Centre);
                 return;
             }
 

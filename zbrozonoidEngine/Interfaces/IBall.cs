@@ -40,7 +40,7 @@ namespace zbrozonoidEngine.Interfaces
         bool BounceCorner(Corner corner);
         void BounceBack();
 
-        void CalculateNewDegree();
+        void CalculateNewDegree(DegreeType range);
         void SavePosition();
         void LogData(bool reverse = false);
     }

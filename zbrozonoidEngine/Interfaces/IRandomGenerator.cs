@@ -16,12 +16,19 @@ along with this program.If not, see<https://www.gnu.org/licenses/>.
 */
 namespace zbrozonoidEngine.Interfaces
 {
+    public enum DegreeType
+    {
+        Corner,
+        Average,
+        Centre
+    }
+
     public interface IRandomGenerator
     {
         int GenerateSpeed();
 
         int GenerateDirection();
 
-        int GenerateDegree(int Degree = 0, int RangeOffset = 0);
+        int GenerateDegree(int Degree = 0, DegreeType range = DegreeType.Centre);
     }
 }
