@@ -20,7 +20,7 @@ namespace zbrozonoidEngineTests
         }
 
         [Test]
-        public void BallStartPosition()
+        public void VerifyBallStartPosition()
         {
             // Given
             IBall ball = new Ball(generatorMock.Object);
@@ -31,7 +31,7 @@ namespace zbrozonoidEngineTests
         }
 
         [Test]
-        public void BallMovement()
+        public void VerifyBallMovement()
         {
             // Given
             IBall ball = new Ball(generatorMock.Object);
@@ -53,5 +53,60 @@ namespace zbrozonoidEngineTests
             Assert.AreEqual(7, ball.Boundary.Min.Y);
             loggerMock.Verify(x => x.Write(It.IsAny<string>()), Times.Exactly(10));
         }
+
+        [Test]
+        public void VerifyBallSize()
+        {
+            // Given
+            IBall ball = new Ball(generatorMock.Object);
+            ball.SetSize(334, 400);
+
+            // When
+            ball.GetSize(out int width, out int height);
+
+            // Then
+            Assert.AreEqual(334, width);
+            Assert.AreEqual(400, height);
+        }
+
+        [Test]
+        public void VerifyCalculateNewDegreeWithCentreType()
+        {
+            // Given
+            IBall ball = new Ball(generatorMock.Object);
+
+            // When
+            ball.CalculateNewDegree(DegreeType.Centre);
+
+            // Then
+            generatorMock.Verify(x => x.GenerateDegree(It.IsAny<int>(), It.IsAny<DegreeType>()), Times.Never);
+        }
+
+        [Test]
+        public void VerifyCalculateNewDegreeWithAverageType()
+        {
+            // Given
+            IBall ball = new Ball(generatorMock.Object);
+
+            // When
+            ball.CalculateNewDegree(DegreeType.Average);
+
+            // Then
+            generatorMock.Verify(x => x.GenerateDegree(It.IsAny<int>(), It.IsAny<DegreeType>()), Times.Once);
+        }
+
+        [Test]
+        public void VerifyCalculateNewDegreeWithCornerType()
+        {
+            // Given
+            IBall ball = new Ball(generatorMock.Object);
+
+            // When
+            ball.CalculateNewDegree(DegreeType.Corner);
+
+            // Then
+            generatorMock.Verify(x => x.GenerateDegree(It.IsAny<int>(), It.IsAny<DegreeType>()), Times.Once);
+        }
+
     }
 }
