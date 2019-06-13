@@ -66,6 +66,20 @@ namespace zbrozonoidEngine
             height = Boundary.Size.Y;
         }
 
+        public void InitStartPosition()
+        {
+            int x = Boundary.Min.X;
+            int y = Boundary.Min.Y;
+
+            OffsetX = x;
+            OffsetY = y;
+
+            SavedPosX = x;
+            SavedPosY = y;
+
+            Iteration = 0;
+        }
+
         public bool MoveBall(bool reverse = false)
         {
             if (!reverse)

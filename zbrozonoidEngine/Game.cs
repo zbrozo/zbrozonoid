@@ -136,14 +136,7 @@ namespace zbrozonoidEngine
             int x = pad.Boundary.Min.X + pad.Boundary.Size.X / 2 - ball.Boundary.Size.X / 2;
             int y = pad.Boundary.Max.Y;
             ball.Boundary.Min = new Vector2(x, y);
-
-            ball.OffsetX = x;
-            ball.OffsetY = y;
-
-            ball.SavedPosX = x;
-            ball.SavedPosY = y;
-
-            ball.Iteration = 0;
+            ball.InitStartPosition();
         }
 
         public void RestartBallYPosition(IPad pad, IBall ball)

@@ -27,6 +27,7 @@ namespace zbrozonoidEngine.Interfaces
         int SavedPosY { get; set; }
         int Speed { get; set; }
 
+        void InitStartPosition();
         void SetSize(int width, int height);
         void GetPosition(out int posX, out int posY);
         void GetSize(out int width, out int height);
