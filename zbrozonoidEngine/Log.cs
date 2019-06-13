@@ -31,7 +31,6 @@ namespace zbrozonoidEngine
 
         public void Write(string message)
         {
-
             using (FileStream file = new FileStream("log.txt", FileMode.Append, FileAccess.Write))
             {
                 using (StreamWriter writer = new StreamWriter(file))

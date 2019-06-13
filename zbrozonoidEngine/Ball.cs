@@ -42,7 +42,7 @@ namespace zbrozonoidEngine
         {
             this.randomGenerator = randomGenerator;
 
-            Degree = 70;
+            Degree = 45;
             DegreeType = DegreeType.Centre;  
             Speed = 6;
             DirectionX = 1; 
