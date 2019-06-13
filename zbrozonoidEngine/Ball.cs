@@ -28,11 +28,13 @@ namespace zbrozonoidEngine
         public int OffsetY { get; set; }
         public int DirectionX { get; set; }
         public int DirectionY { get; set; }
-        public int Degree { get; set; }
         public int Iteration { get; set; }
         public int SavedPosX { get; set; }
         public int SavedPosY { get; set; }
         public int Speed { get; set; }
+
+        private int Degree { get; set; }
+        private DegreeType DegreeType { get; set; }
 
         private readonly IRandomGenerator randomGenerator;
 
@@ -40,7 +42,8 @@ namespace zbrozonoidEngine
         {
             this.randomGenerator = randomGenerator;
 
-            Degree = 50;  
+            Degree = 70;
+            DegreeType = DegreeType.Centre;  
             Speed = 6;
             DirectionX = 1; 
             DirectionY = 1;
@@ -316,9 +319,13 @@ namespace zbrozonoidEngine
             SavedPosY = Boundary.Min.Y;
         }
 
-        public void CalculateNewDegree(DegreeType range)
+        public void CalculateNewDegree(DegreeType type)
         {
-            Degree = randomGenerator.GenerateDegree(Degree, range);
+            if (type != DegreeType)
+            {
+                Degree = randomGenerator.GenerateDegree(Degree, type);
+                DegreeType = type;
+            }
         }
 
         public void LogData(bool reverse = false)

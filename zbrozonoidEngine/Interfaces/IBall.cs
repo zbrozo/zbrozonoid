@@ -20,7 +20,6 @@ namespace zbrozonoidEngine.Interfaces
     {
         int OffsetX { get; set; }
         int OffsetY { get; set; }
-        int Degree { get; set; }
         int DirectionX { get; set; }
         int DirectionY { get; set; }
         int Iteration { get; set; }

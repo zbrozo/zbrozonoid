@@ -39,7 +39,7 @@ namespace zbrozonoidEngine
             return pos == 0 ? -1 : 1;
         }
 
-        public int GenerateDegree(int Degree, DegreeType range)
+        public int GenerateDegree(int Degree, DegreeType type)
         {
             const int degreeMargin = 10;
             const int degreeRangeMax = 30;
@@ -47,15 +47,15 @@ namespace zbrozonoidEngine
             Degree = degree - degreeRangeMax / 2;
             Degree += degreeRangeMax / 2;
 
-            if (range == DegreeType.Corner)
+            if (type == DegreeType.Corner)
             {
                 Degree += degreeMargin;
             }
-            else if (range == DegreeType.Average)
+            else if (type == DegreeType.Average)
             {
                 Degree += degreeRangeMax;
             }
-            else if (range == DegreeType.Centre)
+            else if (type == DegreeType.Centre)
             {
                 Degree += degreeRangeMax * 2;
                 Degree -= degreeMargin;
