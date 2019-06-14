@@ -14,25 +14,30 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.If not, see<https://www.gnu.org/licenses/>.
 */
-
-using System;
-using System.Collections.Generic;
-using SFML.Graphics;
-
-namespace zbrozonoid
+namespace zbrozonoidEngine
 {
-    public interface IDrawGameObjects
+    using System.IO;
+
+    using zbrozonoidEngine.Interfaces;
+
+    public class Logger : ILoggerBase
     {
-        void DrawBackground(Sprite background);
-        void DrawBorders();
-        void DrawBricks(List<Brick> bricksToDraw);
-        void DrawBall();
-        void DrawPad();
+        Logger()
+        {
+            File.Delete("log.txt");
+        }
 
-        void DrawTitle();
-        void DrawLifesAndScoresInfo();
-        void DrawGameOver();
-        void DrawPressPlayToPlay();
+        public static ILoggerBase Instance { get; set; } = new Logger();
 
+        public void Write(string message)
+        {
+            using (FileStream file = new FileStream("log.txt", FileMode.Append, FileAccess.Write))
+            {
+                using (StreamWriter writer = new StreamWriter(file))
+                {
+                    writer.WriteLine(message);
+                }
+            }
+        }
     }
 }

@@ -14,25 +14,26 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.If not, see<https://www.gnu.org/licenses/>.
 */
-
 using System;
 using System.Collections.Generic;
 using SFML.Graphics;
 
 namespace zbrozonoid
 {
-    public interface IDrawGameObjects
+    public interface IViewModel : IDisposable
     {
-        void DrawBackground(Sprite background);
-        void DrawBorders();
-        void DrawBricks(List<Brick> bricksToDraw);
-        void DrawBall();
-        void DrawPad();
+        Font LoadFont(string name);
 
-        void DrawTitle();
-        void DrawLifesAndScoresInfo();
-        void DrawGameOver();
-        void DrawPressPlayToPlay();
+        List<Brick> Bricks { get; }
+        Sprite Background { get; }
+        Font Font { get; }
 
+        Text Title { get; }
+        Text GameOverMessage { get; }
+        Text LiveAndScoresMessage { get; }
+        Text PressButtonToPlayMessage { get; }
+
+        void PrepareBricksToDraw();
+        void PrepareBackground(string backgroundName);
     }
 }

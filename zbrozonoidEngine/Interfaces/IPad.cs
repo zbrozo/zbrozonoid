@@ -14,25 +14,12 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.If not, see<https://www.gnu.org/licenses/>.
 */
-
-using System;
-using System.Collections.Generic;
-using SFML.Graphics;
-
-namespace zbrozonoid
+namespace zbrozonoidEngine.Interfaces
 {
-    public interface IDrawGameObjects
+    public interface IPad : IBoundary
     {
-        void DrawBackground(Sprite background);
-        void DrawBorders();
-        void DrawBricks(List<Brick> bricksToDraw);
-        void DrawBall();
-        void DrawPad();
-
-        void DrawTitle();
-        void DrawLifesAndScoresInfo();
-        void DrawGameOver();
-        void DrawPressPlayToPlay();
-
+        void SetSize(int width, int height);
+        void GetSize(out int width, out int height);
+        void LogData();
     }
 }

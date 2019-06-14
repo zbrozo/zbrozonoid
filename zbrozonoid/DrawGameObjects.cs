@@ -18,8 +18,8 @@ along with this program.If not, see<https://www.gnu.org/licenses/>.
 using System.Collections.Generic;
 using SFML.Graphics;
 using SFML.System;
-using zbrozonoidLibrary;
-using zbrozonoidLibrary.Interfaces;
+using zbrozonoidEngine;
+using zbrozonoidEngine.Interfaces;
 
 namespace zbrozonoid
 {
@@ -28,13 +28,13 @@ namespace zbrozonoid
     {
         private RenderWindow renderWindow;
         private IGame game;
-        private Window window;
+        private IViewModel viewModel;
 
-        public DrawGameObjects(RenderWindow renderWindow, Window window, IGame game)
+        public DrawGameObjects(RenderWindow renderWindow, IViewModel viewModel, IGame game)
         {
             this.renderWindow = renderWindow;
             this.game = game;
-            this.window = window;
+            this.viewModel = viewModel;
         }
 
         public void DrawBackground(Sprite background)
@@ -48,15 +48,9 @@ namespace zbrozonoid
 
             foreach (IBorder border in borderManager)
             {
-                var element = border as IElement;
-                if (element == null)
-                {
-                    continue;
-                }
-
                 RectangleShape rectangle = new RectangleShape();
-                rectangle.Position = new Vector2f(element.PosX, element.PosY);
-                rectangle.Size = new Vector2f(element.Width, element.Height);
+                rectangle.Position = new Vector2f(border.Boundary.Min.X, border.Boundary.Min.Y);
+                rectangle.Size = new Vector2f(border.Boundary.Size.X, border.Boundary.Size.Y);
                 rectangle.FillColor = Color.White;
 
                 renderWindow.Draw(rectangle);
@@ -117,7 +111,7 @@ namespace zbrozonoid
             {
                 int i = 0;
                 int opacity = 150;
-                foreach (Position position in tail)
+                foreach (Vector2 position in tail)
                 {
                     ++i;
                     if (i % 14 == 0)
@@ -144,70 +138,25 @@ namespace zbrozonoid
             }
         }
 
-        public void DrawLivesAndScoresInfo()
+        public void DrawTitle()
         {
-            window.livesMessage = window.PrepareLivesMessage();
-            renderWindow.Draw(window.livesMessage);
+            renderWindow.Draw(viewModel.Title);
+        }
+
+        public void DrawLifesAndScoresInfo()
+        {
+            renderWindow.Draw(viewModel.LiveAndScoresMessage);
         }
 
         public void DrawGameOver()
         {
-            if (game.GameState.Lives < 0)
-            {
-                renderWindow.Draw(window.gameOverMessage);
-            }
+            renderWindow.Draw(viewModel.GameOverMessage);
         }
 
 
         public void DrawPressPlayToPlay()
         {
-            if (!game.GameState.ShouldGo)
-            {
-                //if (game.Lives >= 0)
-                //{
-                    renderWindow.Draw(window.pressButtonToPlayMessage);
-                //}
-            }
-        }
-
-        public void DrawTexts()
-        {
-            if (!game.GameState.ShouldGo)
-            {
-                if (game.GameState.Lives >= 0)
-                {
-                    renderWindow.Draw(window.pressButtonToPlayMessage);
-                }
-                else
-                {
-                    /*
-                    if (game.Lives < 0)
-                    {
-                        renderWindow.Draw(window.gameOverMessage);
-                    }
-                    */
-                    game.GetScreenSize(out int width, out int height);
-/*
-                    for (int i = 0; i < window.menu.Count; ++i)
-                    {
-
-                        IMenuItem name = window.menu[i];
-
-                        uint charSize = 50;
-                        Text message = new Text(name.getName(), window.font, charSize);
-                        FloatRect localBounds = message.GetLocalBounds();
-
-                        message.Color = new Color(Color.White);
-                        Vector2f rect = new Vector2f((width - localBounds.Width) / 2, (float)height / 6 - localBounds.Height / 2 + (localBounds.Height * i));
-                        message.Position = rect;
-
-
-                        renderWindow.Draw(message);
-                    }
-                    */
-                }
-            }
-
+            renderWindow.Draw(viewModel.PressButtonToPlayMessage);
         }
 
     }
