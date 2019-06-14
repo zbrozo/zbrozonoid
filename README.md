@@ -18,6 +18,7 @@ to let CSFML find FindSFML.cmake script.
 To run SFML.NET on Linux there is need to create config files called dllmaps:
 https://en.sfml-dev.org/forums/index.php?topic=14140.0
 
+![](zbrozonoid.png)
 
 
 
