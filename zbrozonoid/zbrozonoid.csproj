@@ -57,32 +57,41 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="sfml-graphics.dll">
+    <None Include="sfmlnet-audio-2.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="sfml-audio.dll">
+    </None>
+    <None Include="sfmlnet-graphics-2.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="sfml-system.dll">
+    </None>
+    <None Include="sfmlnet-system-2.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="sfml-window.dll">
+    </None>
+    <None Include="sfmlnet-window-2.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </None>
+    <None Include="sfmlnet-audio-2.dll.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="sfmlnet-graphics-2.dll.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="sfmlnet-system-2.dll.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="sfmlnet-window-2.dll.config" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="sfml-audio">
-      <HintPath>sfml-audio.dll</HintPath>
+    <Reference Include="sfmlnet-audio-2">
+      <HintPath>sfmlnet-audio-2.dll</HintPath>
     </Reference>
-    <Reference Include="sfml-graphics">
-      <HintPath>sfml-graphics.dll</HintPath>
+    <Reference Include="sfmlnet-graphics-2">
+      <HintPath>sfmlnet-graphics-2.dll</HintPath>
     </Reference>
-    <Reference Include="sfml-system">
-      <HintPath>sfml-system.dll</HintPath>
+    <Reference Include="sfmlnet-system-2">
+      <HintPath>sfmlnet-system-2.dll</HintPath>
     </Reference>
-    <Reference Include="sfml-window">
-      <HintPath>sfml-window.dll</HintPath>
+    <Reference Include="sfmlnet-window-2">
+      <HintPath>sfmlnet-window-2.dll</HintPath>
     </Reference>
-    <Reference Include="netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51" />
   </ItemGroup>
 </Project>
