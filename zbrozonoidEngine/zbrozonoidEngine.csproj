@@ -86,6 +86,8 @@
     <Compile Include="States\BallInIdleState.cs" />
     <Compile Include="States\BallInPlayState.cs" />
     <Compile Include="Interfaces\IBoundary.cs" />
+    <Compile Include="Interfaces\IMovement.cs" />
+    <Compile Include="LinearMovement.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

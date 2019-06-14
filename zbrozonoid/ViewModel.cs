@@ -154,7 +154,7 @@ namespace zbrozonoid
         {
             uint charSize = 50;
             Text message = new Text("zbrozonoid", Font, charSize);
-            message.FillColor = Color.White;
+            message.Color = Color.White;
 
             game.GetScreenSize(out int width, out int height);
             FloatRect localBounds = message.GetLocalBounds();
@@ -168,7 +168,7 @@ namespace zbrozonoid
         {
             uint charSize = 50;
             Text message = new Text("game over", Font, charSize);
-            message.FillColor = Color.White;
+            message.Color = Color.White;
 
             game.GetScreenSize(out int width, out int height);
             FloatRect localBounds = message.GetLocalBounds();
@@ -184,7 +184,7 @@ namespace zbrozonoid
             int lifes = game.GameState.Lifes >= 0 ? game.GameState.Lifes : 0;
             int scores = game.GameState.Scores;
             Text message = new Text($"Lifes: {lifes}   Scores: {scores:D5}", Font, charSize);
-            message.FillColor = Color.White;
+            message.Color = Color.White;
 
             game.GetScreenSize(out int width, out int height);
             FloatRect localBounds = message.GetLocalBounds();
@@ -201,7 +201,7 @@ namespace zbrozonoid
         {
             uint charSize = 50;
             Text message = new Text("Press mouse button to play", Font, charSize);
-            message.FillColor = Color.White;
+            message.Color = Color.White;
 
             game.GetScreenSize(out int width, out int height);
             FloatRect localBounds = message.GetLocalBounds();
