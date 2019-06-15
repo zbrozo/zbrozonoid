@@ -7,7 +7,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>zbrozonoid</RootNamespace>
     <AssemblyName>zbrozonoid</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -57,41 +57,17 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="sfmlnet-audio-2.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="sfmlnet-graphics-2.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="sfmlnet-system-2.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="sfmlnet-window-2.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="sfmlnet-audio-2.dll.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="sfmlnet-graphics-2.dll.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="sfmlnet-system-2.dll.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="sfmlnet-window-2.dll.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="sfmlnet-audio-2">
-      <HintPath>sfmlnet-audio-2.dll</HintPath>
+    <Reference Include="SFML.System">
+      <HintPath>..\packages\SFML.System.2.5.0\lib\netstandard2.0\SFML.System.dll</HintPath>
     </Reference>
-    <Reference Include="sfmlnet-graphics-2">
-      <HintPath>sfmlnet-graphics-2.dll</HintPath>
+    <Reference Include="SFML.Window">
+      <HintPath>..\packages\SFML.Window.2.5.0\lib\netstandard2.0\SFML.Window.dll</HintPath>
     </Reference>
-    <Reference Include="sfmlnet-system-2">
-      <HintPath>sfmlnet-system-2.dll</HintPath>
-    </Reference>
-    <Reference Include="sfmlnet-window-2">
-      <HintPath>sfmlnet-window-2.dll</HintPath>
+    <Reference Include="SFML.Graphics">
+      <HintPath>..\packages\SFML.Graphics.2.5.0\lib\netstandard2.0\SFML.Graphics.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>
