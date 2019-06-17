@@ -4,7 +4,7 @@ using zbrozonoidLibrary.Interfaces;
 
 namespace zbrozonoidEngineTests
 {
-    public class MovementTests
+    public class LinearMovementTests
     {
         [SetUp]
         public void Setup()

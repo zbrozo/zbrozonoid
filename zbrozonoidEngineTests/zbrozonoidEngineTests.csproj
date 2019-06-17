@@ -49,7 +49,7 @@
   <ItemGroup>
     <Compile Include="BallTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="MovementTests.cs" />
+    <Compile Include="LinearMovementTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
