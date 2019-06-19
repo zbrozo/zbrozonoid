@@ -21,6 +21,22 @@ namespace zbrozonoidEngine
             return true;
         }
 
+        public bool ReverseMove(out Vector2 position)
+        {
+            --Iteration;
+
+            position = new Vector2();
+            if (Iteration < 0)
+            {
+                return false;
+            }
+
+            position = CalculateNewPosition();
+
+
+            return true;
+        }
+
         private Vector2 CalculateNewPosition()
         {
             int posX = CalculateBallPositionX(Degree, Iteration);

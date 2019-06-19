@@ -93,6 +93,75 @@ namespace zbrozonoidEngineTests
             Assert.AreEqual(expectedY, position.Y);
         }
 
+        [TestCase(10)]
+        [TestCase(20)]
+        [TestCase(200)]
+        [TestCase(2000)]
+        public void VerifyReverseMoveFor15Degrees(int count)
+        {
+            // Given
+            IMovement movement = new LinearMovement();
+
+            movement.Direction = new Vector2(1, 1);
+            movement.Offset = new Vector2(0, 0);
+            movement.Degree = 15;
+            movement.Iteration = count;
+
+            // Then
+            bool result = ReverseMove(movement, count, out Vector2 position);
+
+            // When
+            Assert.IsTrue(result);
+            Assert.AreEqual(0, position.X);
+            Assert.AreEqual(0, position.Y);
+        }
+
+        [TestCase(10)]
+        [TestCase(20)]
+        [TestCase(200)]
+        [TestCase(2000)]
+        public void VerifyReverseMoveFor45Degrees(int count)
+        {
+            // Given
+            IMovement movement = new LinearMovement();
+
+            movement.Direction = new Vector2(1, 1);
+            movement.Offset = new Vector2(0, 0);
+            movement.Degree = 45;
+            movement.Iteration = count;
+
+            // Then
+            bool result = ReverseMove(movement, count, out Vector2 position);
+
+            // When
+            Assert.IsTrue(result);
+            Assert.AreEqual(0, position.X);
+            Assert.AreEqual(0, position.Y);
+        }
+
+        [TestCase(10)]
+        [TestCase(20)]
+        [TestCase(200)]
+        [TestCase(2000)]
+        public void VerifyReverseMoveFor70Degrees(int count)
+        {
+            // Given
+            IMovement movement = new LinearMovement();
+
+            movement.Direction = new Vector2(1, 1);
+            movement.Offset = new Vector2(0, 0);
+            movement.Degree = 70;
+            movement.Iteration = count;
+
+            // Then
+            bool result = ReverseMove(movement, count, out Vector2 position);
+
+            // When
+            Assert.IsTrue(result);
+            Assert.AreEqual(0, position.X);
+            Assert.AreEqual(0, position.Y);
+        }
+
         private bool Move(IMovement move, int count, out Vector2 position)
         {
             position = new Vector2();
@@ -107,5 +176,18 @@ namespace zbrozonoidEngineTests
             return true;
         }
 
+        private bool ReverseMove(IMovement move, int count, out Vector2 position)
+        {
+            position = new Vector2();
+            for (int i = 0; i < count; i++)
+            {
+                bool result = move.ReverseMove(out position);
+                if (!result)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 }

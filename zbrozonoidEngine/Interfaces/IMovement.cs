@@ -8,5 +8,7 @@
         Vector2 Direction { get; set; }
 
         bool Move(out Vector2 position);
+        bool ReverseMove(out Vector2 position);
+
     }
 }
