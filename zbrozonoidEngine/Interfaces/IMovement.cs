@@ -1,10 +1,12 @@
-﻿using System;
-using zbrozonoidEngine;
-
-namespace zbrozonoidLibrary.Interfaces
+﻿namespace zbrozonoidEngine.Interfaces
 {
     public interface IMovement
     {
-        bool Move(bool reverse = false);
+        int Iteration { get; set; }
+        int Degree { get; set; }
+        Vector2 Offset { get; set; }
+        Vector2 Direction { get; set; }
+
+        bool Move(out Vector2 position);
     }
 }

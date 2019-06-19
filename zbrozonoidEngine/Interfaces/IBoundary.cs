@@ -1,5 +1,4 @@
-﻿using System;
-namespace zbrozonoidEngine
+﻿namespace zbrozonoidEngine
 {
     public struct Vector2
     {
