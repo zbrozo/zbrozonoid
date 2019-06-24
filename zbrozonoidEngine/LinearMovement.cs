@@ -12,6 +12,14 @@ namespace zbrozonoidEngine
 
         private const double oneDegreeConstans = Math.PI / 180.0;
 
+        public LinearMovement(int iteration, int degree, Vector2 offset, Vector2 direction)
+        {
+            Iteration = iteration;
+            Degree = degree;
+            Offset = offset;
+            Direction = direction;
+        }
+
         public bool Move(out Vector2 position)
         {
             ++Iteration;

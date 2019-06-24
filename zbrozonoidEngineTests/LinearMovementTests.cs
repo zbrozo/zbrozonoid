@@ -6,44 +6,25 @@ namespace zbrozonoidEngineTests
 {
     public class LinearMovementTests
     {
+        private const int Iterations = 1000;
+
         [SetUp]
         public void Setup()
         {
         }
 
-        [Test]
-        public void VerifyMoveForFirstStep()
+        [TestCase(1, 1, 965, 258)]
+        [TestCase(1, -1, 965, -258)]
+        [TestCase(-1, 1, -965, 258)]
+        [TestCase(-1, -1, -965, -258)]
+        public void VerifyIterationsFor15Degrees(int directionX, int directionY, int expectedX, int expectedY)
         {
             // Given
-            IMovement movement = new LinearMovement();
-
-            movement.Direction = new Vector2(1, 1);
-            movement.Offset = new Vector2(0, 0);
-            movement.Degree = 45;
-            movement.Iteration = 0;
+            const int Degree = 15;
+            IMovement movement = new LinearMovement(0, Degree, new Vector2(0, 0), new Vector2(directionX, directionY));
 
             // Then
-            movement.Move(out Vector2 position);
-
-            // When
-            Assert.AreEqual(0, position.X);
-            Assert.AreEqual(0, position.Y);
-        }
-
-        [TestCase(10, 9, 2)]
-        [TestCase(20, 19, 5)]
-        public void VerifyMoveFor15Degrees(int count, int expectedX, int expectedY)
-        {
-            // Given
-            IMovement movement = new LinearMovement();
-
-            movement.Direction = new Vector2(1, 1);
-            movement.Offset = new Vector2(0, 0);
-            movement.Degree = 15;
-            movement.Iteration = 0;
-
-            // Then
-            bool result = Move(movement, count, out Vector2 position);
+            bool result = Move(movement, Iterations, out Vector2 position);
 
             // When
             Assert.IsTrue(result);
@@ -51,20 +32,19 @@ namespace zbrozonoidEngineTests
             Assert.AreEqual(expectedY, position.Y);
         }
 
-        [TestCase(10, 7, 7)]
-        [TestCase(20, 14, 14)]
-        public void VerifyMoveFor45Degrees(int count, int expectedX, int expectedY)
+
+        [TestCase(1, 1, 707, 707)]
+        [TestCase(1, -1, 707, -707)]
+        [TestCase(-1, 1, -707, 707)]
+        [TestCase(-1, -1, -707, -707)]
+        public void VerifyIterationsFor45Degrees(int directionX, int directionY, int expectedX, int expectedY)
         {
             // Given
-            IMovement movement = new LinearMovement();
-
-            movement.Direction = new Vector2(1, 1);
-            movement.Offset = new Vector2(0, 0);
-            movement.Degree = 45;
-            movement.Iteration = 0;
+            const int Degree = 45;
+            IMovement movement = new LinearMovement(0, Degree, new Vector2(0, 0), new Vector2(directionX, directionY));
 
             // Then
-            bool result = Move(movement, count, out Vector2 position);
+            bool result = Move(movement, Iterations, out Vector2 position);
 
             // When
             Assert.IsTrue(result);
@@ -72,20 +52,18 @@ namespace zbrozonoidEngineTests
             Assert.AreEqual(expectedY, position.Y);
         }
 
-        [TestCase(10, 3, 9)]
-        [TestCase(20, 6, 18)]
-        public void VerifyMoveFor70Degrees(int count, int expectedX, int expectedY)
+        [TestCase(1, 1, 342, 939)]
+        [TestCase(1, -1, 342, -939)]
+        [TestCase(-1, 1, -342, 939)]
+        [TestCase(-1, -1, -342, -939)]
+        public void VerifyIterationsFor70Degrees(int directionX, int directionY, int expectedX, int expectedY)
         {
             // Given
-            IMovement movement = new LinearMovement();
-
-            movement.Direction = new Vector2(1, 1);
-            movement.Offset = new Vector2(0, 0);
-            movement.Degree = 70;
-            movement.Iteration = 0;
+            const int Degree = 70;
+            IMovement movement = new LinearMovement(0, Degree, new Vector2(0, 0), new Vector2(directionX, directionY));
 
             // Then
-            bool result = Move(movement, count, out Vector2 position);
+            bool result = Move(movement, Iterations, out Vector2 position);
 
             // When
             Assert.IsTrue(result);
@@ -93,22 +71,18 @@ namespace zbrozonoidEngineTests
             Assert.AreEqual(expectedY, position.Y);
         }
 
-        [TestCase(10)]
-        [TestCase(20)]
-        [TestCase(200)]
-        [TestCase(2000)]
-        public void VerifyReverseMoveFor15Degrees(int count)
+        [TestCase(1, 1)]
+        [TestCase(1, -1)]
+        [TestCase(-1, 1)]
+        [TestCase(-1, -1)]
+        public void VerifyReverseIterationsFor15Degrees(int directionX, int directionY)
         {
             // Given
-            IMovement movement = new LinearMovement();
-
-            movement.Direction = new Vector2(1, 1);
-            movement.Offset = new Vector2(0, 0);
-            movement.Degree = 15;
-            movement.Iteration = count;
+            const int Degree = 15;
+            IMovement movement = new LinearMovement(Iterations, Degree, new Vector2(0, 0), new Vector2(directionX, directionY));
 
             // Then
-            bool result = ReverseMove(movement, count, out Vector2 position);
+            bool result = ReverseMove(movement, Iterations, out Vector2 position);
 
             // When
             Assert.IsTrue(result);
@@ -116,22 +90,18 @@ namespace zbrozonoidEngineTests
             Assert.AreEqual(0, position.Y);
         }
 
-        [TestCase(10)]
-        [TestCase(20)]
-        [TestCase(200)]
-        [TestCase(2000)]
-        public void VerifyReverseMoveFor45Degrees(int count)
+        [TestCase(1, 1)]
+        [TestCase(1, -1)]
+        [TestCase(-1, 1)]
+        [TestCase(-1, -1)]
+        public void VerifyReverseIterationsFor45Degrees(int directionX, int directionY)
         {
             // Given
-            IMovement movement = new LinearMovement();
-
-            movement.Direction = new Vector2(1, 1);
-            movement.Offset = new Vector2(0, 0);
-            movement.Degree = 45;
-            movement.Iteration = count;
+            const int Degree = 45;
+            IMovement movement = new LinearMovement(Iterations, Degree, new Vector2(0, 0), new Vector2(directionX, directionY));
 
             // Then
-            bool result = ReverseMove(movement, count, out Vector2 position);
+            bool result = ReverseMove(movement, Iterations, out Vector2 position);
 
             // When
             Assert.IsTrue(result);
@@ -139,29 +109,25 @@ namespace zbrozonoidEngineTests
             Assert.AreEqual(0, position.Y);
         }
 
-        [TestCase(10)]
-        [TestCase(20)]
-        [TestCase(200)]
-        [TestCase(2000)]
-        public void VerifyReverseMoveFor70Degrees(int count)
+        [TestCase(1, 1)]
+        [TestCase(1, -1)]
+        [TestCase(-1, 1)]
+        [TestCase(-1, -1)]
+        public void VerifyReverseMoveFor70Degrees(int directionX, int directionY)
         {
             // Given
-            IMovement movement = new LinearMovement();
-
-            movement.Direction = new Vector2(1, 1);
-            movement.Offset = new Vector2(0, 0);
-            movement.Degree = 70;
-            movement.Iteration = count;
+            const int Degree = 70;
+            IMovement movement = new LinearMovement(Iterations, Degree, new Vector2(0, 0), new Vector2(directionX, directionY));
 
             // Then
-            bool result = ReverseMove(movement, count, out Vector2 position);
+            bool result = ReverseMove(movement, Iterations, out Vector2 position);
 
             // When
             Assert.IsTrue(result);
             Assert.AreEqual(0, position.X);
             Assert.AreEqual(0, position.Y);
         }
-
+       
         private bool Move(IMovement move, int count, out Vector2 position)
         {
             position = new Vector2();
