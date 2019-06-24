@@ -47,24 +47,25 @@ namespace zbrozonoidEngine
             Degree = degree - degreeRangeMax / 2;
             Degree += degreeRangeMax / 2;
 
-            if (type == DegreeType.Corner)
+            switch (type)
             {
-                Degree += degreeMargin;
-            }
-            else if (type == DegreeType.Average)
-            {
-                Degree += degreeRangeMax;
-            }
-            else if (type == DegreeType.Centre)
-            {
-                Degree += degreeRangeMax * 2;
-                Degree -= degreeMargin;
-            }
-            else
-            {
-                throw new ArgumentOutOfRangeException();
-            }
+                case DegreeType.Corner:
+                    Degree += degreeMargin;
+                    break;
 
+                case DegreeType.Average:
+                    Degree += degreeRangeMax;
+                    break;
+
+                case DegreeType.Centre:
+                    Degree += degreeRangeMax * 2;
+                    Degree -= degreeMargin;
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(type), type, "Unknwon type of DegreeType");
+
+            }
             return Degree;
         }
     }
