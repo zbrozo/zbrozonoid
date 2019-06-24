@@ -18,11 +18,6 @@ namespace zbrozonoidEngine.Interfaces
 {
     public interface IBall : IBoundary
     {
-        int OffsetX { get; set; }
-        int OffsetY { get; set; }
-        int DirectionX { get; set; }
-        int DirectionY { get; set; }
-        int Iteration { get; set; }
         int SavedPosX { get; set; }
         int SavedPosY { get; set; }
         int Speed { get; set; }
@@ -42,6 +37,8 @@ namespace zbrozonoidEngine.Interfaces
 
         void CalculateNewDegree(DegreeType range);
         void SavePosition();
+        void SetYPosition(int y);
+
         void LogData(bool reverse = false);
     }
 }

@@ -44,8 +44,6 @@ namespace zbrozonoidEngine
 
         private readonly IScreenCollisionManager screenCollisionManager;
 
-        private readonly IRandomGenerator randomGenerator;
-
         private readonly ITailManager tailManager;
 
         private readonly IPadManager padManager;
@@ -74,7 +72,6 @@ namespace zbrozonoidEngine
             levelManager = new LevelManager();
             collisionManager = new CollisionManager();
             screenCollisionManager = new ScreenCollisionManager(screen);
-            randomGenerator = new RandomGenerator();
             tailManager = new TailManager();
             ballManager = new BallManager();
             borderManager = new BorderManager();
@@ -93,9 +90,7 @@ namespace zbrozonoidEngine
                 VerifyBorderCollision(pad);
             }
 
-            IBall ball = new Ball(randomGenerator);
-            ball.SetSize(15, 15);
-            ballManager.Add(ball);
+            ballManager.Add(CreateBallFactory());
 
             OnLostBallsEvent += OnLostBalls;
         }
@@ -142,10 +137,7 @@ namespace zbrozonoidEngine
         public void RestartBallYPosition(IPad pad, IBall ball)
         {
             Logger.Instance.Write("---RestartBallYPosition---");
-
-            ball.Boundary.Min = new Vector2(ball.Boundary.Min.X, pad.Boundary.Max.Y);
-            ball.OffsetY = ball.Boundary.Min.Y;
-            ball.SavedPosY = ball.Boundary.Min.Y;
+            ball.SetYPosition(pad.Boundary.Max.Y);
         }
 
         public void Action()
@@ -223,13 +215,11 @@ namespace zbrozonoidEngine
                     {
                         IPad pad = padManager.GetFirst();
 
-                        IBall ball1 = new Ball(randomGenerator);
-                        ball1.SetSize(15, 15);
+                        IBall ball1 = CreateBallFactory();
                         SetBallStartPosition(pad, ball1);
                         ballManager.Add(ball1);
 
-                        IBall ball2 = new Ball(randomGenerator);
-                        ball2.SetSize(15, 15);
+                        IBall ball2 = CreateBallFactory();
                         SetBallStartPosition(pad, ball2);
                         ballManager.Add(ball2);
                         break;
@@ -346,5 +336,15 @@ namespace zbrozonoidEngine
             ballStateMachine.goIntoIdle();
         }
 
+        public IBall CreateBallFactory()
+        {
+            const int defaultDegree = 45;
+            var Direction = new Vector2(1, 1);
+            var Offset = new Vector2(0, 0);
+            IBall ball = new Ball(new RandomGenerator(), 
+                                  new LinearMovement(0, defaultDegree, Offset, Direction));
+            ball.SetSize(15, 15);
+            return ball;
+        }
     }
 }

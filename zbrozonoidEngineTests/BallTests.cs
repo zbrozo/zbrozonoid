@@ -9,12 +9,14 @@ namespace zbrozonoidEngineTests
     {
         private Mock<ILoggerBase> loggerMock;
         private Mock<IRandomGenerator> generatorMock;
+        private Mock<IMovement> movementMock;
 
         [SetUp]
         public void Setup()
         {
             loggerMock = new Mock<ILoggerBase>();
             generatorMock = new Mock<IRandomGenerator>();
+            movementMock = new Mock<IMovement>();
 
             Logger.Instance = loggerMock.Object;
         }
@@ -23,7 +25,7 @@ namespace zbrozonoidEngineTests
         public void VerifyBallStartPosition()
         {
             // Given
-            IBall ball = new Ball(generatorMock.Object);
+            IBall ball = new Ball(generatorMock.Object, movementMock.Object);
 
             // Then
             Assert.AreEqual(0, ball.Boundary.Min.X);
@@ -34,31 +36,35 @@ namespace zbrozonoidEngineTests
         public void VerifyBallMovement()
         {
             // Given
-            IBall ball = new Ball(generatorMock.Object);
+            IBall ball = new Ball(generatorMock.Object, movementMock.Object);
 
             // When
             ball.MoveBall();
-            ball.MoveBall();
-            ball.MoveBall();
-            ball.MoveBall();
-            ball.MoveBall();
-            ball.MoveBall();
-            ball.MoveBall();
-            ball.MoveBall();
-            ball.MoveBall();
-            ball.MoveBall();
 
             // Then
-            Assert.AreEqual(7, ball.Boundary.Min.X);
-            Assert.AreEqual(7, ball.Boundary.Min.Y);
-            loggerMock.Verify(x => x.Write(It.IsAny<string>()), Times.Exactly(10));
+            var position = new Vector2();
+            movementMock.Verify(x => x.Move(out position), Times.Once);
+        }
+
+        [Test]
+        public void VerifyBallReverseMovement()
+        {
+            // Given
+            IBall ball = new Ball(generatorMock.Object, movementMock.Object);
+
+            // When
+            ball.MoveBall(true);
+
+            // Then
+            var position = new Vector2();
+            movementMock.Verify(x => x.ReverseMove(out position), Times.Once);
         }
 
         [Test]
         public void VerifyBallSize()
         {
             // Given
-            IBall ball = new Ball(generatorMock.Object);
+            IBall ball = new Ball(generatorMock.Object, movementMock.Object);
             ball.SetSize(334, 400);
 
             // When
@@ -73,7 +79,7 @@ namespace zbrozonoidEngineTests
         public void VerifyCalculateNewDegreeWithCentreType()
         {
             // Given
-            IBall ball = new Ball(generatorMock.Object);
+            IBall ball = new Ball(generatorMock.Object,movementMock.Object);
 
             // When
             ball.CalculateNewDegree(DegreeType.Centre);
@@ -86,7 +92,7 @@ namespace zbrozonoidEngineTests
         public void VerifyCalculateNewDegreeWithAverageType()
         {
             // Given
-            IBall ball = new Ball(generatorMock.Object);
+            IBall ball = new Ball(generatorMock.Object, movementMock.Object);
 
             // When
             ball.CalculateNewDegree(DegreeType.Average);
@@ -99,7 +105,7 @@ namespace zbrozonoidEngineTests
         public void VerifyCalculateNewDegreeWithCornerType()
         {
             // Given
-            IBall ball = new Ball(generatorMock.Object);
+            IBall ball = new Ball(generatorMock.Object, movementMock.Object);
 
             // When
             ball.CalculateNewDegree(DegreeType.Corner);
@@ -112,18 +118,15 @@ namespace zbrozonoidEngineTests
         public void VerifyInitStartPosition()
         {
             // Given
-            IBall ball = new Ball(generatorMock.Object);
+            IBall ball = new Ball(generatorMock.Object, movementMock.Object);
             ball.Boundary.Min = new Vector2(20, 50);
 
             // When
             ball.InitStartPosition();
 
             // Then
-            Assert.AreEqual(20, ball.OffsetX);
-            Assert.AreEqual(50, ball.OffsetY);
             Assert.AreEqual(20, ball.SavedPosX);
             Assert.AreEqual(50, ball.SavedPosY);
-            Assert.AreEqual(0, ball.Iteration);
         }
 
     }

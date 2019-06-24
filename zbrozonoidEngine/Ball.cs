@@ -24,11 +24,6 @@ namespace zbrozonoidEngine
     {
         public Rectangle Boundary { get; set; } = new Rectangle();
 
-        public int OffsetX { get; set; }
-        public int OffsetY { get; set; }
-        public int DirectionX { get; set; }
-        public int DirectionY { get; set; }
-        public int Iteration { get; set; }
         public int SavedPosX { get; set; }
         public int SavedPosY { get; set; }
         public int Speed { get; set; }
@@ -38,15 +33,15 @@ namespace zbrozonoidEngine
 
         private readonly IRandomGenerator randomGenerator;
 
-        public Ball(IRandomGenerator randomGenerator)
+        private readonly IMovement movement;
+
+        public Ball(IRandomGenerator randomGenerator, IMovement movement)
         {
             this.randomGenerator = randomGenerator;
+            this.movement = movement;
 
-            Degree = 45;
             DegreeType = DegreeType.Centre;  
             Speed = 6;
-            DirectionX = 1; 
-            DirectionY = 1;
         }
 
         public void SetSize(int width, int height)
@@ -71,82 +66,37 @@ namespace zbrozonoidEngine
             int x = Boundary.Min.X;
             int y = Boundary.Min.Y;
 
-            OffsetX = x;
-            OffsetY = y;
+            movement.Offset = new Vector2(x, y);
 
             SavedPosX = x;
             SavedPosY = y;
 
-            Iteration = 0;
+            movement.Iteration = 0;
         }
 
         public bool MoveBall(bool reverse = false)
         {
             if (!reverse)
             {
-                ++Iteration;
+                bool result = movement.Move(out Vector2 position);
+                if (!result)
+                {
+                    return false;
+                }
+
+                Boundary.Min = position;
             }
             else
             {
-                --Iteration;
-            }
+                bool result = movement.ReverseMove(out Vector2 position);
+                if (!result)
+                {
+                    return false;
+                }
 
-            if (Iteration < 0)
-            {
-                return false;
+                Boundary.Min = position;
             }
-
-            CalculateNewPosition();
-
-            if (!reverse)
-            {
-                LogData();
-            }
-            else
-            {
-                LogData(true);
-            }
-
             return true;
-        }
-
-        private void CalculateNewPosition()
-        {
-            int posX = CalculateBallPositionX(Degree, Iteration);
-            int posY = CalculateBallPositionY(Degree, Iteration);
-
-            int screenY = 0;
-            if (DirectionY == -1)
-            {
-                screenY = OffsetY - posY;
-            }
-            else
-            {
-                screenY = OffsetY + posY;
-            }
-
-            int screenX = posX * DirectionX + OffsetX;
-
-            Boundary.Min = new Vector2(screenX, screenY);
-        }
-
-        private int CalculateBallPositionX(double angle, double c)
-        {
-            double cos = Math.Cos(ChangeDegreeToRadians(angle));
-            double x = c * cos;
-            return (int)x;
-        }
-
-        private int CalculateBallPositionY(double angle, double c)
-        {
-            double sin = Math.Sin(ChangeDegreeToRadians(angle));
-            double y = c * sin;
-            return (int)y;
-        }
-
-        private double ChangeDegreeToRadians(double angle)
-        {
-            return Math.PI * angle / 180.0;
         }
 
         public bool Bounce(Edge edge)
@@ -154,25 +104,25 @@ namespace zbrozonoidEngine
             bool bounce = false;
             if (edge == Edge.Bottom)
             {
-                DirectionY = 1;
+                movement.Direction = new Vector2(movement.Direction.X, 1);
                 bounce = true;
             }
 
             if (edge == Edge.Top)
             {
-                DirectionY = -1;
+                movement.Direction = new Vector2(movement.Direction.X, -1);
                 bounce = true;
             }
 
             if (edge == Edge.Left)
             {
-                DirectionX = -1;
+                movement.Direction = new Vector2(-1, movement.Direction.Y);
                 bounce = true;
             }
 
             if (edge == Edge.Right)
             {
-                DirectionX = 1;
+                movement.Direction = new Vector2(1, movement.Direction.Y);
                 bounce = true;
             }
 
@@ -190,29 +140,25 @@ namespace zbrozonoidEngine
 
             if (corner == Corner.BottomLeft)
             {
-                DirectionX = -1;
-                DirectionY = 1;
+                movement.Direction = new Vector2(-1, 1);
                 bounce = true;
             }
 
             if (corner == Corner.BottomRight)
             {
-                DirectionX = 1;
-                DirectionY = 1;
+                movement.Direction = new Vector2(1, 1);
                 bounce = true;
             }
 
             if (corner == Corner.TopLeft)
             {
-                DirectionX = -1;
-                DirectionY = -1;
+                movement.Direction = new Vector2(-1, -1);
                 bounce = true;
             }
 
             if (corner == Corner.TopRight)
             {
-                DirectionX = 1;
-                DirectionY = -1;
+                movement.Direction = new Vector2(1, -1);
                 bounce = true;
             }
 
@@ -228,14 +174,14 @@ namespace zbrozonoidEngine
         public void BounceBigFromLeft()
         {
             bool bounce = false;
-            if (DirectionX == 1 && DirectionY == 1)
+            if (movement.Direction.X == 1 && movement.Direction.Y == 1)
             {
-                DirectionX = -1;
+                movement.Direction = new Vector2(-1, movement.Direction.Y);  
                 bounce = true;
             }
-            else if (DirectionX == 1 && DirectionY == -1)
+            else if (movement.Direction.X == 1 && movement.Direction.Y == -1)
             {
-                DirectionX = -1;
+                movement.Direction = new Vector2(-1, movement.Direction.Y);
                 bounce = true;
             }
 
@@ -248,14 +194,14 @@ namespace zbrozonoidEngine
         public void BounceBigFromRight()
         {
             bool bounce = false;
-            if (DirectionX == -1 && DirectionY == 1)
+            if (movement.Direction.X == -1 && movement.Direction.Y == 1)
             {
-                DirectionX = 1;
+                movement.Direction = new Vector2(1, movement.Direction.Y);
                 bounce = true;
             }
-            else if (DirectionX == -1 && DirectionY == -1)
+            else if (movement.Direction.X == -1 && movement.Direction.Y == -1)
             {
-                DirectionX = 1;
+                movement.Direction = new Vector2(1, movement.Direction.Y);
                 bounce = true;
             }
 
@@ -268,14 +214,14 @@ namespace zbrozonoidEngine
         public void BounceBigFromTop()
         {
             bool bounce = false;
-            if (DirectionX == 1 && DirectionY == 1)
+            if (movement.Direction.X == 1 && movement.Direction.Y == 1)
             {
-                DirectionY = -1;
+                movement.Direction = new Vector2(movement.Direction.X, -1);
                 bounce = true;
             }
-            else if (DirectionX == -1 && DirectionY == 1)
+            else if (movement.Direction.X == -1 && movement.Direction.Y == 1)
             {
-                DirectionY = -1;
+                movement.Direction = new Vector2(movement.Direction.X, -1);
                 bounce = true;
             }
 
@@ -289,14 +235,14 @@ namespace zbrozonoidEngine
         {
             bool bounce = false;
 
-            if (DirectionX == 1 && DirectionY == -1)
+            if (movement.Direction.X == 1 && movement.Direction.Y == -1)
             {
-                DirectionY = 1;
+                movement.Direction = new Vector2(movement.Direction.X, 1);
                 bounce = true;
             }
-            else if (DirectionX == -1 && DirectionY == -1)
+            else if (movement.Direction.X == -1 && movement.Direction.Y == -1)
             {
-                DirectionY = 1;
+                movement.Direction = new Vector2(movement.Direction.X, 1);
                 bounce = true;
             }
 
@@ -314,17 +260,14 @@ namespace zbrozonoidEngine
 
         public void BounceBack()
         {
-            DirectionX *= -1;
-            DirectionY *= -1;
-
+            movement.Direction = new Vector2(movement.Direction.X * -1, movement.Direction.Y * -1);
             ResetIteration();
         }
 
         private void ResetIteration()
         {
-            OffsetX = SavedPosX;
-            OffsetY = SavedPosY;
-            Iteration = 0;
+            movement.Offset = new Vector2(SavedPosX, SavedPosY);
+            movement.Iteration = 0;
         }
 
         public void SavePosition()
@@ -337,13 +280,21 @@ namespace zbrozonoidEngine
         {
             if (type != DegreeType)
             {
-                Degree = randomGenerator.GenerateDegree(Degree, type);
+                movement.Degree = randomGenerator.GenerateDegree(Degree, type);
                 DegreeType = type;
             }
         }
 
+        public void SetYPosition(int y)
+        {
+            Boundary.Min = new Vector2(Boundary.Min.X, y);
+            movement.Offset = new Vector2(movement.Offset.X, y);
+            SavedPosY = y;
+        }
+
         public void LogData(bool reverse = false)
         {
+            /*
             Logger.Instance.Write(
                 string.Format(
                     "Ball {0}: {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}",
@@ -358,6 +309,7 @@ namespace zbrozonoidEngine
                     DirectionY,
                     Iteration,
                     Degree));
+                    */                  
         }
 
     }
