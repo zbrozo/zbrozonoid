@@ -18,8 +18,6 @@ namespace zbrozonoidEngine.Interfaces
 {
     public interface IBall : IBoundary
     {
-        int SavedPosX { get; set; }
-        int SavedPosY { get; set; }
         int Speed { get; set; }
 
         void InitStartPosition();

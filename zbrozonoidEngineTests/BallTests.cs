@@ -114,20 +114,5 @@ namespace zbrozonoidEngineTests
             generatorMock.Verify(x => x.GenerateDegree(It.IsAny<int>(), It.IsAny<DegreeType>()), Times.Once);
         }
 
-        [Test]
-        public void VerifyInitStartPosition()
-        {
-            // Given
-            IBall ball = new Ball(generatorMock.Object, movementMock.Object);
-            ball.Boundary.Min = new Vector2(20, 50);
-
-            // When
-            ball.InitStartPosition();
-
-            // Then
-            Assert.AreEqual(20, ball.SavedPosX);
-            Assert.AreEqual(50, ball.SavedPosY);
-        }
-
     }
 }

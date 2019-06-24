@@ -24,8 +24,8 @@ namespace zbrozonoidEngine
     {
         public Rectangle Boundary { get; set; } = new Rectangle();
 
-        public int SavedPosX { get; set; }
-        public int SavedPosY { get; set; }
+        private Vector2 SavedPosition { get; set; }
+
         public int Speed { get; set; }
 
         private int Degree { get; set; }
@@ -67,11 +67,9 @@ namespace zbrozonoidEngine
             int y = Boundary.Min.Y;
 
             movement.Offset = new Vector2(x, y);
-
-            SavedPosX = x;
-            SavedPosY = y;
-
             movement.Iteration = 0;
+
+            SavedPosition = new Vector2(x, y);
         }
 
         public bool MoveBall(bool reverse = false)
@@ -266,14 +264,13 @@ namespace zbrozonoidEngine
 
         private void ResetIteration()
         {
-            movement.Offset = new Vector2(SavedPosX, SavedPosY);
+            movement.Offset = new Vector2(SavedPosition.X, SavedPosition.Y);
             movement.Iteration = 0;
         }
 
         public void SavePosition()
         {
-            SavedPosX = Boundary.Min.X;
-            SavedPosY = Boundary.Min.Y;
+            SavedPosition = Boundary.Min;
         }
 
         public void CalculateNewDegree(DegreeType type)
@@ -289,7 +286,7 @@ namespace zbrozonoidEngine
         {
             Boundary.Min = new Vector2(Boundary.Min.X, y);
             movement.Offset = new Vector2(movement.Offset.X, y);
-            SavedPosY = y;
+            SavedPosition = new Vector2(Boundary.Min.X, y);
         }
 
         public void LogData(bool reverse = false)

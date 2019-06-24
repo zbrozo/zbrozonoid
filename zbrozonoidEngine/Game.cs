@@ -339,10 +339,10 @@ namespace zbrozonoidEngine
         public IBall CreateBallFactory()
         {
             const int defaultDegree = 45;
-            var Direction = new Vector2(1, 1);
-            var Offset = new Vector2(0, 0);
+            var defaultDirection = new Vector2(1, 1);
+            var defaultOffset = new Vector2(0, 0);
             IBall ball = new Ball(new RandomGenerator(), 
-                                  new LinearMovement(0, defaultDegree, Offset, Direction));
+                                  new LinearMovement(0, defaultDegree, defaultOffset, defaultDirection));
             ball.SetSize(15, 15);
             return ball;
         }
