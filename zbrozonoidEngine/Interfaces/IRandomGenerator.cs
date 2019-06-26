@@ -29,6 +29,6 @@ namespace zbrozonoidEngine.Interfaces
 
         int GenerateDirection();
 
-        int GenerateDegree(int Degree = 0, DegreeType type = DegreeType.Centre);
+        int GenerateDegree(DegreeType type = DegreeType.Centre);
     }
 }

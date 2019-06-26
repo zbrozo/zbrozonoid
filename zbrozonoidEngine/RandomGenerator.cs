@@ -39,12 +39,12 @@ namespace zbrozonoidEngine
             return pos == 0 ? -1 : 1;
         }
 
-        public int GenerateDegree(int Degree, DegreeType type)
+        public int GenerateDegree(DegreeType type)
         {
             const int degreeMargin = 10;
             const int degreeRangeMax = 30;
             int degree = random.Next(degreeRangeMax);
-            Degree = degree - degreeRangeMax / 2;
+            int Degree = degree - degreeRangeMax / 2;
             Degree += degreeRangeMax / 2;
 
             switch (type)

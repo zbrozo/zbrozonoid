@@ -85,7 +85,7 @@ namespace zbrozonoidEngineTests
             ball.CalculateNewDegree(DegreeType.Centre);
 
             // Then
-            generatorMock.Verify(x => x.GenerateDegree(It.IsAny<int>(), It.IsAny<DegreeType>()), Times.Never);
+            generatorMock.Verify(x => x.GenerateDegree(It.IsAny<DegreeType>()), Times.Never);
         }
 
         [Test]
@@ -98,7 +98,7 @@ namespace zbrozonoidEngineTests
             ball.CalculateNewDegree(DegreeType.Average);
 
             // Then
-            generatorMock.Verify(x => x.GenerateDegree(It.IsAny<int>(), It.IsAny<DegreeType>()), Times.Once);
+            generatorMock.Verify(x => x.GenerateDegree(It.IsAny<DegreeType>()), Times.Once);
         }
 
         [Test]
@@ -111,7 +111,7 @@ namespace zbrozonoidEngineTests
             ball.CalculateNewDegree(DegreeType.Corner);
 
             // Then
-            generatorMock.Verify(x => x.GenerateDegree(It.IsAny<int>(), It.IsAny<DegreeType>()), Times.Once);
+            generatorMock.Verify(x => x.GenerateDegree(It.IsAny<DegreeType>()), Times.Once);
         }
 
     }

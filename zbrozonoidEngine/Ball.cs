@@ -28,7 +28,6 @@ namespace zbrozonoidEngine
 
         public int Speed { get; set; }
 
-        private int Degree { get; set; }
         private DegreeType DegreeType { get; set; }
 
         private readonly IRandomGenerator randomGenerator;
@@ -277,7 +276,7 @@ namespace zbrozonoidEngine
         {
             if (type != DegreeType)
             {
-                movement.Degree = randomGenerator.GenerateDegree(Degree, type);
+                movement.Degree = randomGenerator.GenerateDegree(type);
                 DegreeType = type;
             }
         }
