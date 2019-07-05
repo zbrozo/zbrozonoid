@@ -20,7 +20,7 @@ namespace zbrozonoidEngine.Interfaces
 {
     public interface ICollisionManager
     {
-        List<IBrick> bricksHit { get; set; }
+        List<IBrick> BricksHit { get; set; }
 
         bool XLeftInside { get; set; }
         bool XRightInside { get; set; }
@@ -32,15 +32,10 @@ namespace zbrozonoidEngine.Interfaces
         bool XLeftOutside { get; set; }
         bool XRightOutside { get; set; }
 
-        bool Detect(IBorder first, IPad second);
-        bool Detect(IBorder first, IBall second);
-        bool Detect(IPad first, IBall second);
-        bool Detect(IBrick first, IBall second);
-
-        void Bounce(IBall ball);
+        bool Detect(IBoundary first, IBoundary second);
+        void Bounce(IBoundary bounceFromObject, IBall ball);
         bool HitBrick(out BrickType type);
 
         void LogData();
-
     }
 }

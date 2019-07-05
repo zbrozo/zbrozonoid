@@ -193,7 +193,7 @@ namespace zbrozonoidEngine
 
         public void HandleBrickCollision(List<BrickHit> bricksHit)
         {
-            collisionManager.bricksHit = GetBricksHit(bricksHit);
+            collisionManager.BricksHit = GetBricksHit(bricksHit);
 
             if (collisionManager.HitBrick(out BrickType type))
             {

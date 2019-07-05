@@ -168,6 +168,7 @@ namespace zbrozonoidEngine
 
         }
 
+        /*
         public void BounceBigFromLeft()
         {
             bool bounce = false;
@@ -254,7 +255,7 @@ namespace zbrozonoidEngine
             BounceBigFromLeft();
             BounceBigFromRight();
         }
-
+        */
         public void BounceBack()
         {
             movement.Direction = new Vector2(movement.Direction.X * -1, movement.Direction.Y * -1);

@@ -54,7 +54,7 @@ namespace zbrozonoidEngine.Managers
         {
             if (collisionManager.Detect(border, ball))
             {
-                collisionManager.Bounce(ball);
+                collisionManager.Bounce(border,ball);
                 ball.SavePosition();
                 return true;
             }

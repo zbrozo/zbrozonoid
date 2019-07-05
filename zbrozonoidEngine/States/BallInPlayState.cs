@@ -92,7 +92,7 @@ namespace zbrozonoidEngine.States
                     pad.LogData();
 
                     CorrectBallPosition(pad, ball);
-                    collisionManager.Bounce(ball);
+                    collisionManager.Bounce(pad, ball);
 
                     ball.LogData();
                     return true;
@@ -141,7 +141,7 @@ namespace zbrozonoidEngine.States
                 bool destroyerBall = game.IsBallDestroyer(ball);
                 if (!borderHit && !destroyerBall)
                 {
-                    collisionManager.Bounce(ball);
+                    collisionManager.Bounce(collisionManager.BricksHit[0], ball);
                 }
 
                 return true;
@@ -152,7 +152,7 @@ namespace zbrozonoidEngine.States
 
         private bool DetectBrickCollision(IBall ball, out List<BrickHit> bricksHit)
         {
-            collisionManager.bricksHit = null;
+            collisionManager.BricksHit = null;
 
             bricksHit = new List<BrickHit>();
             List<IBrick> bricks = levelManager.GetCurrent().Bricks;

@@ -21,21 +21,24 @@ namespace zbrozonoidEngine.Interfaces
         int Speed { get; set; }
 
         void InitStartPosition();
+        void SetYPosition(int y);
+
         void SetSize(int width, int height);
         void GetPosition(out int posX, out int posY);
         void GetSize(out int width, out int height);
         bool MoveBall(bool reverse = false);
-        void BounceBigFromLeft();
-        void BounceBigFromRight();
-        void BounceBigFromTop();
-        void BounceBigFromBottom();
+
+        //void BounceBigFromLeft();
+        //void BounceBigFromRight();
+        //void BounceBigFromTop();
+        //void BounceBigFromBottom();
+
         bool Bounce(Edge edge);
         bool BounceCorner(Corner corner);
         void BounceBack();
 
         void CalculateNewDegree(DegreeType range);
         void SavePosition();
-        void SetYPosition(int y);
 
         void LogData(bool reverse = false);
     }

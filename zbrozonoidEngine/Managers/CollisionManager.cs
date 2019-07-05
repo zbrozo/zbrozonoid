@@ -33,7 +33,7 @@ namespace zbrozonoidEngine.Managers
         public bool XLeftOutside { get; set; }
         public bool XRightOutside { get; set; }
 
-        public List<IBrick> bricksHit { get; set; }
+        public List<IBrick> BricksHit { get; set; }
 
         private bool Check(IBoundary first, IBoundary second)
         {
@@ -98,48 +98,28 @@ namespace zbrozonoidEngine.Managers
             return false;
         }
 
-        public bool Detect(IBorder first, IPad second)
+        public bool Detect(IBoundary first, IBoundary second)
         {
             return Check(first as IBoundary, second as IBoundary);
         }
 
-        public bool Detect(IBorder first, IBall second)
+        public void Bounce(IBoundary bounceFromObject, IBall ball)
         {
-            return Check(first as IBoundary, second as IBoundary);
-        }
-
-        public bool Detect(IPad first, IBall second)
-        {
-            return Check(first as IBoundary, second as IBoundary);
-        }
-
-        public bool Detect(IBrick first, IBall second)
-        {
-            if (Check(first as IBoundary, second as IBoundary))
+            if (BricksHit == null || BricksHit.Count == 0)
             {
-                //bricksHit.Add(first);
-                return true;
-            }
-            return false;
-        }
-
-        public void Bounce(IBall ball)
-        {
-            if (bricksHit == null || bricksHit.Count == 0)
-            {
-                BounceBall(ball);
+                BounceBall(bounceFromObject, ball);
                 return;
             }
 
-            bool onlyOne = (bricksHit.Count == 1);
+            bool onlyOne = (BricksHit.Count == 1);
 
             if (onlyOne)
             {
-                BounceBall(ball);
+                BounceBall(bounceFromObject, ball);
                 return;
             }
 
-            if (bricksHit.Count > 0)
+            if (BricksHit.Count > 0)
             {
                 if (IsPosXEqual())
                 {
@@ -156,12 +136,40 @@ namespace zbrozonoidEngine.Managers
             }
         }
 
-        private void BounceBall(IBall ball)
+        private void BounceBall(IBoundary bounceFromObject, IBall ball)
         {
-            if (BounceSmallBall(ball))
+            if (ball.Boundary.Size.X <= bounceFromObject.Boundary.Size.X)
             {
-                ball.CalculateNewDegree(DegreeType.Centre);
-                return;
+                if(BounceSmallBallBottomOrTop(ball))
+                {
+                    ball.CalculateNewDegree(DegreeType.Centre);
+                    return;
+                }
+            }
+            else
+            {
+                if (BounceBigBallBottomOrTop(ball))
+                {
+                    ball.CalculateNewDegree(DegreeType.Centre);
+                    return;
+                }
+            }
+
+            if (ball.Boundary.Size.Y <= bounceFromObject.Boundary.Size.Y)
+            {
+                if (BounceSmallBallLeftOrRight(ball))
+                {
+                    ball.CalculateNewDegree(DegreeType.Centre);
+                    return;
+                }
+            }
+            else
+            {
+                if (BounceBigBallLeftOrRight(ball))
+                {
+                    ball.CalculateNewDegree(DegreeType.Centre);
+                    return;
+                }
             }
 
             if (BounceBallFromCorner(ball))
@@ -169,20 +177,9 @@ namespace zbrozonoidEngine.Managers
                 ball.CalculateNewDegree(DegreeType.Corner);
                 return;
             }
-
-            if (BounceBigBall(ball))
-            {
-                ball.CalculateNewDegree(DegreeType.Centre);
-                return;
-            }
-
-            if (BounceBigBallUnusual(ball))
-            {
-                return;
-            }
         }
 
-        private bool BounceSmallBall(IBall ball)
+        private bool BounceSmallBallBottomOrTop(IBall ball)
         {
             if (XLeftInside && XRightInside && YTopInside && !YBottomInside)
             {
@@ -195,7 +192,11 @@ namespace zbrozonoidEngine.Managers
                 ball.Bounce(Edge.Top);
                 return true;
             }
+            return false;
+        }
 
+        private bool BounceSmallBallLeftOrRight(IBall ball)
+        {
             if (!XLeftInside && XRightInside && YTopInside && YBottomInside)
             {
                 ball.Bounce(Edge.Left);
@@ -211,58 +212,35 @@ namespace zbrozonoidEngine.Managers
             return false;
         }
 
-        private bool BounceBigBall(IBall ball)
+        private bool BounceBigBallBottomOrTop(IBall ball)
         {
-            if (!XLeftInside && XRightInside && !YTopInside && !YBottomInside && YBottomOutside && YTopOutside && XLeftOutside && !XRightOutside)
-            {
-                ball.BounceBigFromLeft();
-                return true;
-            }
-
-            if (XLeftInside && !XRightInside && !YTopInside && !YBottomInside && YBottomOutside && YTopOutside && !XLeftOutside && XRightOutside)
-            {
-                ball.BounceBigFromRight();
-                return true;
-            }
-
             if (!XLeftInside && !XRightInside && YTopInside && !YBottomInside && YBottomOutside && !YTopOutside && XLeftOutside && XRightOutside)
             {
-                ball.BounceBigFromBottom();
+                ball.Bounce(Edge.Bottom);
                 return true;
             }
 
             if (!XLeftInside && !XRightInside && !YTopInside && YBottomInside && !YBottomOutside && YTopOutside && XLeftOutside && XRightOutside)
             {
-                ball.BounceBigFromTop();
+                ball.Bounce(Edge.Top);
                 return true;
             }
-
             return false;
         }
 
-        private bool BounceBigBallUnusual(IBall ball)
+        private bool BounceBigBallLeftOrRight(IBall ball)
         {
-            if (XLeftInside && XRightInside && !YTopInside && !YBottomInside && YBottomOutside && YTopOutside && !XLeftOutside && !XRightOutside)
+            if (!XLeftInside && XRightInside && !YTopInside && !YBottomInside && YBottomOutside && YTopOutside && XLeftOutside && !XRightOutside)
             {
-                ball.BounceBigFromLeft();
-                ball.BounceBigFromRight();
+                ball.Bounce(Edge.Left);
                 return true;
             }
 
-            if (!XLeftInside && !XRightInside && YTopInside && YBottomInside && !YBottomOutside && !YTopOutside && XLeftOutside && XRightOutside)
+            if (XLeftInside && !XRightInside && !YTopInside && !YBottomInside && YBottomOutside && YTopOutside && !XLeftOutside && XRightOutside)
             {
-                ball.BounceBigFromTop();
-                ball.BounceBigFromBottom();
+                ball.Bounce(Edge.Right);
                 return true;
             }
-
-            if (!XLeftInside && !XRightInside && !YTopInside && !YBottomInside && YBottomOutside && YTopOutside && XLeftOutside && XRightOutside)
-            {
-                ball.BounceBigFromTop();
-                ball.BounceBigFromBottom();
-                return true;
-            }
-
             return false;
         }
 
@@ -332,9 +310,9 @@ namespace zbrozonoidEngine.Managers
         public bool HitBrick(out BrickType type)
         {
             type = BrickType.None;
-            if (bricksHit.Count != 0)
+            if (BricksHit.Count != 0)
             {
-                foreach (var brick in bricksHit)
+                foreach (var brick in BricksHit)
                 {
                     if (brick.IsBeatable() && brick.IsVisible())
                     {
@@ -349,13 +327,13 @@ namespace zbrozonoidEngine.Managers
 
         private bool IsPosYEqual()
         {
-            if (bricksHit.Count == 0)
+            if (BricksHit.Count == 0)
             {
                 return false;
             }
 
-            var PosY = bricksHit[0].Boundary.Min.Y;
-            foreach (var value in bricksHit)
+            var PosY = BricksHit[0].Boundary.Min.Y;
+            foreach (var value in BricksHit)
             {
                 if (PosY != value.Boundary.Min.Y)
                 {
@@ -368,13 +346,13 @@ namespace zbrozonoidEngine.Managers
 
         private bool IsPosXEqual()
         {
-            if (bricksHit.Count == 0)
+            if (BricksHit.Count == 0)
             {
                 return false;
             }
 
-            var PosX = bricksHit[0].Boundary.Min.X;
-            foreach (var value in bricksHit)
+            var PosX = BricksHit[0].Boundary.Min.X;
+            foreach (var value in BricksHit)
             {
                 if (PosX != value.Boundary.Min.X)
                 {
