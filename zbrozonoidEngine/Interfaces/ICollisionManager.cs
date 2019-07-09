@@ -15,6 +15,7 @@ You should have received a copy of the GNU General Public License
 along with this program.If not, see<https://www.gnu.org/licenses/>.
 */
 using System.Collections.Generic;
+using zbrozonoidLibrary;
 
 namespace zbrozonoidEngine.Interfaces
 {
@@ -22,6 +23,7 @@ namespace zbrozonoidEngine.Interfaces
     {
         List<IBrick> BricksHit { get; set; }
 
+        /*
         bool XLeftInside { get; set; }
         bool XRightInside { get; set; }
         bool YTopInside { get; set; }
@@ -31,10 +33,13 @@ namespace zbrozonoidEngine.Interfaces
         bool YBottomOutside { get; set; }
         bool XLeftOutside { get; set; }
         bool XRightOutside { get; set; }
+        */
 
         bool Detect(IBoundary first, IBoundary second);
         void Bounce(IBoundary bounceFromObject, IBall ball);
         bool HitBrick(out BrickType type);
+
+        CollisionFlags GetFlags();
 
         void LogData();
     }

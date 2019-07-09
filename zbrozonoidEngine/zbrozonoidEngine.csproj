@@ -88,6 +88,7 @@
     <Compile Include="Interfaces\IBoundary.cs" />
     <Compile Include="Interfaces\IMovement.cs" />
     <Compile Include="LinearMovement.cs" />
+    <Compile Include="CollisionFlags.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

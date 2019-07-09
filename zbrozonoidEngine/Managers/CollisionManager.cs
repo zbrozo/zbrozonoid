@@ -20,38 +20,39 @@ namespace zbrozonoidEngine.Managers
 
     using zbrozonoidEngine;
     using zbrozonoidEngine.Interfaces;
+    using zbrozonoidLibrary;
 
     public class CollisionManager : ICollisionManager
     {
-        public bool XLeftInside { get; set; }
-        public bool XRightInside { get; set; }
-        public bool YTopInside { get; set; }
-        public bool YBottomInside { get; set; }
+        private bool XLeftInside { get; set; }
+        private bool XRightInside { get; set; }
+        private bool YTopInside { get; set; }
+        private bool YBottomInside { get; set; }
 
-        public bool YTopOutside { get; set; }
-        public bool YBottomOutside { get; set; }
-        public bool XLeftOutside { get; set; }
-        public bool XRightOutside { get; set; }
+        private bool YTopOutside { get; set; }
+        private bool YBottomOutside { get; set; }
+        private bool XLeftOutside { get; set; }
+        private bool XRightOutside { get; set; }
 
         public List<IBrick> BricksHit { get; set; }
 
         private bool Check(IBoundary first, IBoundary second)
         {
             // second element inside first element
-            bool XLeftInside = second.Boundary.Min.X > first.Boundary.Min.X  
+            bool XLeftInside = second.Boundary.Min.X >= first.Boundary.Min.X  
                                && second.Boundary.Min.X < first.Boundary.Max.X;
             bool XRightInside = second.Boundary.Max.X > first.Boundary.Min.X 
-                                && second.Boundary.Max.X < first.Boundary.Max.X;
-            bool YTopInside = second.Boundary.Min.Y > first.Boundary.Min.Y 
+                                && second.Boundary.Max.X <= first.Boundary.Max.X;
+            bool YTopInside = second.Boundary.Min.Y >= first.Boundary.Min.Y 
                               && second.Boundary.Min.Y < first.Boundary.Max.Y;
             bool YBottomInside = second.Boundary.Max.Y > first.Boundary.Min.Y
-                                 && second.Boundary.Max.Y < first.Boundary.Max.Y;
+                                 && second.Boundary.Max.Y <= first.Boundary.Max.Y;
 
             // second element outside first element
-            bool XLeftOutside = second.Boundary.Min.X <= first.Boundary.Min.X;
-            bool XRightOutside = second.Boundary.Max.X >= first.Boundary.Max.X;
-            bool YTopOutside = second.Boundary.Min.Y <= first.Boundary.Min.Y;
-            bool YBottomOutside = second.Boundary.Max.Y >= first.Boundary.Max.Y;
+            bool XLeftOutside = second.Boundary.Min.X < first.Boundary.Min.X;
+            bool XRightOutside = second.Boundary.Max.X > first.Boundary.Max.X;
+            bool YTopOutside = second.Boundary.Min.Y < first.Boundary.Min.Y;
+            bool YBottomOutside = second.Boundary.Max.Y > first.Boundary.Max.Y;
 
             if ((XLeftInside || XRightInside) && (YTopInside || YBottomInside))
             {
@@ -102,6 +103,18 @@ namespace zbrozonoidEngine.Managers
         {
             return Check(first as IBoundary, second as IBoundary);
         }
+
+
+        public void Bounce(IPad pad, IBall ball)
+        {
+            BounceBall(pad, ball);
+        }
+
+        public void Bounce(IBorder border, IBall ball)
+        {
+            BounceBall(border, ball);
+        }
+
 
         public void Bounce(IBoundary bounceFromObject, IBall ball)
         {
@@ -361,6 +374,20 @@ namespace zbrozonoidEngine.Managers
             }
 
             return true;
+        }
+
+        public CollisionFlags GetFlags()
+        {
+            CollisionFlags flags = new CollisionFlags();
+            flags.XLeftInside = XLeftInside;
+            flags.XLeftOutside = XLeftOutside;
+            flags.XRightInside = XRightInside;
+            flags.XRightOutside = XRightOutside;
+            flags.YBottomInside = YBottomInside;
+            flags.YBottomOutside = YBottomOutside;
+            flags.YTopInside = YTopInside;
+            flags.YTopOutside = YTopOutside;
+            return flags;
         }
 
         public void LogData()

@@ -50,6 +50,7 @@
     <Compile Include="BallTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="LinearMovementTests.cs" />
+    <Compile Include="CollisionManagerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
