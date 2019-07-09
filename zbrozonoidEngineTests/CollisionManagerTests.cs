@@ -118,5 +118,82 @@ namespace zbrozonoidEngineTests
             Assert.AreEqual(result, flags.OverlapInsideBottom());
         }
 
+
+        [TestCase(0, false)]
+        [TestCase(1, true)]
+        [TestCase(14, true)]
+        [TestCase(15, false)]
+        public void VerifyCollisionOutsideLeft(int posX, bool result)
+        {
+            // Given
+            ICollisionManager manager = new CollisionManager();
+            ball2.SetSize(15, 25);
+            ball2.Boundary.Min = new Vector2(posX, -5);
+
+            // When
+            manager.Detect(ball1, ball2);
+
+            // Then
+            CollisionFlags flags = manager.GetFlags();
+            Assert.AreEqual(result, flags.OverlapOutsideLeft());
+        }
+
+        [TestCase(0, false)]
+        [TestCase(-1, true)]
+        [TestCase(-14, true)]
+        [TestCase(-15, false)]
+        public void VerifyCollisionOutsideRight(int posX, bool result)
+        {
+            // Given
+            ICollisionManager manager = new CollisionManager();
+            ball2.SetSize(15, 25);
+            ball2.Boundary.Min = new Vector2(posX, -5);
+
+            // When
+            manager.Detect(ball1, ball2);
+
+            // Then
+            CollisionFlags flags = manager.GetFlags();
+            Assert.AreEqual(result, flags.OverlapOutsideRight());
+        }
+
+        [TestCase(0, false)]
+        [TestCase(1, true)]
+        [TestCase(14, true)]
+        [TestCase(15, false)]
+        public void VerifyCollisionOutsideTop(int posY, bool result)
+        {
+            // Given
+            ICollisionManager manager = new CollisionManager();
+            ball2.SetSize(25, 15);
+            ball2.Boundary.Min = new Vector2(-5, posY);
+
+            // When
+            manager.Detect(ball1, ball2);
+
+            // Then
+            CollisionFlags flags = manager.GetFlags();
+            Assert.AreEqual(result, flags.OverlapOutsideTop());
+        }
+
+        [TestCase(0, false)]
+        [TestCase(-1, true)]
+        [TestCase(-14, true)]
+        [TestCase(-15, false)]
+        public void VerifyCollisionOutsideBottom(int posY, bool result)
+        {
+            // Given
+            ICollisionManager manager = new CollisionManager();
+            ball2.SetSize(25, 15);
+            ball2.Boundary.Min = new Vector2(-5, posY);
+
+            // When
+            manager.Detect(ball1, ball2);
+
+            // Then
+            CollisionFlags flags = manager.GetFlags();
+            Assert.AreEqual(result, flags.OverlapOutsideBottom());
+        }
+
     }
 }
