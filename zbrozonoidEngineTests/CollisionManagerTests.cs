@@ -195,5 +195,73 @@ namespace zbrozonoidEngineTests
             Assert.AreEqual(result, flags.OverlapOutsideBottom());
         }
 
+        [TestCase(1, 1, true)]
+        [TestCase(14, 14, true)]
+        [TestCase(15, 15, false)]
+        public void VerifyCollisionCornerTopLeft(int x, int y, bool result)
+        {
+            // Given
+            ICollisionManager manager = new CollisionManager();
+            ball2.Boundary.Min = new Vector2(x, y);
+
+            // When
+            manager.Detect(ball1, ball2);
+
+            // Then
+            CollisionFlags flags = manager.GetFlags();
+            Assert.AreEqual(result, flags.OverlapCornerTopLeft());
+        }
+
+        [TestCase(-1, 1, true)]
+        [TestCase(-14, 14, true)]
+        [TestCase(-15, 15, false)]
+        public void VerifyCollisionCornerTopRight(int x, int y, bool result)
+        {
+            // Given
+            ICollisionManager manager = new CollisionManager();
+            ball2.Boundary.Min = new Vector2(x, y);
+
+            // When
+            manager.Detect(ball1, ball2);
+
+            // Then
+            CollisionFlags flags = manager.GetFlags();
+            Assert.AreEqual(result, flags.OverlapCornerTopRight());
+        }
+
+        [TestCase(1, -1, true)]
+        [TestCase(14, -14, true)]
+        [TestCase(15, -15, false)]
+        public void VerifyCollisionCornerBottomLeft(int x, int y, bool result)
+        {
+            // Given
+            ICollisionManager manager = new CollisionManager();
+            ball2.Boundary.Min = new Vector2(x, y);
+
+            // When
+            manager.Detect(ball1, ball2);
+
+            // Then
+            CollisionFlags flags = manager.GetFlags();
+            Assert.AreEqual(result, flags.OverlapCornerBottomLeft());
+        }
+
+        [TestCase(-1, -1, true)]
+        [TestCase(-14, -14, true)]
+        [TestCase(-15, -15, false)]
+        public void VerifyCollisionCornerBottomRight(int x, int y, bool result)
+        {
+            // Given
+            ICollisionManager manager = new CollisionManager();
+            ball2.Boundary.Min = new Vector2(x, y);
+
+            // When
+            manager.Detect(ball1, ball2);
+
+            // Then
+            CollisionFlags flags = manager.GetFlags();
+            Assert.AreEqual(result, flags.OverlapCornerBottomRight());
+        }
+
     }
 }

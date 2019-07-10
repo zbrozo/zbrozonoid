@@ -24,15 +24,7 @@ namespace zbrozonoidEngine.Managers
 
     public class CollisionManager : ICollisionManager
     {
-        private bool XLeftInside { get; set; }
-        private bool XRightInside { get; set; }
-        private bool YTopInside { get; set; }
-        private bool YBottomInside { get; set; }
-
-        private bool YTopOutside { get; set; }
-        private bool YBottomOutside { get; set; }
-        private bool XLeftOutside { get; set; }
-        private bool XRightOutside { get; set; }
+        private CollisionFlags flags = new CollisionFlags();
 
         public List<IBrick> BricksHit { get; set; }
 
@@ -56,43 +48,43 @@ namespace zbrozonoidEngine.Managers
 
             if ((XLeftInside || XRightInside) && (YTopInside || YBottomInside))
             {
-                this.XLeftInside = XLeftInside;
-                this.XRightInside = XRightInside;
-                this.YTopInside = YTopInside;
-                this.YBottomInside = YBottomInside;
+                flags.XLeftInside = XLeftInside;
+                flags.XRightInside = XRightInside;
+                flags.YTopInside = YTopInside;
+                flags.YBottomInside = YBottomInside;
 
-                this.XLeftOutside = XLeftOutside;
-                this.XRightOutside = XRightOutside;
-                this.YBottomOutside = YBottomOutside;
-                this.YTopOutside = YTopOutside;
+                flags.XLeftOutside = XLeftOutside;
+                flags.XRightOutside = XRightOutside;
+                flags.YBottomOutside = YBottomOutside;
+                flags.YTopOutside = YTopOutside;
                 return true;
             }
 
             if ((XLeftInside || XRightInside) && YTopOutside && YBottomOutside)
             {
-                this.XLeftInside = XLeftInside;
-                this.XRightInside = XRightInside;
-                this.YTopInside = YTopInside;
-                this.YBottomInside = YBottomInside;
+                flags.XLeftInside = XLeftInside;
+                flags.XRightInside = XRightInside;
+                flags.YTopInside = YTopInside;
+                flags.YBottomInside = YBottomInside;
 
-                this.XLeftOutside = XLeftOutside;
-                this.XRightOutside = XRightOutside;
-                this.YBottomOutside = YBottomOutside;
-                this.YTopOutside = YTopOutside;
+                flags.XLeftOutside = XLeftOutside;
+                flags.XRightOutside = XRightOutside;
+                flags.YBottomOutside = YBottomOutside;
+                flags.YTopOutside = YTopOutside;
                 return true;
             }
 
             if ((YTopInside || YBottomInside) && XLeftOutside && XRightOutside)
             {
-                this.XLeftInside = XLeftInside;
-                this.XRightInside = XRightInside;
-                this.YTopInside = YTopInside;
-                this.YBottomInside = YBottomInside;
+                flags.XLeftInside = XLeftInside;
+                flags.XRightInside = XRightInside;
+                flags.YTopInside = YTopInside;
+                flags.YBottomInside = YBottomInside;
 
-                this.XLeftOutside = XLeftOutside;
-                this.XRightOutside = XRightOutside;
-                this.YBottomOutside = YBottomOutside;
-                this.YTopOutside = YTopOutside;
+                flags.XLeftOutside = XLeftOutside;
+                flags.XRightOutside = XRightOutside;
+                flags.YBottomOutside = YBottomOutside;
+                flags.YTopOutside = YTopOutside;
                 return true;
             }
 
@@ -194,15 +186,15 @@ namespace zbrozonoidEngine.Managers
 
         private bool BounceSmallBallBottomOrTop(IBall ball)
         {
-            if (XLeftInside && XRightInside && YTopInside && !YBottomInside)
+            if (flags.OverlapInsideTop())
             {
-                ball.Bounce(Edge.Bottom);
+                ball.Bounce(Edge.Top);
                 return true;
             }
 
-            if (XLeftInside && XRightInside && !YTopInside && YBottomInside)
+            if (flags.OverlapInsideBottom())
             {
-                ball.Bounce(Edge.Top);
+                ball.Bounce(Edge.Bottom);
                 return true;
             }
             return false;
@@ -210,15 +202,15 @@ namespace zbrozonoidEngine.Managers
 
         private bool BounceSmallBallLeftOrRight(IBall ball)
         {
-            if (!XLeftInside && XRightInside && YTopInside && YBottomInside)
+            if (flags.OverlapInsideRight())
             {
-                ball.Bounce(Edge.Left);
+                ball.Bounce(Edge.Right);
                 return true;
             }
 
-            if (XLeftInside && !XRightInside && YTopInside && YBottomInside)
+            if (flags.OverlapInsideLeft())
             {
-                ball.Bounce(Edge.Right);
+                ball.Bounce(Edge.Left);
                 return true;
             }
 
@@ -227,15 +219,15 @@ namespace zbrozonoidEngine.Managers
 
         private bool BounceBigBallBottomOrTop(IBall ball)
         {
-            if (!XLeftInside && !XRightInside && YTopInside && !YBottomInside && YBottomOutside && !YTopOutside && XLeftOutside && XRightOutside)
+            if (flags.OverlapOutsideTop())
             {
-                ball.Bounce(Edge.Bottom);
+                ball.Bounce(Edge.Top);
                 return true;
             }
 
-            if (!XLeftInside && !XRightInside && !YTopInside && YBottomInside && !YBottomOutside && YTopOutside && XLeftOutside && XRightOutside)
+            if (flags.OverlapOutsideBottom())
             {
-                ball.Bounce(Edge.Top);
+                ball.Bounce(Edge.Bottom);
                 return true;
             }
             return false;
@@ -243,15 +235,15 @@ namespace zbrozonoidEngine.Managers
 
         private bool BounceBigBallLeftOrRight(IBall ball)
         {
-            if (!XLeftInside && XRightInside && !YTopInside && !YBottomInside && YBottomOutside && YTopOutside && XLeftOutside && !XRightOutside)
+            if (flags.OverlapOutsideRight())
             {
-                ball.Bounce(Edge.Left);
+                ball.Bounce(Edge.Right);
                 return true;
             }
 
-            if (XLeftInside && !XRightInside && !YTopInside && !YBottomInside && YBottomOutside && YTopOutside && !XLeftOutside && XRightOutside)
+            if (flags.OverlapOutsideLeft())
             {
-                ball.Bounce(Edge.Right);
+                ball.Bounce(Edge.Left);
                 return true;
             }
             return false;
@@ -259,25 +251,25 @@ namespace zbrozonoidEngine.Managers
 
         private bool BounceBallFromCorner(IBall ball)
         {
-            if (!XLeftInside && XRightInside && YTopInside && !YBottomInside)
+            if (flags.OverlapCornerBottomLeft())
             {
                 ball.BounceCorner(Corner.BottomLeft);
                 return true;
             }
 
-            if (XLeftInside && !XRightInside && YTopInside && !YBottomInside)
+            if (flags.OverlapCornerBottomRight())
             {
                 ball.BounceCorner(Corner.BottomRight);
                 return true;
             }
 
-            if (!XLeftInside && XRightInside && !YTopInside && YBottomInside)
+            if (flags.OverlapCornerTopLeft())
             {
                 ball.BounceCorner(Corner.TopLeft);
                 return true;
             }
 
-            if (XLeftInside && !XRightInside && !YTopInside && YBottomInside)
+            if (flags.OverlapCornerTopRight())
             {
                 ball.BounceCorner(Corner.TopRight);
                 return true;
@@ -288,15 +280,15 @@ namespace zbrozonoidEngine.Managers
 
         private bool BallBounceFromHorizEdge(IBall ball)
         {
-            if (YTopInside && !YBottomInside)
+            if (flags.YTopInside && !flags.YBottomInside)
             {
-                ball.Bounce(Edge.Bottom);
+                ball.Bounce(Edge.Top);
                 return true;
             }
 
-            if (!YTopInside && YBottomInside)
+            if (!flags.YTopInside && flags.YBottomInside)
             {
-                ball.Bounce(Edge.Top);
+                ball.Bounce(Edge.Bottom);
                 return true;
             }
 
@@ -305,15 +297,15 @@ namespace zbrozonoidEngine.Managers
 
         private bool BallBounceFromVertEdge(IBall ball)
         {
-            if (XLeftInside && !XRightInside)
+            if (flags.XLeftInside && !flags.XRightInside)
             {
-                ball.Bounce(Edge.Right);
+                ball.Bounce(Edge.Left);
                 return true;
             }
 
-            if (!XLeftInside && XRightInside)
+            if (!flags.XLeftInside && flags.XRightInside)
             {
-                ball.Bounce(Edge.Left);
+                ball.Bounce(Edge.Right);
                 return true;
             }
 
@@ -378,15 +370,6 @@ namespace zbrozonoidEngine.Managers
 
         public CollisionFlags GetFlags()
         {
-            CollisionFlags flags = new CollisionFlags();
-            flags.XLeftInside = XLeftInside;
-            flags.XLeftOutside = XLeftOutside;
-            flags.XRightInside = XRightInside;
-            flags.XRightOutside = XRightOutside;
-            flags.YBottomInside = YBottomInside;
-            flags.YBottomOutside = YBottomOutside;
-            flags.YTopInside = YTopInside;
-            flags.YTopOutside = YTopOutside;
             return flags;
         }
 
@@ -395,18 +378,18 @@ namespace zbrozonoidEngine.Managers
             Logger.Instance.Write(
                 string.Format(
                     "Inside: {0}, {1}, {2}, {3}",
-                    XLeftInside,
-                    XRightInside,
-                    YTopInside,
-                    YBottomInside));
+                    flags.XLeftInside,
+                    flags.XRightInside,
+                    flags.YTopInside,
+                    flags.YBottomInside));
 
             Logger.Instance.Write(
                 string.Format(
                     "Outside: {0}, {1}, {2}, {3}",
-                    XLeftOutside,
-                    XRightOutside,
-                    YTopOutside,
-                    YBottomOutside));
+                    flags.XLeftOutside,
+                    flags.XRightOutside,
+                    flags.YTopOutside,
+                    flags.YBottomOutside));
         }
     }
 }

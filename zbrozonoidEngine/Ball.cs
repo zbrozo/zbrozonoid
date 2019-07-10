@@ -99,25 +99,25 @@ namespace zbrozonoidEngine
         public bool Bounce(Edge edge)
         {
             bool bounce = false;
-            if (edge == Edge.Bottom)
+            if (edge == Edge.Top)
             {
                 movement.Direction = new Vector2(movement.Direction.X, 1);
                 bounce = true;
             }
 
-            if (edge == Edge.Top)
+            if (edge == Edge.Bottom)
             {
                 movement.Direction = new Vector2(movement.Direction.X, -1);
                 bounce = true;
             }
 
-            if (edge == Edge.Left)
+            if (edge == Edge.Right)
             {
                 movement.Direction = new Vector2(-1, movement.Direction.Y);
                 bounce = true;
             }
 
-            if (edge == Edge.Right)
+            if (edge == Edge.Left)
             {
                 movement.Direction = new Vector2(1, movement.Direction.Y);
                 bounce = true;
@@ -165,97 +165,8 @@ namespace zbrozonoidEngine
             }
 
             return bounce;
-
         }
 
-        /*
-        public void BounceBigFromLeft()
-        {
-            bool bounce = false;
-            if (movement.Direction.X == 1 && movement.Direction.Y == 1)
-            {
-                movement.Direction = new Vector2(-1, movement.Direction.Y);  
-                bounce = true;
-            }
-            else if (movement.Direction.X == 1 && movement.Direction.Y == -1)
-            {
-                movement.Direction = new Vector2(-1, movement.Direction.Y);
-                bounce = true;
-            }
-
-            if (bounce)
-            {
-                ResetIteration();
-            }
-        }
-
-        public void BounceBigFromRight()
-        {
-            bool bounce = false;
-            if (movement.Direction.X == -1 && movement.Direction.Y == 1)
-            {
-                movement.Direction = new Vector2(1, movement.Direction.Y);
-                bounce = true;
-            }
-            else if (movement.Direction.X == -1 && movement.Direction.Y == -1)
-            {
-                movement.Direction = new Vector2(1, movement.Direction.Y);
-                bounce = true;
-            }
-
-            if (bounce)
-            {
-                ResetIteration();
-            }
-        }
-
-        public void BounceBigFromTop()
-        {
-            bool bounce = false;
-            if (movement.Direction.X == 1 && movement.Direction.Y == 1)
-            {
-                movement.Direction = new Vector2(movement.Direction.X, -1);
-                bounce = true;
-            }
-            else if (movement.Direction.X == -1 && movement.Direction.Y == 1)
-            {
-                movement.Direction = new Vector2(movement.Direction.X, -1);
-                bounce = true;
-            }
-
-            if (bounce)
-            {
-                ResetIteration();
-            }
-        }
-
-        public void BounceBigFromBottom()
-        {
-            bool bounce = false;
-
-            if (movement.Direction.X == 1 && movement.Direction.Y == -1)
-            {
-                movement.Direction = new Vector2(movement.Direction.X, 1);
-                bounce = true;
-            }
-            else if (movement.Direction.X == -1 && movement.Direction.Y == -1)
-            {
-                movement.Direction = new Vector2(movement.Direction.X, 1);
-                bounce = true;
-            }
-
-            if (bounce)
-            {
-                ResetIteration();
-            }
-        }
-
-        public void BounceBigFromInside()
-        {
-            BounceBigFromLeft();
-            BounceBigFromRight();
-        }
-        */
         public void BounceBack()
         {
             movement.Direction = new Vector2(movement.Direction.X * -1, movement.Direction.Y * -1);

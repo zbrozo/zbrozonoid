@@ -57,5 +57,26 @@ namespace zbrozonoidLibrary
         {
             return !XLeftInside && XRightInside && !YTopInside && !YBottomInside && YBottomOutside && YTopOutside && XLeftOutside && !XRightOutside;
         }
+
+        public bool OverlapCornerTopLeft()
+        {
+            return XLeftInside && !XRightInside && YTopInside && !YBottomInside;
+        }
+
+        public bool OverlapCornerTopRight()
+        {
+            return !XLeftInside && XRightInside && YTopInside && !YBottomInside;
+        }
+
+        public bool OverlapCornerBottomLeft()
+        {
+            return XLeftInside && !XRightInside && !YTopInside && YBottomInside;
+        }
+
+        public bool OverlapCornerBottomRight()
+        {
+            return !XLeftInside && XRightInside && !YTopInside && YBottomInside;
+        }
+
     }
 }
