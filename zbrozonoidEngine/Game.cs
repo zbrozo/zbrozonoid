@@ -60,6 +60,8 @@ namespace zbrozonoidEngine
         public string BackgroundPath => levelManager.GetCurrent().BackgroundPath;
         public IGameState GameState => gameState;
 
+        public List<IBrick> BricksHitList = new List<IBrick>();
+
         public Game()
         {
 
@@ -193,9 +195,9 @@ namespace zbrozonoidEngine
 
         public void HandleBrickCollision(List<BrickHit> bricksHit)
         {
-            collisionManager.BricksHit = GetBricksHit(bricksHit);
+            BricksHitList = GetBricksHit(bricksHit);
 
-            if (collisionManager.HitBrick(out BrickType type))
+            if (HitBrick(BricksHitList, out BrickType type))
             {
                 BrickHitEventArgs brickHitArgs = new BrickHitEventArgs(bricksHit[0].Number);
                 OnBrickHit?.Invoke(this, brickHitArgs);
@@ -205,6 +207,24 @@ namespace zbrozonoidEngine
 
                 ExecuteAdditionalEffect(type);
             }
+        }
+
+        private bool HitBrick(List<IBrick> bricksHit, out BrickType type)
+        {
+            type = BrickType.None;
+            if (bricksHit.Count != 0)
+            {
+                foreach (var brick in bricksHit)
+                {
+                    if (brick.IsBeatable() && brick.IsVisible())
+                    {
+                        brick.Hit = true;
+                        type = brick.Type;
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
         private void ExecuteAdditionalEffect(BrickType type)

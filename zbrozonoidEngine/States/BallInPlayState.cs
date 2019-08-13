@@ -16,15 +16,20 @@ namespace zbrozonoidEngine.States
         private readonly ICollisionManager collisionManagerForMoveReversion;
         private readonly ILevelManager levelManager;
 
-        public BallInPlayState(Game game, IScreenCollisionManager screenCollisionManager, ICollisionManager collisionManager, IPadManager padManager,IBorderManager borderManager, ILevelManager levelManager)
+        private List<IBrick> BricksHitList => game.BricksHitList;
+
+        public BallInPlayState(Game game, 
+                               IScreenCollisionManager screenCollisionManager, 
+                               ICollisionManager collisionManager, 
+                               ILevelManager levelManager)
         {
             this.game = game;
             this.screenCollisionManager = screenCollisionManager;
             this.collisionManager = collisionManager;
-            this.padManager = padManager;
-            this.borderManager = borderManager;
             this.levelManager = levelManager;
-
+            this.padManager = game.PadManager;
+            this.borderManager = game.BorderManager;
+ 
             collisionManagerForMoveReversion = new CollisionManager();
         }
 
@@ -75,7 +80,7 @@ namespace zbrozonoidEngine.States
             foreach (IBorder border in borderManager)
             {
                 IBorderCollisionManager borderCollisionManager = new BorderCollisionManager(border, collisionManager);
-                if (borderCollisionManager.DetectAndVerify(ball))
+                if (borderCollisionManager.DetectAndVerify(game.BricksHitList, ball))
                 {
                     return true;
                 }
@@ -92,7 +97,7 @@ namespace zbrozonoidEngine.States
                     pad.LogData();
 
                     CorrectBallPosition(pad, ball);
-                    collisionManager.Bounce(pad, ball);
+                    collisionManager.Bounce(null, pad, ball);
 
                     ball.LogData();
                     return true;
@@ -103,14 +108,17 @@ namespace zbrozonoidEngine.States
 
         private void CorrectBallPosition(IPad pad, IBall ball)
         {
+            Vector2 previous = ball.Boundary.Min;
             while (collisionManagerForMoveReversion.Detect(pad, ball))
             {
                 if (!ball.MoveBall(true))
                 {
+                    ball.Boundary.Min = previous;
                     game.RestartBallYPosition(pad, ball);
                     return;
                 }
 
+                previous = ball.Boundary.Min;
                 ball.SavePosition();
 
                 foreach (IBorder border in borderManager)
@@ -129,10 +137,15 @@ namespace zbrozonoidEngine.States
                 }
 
             }
+
+            ball.Boundary.Min = previous;
+
         }
 
         protected bool HandleBrickCollision(IBall ball, bool borderHit)
         {
+            game.BricksHitList.Clear();
+
             bool result = DetectBrickCollision(ball, out List<BrickHit> bricksHit);
             if (result)
             {
@@ -141,7 +154,7 @@ namespace zbrozonoidEngine.States
                 bool destroyerBall = game.IsBallDestroyer(ball);
                 if (!borderHit && !destroyerBall)
                 {
-                    collisionManager.Bounce(collisionManager.BricksHit[0], ball);
+                    collisionManager.Bounce(BricksHitList, BricksHitList[0], ball);
                 }
 
                 return true;
@@ -152,8 +165,6 @@ namespace zbrozonoidEngine.States
 
         private bool DetectBrickCollision(IBall ball, out List<BrickHit> bricksHit)
         {
-            collisionManager.BricksHit = null;
-
             bricksHit = new List<BrickHit>();
             List<IBrick> bricks = levelManager.GetCurrent().Bricks;
 

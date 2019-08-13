@@ -21,25 +21,10 @@ namespace zbrozonoidEngine.Interfaces
 {
     public interface ICollisionManager
     {
-        List<IBrick> BricksHit { get; set; }
-
-        /*
-        bool XLeftInside { get; set; }
-        bool XRightInside { get; set; }
-        bool YTopInside { get; set; }
-        bool YBottomInside { get; set; }
-
-        bool YTopOutside { get; set; }
-        bool YBottomOutside { get; set; }
-        bool XLeftOutside { get; set; }
-        bool XRightOutside { get; set; }
-        */
+        CollisionFlags Flags { get; }
 
         bool Detect(IBoundary first, IBoundary second);
-        void Bounce(IBoundary bounceFromObject, IBall ball);
-        bool HitBrick(out BrickType type);
-
-        CollisionFlags GetFlags();
+        void Bounce(List<IBrick> bricksHit, IBoundary obstacle, IBall ball);
 
         void LogData();
     }

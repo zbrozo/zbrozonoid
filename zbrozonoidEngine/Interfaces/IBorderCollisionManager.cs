@@ -14,11 +14,13 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.If not, see<https://www.gnu.org/licenses/>.
 */
+using System.Collections.Generic;
+
 namespace zbrozonoidEngine.Interfaces
 {
     interface IBorderCollisionManager
     {
         bool DetectAndVerify(IPad pad);
-        bool DetectAndVerify(IBall ball);
+        bool DetectAndVerify(List<IBrick> bricksHitList, IBall ball);
     }
 }

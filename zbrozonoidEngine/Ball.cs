@@ -40,7 +40,7 @@ namespace zbrozonoidEngine
             this.movement = movement;
 
             DegreeType = DegreeType.Centre;  
-            Speed = 6;
+            Speed = 4;
         }
 
         public void SetSize(int width, int height)
@@ -137,25 +137,25 @@ namespace zbrozonoidEngine
 
             if (corner == Corner.BottomLeft)
             {
-                movement.Direction = new Vector2(-1, 1);
+                movement.Direction = new Vector2(1, -1);
                 bounce = true;
             }
 
             if (corner == Corner.BottomRight)
             {
-                movement.Direction = new Vector2(1, 1);
+                movement.Direction = new Vector2(-1, -1);
                 bounce = true;
             }
 
             if (corner == Corner.TopLeft)
             {
-                movement.Direction = new Vector2(-1, -1);
+                movement.Direction = new Vector2(1, 1);
                 bounce = true;
             }
 
             if (corner == Corner.TopRight)
             {
-                movement.Direction = new Vector2(1, -1);
+                movement.Direction = new Vector2(-1, 1);
                 bounce = true;
             }
 

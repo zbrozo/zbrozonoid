@@ -28,11 +28,6 @@ namespace zbrozonoidEngine.Interfaces
         void GetSize(out int width, out int height);
         bool MoveBall(bool reverse = false);
 
-        //void BounceBigFromLeft();
-        //void BounceBigFromRight();
-        //void BounceBigFromTop();
-        //void BounceBigFromBottom();
-
         bool Bounce(Edge edge);
         bool BounceCorner(Corner corner);
         void BounceBack();

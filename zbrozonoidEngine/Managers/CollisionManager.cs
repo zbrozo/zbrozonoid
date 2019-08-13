@@ -24,9 +24,7 @@ namespace zbrozonoidEngine.Managers
 
     public class CollisionManager : ICollisionManager
     {
-        private CollisionFlags flags = new CollisionFlags();
-
-        public List<IBrick> BricksHit { get; set; }
+        public CollisionFlags Flags { get; set; } = new CollisionFlags();
 
         private bool Check(IBoundary first, IBoundary second)
         {
@@ -48,43 +46,43 @@ namespace zbrozonoidEngine.Managers
 
             if ((XLeftInside || XRightInside) && (YTopInside || YBottomInside))
             {
-                flags.XLeftInside = XLeftInside;
-                flags.XRightInside = XRightInside;
-                flags.YTopInside = YTopInside;
-                flags.YBottomInside = YBottomInside;
+                Flags.XLeftInside = XLeftInside;
+                Flags.XRightInside = XRightInside;
+                Flags.YTopInside = YTopInside;
+                Flags.YBottomInside = YBottomInside;
 
-                flags.XLeftOutside = XLeftOutside;
-                flags.XRightOutside = XRightOutside;
-                flags.YBottomOutside = YBottomOutside;
-                flags.YTopOutside = YTopOutside;
+                Flags.XLeftOutside = XLeftOutside;
+                Flags.XRightOutside = XRightOutside;
+                Flags.YBottomOutside = YBottomOutside;
+                Flags.YTopOutside = YTopOutside;
                 return true;
             }
 
             if ((XLeftInside || XRightInside) && YTopOutside && YBottomOutside)
             {
-                flags.XLeftInside = XLeftInside;
-                flags.XRightInside = XRightInside;
-                flags.YTopInside = YTopInside;
-                flags.YBottomInside = YBottomInside;
+                Flags.XLeftInside = XLeftInside;
+                Flags.XRightInside = XRightInside;
+                Flags.YTopInside = YTopInside;
+                Flags.YBottomInside = YBottomInside;
 
-                flags.XLeftOutside = XLeftOutside;
-                flags.XRightOutside = XRightOutside;
-                flags.YBottomOutside = YBottomOutside;
-                flags.YTopOutside = YTopOutside;
+                Flags.XLeftOutside = XLeftOutside;
+                Flags.XRightOutside = XRightOutside;
+                Flags.YBottomOutside = YBottomOutside;
+                Flags.YTopOutside = YTopOutside;
                 return true;
             }
 
             if ((YTopInside || YBottomInside) && XLeftOutside && XRightOutside)
             {
-                flags.XLeftInside = XLeftInside;
-                flags.XRightInside = XRightInside;
-                flags.YTopInside = YTopInside;
-                flags.YBottomInside = YBottomInside;
+                Flags.XLeftInside = XLeftInside;
+                Flags.XRightInside = XRightInside;
+                Flags.YTopInside = YTopInside;
+                Flags.YBottomInside = YBottomInside;
 
-                flags.XLeftOutside = XLeftOutside;
-                flags.XRightOutside = XRightOutside;
-                flags.YBottomOutside = YBottomOutside;
-                flags.YTopOutside = YTopOutside;
+                Flags.XLeftOutside = XLeftOutside;
+                Flags.XRightOutside = XRightOutside;
+                Flags.YBottomOutside = YBottomOutside;
+                Flags.YTopOutside = YTopOutside;
                 return true;
             }
 
@@ -95,42 +93,30 @@ namespace zbrozonoidEngine.Managers
         {
             return Check(first as IBoundary, second as IBoundary);
         }
-
-
-        public void Bounce(IPad pad, IBall ball)
+       
+        public void Bounce(List<IBrick> bricksHit, IBoundary obstacle, IBall ball)
         {
-            BounceBall(pad, ball);
-        }
-
-        public void Bounce(IBorder border, IBall ball)
-        {
-            BounceBall(border, ball);
-        }
-
-
-        public void Bounce(IBoundary bounceFromObject, IBall ball)
-        {
-            if (BricksHit == null || BricksHit.Count == 0)
+            if (bricksHit == null || bricksHit.Count == 0)
             {
-                BounceBall(bounceFromObject, ball);
+                BounceBall(obstacle, ball);
                 return;
             }
 
-            bool onlyOne = (BricksHit.Count == 1);
+            bool onlyOne = (bricksHit.Count == 1);
 
             if (onlyOne)
             {
-                BounceBall(bounceFromObject, ball);
+                BounceBall(obstacle, ball);
                 return;
             }
 
-            if (BricksHit.Count > 0)
+            if (bricksHit.Count > 0)
             {
-                if (IsPosXEqual())
+                if (IsPosXEqual(bricksHit))
                 {
                     BallBounceFromVertEdge(ball);
                 }
-                else if (IsPosYEqual())
+                else if (IsPosYEqual(bricksHit))
                 {
                     BallBounceFromHorizEdge(ball);
                 }
@@ -141,9 +127,9 @@ namespace zbrozonoidEngine.Managers
             }
         }
 
-        private void BounceBall(IBoundary bounceFromObject, IBall ball)
+        private void BounceBall(IBoundary obstacle, IBall ball)
         {
-            if (ball.Boundary.Size.X <= bounceFromObject.Boundary.Size.X)
+            if (ball.Boundary.Size.X <= obstacle.Boundary.Size.X)
             {
                 if(BounceSmallBallBottomOrTop(ball))
                 {
@@ -160,7 +146,7 @@ namespace zbrozonoidEngine.Managers
                 }
             }
 
-            if (ball.Boundary.Size.Y <= bounceFromObject.Boundary.Size.Y)
+            if (ball.Boundary.Size.Y <= obstacle.Boundary.Size.Y)
             {
                 if (BounceSmallBallLeftOrRight(ball))
                 {
@@ -186,13 +172,13 @@ namespace zbrozonoidEngine.Managers
 
         private bool BounceSmallBallBottomOrTop(IBall ball)
         {
-            if (flags.OverlapInsideTop())
+            if (Flags.OverlapInsideTop())
             {
                 ball.Bounce(Edge.Top);
                 return true;
             }
 
-            if (flags.OverlapInsideBottom())
+            if (Flags.OverlapInsideBottom())
             {
                 ball.Bounce(Edge.Bottom);
                 return true;
@@ -202,13 +188,13 @@ namespace zbrozonoidEngine.Managers
 
         private bool BounceSmallBallLeftOrRight(IBall ball)
         {
-            if (flags.OverlapInsideRight())
+            if (Flags.OverlapInsideRight())
             {
                 ball.Bounce(Edge.Right);
                 return true;
             }
 
-            if (flags.OverlapInsideLeft())
+            if (Flags.OverlapInsideLeft())
             {
                 ball.Bounce(Edge.Left);
                 return true;
@@ -219,13 +205,13 @@ namespace zbrozonoidEngine.Managers
 
         private bool BounceBigBallBottomOrTop(IBall ball)
         {
-            if (flags.OverlapOutsideTop())
+            if (Flags.OverlapOutsideTop())
             {
                 ball.Bounce(Edge.Top);
                 return true;
             }
 
-            if (flags.OverlapOutsideBottom())
+            if (Flags.OverlapOutsideBottom())
             {
                 ball.Bounce(Edge.Bottom);
                 return true;
@@ -235,13 +221,13 @@ namespace zbrozonoidEngine.Managers
 
         private bool BounceBigBallLeftOrRight(IBall ball)
         {
-            if (flags.OverlapOutsideRight())
+            if (Flags.OverlapOutsideRight())
             {
                 ball.Bounce(Edge.Right);
                 return true;
             }
 
-            if (flags.OverlapOutsideLeft())
+            if (Flags.OverlapOutsideLeft())
             {
                 ball.Bounce(Edge.Left);
                 return true;
@@ -251,25 +237,25 @@ namespace zbrozonoidEngine.Managers
 
         private bool BounceBallFromCorner(IBall ball)
         {
-            if (flags.OverlapCornerBottomLeft())
+            if (Flags.OverlapCornerBottomLeft())
             {
                 ball.BounceCorner(Corner.BottomLeft);
                 return true;
             }
 
-            if (flags.OverlapCornerBottomRight())
+            if (Flags.OverlapCornerBottomRight())
             {
                 ball.BounceCorner(Corner.BottomRight);
                 return true;
             }
 
-            if (flags.OverlapCornerTopLeft())
+            if (Flags.OverlapCornerTopLeft())
             {
                 ball.BounceCorner(Corner.TopLeft);
                 return true;
             }
 
-            if (flags.OverlapCornerTopRight())
+            if (Flags.OverlapCornerTopRight())
             {
                 ball.BounceCorner(Corner.TopRight);
                 return true;
@@ -280,13 +266,13 @@ namespace zbrozonoidEngine.Managers
 
         private bool BallBounceFromHorizEdge(IBall ball)
         {
-            if (flags.YTopInside && !flags.YBottomInside)
+            if (Flags.YTopInside && !Flags.YBottomInside)
             {
                 ball.Bounce(Edge.Top);
                 return true;
             }
 
-            if (!flags.YTopInside && flags.YBottomInside)
+            if (!Flags.YTopInside && Flags.YBottomInside)
             {
                 ball.Bounce(Edge.Bottom);
                 return true;
@@ -297,13 +283,13 @@ namespace zbrozonoidEngine.Managers
 
         private bool BallBounceFromVertEdge(IBall ball)
         {
-            if (flags.XLeftInside && !flags.XRightInside)
+            if (Flags.XLeftInside && !Flags.XRightInside)
             {
                 ball.Bounce(Edge.Left);
                 return true;
             }
 
-            if (!flags.XLeftInside && flags.XRightInside)
+            if (!Flags.XLeftInside && Flags.XRightInside)
             {
                 ball.Bounce(Edge.Right);
                 return true;
@@ -312,33 +298,15 @@ namespace zbrozonoidEngine.Managers
             return false;
         }
 
-        public bool HitBrick(out BrickType type)
+        private bool IsPosYEqual(List<IBrick> bricksHit)
         {
-            type = BrickType.None;
-            if (BricksHit.Count != 0)
-            {
-                foreach (var brick in BricksHit)
-                {
-                    if (brick.IsBeatable() && brick.IsVisible())
-                    {
-                        brick.Hit = true;
-                        type = brick.Type;
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
-
-        private bool IsPosYEqual()
-        {
-            if (BricksHit.Count == 0)
+            if (bricksHit.Count == 0)
             {
                 return false;
             }
 
-            var PosY = BricksHit[0].Boundary.Min.Y;
-            foreach (var value in BricksHit)
+            var PosY = bricksHit[0].Boundary.Min.Y;
+            foreach (var value in bricksHit)
             {
                 if (PosY != value.Boundary.Min.Y)
                 {
@@ -349,15 +317,15 @@ namespace zbrozonoidEngine.Managers
             return true;
         }
 
-        private bool IsPosXEqual()
+        private bool IsPosXEqual(List<IBrick> bricksHit)
         {
-            if (BricksHit.Count == 0)
+            if (bricksHit.Count == 0)
             {
                 return false;
             }
 
-            var PosX = BricksHit[0].Boundary.Min.X;
-            foreach (var value in BricksHit)
+            var PosX = bricksHit[0].Boundary.Min.X;
+            foreach (var value in bricksHit)
             {
                 if (PosX != value.Boundary.Min.X)
                 {
@@ -368,28 +336,23 @@ namespace zbrozonoidEngine.Managers
             return true;
         }
 
-        public CollisionFlags GetFlags()
-        {
-            return flags;
-        }
-
         public void LogData()
         {
             Logger.Instance.Write(
                 string.Format(
                     "Inside: {0}, {1}, {2}, {3}",
-                    flags.XLeftInside,
-                    flags.XRightInside,
-                    flags.YTopInside,
-                    flags.YBottomInside));
+                    Flags.XLeftInside,
+                    Flags.XRightInside,
+                    Flags.YTopInside,
+                    Flags.YBottomInside));
 
             Logger.Instance.Write(
                 string.Format(
                     "Outside: {0}, {1}, {2}, {3}",
-                    flags.XLeftOutside,
-                    flags.XRightOutside,
-                    flags.YTopOutside,
-                    flags.YBottomOutside));
+                    Flags.XLeftOutside,
+                    Flags.XRightOutside,
+                    Flags.YTopOutside,
+                    Flags.YBottomOutside));
         }
     }
 }

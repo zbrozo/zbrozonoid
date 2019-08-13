@@ -3,7 +3,6 @@ using NUnit.Framework;
 using zbrozonoidEngine;
 using zbrozonoidEngine.Interfaces;
 using zbrozonoidEngine.Managers;
-using zbrozonoidLibrary;
 
 namespace zbrozonoidEngineTests
 {
@@ -42,8 +41,7 @@ namespace zbrozonoidEngineTests
             manager.Detect(ball1, ball2);
 
             // Then
-            CollisionFlags flags = manager.GetFlags();
-            Assert.IsTrue(flags.OverlapInsideFull());
+            Assert.IsTrue(manager.Flags.OverlapInsideFull());
         }
 
         [TestCase(0, false)]
@@ -60,8 +58,7 @@ namespace zbrozonoidEngineTests
             manager.Detect(ball1, ball2);
 
             // Then
-            CollisionFlags flags = manager.GetFlags();
-            Assert.AreEqual(result, flags.OverlapInsideLeft());
+            Assert.AreEqual(result, manager.Flags.OverlapInsideLeft());
         }
 
         [TestCase(0, false)]
@@ -78,8 +75,7 @@ namespace zbrozonoidEngineTests
             manager.Detect(ball1, ball2);
 
             // Then
-            CollisionFlags flags = manager.GetFlags();
-            Assert.AreEqual(result, flags.OverlapInsideRight());
+            Assert.AreEqual(result, manager.Flags.OverlapInsideRight());
         }
 
         [TestCase(0, false)]
@@ -96,8 +92,7 @@ namespace zbrozonoidEngineTests
             manager.Detect(ball1, ball2);
 
             // Then
-            CollisionFlags flags = manager.GetFlags();
-            Assert.AreEqual(result, flags.OverlapInsideTop());
+            Assert.AreEqual(result, manager.Flags.OverlapInsideTop());
         }
 
         [TestCase(0, false)]
@@ -114,8 +109,7 @@ namespace zbrozonoidEngineTests
             manager.Detect(ball1, ball2);
 
             // Then
-            CollisionFlags flags = manager.GetFlags();
-            Assert.AreEqual(result, flags.OverlapInsideBottom());
+            Assert.AreEqual(result, manager.Flags.OverlapInsideBottom());
         }
 
 
@@ -134,8 +128,7 @@ namespace zbrozonoidEngineTests
             manager.Detect(ball1, ball2);
 
             // Then
-            CollisionFlags flags = manager.GetFlags();
-            Assert.AreEqual(result, flags.OverlapOutsideLeft());
+            Assert.AreEqual(result, manager.Flags.OverlapOutsideLeft());
         }
 
         [TestCase(0, false)]
@@ -153,8 +146,7 @@ namespace zbrozonoidEngineTests
             manager.Detect(ball1, ball2);
 
             // Then
-            CollisionFlags flags = manager.GetFlags();
-            Assert.AreEqual(result, flags.OverlapOutsideRight());
+            Assert.AreEqual(result, manager.Flags.OverlapOutsideRight());
         }
 
         [TestCase(0, false)]
@@ -172,8 +164,7 @@ namespace zbrozonoidEngineTests
             manager.Detect(ball1, ball2);
 
             // Then
-            CollisionFlags flags = manager.GetFlags();
-            Assert.AreEqual(result, flags.OverlapOutsideTop());
+            Assert.AreEqual(result, manager.Flags.OverlapOutsideTop());
         }
 
         [TestCase(0, false)]
@@ -191,8 +182,7 @@ namespace zbrozonoidEngineTests
             manager.Detect(ball1, ball2);
 
             // Then
-            CollisionFlags flags = manager.GetFlags();
-            Assert.AreEqual(result, flags.OverlapOutsideBottom());
+            Assert.AreEqual(result, manager.Flags.OverlapOutsideBottom());
         }
 
         [TestCase(1, 1, true)]
@@ -208,8 +198,7 @@ namespace zbrozonoidEngineTests
             manager.Detect(ball1, ball2);
 
             // Then
-            CollisionFlags flags = manager.GetFlags();
-            Assert.AreEqual(result, flags.OverlapCornerTopLeft());
+            Assert.AreEqual(result, manager.Flags.OverlapCornerTopLeft());
         }
 
         [TestCase(-1, 1, true)]
@@ -225,8 +214,7 @@ namespace zbrozonoidEngineTests
             manager.Detect(ball1, ball2);
 
             // Then
-            CollisionFlags flags = manager.GetFlags();
-            Assert.AreEqual(result, flags.OverlapCornerTopRight());
+            Assert.AreEqual(result, manager.Flags.OverlapCornerTopRight());
         }
 
         [TestCase(1, -1, true)]
@@ -242,8 +230,7 @@ namespace zbrozonoidEngineTests
             manager.Detect(ball1, ball2);
 
             // Then
-            CollisionFlags flags = manager.GetFlags();
-            Assert.AreEqual(result, flags.OverlapCornerBottomLeft());
+            Assert.AreEqual(result, manager.Flags.OverlapCornerBottomLeft());
         }
 
         [TestCase(-1, -1, true)]
@@ -259,8 +246,7 @@ namespace zbrozonoidEngineTests
             manager.Detect(ball1, ball2);
 
             // Then
-            CollisionFlags flags = manager.GetFlags();
-            Assert.AreEqual(result, flags.OverlapCornerBottomRight());
+            Assert.AreEqual(result, manager.Flags.OverlapCornerBottomRight());
         }
 
     }

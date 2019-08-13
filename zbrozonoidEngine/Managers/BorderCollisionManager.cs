@@ -16,6 +16,7 @@ along with this program.If not, see<https://www.gnu.org/licenses/>.
 */
 namespace zbrozonoidEngine.Managers
 {
+    using System.Collections.Generic;
     using zbrozonoidEngine.Interfaces;
 
     public class BorderCollisionManager : IBorderCollisionManager
@@ -23,6 +24,8 @@ namespace zbrozonoidEngine.Managers
         private IBorder border;
 
         private ICollisionManager collisionManager;
+
+        private List<IBrick> bricksHitList;
 
         public BorderCollisionManager(IBorder border, ICollisionManager collisionManager)
         {
@@ -50,11 +53,11 @@ namespace zbrozonoidEngine.Managers
             return false;
         }
 
-        public bool DetectAndVerify(IBall ball)
+        public bool DetectAndVerify(List<IBrick> bricksHitList, IBall ball)
         {
             if (collisionManager.Detect(border, ball))
             {
-                collisionManager.Bounce(border,ball);
+                collisionManager.Bounce(bricksHitList, border, ball);
                 ball.SavePosition();
                 return true;
             }

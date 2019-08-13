@@ -47,25 +47,25 @@ namespace zbrozonoidEngine.Managers
             if (ball.Boundary.Min.X < 0)
             {
                 ball.Boundary.Min = new Vector2(0, ball.Boundary.Min.Y);
-                return ball.Bounce(Edge.Right);
+                return ball.Bounce(Edge.Left);
             }
 
             if (ball.Boundary.Min.X > screen.Width - ball.Boundary.Size.X)
             {
                 ball.Boundary.Min = new Vector2(screen.Width - ball.Boundary.Size.X, ball.Boundary.Min.Y);
-                return ball.Bounce(Edge.Left);
+                return ball.Bounce(Edge.Right);
             }
 
             if (ball.Boundary.Min.Y < 0)
             {
                 ball.Boundary.Min = new Vector2(ball.Boundary.Min.X, 0);
-                return ball.Bounce(Edge.Bottom);
+                return ball.Bounce(Edge.Top);
             }
 
             if (ball.Boundary.Min.Y > screen.Height - ball.Boundary.Size.Y)
             {
                 ball.Boundary.Min = new Vector2(ball.Boundary.Min.X, screen.Height - ball.Boundary.Size.Y);
-                return ball.Bounce(Edge.Top);
+                return ball.Bounce(Edge.Bottom);
             }
 
             return false;

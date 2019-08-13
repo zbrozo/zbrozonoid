@@ -20,7 +20,7 @@ namespace zbrozonoidEngine
                                 IBorderManager borderManager,
                                 ILevelManager levelManager)
         {
-            ballInPlayState = new BallInPlayState(game, screenCollisionManager, collisionManager, padManager, borderManager, levelManager);
+            ballInPlayState = new BallInPlayState(game, screenCollisionManager, collisionManager, levelManager);
             ballInIdleState = new BallInIdleState(game, padManager);
 
             currentState = ballInIdleState;
