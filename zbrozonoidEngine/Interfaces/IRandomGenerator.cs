@@ -18,6 +18,7 @@ namespace zbrozonoidEngine.Interfaces
 {
     public enum DegreeType
     {
+        None,
         Corner,
         Average,
         Centre

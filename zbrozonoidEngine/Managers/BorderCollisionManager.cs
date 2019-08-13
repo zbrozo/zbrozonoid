@@ -14,18 +14,18 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.If not, see<https://www.gnu.org/licenses/>.
 */
+
+using System.Collections.Generic;
+using zbrozonoidEngine.Interfaces;
+
 namespace zbrozonoidEngine.Managers
 {
-    using System.Collections.Generic;
-    using zbrozonoidEngine.Interfaces;
 
     public class BorderCollisionManager : IBorderCollisionManager
     {
         private IBorder border;
 
         private ICollisionManager collisionManager;
-
-        private List<IBrick> bricksHitList;
 
         public BorderCollisionManager(IBorder border, ICollisionManager collisionManager)
         {

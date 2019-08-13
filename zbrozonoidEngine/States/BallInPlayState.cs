@@ -97,7 +97,7 @@ namespace zbrozonoidEngine.States
                     pad.LogData();
 
                     CorrectBallPosition(pad, ball);
-                    collisionManager.Bounce(null, pad, ball);
+                    collisionManager.Bounce(pad, ball);
 
                     ball.LogData();
                     return true;

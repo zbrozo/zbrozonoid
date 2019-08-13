@@ -93,24 +93,42 @@ namespace zbrozonoidEngine.Managers
         {
             return Check(first as IBoundary, second as IBoundary);
         }
-       
-        public void Bounce(List<IBrick> bricksHit, IBoundary obstacle, IBall ball)
+
+        public void Bounce(IPad pad, IBall ball)
         {
+            BounceBall(pad, ball, out DegreeType type);
+            ball.CalculateNewDegree(type);
+        }
+
+        public void Bounce(List<IBrick> bricksHit, IBorder border, IBall ball)
+        {
+            DegreeType degreeType = DegreeType.None;
+            Bounce(bricksHit, border, ball, out degreeType);
+        }
+
+        public void Bounce(List<IBrick> bricksHit, IBrick brick, IBall ball)
+        {
+            DegreeType degreeType = DegreeType.None;
+            Bounce(bricksHit, brick, ball, out degreeType);
+            if (degreeType != DegreeType.None)
+            {
+                ball.CalculateNewDegree(degreeType);
+            }
+        }
+
+        private void Bounce(List<IBrick> bricksHit, IBoundary obstacle, IBall ball, out DegreeType degreeType)
+        {
+            degreeType = DegreeType.None;
+
             if (bricksHit == null || bricksHit.Count == 0)
             {
-                BounceBall(obstacle, ball);
-                return;
+                BounceBall(obstacle, ball, out degreeType);
             }
-
-            bool onlyOne = (bricksHit.Count == 1);
-
-            if (onlyOne)
+            else if (bricksHit.Count == 1)
             {
-                BounceBall(obstacle, ball);
-                return;
+                BounceBall(obstacle, ball, out degreeType);
             }
-
-            if (bricksHit.Count > 0)
+            else if (bricksHit.Count > 0)
             {
                 if (IsPosXEqual(bricksHit))
                 {
@@ -127,13 +145,15 @@ namespace zbrozonoidEngine.Managers
             }
         }
 
-        private void BounceBall(IBoundary obstacle, IBall ball)
+        private void BounceBall(IBoundary obstacle, IBall ball, out DegreeType type)
         {
+            type = DegreeType.None;
+
             if (ball.Boundary.Size.X <= obstacle.Boundary.Size.X)
             {
                 if(BounceSmallBallBottomOrTop(ball))
                 {
-                    ball.CalculateNewDegree(DegreeType.Centre);
+                    type = DegreeType.Centre;
                     return;
                 }
             }
@@ -141,7 +161,7 @@ namespace zbrozonoidEngine.Managers
             {
                 if (BounceBigBallBottomOrTop(ball))
                 {
-                    ball.CalculateNewDegree(DegreeType.Centre);
+                    type = DegreeType.Centre;
                     return;
                 }
             }
@@ -150,7 +170,7 @@ namespace zbrozonoidEngine.Managers
             {
                 if (BounceSmallBallLeftOrRight(ball))
                 {
-                    ball.CalculateNewDegree(DegreeType.Centre);
+                    type = DegreeType.Centre;
                     return;
                 }
             }
@@ -158,14 +178,14 @@ namespace zbrozonoidEngine.Managers
             {
                 if (BounceBigBallLeftOrRight(ball))
                 {
-                    ball.CalculateNewDegree(DegreeType.Centre);
+                    type = DegreeType.Centre;
                     return;
                 }
             }
 
             if (BounceBallFromCorner(ball))
             {
-                ball.CalculateNewDegree(DegreeType.Corner);
+                type = DegreeType.Corner;
                 return;
             }
         }

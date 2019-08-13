@@ -24,7 +24,10 @@ namespace zbrozonoidEngine.Interfaces
         CollisionFlags Flags { get; }
 
         bool Detect(IBoundary first, IBoundary second);
-        void Bounce(List<IBrick> bricksHit, IBoundary obstacle, IBall ball);
+
+        void Bounce(IPad pad, IBall ball);
+        void Bounce(List<IBrick> bricksHit, IBorder border, IBall ball);
+        void Bounce(List<IBrick> bricksHit, IBrick brick, IBall ball);
 
         void LogData();
     }
