@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using zbrozonoidEngine.Interfaces;
 using zbrozonoidEngine.Interfaces.States;
 using zbrozonoidEngine.Managers;
+using zbrozonoidLibrary.States.BallInPlayCommands;
 
 namespace zbrozonoidEngine.States
 {
@@ -15,6 +16,8 @@ namespace zbrozonoidEngine.States
         private readonly IBorderManager borderManager;
         private readonly ICollisionManager collisionManagerForMoveReversion;
         private readonly ILevelManager levelManager;
+
+        private readonly IBallInPlayCommand moveBallCommand;
 
         private List<IBrick> BricksHitList => game.BricksHitList;
 
@@ -29,13 +32,15 @@ namespace zbrozonoidEngine.States
             this.levelManager = levelManager;
             this.padManager = game.PadManager;
             this.borderManager = game.BorderManager;
- 
+
+            this.moveBallCommand = new MoveBallCommand();
+
             collisionManagerForMoveReversion = new CollisionManager();
         }
 
         public bool action(IBall ball)
         {
-            ball.MoveBall();
+            moveBallCommand.Execute(ball);
 
             if (HandleScreenCollision(ball))
             {

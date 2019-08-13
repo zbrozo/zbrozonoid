@@ -89,11 +89,14 @@
     <Compile Include="Interfaces\IMovement.cs" />
     <Compile Include="LinearMovement.cs" />
     <Compile Include="CollisionFlags.cs" />
+    <Compile Include="States\BallInPlayCommands\MoveBallCommand.cs" />
+    <Compile Include="States\BallInPlayCommands\IBallInPlayCommand.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
     <Folder Include="States\" />
     <Folder Include="Interfaces\States\" />
+    <Folder Include="States\BallInPlayCommands\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
