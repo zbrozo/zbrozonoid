@@ -17,34 +17,37 @@ namespace zbrozonoidEngine.States
         private readonly ICollisionManager collisionManagerForMoveReversion;
         private readonly ILevelManager levelManager;
 
-        private readonly IBallInPlayCommand moveBallCommand;
-        private readonly IBallInPlayCommand handleScreenCollisisionCommand;
+        private readonly IBallInPlayCommand handleScreenCollisionCommand;
+        private readonly IBallInPlayCommand handleBorderCollisionCommand;
 
         private List<IBrick> BricksHitList => game.BricksHitList;
         private readonly List<IBallInPlayCommand> commands;
 
-        public BallInPlayState(Game game, 
-                               ICollisionManager collisionManager, 
-                               ILevelManager levelManager)
+        public BallInPlayState(Game game)
         {
             this.game = game;
-            this.collisionManager = collisionManager;
-            this.levelManager = levelManager;
+            this.collisionManager = game.CollisionManager;
+            this.levelManager = game.LevelManager;
             this.screenCollisionManager = game.ScreenCollisionManager;
             this.padManager = game.PadManager;
             this.borderManager = game.BorderManager;
 
-            moveBallCommand = new MoveBallCommand();
-            handleScreenCollisisionCommand = new HandleScreenCollisionCommand(game);
+            handleScreenCollisionCommand = new HandleScreenCollisionCommand(game);
+            handleBorderCollisionCommand = new HandleBorderCollisionCommand(game);
 
-            commands = new List<IBallInPlayCommand>() { moveBallCommand, handleScreenCollisisionCommand };
+            commands = new List<IBallInPlayCommand>() { 
+                handleScreenCollisionCommand,
+                handleBorderCollisionCommand
+                };
 
             collisionManagerForMoveReversion = new CollisionManager();
         }
 
         public bool action(IBall ball)
         {
-            foreach(var command in commands)
+            ball.MoveBall();
+
+            foreach (var command in commands)
             {
                 if (!command.Execute(ball))
                 {
@@ -52,15 +55,13 @@ namespace zbrozonoidEngine.States
                 }
             }
 
-            bool borderHit = HandleBorderCollision(ball);
-
             if (HandlePadCollision(ball))
             {
                 game.SavePosition(ball);
                 return false;
             }
 
-            if (HandleBrickCollision(ball, borderHit))
+            if (HandleBrickCollision(ball, handleBorderCollisionCommand.CollisionResult))
             {
                 game.SavePosition(ball);
                 return false;
@@ -70,18 +71,6 @@ namespace zbrozonoidEngine.States
             return true;
         }
 
-        protected bool HandleBorderCollision(IBall ball)
-        {
-            foreach (IBorder border in borderManager)
-            {
-                IBorderCollisionManager borderCollisionManager = new BorderCollisionManager(border, collisionManager);
-                if (borderCollisionManager.DetectAndVerify(game.BricksHitList, ball))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
 
         protected bool HandlePadCollision(IBall ball)
         {

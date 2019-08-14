@@ -14,12 +14,11 @@ namespace zbrozonoidEngine
         IBallState currentState;
 
         public BallStateMachine(Game game, 
-                                ICollisionManager collisionManager,
                                 IPadManager padManager,
                                 IBorderManager borderManager,
                                 ILevelManager levelManager)
         {
-            ballInPlayState = new BallInPlayState(game, collisionManager, levelManager);
+            ballInPlayState = new BallInPlayState(game);
             ballInIdleState = new BallInIdleState(game, padManager);
 
             currentState = ballInIdleState;

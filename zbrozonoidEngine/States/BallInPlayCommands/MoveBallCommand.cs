@@ -4,9 +4,12 @@ namespace zbrozonoidLibrary.States.BallInPlayCommands
 {
     public class MoveBallCommand : IBallInPlayCommand
     {
+        public bool CollisionResult { set; get; }
+
         public bool Execute(IBall ball)
         {
-            return ball.MoveBall();
+            CollisionResult = ball.MoveBall();
+            return true;
         }
     }
 }

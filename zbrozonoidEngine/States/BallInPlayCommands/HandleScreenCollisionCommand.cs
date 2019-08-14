@@ -7,6 +7,8 @@ namespace zbrozonoidLibrary.States.BallInPlayCommands
     {
         private Game game;
 
+        public bool CollisionResult { set; get; }
+
         public HandleScreenCollisionCommand(Game game)
         {
             this.game = game;
@@ -21,9 +23,12 @@ namespace zbrozonoidLibrary.States.BallInPlayCommands
                 CheckBallsOutOfScreen();
 
                 ball.SavePosition();
+
+                CollisionResult = true;
                 return false;
             }
 
+            CollisionResult = false;
             return true;
         }
 
