@@ -4,6 +4,6 @@ namespace zbrozonoidLibrary.States.BallInPlayCommands
 {
     public interface IBallInPlayCommand
     {
-        void Execute(IBall ball);
+        bool Execute(IBall ball);
     }
 }

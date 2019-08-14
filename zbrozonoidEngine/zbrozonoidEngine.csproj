@@ -91,6 +91,7 @@
     <Compile Include="CollisionFlags.cs" />
     <Compile Include="States\BallInPlayCommands\MoveBallCommand.cs" />
     <Compile Include="States\BallInPlayCommands\IBallInPlayCommand.cs" />
+    <Compile Include="States\BallInPlayCommands\HandleScreenCollisionCommand.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

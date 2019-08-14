@@ -52,6 +52,7 @@ namespace zbrozonoidEngine
 
         private readonly IGameState gameState;
 
+        public IScreenCollisionManager ScreenCollisionManager => screenCollisionManager;
         public ITailManager TailManager => tailManager;
         public IBorderManager BorderManager => borderManager;
         public IBallManager BallManager => ballManager;
@@ -80,7 +81,7 @@ namespace zbrozonoidEngine
             padManager = new PadManager(screen);
             gameState = new GameState();
 
-            ballStateMachine = new BallStateMachine(this, screenCollisionManager, collisionManager, padManager, borderManager, levelManager);
+            ballStateMachine = new BallStateMachine(this, collisionManager, padManager, borderManager, levelManager);
 
             padManager.Add(Edge.Top);
             padManager.Add(Edge.Bottom);

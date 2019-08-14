@@ -32,6 +32,7 @@ namespace zbrozonoidEngine.Interfaces
         IBorderManager BorderManager { get; }
         IBallManager BallManager { get; }
         IPadManager PadManager { get; }
+        IScreenCollisionManager ScreenCollisionManager { get; }
         List<IBrick> Bricks { get; }
         string BackgroundPath { get; }
 
