@@ -111,6 +111,9 @@ namespace zbrozonoid
             {
                 int i = 0;
                 int opacity = 150;
+
+                ball.GetSize(out int width, out int height);
+
                 foreach (Vector2 position in tail)
                 {
                     ++i;
@@ -120,8 +123,6 @@ namespace zbrozonoid
                         {
                             break;
                         }
-
-                        ball.GetSize(out int width, out int height);
 
                         Color color = Color.Cyan;
                         color.A = (byte)opacity;
