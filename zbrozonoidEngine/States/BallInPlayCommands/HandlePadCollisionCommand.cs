@@ -1,8 +1,7 @@
-﻿using zbrozonoidEngine;
-using zbrozonoidEngine.Interfaces;
+﻿using zbrozonoidEngine.Interfaces;
 using zbrozonoidEngine.Managers;
 
-namespace zbrozonoidLibrary.States.BallInPlayCommands
+namespace zbrozonoidEngine.States.BallInPlayCommands
 {
     public class HandlePadCollisionCommand : IHandleCollisionCommand
     {

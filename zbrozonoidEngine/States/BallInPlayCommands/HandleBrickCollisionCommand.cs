@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using zbrozonoidEngine;
+﻿using System.Collections.Generic;
 using zbrozonoidEngine.Interfaces;
 
-namespace zbrozonoidLibrary.States.BallInPlayCommands
+namespace zbrozonoidEngine.States.BallInPlayCommands
 {
     public class HandleBrickCollisionCommand : IHandleCollisionCommand
     {
