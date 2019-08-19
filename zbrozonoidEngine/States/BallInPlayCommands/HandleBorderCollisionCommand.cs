@@ -4,7 +4,7 @@ using zbrozonoidEngine.Managers;
 
 namespace zbrozonoidLibrary.States.BallInPlayCommands
 {
-    public class HandleBorderCollisionCommand : IBallInPlayCommand
+    public class HandleBorderCollisionCommand : IHandleCollisionCommand
     {
         private Game game;
 

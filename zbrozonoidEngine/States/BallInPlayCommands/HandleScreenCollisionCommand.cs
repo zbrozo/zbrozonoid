@@ -3,7 +3,7 @@ using zbrozonoidEngine.Interfaces;
 
 namespace zbrozonoidLibrary.States.BallInPlayCommands
 {
-    public class HandleScreenCollisionCommand : IBallInPlayCommand
+    public class HandleScreenCollisionCommand : IHandleCollisionCommand
     {
         private Game game;
 

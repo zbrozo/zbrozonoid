@@ -5,14 +5,14 @@ using zbrozonoidEngine.Interfaces;
 
 namespace zbrozonoidLibrary.States.BallInPlayCommands
 {
-    public class HandleBrickCollisionCommand : IBallInPlayCommand
+    public class HandleBrickCollisionCommand : IHandleCollisionCommand
     {
         private readonly Game game;
-        private readonly IBallInPlayCommand borderCollisionCommand;
+        private readonly IHandleCollisionCommand borderCollisionCommand;
 
         public bool CollisionResult { set; get; }
 
-        public HandleBrickCollisionCommand(Game game, IBallInPlayCommand borderCollisionCommand)
+        public HandleBrickCollisionCommand(Game game, IHandleCollisionCommand borderCollisionCommand)
         {
             this.game = game;
             this.borderCollisionCommand = borderCollisionCommand;

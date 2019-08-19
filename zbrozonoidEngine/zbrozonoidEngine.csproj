@@ -89,7 +89,7 @@
     <Compile Include="Interfaces\IMovement.cs" />
     <Compile Include="LinearMovement.cs" />
     <Compile Include="CollisionFlags.cs" />
-    <Compile Include="States\BallInPlayCommands\IBallInPlayCommand.cs" />
+    <Compile Include="States\BallInPlayCommands\IHandleCollisionCommand.cs" />
     <Compile Include="States\BallInPlayCommands\HandleScreenCollisionCommand.cs" />
     <Compile Include="States\BallInPlayCommands\HandleBorderCollisionCommand.cs" />
     <Compile Include="States\BallInPlayCommands\HandlePadCollisionCommand.cs" />
