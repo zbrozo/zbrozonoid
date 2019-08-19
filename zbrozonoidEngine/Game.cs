@@ -357,7 +357,6 @@ namespace zbrozonoidEngine
 
         public void OnLostBalls(object sender, EventArgs args)
         {
-            //if (ballManager.)
             --GameState.Lifes;
             ballStateMachine.GoIntoIdle();
         }
