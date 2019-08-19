@@ -21,12 +21,7 @@ namespace zbrozonoidLibrary.States.BallInPlayCommands
         public bool Execute(IBall ball)
         {
             CollisionResult = HandlePadCollision(ball);
-            if (CollisionResult)
-            {
-                game.SavePosition(ball);
-                return false;
-            }
-            return true;
+            return !CollisionResult;
         }
 
         protected bool HandlePadCollision(IBall ball)

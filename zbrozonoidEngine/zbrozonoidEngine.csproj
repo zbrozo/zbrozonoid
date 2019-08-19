@@ -93,6 +93,7 @@
     <Compile Include="States\BallInPlayCommands\HandleScreenCollisionCommand.cs" />
     <Compile Include="States\BallInPlayCommands\HandleBorderCollisionCommand.cs" />
     <Compile Include="States\BallInPlayCommands\HandlePadCollisionCommand.cs" />
+    <Compile Include="States\BallInPlayCommands\HandleBrickCollisionCommand.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

@@ -16,19 +16,17 @@ namespace zbrozonoidLibrary.States.BallInPlayCommands
 
         public bool Execute(IBall ball)
         {
-            if (HandleScreenCollision(ball))
+            CollisionResult = HandleScreenCollision(ball);
+
+            if (CollisionResult)
             {
                 game.GameState.BallsOutOfScreen++;
 
                 CheckBallsOutOfScreen();
 
-                ball.SavePosition();
-
-                CollisionResult = true;
                 return false;
             }
 
-            CollisionResult = false;
             return true;
         }
 
