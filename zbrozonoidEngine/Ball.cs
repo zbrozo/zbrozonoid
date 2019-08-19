@@ -200,23 +200,16 @@ namespace zbrozonoidEngine
 
         public void LogData(bool reverse = false)
         {
-            /*
             Logger.Instance.Write(
                 string.Format(
-                    "Ball {0}: {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}",
+                    "Ball {0}: min: {1}| size: {2}| pos: {3}| direction: {4}| iteration: {5}| degree: {6}",
                     reverse ? "reverse" : "",
-                    Boundary.Min.X,
-                    Boundary.Min.Y,
-                    Boundary.Size.X,
-                    Boundary.Size.Y,
-                    OffsetX,
-                    OffsetY,
-                    DirectionX,
-                    DirectionY,
-                    Iteration,
-                    Degree));
-                    */                  
+                    Boundary.Min,
+                    Boundary.Size,
+                    movement.Offset,
+                    movement.Direction,
+                    movement.Iteration,
+                    movement.Degree));
         }
-
     }
 }
