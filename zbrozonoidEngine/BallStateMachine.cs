@@ -24,17 +24,17 @@ namespace zbrozonoidEngine
             currentState = ballInIdleState;
         }
 
-        public bool action(IBall ball)
+        public bool Action(IBall ball)
         {
             return currentState.action(ball);
         }
 
-        public void goIntoIdle()
+        public void GoIntoIdle()
         {
             currentState = ballInIdleState;
         }
 
-        public void goIntoPlay()
+        public void GoIntoPlay()
         {
             currentState = ballInPlayState;
         }

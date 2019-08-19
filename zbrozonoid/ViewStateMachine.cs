@@ -27,10 +27,10 @@ namespace zbrozonoid
 
         private IDrawGameObjects draw;
 
-        private IGameView gameBegin;
-        private IGameView gamePlay;
-        private IGameView gameOver;
-        private IGameView startPlay;
+        private readonly IGameView gameBegin;
+        private readonly IGameView gamePlay;
+        private readonly IGameView gameOver;
+        private readonly IGameView startPlay;
 
         private IGameView currentState;
 
@@ -53,10 +53,7 @@ namespace zbrozonoid
             draw.DrawPad();
             draw.DrawBall();
 
-            if (currentState != null)
-            {
-                currentState.Action();
-            }
+            currentState?.Action();
         }
 
         public void Transitions(IGame game)
@@ -94,17 +91,17 @@ namespace zbrozonoid
             }
         }
 
-        public void gotoMenu()
+        public void GotoMenu()
         {
             currentState = gameBegin;
         }
 
-        public void gotoPlay()
+        public void GotoPlay()
         {
             currentState = gamePlay;
         }
 
-        public void gotoGameOver()
+        public void GotoGameOver()
         {
             currentState = gameOver;
         }

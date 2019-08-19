@@ -14,7 +14,6 @@ namespace zbrozonoidEngine.States
         private readonly IHandleCollisionCommand handlePadCollisionCommand;
         private readonly IHandleCollisionCommand handleBrickCollisionCommand;
 
-        private List<IBrick> BricksHitList => game.BricksHitList;
         private readonly List<IHandleCollisionCommand> collisionCommands;
 
         public BallInPlayState(Game game)

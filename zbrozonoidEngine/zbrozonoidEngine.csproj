@@ -46,9 +46,6 @@
     <Compile Include="Screen.cs" />
     <Compile Include="Tail.cs" />
     <Compile Include="Enumerators\BallEnum.cs" />
-    <Compile Include="Enumerators\BorderEnum.cs" />
-    <Compile Include="Enumerators\LevelEnum.cs" />
-    <Compile Include="Enumerators\PositionEnum.cs" />
     <Compile Include="Interfaces\IBall.cs" />
     <Compile Include="Interfaces\IBallManager.cs" />
     <Compile Include="Interfaces\IBorder.cs" />

@@ -2,6 +2,6 @@
 {
     public interface IBoundary
     {
-        Rectangle Boundary { get; set; }
+        Rectangle Boundary { get; }
     }
 }

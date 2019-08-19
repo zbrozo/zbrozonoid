@@ -66,7 +66,7 @@ namespace zbrozonoid
             viewModel = new ViewModel(game);
             drawGameObjects = new DrawGameObjects(app, viewModel, game);
             appStateMachine = new ViewStateMachine(viewModel, drawGameObjects);
-            appStateMachine.gotoMenu();
+            appStateMachine.GotoMenu();
         }
 
         private void OnKeyPressed(object sender, KeyEventArgs e)
