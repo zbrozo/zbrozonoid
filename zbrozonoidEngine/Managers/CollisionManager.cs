@@ -152,7 +152,13 @@ namespace zbrozonoidEngine.Managers
             {
                 if(BounceSmallBallBottomOrTop(ball))
                 {
-                    type = DegreeType.Centre;
+                    if (IsCentralHit(obstacle, ball))
+                    {
+                        type = DegreeType.Centre;
+                        return;
+                    }
+
+                    type = DegreeType.Average;
                     return;
                 }
             }
@@ -353,6 +359,17 @@ namespace zbrozonoidEngine.Managers
             }
 
             return true;
+        }
+
+        private bool IsCentralHit(IBoundary obstacle, IBall ball)
+        {
+            int unit = obstacle.Boundary.Size.X / 6;
+            if (ball.Boundary.Min.X >= obstacle.Boundary.Min.X + obstacle.Boundary.Size.X / 2 - unit &&
+                ball.Boundary.Min.X <= obstacle.Boundary.Min.X + obstacle.Boundary.Size.X / 2 + unit)
+            {
+                return true;
+            }
+            return false;
         }
 
         public void LogData()
