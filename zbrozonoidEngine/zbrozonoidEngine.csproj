@@ -94,6 +94,8 @@
     <Compile Include="States\BallInPlayCommands\HandleBorderCollisionCommand.cs" />
     <Compile Include="States\BallInPlayCommands\HandlePadCollisionCommand.cs" />
     <Compile Include="States\BallInPlayCommands\HandleBrickCollisionCommand.cs" />
+    <Compile Include="Vector2.cs" />
+    <Compile Include="Rectangle.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

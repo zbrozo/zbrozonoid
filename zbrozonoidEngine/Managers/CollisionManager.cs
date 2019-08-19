@@ -20,7 +20,6 @@ namespace zbrozonoidEngine.Managers
 
     using zbrozonoidEngine;
     using zbrozonoidEngine.Interfaces;
-    using zbrozonoidLibrary;
 
     public class CollisionManager : ICollisionManager
     {

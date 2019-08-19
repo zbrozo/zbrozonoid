@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using zbrozonoidEngine.Interfaces;
 using zbrozonoidEngine.Interfaces.States;
-using zbrozonoidEngine.Managers;
-using zbrozonoidLibrary.States.BallInPlayCommands;
+using zbrozonoidEngine.States.BallInPlayCommands;
 
 namespace zbrozonoidEngine.States
 {

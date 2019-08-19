@@ -1,5 +1,4 @@
-﻿using System;
-namespace zbrozonoidLibrary
+﻿namespace zbrozonoidEngine
 {
     public class CollisionFlags
     {
