@@ -152,7 +152,7 @@ namespace zbrozonoidEngine
                 int speed = ball.Speed;
                 for (int i = 0; i < speed; ++i)
                 {
-                    if (!ballStateMachine.action(ball))
+                    if (!ballStateMachine.Action(ball))
                     {
                         break;
                     }
@@ -302,7 +302,7 @@ namespace zbrozonoidEngine
             }
 
             gameState.BallsOutOfScreen = 0;
-            ballStateMachine.goIntoPlay();
+            ballStateMachine.GoIntoPlay();
         }
 
         private void ReinitBall()
@@ -356,7 +356,7 @@ namespace zbrozonoidEngine
         public void OnLostBalls(object sender, EventArgs args)
         {
             --GameState.Lifes;
-            ballStateMachine.goIntoIdle();
+            ballStateMachine.GoIntoIdle();
         }
 
         public IBall CreateBallFactory()

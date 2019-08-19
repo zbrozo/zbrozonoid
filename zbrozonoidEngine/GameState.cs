@@ -1,5 +1,4 @@
-﻿using System;
-using zbrozonoidEngine.Interfaces;
+﻿using zbrozonoidEngine.Interfaces;
 
 namespace zbrozonoidEngine
 {
@@ -10,9 +9,5 @@ namespace zbrozonoidEngine
         public int Scores { get; set; } = 0;
 
         public int BallsOutOfScreen { get; set; } = 0;
-
-        public GameState()
-        {
-        }
     }
 }
