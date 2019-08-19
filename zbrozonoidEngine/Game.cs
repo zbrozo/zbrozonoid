@@ -147,7 +147,9 @@ namespace zbrozonoidEngine
 
         public void Action()
         {
-            foreach(IBall ball in ballManager)
+            GameState.BallsOutOfScreen = 0;
+
+            foreach (IBall ball in ballManager)
             {
                 int speed = ball.Speed;
                 for (int i = 0; i < speed; ++i)
@@ -355,6 +357,7 @@ namespace zbrozonoidEngine
 
         public void OnLostBalls(object sender, EventArgs args)
         {
+            //if (ballManager.)
             --GameState.Lifes;
             ballStateMachine.GoIntoIdle();
         }
