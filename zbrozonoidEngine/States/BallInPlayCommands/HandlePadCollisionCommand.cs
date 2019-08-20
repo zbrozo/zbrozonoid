@@ -11,6 +11,8 @@ namespace zbrozonoidEngine.States.BallInPlayCommands
 
         private readonly ICollisionManager collisionManagerForMoveReversion;
 
+        private const int padSpeedToGoBallFaster = 10;
+
         public HandlePadCollisionCommand(Game game)
         {
             this.game = game;
@@ -34,7 +36,7 @@ namespace zbrozonoidEngine.States.BallInPlayCommands
                     CorrectBallPosition(pad, ball);
                     game.CollisionManager.Bounce(pad, ball);
 
-                    if (game.PadCurrentSpeed > 10)
+                    if (game.PadCurrentSpeed > padSpeedToGoBallFaster)
                     {
                         ball.GoFaster();
                     }

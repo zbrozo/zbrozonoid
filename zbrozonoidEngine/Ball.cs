@@ -25,7 +25,7 @@ namespace zbrozonoidEngine
 
         private Vector2 SavedPosition { get; set; }
 
-        public int Speed { get; set; }
+        public int Speed { get; private set; }
 
         private DegreeType DegreeType { get; set; }
 

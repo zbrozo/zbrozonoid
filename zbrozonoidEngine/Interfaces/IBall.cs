@@ -18,7 +18,7 @@ namespace zbrozonoidEngine.Interfaces
 {
     public interface IBall : IBoundary
     {
-        int Speed { get; set; }
+        int Speed { get; }
 
         void InitStartPosition();
         void SetYPosition(int y);
@@ -35,9 +35,8 @@ namespace zbrozonoidEngine.Interfaces
         void CalculateNewDegree(DegreeType range);
         void SavePosition();
 
-        void LogData(bool reverse = false);
-
         void GoFaster();
 
+        void LogData(bool reverse = false);
     }
 }
