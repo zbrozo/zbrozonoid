@@ -34,6 +34,11 @@ namespace zbrozonoidEngine.States.BallInPlayCommands
                     CorrectBallPosition(pad, ball);
                     game.CollisionManager.Bounce(pad, ball);
 
+                    if (game.PadCurrentSpeed > 10)
+                    {
+                        ball.GoFaster();
+                    }
+
                     ball.LogData();
                     return true;
                 }

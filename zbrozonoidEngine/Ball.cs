@@ -16,6 +16,7 @@ along with this program.If not, see<https://www.gnu.org/licenses/>.
 */
 namespace zbrozonoidEngine
 {
+    using System.Timers;
     using zbrozonoidEngine.Interfaces;
 
     public class Ball : IBall
@@ -32,13 +33,20 @@ namespace zbrozonoidEngine
 
         private readonly IMovement movement;
 
+        private readonly Timer timer = new Timer();
+
+        private const int timerInterval = 20 * 1000; // 20 seconds
+
         public Ball(IRandomGenerator randomGenerator, IMovement movement)
         {
             this.randomGenerator = randomGenerator;
             this.movement = movement;
 
-            DegreeType = DegreeType.Centre;  
-            Speed = 4;
+            timer.Elapsed += OnTimedEvent;
+            timer.Interval = timerInterval;
+
+            DegreeType = DegreeType.Centre;
+            Speed = (int)BallSpeed.Default;
         }
 
         public void SetSize(int width, int height)
@@ -211,5 +219,17 @@ namespace zbrozonoidEngine
                     movement.Iteration,
                     movement.Degree));
         }
+
+        public void GoFaster()
+        {
+            Speed = (int)BallSpeed.Faster;
+            timer.Start();
+        }
+
+        private void OnTimedEvent(object source, ElapsedEventArgs e)
+        {
+            Speed = (int)BallSpeed.Default;
+        }
+
     }
 }

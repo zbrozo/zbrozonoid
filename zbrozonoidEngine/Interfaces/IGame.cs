@@ -27,6 +27,8 @@ namespace zbrozonoidEngine.Interfaces
 
         void OnLostBalls(object sender, EventArgs args);
 
+        int PadCurrentSpeed { get; }
+
         IGameState GameState { get; }
         ITailManager TailManager { get; }
         IBorderManager BorderManager { get; }

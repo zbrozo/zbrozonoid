@@ -65,6 +65,8 @@ namespace zbrozonoidEngine
 
         public List<IBrick> BricksHitList = new List<IBrick>();
 
+        public int PadCurrentSpeed { get; private set; }
+
         public Game()
         {
 
@@ -265,6 +267,8 @@ namespace zbrozonoidEngine
 
         public void SetPadMove(int delta)
         {
+            PadCurrentSpeed = delta;
+
             foreach (IPad pad in padManager)
             {
                 pad.Boundary.Min = new Vector2(pad.Boundary.Min.X + delta, pad.Boundary.Min.Y);

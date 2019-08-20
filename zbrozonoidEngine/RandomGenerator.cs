@@ -49,6 +49,9 @@ namespace zbrozonoidEngine
 
             switch (type)
             {
+                case DegreeType.None:
+                    break;
+
                 case DegreeType.Corner:
                     Degree += degreeMargin;
                     break;

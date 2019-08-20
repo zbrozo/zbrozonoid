@@ -36,5 +36,8 @@ namespace zbrozonoidEngine.Interfaces
         void SavePosition();
 
         void LogData(bool reverse = false);
+
+        void GoFaster();
+
     }
 }
