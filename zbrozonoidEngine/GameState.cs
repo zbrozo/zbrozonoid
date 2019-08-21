@@ -9,5 +9,7 @@ namespace zbrozonoidEngine
         public int Scores { get; set; } = 0;
 
         public int BallsOutOfScreen { get; set; } = 0;
+
+        public int BallFasterTimer { get; set; } = 0;
     }
 }

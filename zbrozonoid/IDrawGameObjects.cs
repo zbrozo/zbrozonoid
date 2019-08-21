@@ -33,6 +33,7 @@ namespace zbrozonoid
         void DrawLifesAndScoresInfo();
         void DrawGameOver();
         void DrawPressPlayToPlay();
+        void DrawBallFasterTimer();
 
     }
 }

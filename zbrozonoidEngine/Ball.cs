@@ -33,9 +33,13 @@ namespace zbrozonoidEngine
 
         private readonly IMovement movement;
 
-        private readonly Timer timer = new Timer();
+        private Timer timer = new Timer();
 
-        private const int timerInterval = 20 * 1000; // 20 seconds
+        private const int timerInterval = 1000;
+        private const int timerMaxTime = 20; // 20 seconds
+        private int timerCounter;
+
+        public BallSpeedTimerCallbackDelegate BallSpeedTimerCallback { get; set; }
 
         public Ball(IRandomGenerator randomGenerator, IMovement movement)
         {
@@ -44,6 +48,7 @@ namespace zbrozonoidEngine
 
             timer.Elapsed += OnTimedEvent;
             timer.Interval = timerInterval;
+            timer.AutoReset = true;
 
             DegreeType = DegreeType.Centre;
             Speed = (int)BallSpeed.Default;
@@ -223,12 +228,33 @@ namespace zbrozonoidEngine
         public void GoFaster()
         {
             Speed = (int)BallSpeed.Faster;
+
+            timerCounter = 0;
+
+            timer.Stop();
             timer.Start();
+        }
+
+        public void GoDefaultSpeed()
+        {
+            Speed = (int)BallSpeed.Default;
+
+            timer.Stop();
+
+            BallSpeedTimerCallback?.Invoke(0);
         }
 
         private void OnTimedEvent(object source, ElapsedEventArgs e)
         {
-            Speed = (int)BallSpeed.Default;
+            if (timerCounter > timerMaxTime)
+            {
+                Speed = (int)BallSpeed.Default;
+                return;
+            }
+
+            BallSpeedTimerCallback?.Invoke(timerMaxTime - timerCounter);
+
+            ++timerCounter;
         }
 
     }

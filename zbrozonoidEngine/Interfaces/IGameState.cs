@@ -8,5 +8,7 @@ namespace zbrozonoidEngine.Interfaces
         int Scores { get; set; }
 
         int BallsOutOfScreen { get; set; }
+
+        int BallFasterTimer { get; set; }
     }
 }

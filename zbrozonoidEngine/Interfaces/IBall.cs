@@ -14,10 +14,14 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.If not, see<https://www.gnu.org/licenses/>.
 */
+using System.Threading;
+
 namespace zbrozonoidEngine.Interfaces
 {
     public interface IBall : IBoundary
     {
+        BallSpeedTimerCallbackDelegate BallSpeedTimerCallback { get; set; }
+
         int Speed { get; }
 
         void InitStartPosition();
@@ -36,6 +40,7 @@ namespace zbrozonoidEngine.Interfaces
         void SavePosition();
 
         void GoFaster();
+        void GoDefaultSpeed();
 
         void LogData(bool reverse = false);
     }

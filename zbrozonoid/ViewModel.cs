@@ -58,6 +58,11 @@ namespace zbrozonoid
             get { return PrepareLifesAndScoresMessage(); }
         }
 
+        public Text BallFasterMessage
+        {
+            get { return PrepareFasterMessage(); }
+        }
+
         public Text Title { get; set; }
         public Text GameOverMessage { get; set; }
         public Text PressButtonToPlayMessage { get; set; }
@@ -202,6 +207,29 @@ namespace zbrozonoid
             game.GetScreenSize(out int width, out int height);
             FloatRect localBounds = message.GetLocalBounds();
             Vector2f rect = new Vector2f((width - localBounds.Width) / 2, height / 4 - localBounds.Height / 2);
+            message.Position = rect;
+
+            return message;
+        }
+
+        private Text PrepareFasterMessage()
+        {
+            uint charSize = 20;
+            int faster = game.GameState.BallFasterTimer;
+            if (faster == 0)
+            {
+                return new Text();
+            }
+
+            Text message = new Text($"BallFaster: {faster}", Font, charSize);
+            message.FillColor = Color.White;
+
+            game.GetScreenSize(out int width, out int height);
+            FloatRect localBounds = message.GetLocalBounds();
+
+            int offsetX = 450;
+            int offsetY = 30;
+            Vector2f rect = new Vector2f(offsetX, height - localBounds.Height - offsetY);
             message.Position = rect;
 
             return message;

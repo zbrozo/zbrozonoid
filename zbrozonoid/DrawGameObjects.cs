@@ -160,5 +160,15 @@ namespace zbrozonoid
             renderWindow.Draw(viewModel.PressButtonToPlayMessage);
         }
 
+        public void DrawBallFasterTimer()
+        {
+            Text message = viewModel.BallFasterMessage;
+            string s = message.DisplayedString;
+            if (s.Length > 0)
+            {
+                renderWindow.Draw(viewModel.BallFasterMessage);
+            }
+        }
+
     }
 }

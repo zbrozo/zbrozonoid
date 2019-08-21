@@ -322,6 +322,7 @@ namespace zbrozonoidEngine
             {
                 return;
             }
+            ball.GoDefaultSpeed();
 
             IPad pad = padManager.GetFirst();
             SetBallStartPosition(pad, ball);
@@ -370,10 +371,20 @@ namespace zbrozonoidEngine
             const int defaultDegree = 45;
             var defaultDirection = new Vector2(1, 1);
             var defaultOffset = new Vector2(0, 0);
-            IBall ball = new Ball(new RandomGenerator(), 
-                                  new LinearMovement(0, defaultDegree, defaultOffset, defaultDirection));
+            IBall ball = new Ball(new RandomGenerator(),
+                                  new LinearMovement(0, defaultDegree, defaultOffset, defaultDirection)
+                            )
+            {
+                BallSpeedTimerCallback = BallSpeedTimerHandler
+            };
+
             ball.SetSize(15, 15);
             return ball;
+        }
+
+        public void BallSpeedTimerHandler(int value)
+        {
+            GameState.BallFasterTimer = value;
         }
     }
 }

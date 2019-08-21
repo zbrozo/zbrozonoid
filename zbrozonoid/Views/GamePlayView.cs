@@ -13,6 +13,7 @@ namespace zbrozonoid.Views
         public void Action()
         {
             draw.DrawLifesAndScoresInfo();
+            draw.DrawBallFasterTimer();
         }
     }
 }

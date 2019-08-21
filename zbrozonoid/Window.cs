@@ -112,7 +112,7 @@ namespace zbrozonoid
             window.Close();
         }
 
-        void OnMouseMove(object sender, MouseMoveEventArgs args)
+        private void OnMouseMove(object sender, MouseMoveEventArgs args)
         {
             int current = args.X;
 
@@ -122,6 +122,11 @@ namespace zbrozonoid
             int delta = current - pos.X;
 
             game.SetPadMove(delta);
+        }
+
+        public void OnBallSpeedCountdownTimerEvent(object sender, EventArgs e)
+        {
+
         }
 
         public void Initialize()
