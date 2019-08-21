@@ -1,4 +1,6 @@
-﻿namespace zbrozonoidEngine
+﻿using zbrozonoidEngine.Interfaces;
+
+namespace zbrozonoidEngine
 {
     public enum BallSpeed
     {
@@ -6,6 +8,6 @@
         Faster = 6
     }
 
-    public delegate void BallSpeedTimerCallbackDelegate(int value);
+    public delegate void BallSpeedTimerCallbackDelegate(IBall ball, int value);
 
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Collections.Generic;
+
 namespace zbrozonoidEngine.Interfaces
 {
     public interface IGameState
@@ -9,6 +10,6 @@ namespace zbrozonoidEngine.Interfaces
 
         int BallsOutOfScreen { get; set; }
 
-        int BallFasterTimer { get; set; }
+        Dictionary<IBall, int> BallFasterCountdown { get; set; }
     }
 }

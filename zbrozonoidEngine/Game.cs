@@ -382,9 +382,22 @@ namespace zbrozonoidEngine
             return ball;
         }
 
-        public void BallSpeedTimerHandler(int value)
+        public void BallSpeedTimerHandler(IBall ball, int value)
         {
-            GameState.BallFasterTimer = value;
+            if (GameState.BallFasterCountdown.ContainsKey(ball))
+            {
+                if (value <= 0)
+                {
+                    GameState.BallFasterCountdown.Remove(ball);
+                    return;
+                }
+
+                GameState.BallFasterCountdown[ball] = value;
+            }
+            else
+            {
+                GameState.BallFasterCountdown.Add(ball, value);
+            }
         }
     }
 }

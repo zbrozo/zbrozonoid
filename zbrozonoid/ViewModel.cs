@@ -214,15 +214,26 @@ namespace zbrozonoid
 
         private Text PrepareFasterMessage()
         {
-            uint charSize = 20;
-            int faster = game.GameState.BallFasterTimer;
-            if (faster == 0)
+
+            int fasterCountdown = 0;
+            foreach (var ballFaster in game.GameState.BallFasterCountdown)
+            {
+                if (ballFaster.Value > fasterCountdown)
+                {
+                    fasterCountdown = ballFaster.Value;
+                }
+            }
+
+            if (fasterCountdown == 0)
             {
                 return new Text();
             }
 
-            Text message = new Text($"BallFaster: {faster}", Font, charSize);
-            message.FillColor = Color.White;
+            uint charSize = 20;
+            Text message = new Text($"BallFasterCountdown: {fasterCountdown}", Font, charSize)
+            {
+                FillColor = Color.White
+            };
 
             game.GetScreenSize(out int width, out int height);
             FloatRect localBounds = message.GetLocalBounds();

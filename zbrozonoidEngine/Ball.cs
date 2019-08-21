@@ -241,7 +241,7 @@ namespace zbrozonoidEngine
 
             timer.Stop();
 
-            BallSpeedTimerCallback?.Invoke(0);
+            BallSpeedTimerCallback?.Invoke(this, 0);
         }
 
         private void OnTimedEvent(object source, ElapsedEventArgs e)
@@ -252,7 +252,7 @@ namespace zbrozonoidEngine
                 return;
             }
 
-            BallSpeedTimerCallback?.Invoke(timerMaxTime - timerCounter);
+            BallSpeedTimerCallback?.Invoke(this, timerMaxTime - timerCounter);
 
             ++timerCounter;
         }
