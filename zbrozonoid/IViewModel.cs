@@ -32,7 +32,8 @@ namespace zbrozonoid
         Text GameOverMessage { get; }
         Text LiveAndScoresMessage { get; }
         Text PressButtonToPlayMessage { get; }
-        Text BallFasterMessage { get; }
+        Text FasterBallMessage { get; }
+        Text FireBallMessage { get; }
 
         void PrepareBricksToDraw();
         void PrepareBackground(string backgroundName);

@@ -46,7 +46,7 @@ namespace zbrozonoidEngine
             this.randomGenerator = randomGenerator;
             this.movement = movement;
 
-            timer.Elapsed += OnTimedEvent;
+            timer.Elapsed += OnTimerEvent;
             timer.Interval = timerInterval;
             timer.AutoReset = true;
 
@@ -244,7 +244,7 @@ namespace zbrozonoidEngine
             BallSpeedTimerCallback?.Invoke(this, 0);
         }
 
-        private void OnTimedEvent(object source, ElapsedEventArgs e)
+        private void OnTimerEvent(object source, ElapsedEventArgs e)
         {
             if (timerCounter > timerMaxTime)
             {

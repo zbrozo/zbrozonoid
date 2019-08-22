@@ -29,7 +29,7 @@ namespace zbrozonoidEngine.States.BallInPlayCommands
             bool result = DetectBrickCollision(ball, out List<BrickHit> bricksHit);
             if (result)
             {
-                game.HandleBrickCollision(bricksHit);
+                game.HandleBrickCollision(ball, bricksHit);
 
                 bool destroyerBall = game.IsBallDestroyer(ball);
                 if (!borderHit && !destroyerBall)

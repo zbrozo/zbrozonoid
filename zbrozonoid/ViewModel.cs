@@ -58,9 +58,14 @@ namespace zbrozonoid
             get { return PrepareLifesAndScoresMessage(); }
         }
 
-        public Text BallFasterMessage
+        public Text FasterBallMessage
         {
-            get { return PrepareFasterMessage(); }
+            get { return PrepareFasterBallMessage(); }
+        }
+
+        public Text FireBallMessage
+        {
+            get { return PrepareFireBallMessage(); }
         }
 
         public Text Title { get; set; }
@@ -212,25 +217,19 @@ namespace zbrozonoid
             return message;
         }
 
-        private Text PrepareFasterMessage()
+        private Text PrepareFasterBallMessage()
         {
-
-            int fasterCountdown = 0;
-            foreach (var ballFaster in game.GameState.BallFasterCountdown)
+            int value = 0;
+            foreach (var counter in game.GameState.FasterBallCountdown)
             {
-                if (ballFaster.Value > fasterCountdown)
+                if (counter.Value > value)
                 {
-                    fasterCountdown = ballFaster.Value;
+                    value = counter.Value;
                 }
             }
 
-            if (fasterCountdown == 0)
-            {
-                return new Text();
-            }
-
             uint charSize = 20;
-            Text message = new Text($"BallFasterCountdown: {fasterCountdown}", Font, charSize)
+            Text message = new Text($"FasterBall: {value}", Font, charSize)
             {
                 FillColor = Color.White
             };
@@ -238,14 +237,40 @@ namespace zbrozonoid
             game.GetScreenSize(out int width, out int height);
             FloatRect localBounds = message.GetLocalBounds();
 
-            int offsetX = 450;
-            int offsetY = 30;
+            int offsetX = 800;
+            int offsetY = 20;
             Vector2f rect = new Vector2f(offsetX, height - localBounds.Height - offsetY);
             message.Position = rect;
 
             return message;
         }
 
+        private Text PrepareFireBallMessage()
+        {
+            int value = 0;
+            foreach (var counter in game.GameState.FireBallCountdown)
+            {
+                if (counter.Value > value)
+                {
+                    value = counter.Value;
+                }
+            }
 
+            uint charSize = 20;
+            Text message = new Text($"FireBall: {value}", Font, charSize)
+            {
+                FillColor = Color.White
+            };
+
+            game.GetScreenSize(out int width, out int height);
+            FloatRect localBounds = message.GetLocalBounds();
+
+            int offsetX = 800;
+            int offsetY = 40;
+            Vector2f rect = new Vector2f(offsetX, height - localBounds.Height - offsetY);
+            message.Position = rect;
+
+            return message;
+        }
     }
 }

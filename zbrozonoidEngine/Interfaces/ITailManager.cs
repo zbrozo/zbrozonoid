@@ -14,16 +14,17 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.If not, see<https://www.gnu.org/licenses/>.
 */
+using System.Collections.Generic;
+
 namespace zbrozonoidEngine.Interfaces
 {
-    using System.Collections;
-    using System.Collections.Generic;
-
     public interface ITailManager : IEnumerable<ITail>
     {
-        void Add(IBall ball);
+        void Add(IBall ball, ITail tail);
 
         void Remove(IBall ball);
+
+        void Remove(ITail tail);
 
         ITail Find(IBall ball);
 

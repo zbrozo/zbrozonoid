@@ -14,11 +14,14 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.If not, see<https://www.gnu.org/licenses/>.
 */
+using System.Collections;
+using System.Collections.Generic;
+using System.Timers;
+using zbrozonoidEngine.Interfaces;
+
 namespace zbrozonoidEngine
 {
-    using System.Collections;
-    using System.Collections.Generic;
-    using zbrozonoidEngine.Interfaces;
+    public delegate void FireBallTimerCallbackDelegate(ITail tail, int value);
 
     public class Tail : ITail
     {
@@ -29,6 +32,22 @@ namespace zbrozonoidEngine
         private readonly List<Vector2> positions = new List<Vector2>();
 
         private int max = 200;
+
+        private readonly Timer timer = new Timer();
+
+        public FireBallTimerCallbackDelegate FireBallTimerCallback { get; set; }
+
+        private const int timerInterval = 1000;
+        private const int timerMaxTime = 30; // 20 seconds
+        private int timerCounter;
+
+        public Tail()
+        {
+            timer.Elapsed += OnTimerEvent;
+            timer.Interval = timerInterval;
+            timer.AutoReset = true;
+            timer.Enabled = true;
+        }
 
         public void Add(Vector2 position)
         {
@@ -68,5 +87,18 @@ namespace zbrozonoidEngine
         {
             return positions.GetEnumerator();
         }
+
+        private void OnTimerEvent(object source, ElapsedEventArgs e)
+        {
+            if (timerCounter > timerMaxTime)
+            {
+                return;
+            }
+
+            FireBallTimerCallback?.Invoke(this, timerMaxTime - timerCounter);
+
+            ++timerCounter;
+        }
+
     }
 }

@@ -200,7 +200,7 @@ namespace zbrozonoidEngine
             }
         }
 
-        public void HandleBrickCollision(List<BrickHit> bricksHit)
+        public void HandleBrickCollision(IBall currentBall, List<BrickHit> bricksHit)
         {
             BricksHitList = GetBricksHit(bricksHit);
 
@@ -212,7 +212,7 @@ namespace zbrozonoidEngine
                 --levelManager.GetCurrent().BeatableBricksNumber;
                 gameState.Scores++;
 
-                ExecuteAdditionalEffect(type);
+                ExecuteAdditionalEffect(currentBall, type);
             }
         }
 
@@ -234,7 +234,7 @@ namespace zbrozonoidEngine
             return false;
         }
 
-        private void ExecuteAdditionalEffect(BrickType type)
+        private void ExecuteAdditionalEffect(IBall currentBall, BrickType type)
         {
             switch (type)
             {
@@ -253,10 +253,12 @@ namespace zbrozonoidEngine
                     }
                 case BrickType.DestroyerBall:
                     {
-                        foreach (IBall ball in ballManager)
+                        ITail tail = new Tail
                         {
-                            tailManager.Add(ball);
-                        }
+                            FireBallTimerCallback = FireBallTimerHandler
+                        };
+
+                        tailManager.Add(currentBall, tail);
                         break;
                     }
 
@@ -384,19 +386,38 @@ namespace zbrozonoidEngine
 
         public void BallSpeedTimerHandler(IBall ball, int value)
         {
-            if (GameState.BallFasterCountdown.ContainsKey(ball))
+            if (GameState.FasterBallCountdown.ContainsKey(ball))
             {
                 if (value <= 0)
                 {
-                    GameState.BallFasterCountdown.Remove(ball);
+                    GameState.FasterBallCountdown.Remove(ball);
                     return;
                 }
 
-                GameState.BallFasterCountdown[ball] = value;
+                GameState.FasterBallCountdown[ball] = value;
             }
             else
             {
-                GameState.BallFasterCountdown.Add(ball, value);
+                GameState.FasterBallCountdown.Add(ball, value);
+            }
+        }
+
+        public void FireBallTimerHandler(ITail tail, int value)
+        {
+            if (GameState.FireBallCountdown.ContainsKey(tail))
+            {
+                if (value <= 0)
+                {
+                    TailManager.Remove(tail);
+                    GameState.FireBallCountdown.Remove(tail);
+                    return;
+                }
+
+                GameState.FireBallCountdown[tail] = value;
+            }
+            else
+            {
+                GameState.FireBallCountdown.Add(tail, value);
             }
         }
     }

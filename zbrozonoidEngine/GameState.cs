@@ -12,6 +12,8 @@ namespace zbrozonoidEngine
 
         public int BallsOutOfScreen { get; set; } = 0;
 
-        public Dictionary<IBall, int> BallFasterCountdown { get; set; } = new Dictionary<IBall, int>();
+        public Dictionary<IBall, int> FasterBallCountdown { get; set; } = new Dictionary<IBall, int>();
+
+        public Dictionary<ITail, int> FireBallCountdown { get; set; } = new Dictionary<ITail, int>();
     }
 }

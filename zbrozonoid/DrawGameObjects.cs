@@ -160,13 +160,23 @@ namespace zbrozonoid
             renderWindow.Draw(viewModel.PressButtonToPlayMessage);
         }
 
-        public void DrawBallFasterTimer()
+        public void DrawFasterBallTimer()
         {
-            Text message = viewModel.BallFasterMessage;
+            Text message = viewModel.FasterBallMessage;
             string s = message.DisplayedString;
             if (s.Length > 0)
             {
-                renderWindow.Draw(viewModel.BallFasterMessage);
+                renderWindow.Draw(viewModel.FasterBallMessage);
+            }
+        }
+
+        public void DrawFireBallTimer()
+        {
+            Text message = viewModel.FireBallMessage;
+            string s = message.DisplayedString;
+            if (s.Length > 0)
+            {
+                renderWindow.Draw(viewModel.FireBallMessage);
             }
         }
 

@@ -10,6 +10,8 @@ namespace zbrozonoidEngine.Interfaces
 
         int BallsOutOfScreen { get; set; }
 
-        Dictionary<IBall, int> BallFasterCountdown { get; set; }
+        Dictionary<IBall, int> FasterBallCountdown { get; set; }
+
+        Dictionary<ITail, int> FireBallCountdown { get; set; }
     }
 }
