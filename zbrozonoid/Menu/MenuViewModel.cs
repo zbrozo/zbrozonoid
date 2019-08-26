@@ -2,7 +2,7 @@
 
 namespace zbrozonoid.Menu
 {
-    public class MenuViewModel
+    public class MenuViewModel : IMenuViewModel
     {
         public List<IMenuItem> Items { get; private set; } = new List<IMenuItem>();
 
@@ -16,11 +16,10 @@ namespace zbrozonoid.Menu
             CurrentItem = Items[0];
         }
 
-        public void ExecuteCurrentCommand()
+        public void ExecuteCommand()
         {
 
         }
-
 
     }
 }

@@ -283,7 +283,6 @@ namespace zbrozonoid
             else
                 message.FillColor = Color.Green;
 
-
             game.GetScreenSize(out int width, out int height);
             FloatRect localBounds = message.GetLocalBounds();
             Vector2f rect = new Vector2f((width - localBounds.Width) / 2, localBounds.Height * number );

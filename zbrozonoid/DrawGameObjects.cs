@@ -30,12 +30,14 @@ namespace zbrozonoid
         private RenderWindow renderWindow;
         private IGame game;
         private IViewModel viewModel;
+        private IMenuViewModel menuViewModel;
 
-        public DrawGameObjects(RenderWindow renderWindow, IViewModel viewModel, IGame game)
+        public DrawGameObjects(RenderWindow renderWindow, IViewModel viewModel, IMenuViewModel menuViewModel, IGame game)
         {
             this.renderWindow = renderWindow;
             this.game = game;
             this.viewModel = viewModel;
+            this.menuViewModel = menuViewModel;
         }
 
         public void DrawBackground(Sprite background)
@@ -183,7 +185,7 @@ namespace zbrozonoid
 
         public void DrawMenu()
         {
-            MenuViewModel menu = new MenuViewModel();
+            IMenuViewModel menu = menuViewModel;
             int i = 0;
             foreach(var item in menu.Items)
             {

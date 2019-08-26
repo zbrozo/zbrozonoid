@@ -24,6 +24,7 @@ namespace zbrozonoid
 
     using zbrozonoidEngine;
     using zbrozonoidEngine.Interfaces;
+    using zbrozonoid.Menu;
 
     public class Window
     {
@@ -40,6 +41,8 @@ namespace zbrozonoid
         private IDrawGameObjects drawGameObjects;
 
         private IViewModel viewModel;
+
+        private IMenuViewModel menuViewModel;
 
         public Window(IGame game)
         {
@@ -64,7 +67,9 @@ namespace zbrozonoid
             app.Resized += OnResized;
 
             viewModel = new ViewModel(game);
-            drawGameObjects = new DrawGameObjects(app, viewModel, game);
+            menuViewModel = new MenuViewModel();
+
+            drawGameObjects = new DrawGameObjects(app, viewModel, menuViewModel, game);
             appStateMachine = new ViewStateMachine(viewModel, drawGameObjects);
             appStateMachine.GotoMenu();
         }
