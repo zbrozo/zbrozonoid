@@ -18,6 +18,7 @@ along with this program.If not, see<https://www.gnu.org/licenses/>.
 using System.Collections.Generic;
 using SFML.Graphics;
 using SFML.System;
+using zbrozonoid.Menu;
 using zbrozonoidEngine;
 using zbrozonoidEngine.Interfaces;
 
@@ -179,6 +180,12 @@ namespace zbrozonoid
                 renderWindow.Draw(viewModel.FireBallMessage);
             }
         }
+
+        public void DrawMenu()
+        {
+            StartMenuItem start = new StartMenuItem();
+        }
+
 
     }
 }

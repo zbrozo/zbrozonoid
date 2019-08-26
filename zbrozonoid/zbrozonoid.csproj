@@ -45,6 +45,7 @@
     <Compile Include="ViewModel.cs" />
     <Compile Include="IViewModel.cs" />
     <Compile Include="Views\StartPlayView.cs" />
+    <Compile Include="Menu\StartMenuItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\zbrozonoidAssets\zbrozonoidAssets.csproj">
@@ -69,5 +70,8 @@
     <Reference Include="SFML.Graphics">
       <HintPath>..\packages\SFML.Graphics.2.5.0\lib\netstandard2.0\SFML.Graphics.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Menu\" />
   </ItemGroup>
 </Project>

@@ -272,5 +272,21 @@ namespace zbrozonoid
 
             return message;
         }
+
+        public Text PrepareMenuItem(string name, int number)
+        {
+            uint charSize = 50;
+            Text message = new Text(name, Font, charSize)
+            {
+                FillColor = Color.White
+            };
+
+            game.GetScreenSize(out int width, out int height);
+            FloatRect localBounds = message.GetLocalBounds();
+            Vector2f rect = new Vector2f((width - localBounds.Width) / 2, localBounds.Height * number );
+            message.Position = rect;
+
+            return message;
+        }
     }
 }

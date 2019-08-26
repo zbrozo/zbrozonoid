@@ -37,5 +37,7 @@ namespace zbrozonoid
 
         void PrepareBricksToDraw();
         void PrepareBackground(string backgroundName);
+        Text PrepareMenuItem(string name, int number);
+
     }
 }
