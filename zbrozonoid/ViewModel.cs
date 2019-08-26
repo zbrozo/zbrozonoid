@@ -273,13 +273,16 @@ namespace zbrozonoid
             return message;
         }
 
-        public Text PrepareMenuItem(string name, int number)
+        public Text PrepareMenuItem(string name, int number, bool isCurrent)
         {
             uint charSize = 50;
-            Text message = new Text(name, Font, charSize)
-            {
-                FillColor = Color.White
-            };
+            Text message = new Text(name, Font, charSize);
+
+            if (isCurrent)
+                message.FillColor = Color.White;
+            else
+                message.FillColor = Color.Green;
+
 
             game.GetScreenSize(out int width, out int height);
             FloatRect localBounds = message.GetLocalBounds();

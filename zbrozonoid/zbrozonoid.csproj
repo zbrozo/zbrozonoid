@@ -46,6 +46,9 @@
     <Compile Include="IViewModel.cs" />
     <Compile Include="Views\StartPlayView.cs" />
     <Compile Include="Menu\StartMenuItem.cs" />
+    <Compile Include="Menu\MenuViewModel.cs" />
+    <Compile Include="Menu\IMenuItem.cs" />
+    <Compile Include="Menu\QuitMenuItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\zbrozonoidAssets\zbrozonoidAssets.csproj">

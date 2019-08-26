@@ -13,7 +13,8 @@ namespace zbrozonoid.Views
         public void Action()
         {
             draw.DrawTitle();
-            draw.DrawPressPlayToPlay();
+            //draw.DrawPressPlayToPlay();
+            draw.DrawMenu();
         }
 
     }

@@ -183,7 +183,15 @@ namespace zbrozonoid
 
         public void DrawMenu()
         {
-            StartMenuItem start = new StartMenuItem();
+            MenuViewModel menu = new MenuViewModel();
+            int i = 0;
+            foreach(var item in menu.Items)
+            {
+                bool isCurrent = (item == menu.CurrentItem);
+                Text name = viewModel.PrepareMenuItem(item.Name, i, isCurrent);
+                renderWindow.Draw(name);
+                ++i;
+            }
         }
 
 
