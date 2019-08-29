@@ -14,6 +14,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.If not, see<https://www.gnu.org/licenses/>.
 */
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Timers;
@@ -21,8 +22,6 @@ using zbrozonoidEngine.Interfaces;
 
 namespace zbrozonoidEngine
 {
-    public delegate void FireBallTimerCallbackDelegate(ITail tail, int value);
-
     public class Tail : ITail
     {
         public int Count => positions.Count;
@@ -35,7 +34,7 @@ namespace zbrozonoidEngine
 
         private readonly Timer timer = new Timer();
 
-        public FireBallTimerCallbackDelegate FireBallTimerCallback { get; set; }
+        public Action<ITail, int> FireBallTimerCallback { get; set; }
 
         private const int timerInterval = 1000;
         private const int timerMaxTime = 30; // 20 seconds
