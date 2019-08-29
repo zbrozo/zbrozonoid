@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace zbrozonoid.Menu
 {
-    public class MenuItemEnum : IEnumerator<IMenuItem>
+    public class MenuItemEnum : IMenuItemEnum
     {
         public List<IMenuItem> Items;
 
@@ -22,9 +22,22 @@ namespace zbrozonoid.Menu
             return (position < Items.Count);
         }
 
+        public bool MovePrevious()
+        {
+            position--;
+
+            return (position >= 0);
+        }
+
         public void Reset()
         {
             position = -1;
+        }
+
+        public bool Last()
+        {
+            position = Items.Count - 1;
+            return position < Items.Count;
         }
 
         void IDisposable.Dispose() { }

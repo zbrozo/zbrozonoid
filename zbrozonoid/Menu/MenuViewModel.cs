@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace zbrozonoid.Menu
@@ -9,12 +10,12 @@ namespace zbrozonoid.Menu
 
         public IMenuItem CurrentItem => index.Current;
 
-        private readonly IEnumerator<IMenuItem> index;
+        private readonly IMenuItemEnum index;
 
-        public MenuViewModel()
+        public MenuViewModel(Action Close, Action InGame)
         {
-            Items.Add(new StartMenuItem());
-            Items.Add(new QuitMenuItem());
+            Items.Add(new StartMenuItem(InGame));
+            Items.Add(new QuitMenuItem(Close));
 
             index = GetEnumerator();
             index.MoveNext();
@@ -22,12 +23,12 @@ namespace zbrozonoid.Menu
 
         public void ExecuteCommand()
         {
-
+            CurrentItem?.Execute();
         }
 
         public void Move(int delta)
         {
-            if (delta != 0)
+            if (delta > 1)
             {
                 bool result = index.MoveNext();
                 if (!result)
@@ -36,7 +37,21 @@ namespace zbrozonoid.Menu
                     index.MoveNext();
                 }
 
+            } 
+            else if (delta < -1)
+            {
+                bool result = index.MovePrevious();
+                if (!result)
+                {
+                    if (!index.Last())
+                    {
+                        index.Reset();
+                    }
+
+                }
+
             }
+
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -44,7 +59,7 @@ namespace zbrozonoid.Menu
             return GetEnumerator();
         }
 
-        public IEnumerator<IMenuItem> GetEnumerator()
+        public IMenuItemEnum GetEnumerator()
         {
             return new MenuItemEnum(Items);
         }

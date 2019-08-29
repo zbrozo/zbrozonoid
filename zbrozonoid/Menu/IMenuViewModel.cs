@@ -11,5 +11,7 @@ namespace zbrozonoid.Menu
 
         void Move(int delta);
 
+        void ExecuteCommand();
+
     }
 }

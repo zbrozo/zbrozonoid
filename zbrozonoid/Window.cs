@@ -67,7 +67,7 @@ namespace zbrozonoid
             app.Resized += OnResized;
 
             viewModel = new ViewModel(game);
-            menuViewModel = new MenuViewModel();
+            menuViewModel = new MenuViewModel(Close, InGame);
 
             drawGameObjects = new DrawGameObjects(app, viewModel, menuViewModel, game);
             appStateMachine = new ViewStateMachine(viewModel, drawGameObjects);
@@ -91,7 +91,15 @@ namespace zbrozonoid
 
         private void OnMouseButtonPressed(object sender, MouseButtonEventArgs e)
         {
-            appStateMachine.Transitions(game);
+            if (appStateMachine.IsMenuState)
+            {
+                menuViewModel.ExecuteCommand();
+            }
+            else
+            {
+                appStateMachine.Transitions(game);
+            }
+
         }
 
         public void OnChangeLevel(object sender, LevelEventArgs e)
@@ -124,11 +132,12 @@ namespace zbrozonoid
             game.GetScreenSize(out int width, out int height);
             Vector2i pos = new Vector2i(width / 2, height / 2);
 
-            int delta = current - pos.X;
+            int deltaX = current - pos.X;
 
-            game.SetPadMove(delta);
+            game.SetPadMove(deltaX);
 
-            menuViewModel.Move(delta);
+            int deltaY = args.Y - pos.Y;
+            menuViewModel.Move(deltaY);
         }
 
         public void OnBallSpeedCountdownTimerEvent(object sender, EventArgs e)
@@ -173,5 +182,16 @@ namespace zbrozonoid
 
             viewModel.Dispose();
         }
+
+        public void Close()
+        {
+            app.Close();
+        }
+
+        public void InGame()
+        {
+            appStateMachine.Transitions(game);
+        }
+
     }
 }

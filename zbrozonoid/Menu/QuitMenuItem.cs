@@ -1,12 +1,21 @@
-﻿namespace zbrozonoid.Menu
+﻿using System;
+
+namespace zbrozonoid.Menu
 {
     public class QuitMenuItem : IMenuItem
     {
         public string Name => "Quit";
 
-        public QuitMenuItem()
+        private readonly Action Close;
+
+        public QuitMenuItem(Action Close)
         {
+            this.Close = Close;
         }
 
+        public void Execute()
+        {
+            Close();
+        }
     }
 }
