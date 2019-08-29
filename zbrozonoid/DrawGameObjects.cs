@@ -186,7 +186,7 @@ namespace zbrozonoid
         public void DrawMenu()
         {
             IMenuViewModel menu = menuViewModel;
-            int i = 0;
+            int i = 2;
             foreach(var item in menu.Items)
             {
                 bool isCurrent = (item == menu.CurrentItem);

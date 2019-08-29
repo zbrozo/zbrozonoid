@@ -12,10 +12,10 @@ namespace zbrozonoid.Menu
 
         private readonly IMenuItemEnum index;
 
-        public MenuViewModel(Action Close, Action InGame)
+        public MenuViewModel(Action CloseAction, Action InGameAction)
         {
-            Items.Add(new StartMenuItem(InGame));
-            Items.Add(new QuitMenuItem(Close));
+            Items.Add(new StartMenuItem(InGameAction));
+            Items.Add(new QuitMenuItem(CloseAction));
 
             index = GetEnumerator();
             index.MoveNext();
@@ -47,11 +47,8 @@ namespace zbrozonoid.Menu
                     {
                         index.Reset();
                     }
-
                 }
-
             }
-
         }
 
         IEnumerator IEnumerable.GetEnumerator()

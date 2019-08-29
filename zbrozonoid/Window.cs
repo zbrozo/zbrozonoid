@@ -67,7 +67,7 @@ namespace zbrozonoid
             app.Resized += OnResized;
 
             viewModel = new ViewModel(game);
-            menuViewModel = new MenuViewModel(Close, InGame);
+            menuViewModel = new MenuViewModel(CloseAction, InGameAction);
 
             drawGameObjects = new DrawGameObjects(app, viewModel, menuViewModel, game);
             appStateMachine = new ViewStateMachine(viewModel, drawGameObjects);
@@ -183,12 +183,12 @@ namespace zbrozonoid
             viewModel.Dispose();
         }
 
-        public void Close()
+        public void CloseAction()
         {
             app.Close();
         }
 
-        public void InGame()
+        public void InGameAction()
         {
             appStateMachine.Transitions(game);
         }

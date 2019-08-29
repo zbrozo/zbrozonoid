@@ -49,6 +49,8 @@ namespace zbrozonoid
 
         private Image backgroundImage;
 
+        private readonly int lineHeight = 40;
+
         public Sprite Background { get; set; }
         public List<Brick> Bricks { get; } = new List<Brick>();
         public Font Font { get; set; }
@@ -164,7 +166,7 @@ namespace zbrozonoid
 
             game.GetScreenSize(out int width, out int height);
             FloatRect localBounds = message.GetLocalBounds();
-            Vector2f rect = new Vector2f((width - localBounds.Width) / 2, height / 6 - localBounds.Height / 3);
+            Vector2f rect = new Vector2f((width - localBounds.Width) / 2, 0 );
             message.Position = rect;
 
             return message;
@@ -178,7 +180,7 @@ namespace zbrozonoid
 
             game.GetScreenSize(out int width, out int height);
             FloatRect localBounds = message.GetLocalBounds();
-            Vector2f rect = new Vector2f((width - localBounds.Width) / 2, height / 6 - localBounds.Height / 2);
+            Vector2f rect = new Vector2f((width - localBounds.Width) / 2, lineHeight * 4);
             message.Position = rect;
 
             return message;
@@ -211,7 +213,7 @@ namespace zbrozonoid
 
             game.GetScreenSize(out int width, out int height);
             FloatRect localBounds = message.GetLocalBounds();
-            Vector2f rect = new Vector2f((width - localBounds.Width) / 2, height / 4 - localBounds.Height / 2);
+            Vector2f rect = new Vector2f((width - localBounds.Width) / 2, lineHeight * 4);
             message.Position = rect;
 
             return message;
@@ -285,7 +287,7 @@ namespace zbrozonoid
 
             game.GetScreenSize(out int width, out int height);
             FloatRect localBounds = message.GetLocalBounds();
-            Vector2f rect = new Vector2f((width - localBounds.Width) / 2, localBounds.Height * number );
+            Vector2f rect = new Vector2f((width - localBounds.Width) / 2, lineHeight * number );
             message.Position = rect;
 
             return message;
