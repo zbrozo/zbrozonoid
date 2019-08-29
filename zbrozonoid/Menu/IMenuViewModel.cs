@@ -1,10 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 
 namespace zbrozonoid.Menu
 {
-    public interface IMenuViewModel
+    public interface IMenuViewModel : IEnumerable
     {
-        List<IMenuItem> Items { get; }
         IMenuItem CurrentItem { get; }
+
+        List<IMenuItem> Items { get; }
+
+        void Move(int delta);
+
     }
 }

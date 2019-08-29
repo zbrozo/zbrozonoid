@@ -278,7 +278,7 @@ namespace zbrozonoid
             uint charSize = 50;
             Text message = new Text(name, Font, charSize);
 
-            if (isCurrent)
+            if (!isCurrent)
                 message.FillColor = Color.White;
             else
                 message.FillColor = Color.Green;

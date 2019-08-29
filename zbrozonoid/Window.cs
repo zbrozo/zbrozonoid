@@ -127,6 +127,8 @@ namespace zbrozonoid
             int delta = current - pos.X;
 
             game.SetPadMove(delta);
+
+            menuViewModel.Move(delta);
         }
 
         public void OnBallSpeedCountdownTimerEvent(object sender, EventArgs e)
