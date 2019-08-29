@@ -16,6 +16,7 @@ along with this program.If not, see<https://www.gnu.org/licenses/>.
 */
 namespace zbrozonoidEngine
 {
+    using System;
     using System.Timers;
     using zbrozonoidEngine.Interfaces;
 
@@ -39,7 +40,7 @@ namespace zbrozonoidEngine
         private const int timerMaxTime = 20; // 20 seconds
         private int timerCounter;
 
-        public BallSpeedTimerCallbackDelegate BallSpeedTimerCallback { get; set; }
+        public Action<IBall, int> BallSpeedTimerCallback { get; set; }
 
         public Ball(IRandomGenerator randomGenerator, IMovement movement)
         {

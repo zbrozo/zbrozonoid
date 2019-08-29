@@ -195,7 +195,5 @@ namespace zbrozonoid
                 ++i;
             }
         }
-
-
     }
 }
