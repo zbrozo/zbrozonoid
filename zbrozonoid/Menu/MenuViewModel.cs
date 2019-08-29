@@ -12,6 +12,9 @@ namespace zbrozonoid.Menu
 
         private readonly IMenuItemEnum index;
 
+        private int counter = 0;
+        private const int stepDelayValue = 30;
+
         public MenuViewModel(Action CloseAction, Action InGameAction)
         {
             Items.Add(new StartMenuItem(InGameAction));
@@ -23,12 +26,14 @@ namespace zbrozonoid.Menu
 
         public void ExecuteCommand()
         {
+            counter = 0;
+
             CurrentItem?.Execute();
         }
 
         public void Move(int delta)
         {
-            if (delta > 1)
+            if (delta > 0 && StepDelay())
             {
                 bool result = index.MoveNext();
                 if (!result)
@@ -36,9 +41,8 @@ namespace zbrozonoid.Menu
                     index.Reset();
                     index.MoveNext();
                 }
-
-            } 
-            else if (delta < -1)
+            }
+            else if (delta < 0 && StepDelay())
             {
                 bool result = index.MovePrevious();
                 if (!result)
@@ -49,6 +53,18 @@ namespace zbrozonoid.Menu
                     }
                 }
             }
+        }
+
+        private bool StepDelay()
+        {
+            ++counter;
+
+            if (counter < stepDelayValue)
+                return false;
+
+            counter = 0;
+
+            return true;
         }
 
         IEnumerator IEnumerable.GetEnumerator()
