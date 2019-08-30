@@ -56,7 +56,7 @@ namespace zbrozonoidEngine.States.BallInPlayCommands
                 if (!ball.MoveBall(true))
                 {
                     ball.Boundary.Min = previous;
-                    game.RestartBallYPosition(pad, ball);
+                    game.PadManager.RestartBallYPosition(pad, ball);
                     return;
                 }
 
@@ -67,14 +67,14 @@ namespace zbrozonoidEngine.States.BallInPlayCommands
                 {
                     if (collisionManagerForMoveReversion.Detect(border, ball))
                     {
-                        game.SetBallStartPosition(pad, ball);
+                        game.PadManager.SetBallStartPosition(pad, ball);
                         break;
                     }
                 }
 
                 if (game.ScreenCollisionManager.DetectAndVerify(ball))
                 {
-                    game.SetBallStartPosition(pad, ball);
+                    game.PadManager.SetBallStartPosition(pad, ball);
                     break;
                 }
 

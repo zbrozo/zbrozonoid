@@ -94,6 +94,8 @@
     <Compile Include="Vector2.cs" />
     <Compile Include="Rectangle.cs" />
     <Compile Include="BallSpeed.cs" />
+    <Compile Include="GameConfig.cs" />
+    <Compile Include="Interfaces\IGameConfig.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

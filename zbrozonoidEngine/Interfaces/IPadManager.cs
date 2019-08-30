@@ -20,8 +20,15 @@ namespace zbrozonoidEngine.Interfaces
 
     public interface IPadManager : IEnumerable<IPad>
     {
+        void Create(IGameConfig config);
+
         void Add(Edge edge);
 
         IPad GetFirst();
+
+        void Clear();
+
+        void SetBallStartPosition(IPad pad, IBall ball);
+        void RestartBallYPosition(IPad pad, IBall ball);
     }
 }

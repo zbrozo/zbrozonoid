@@ -32,6 +32,12 @@ namespace zbrozonoidEngine
 
             switch (edge)
             {
+                case Edge.Top:
+                    {
+                        Boundary.Min = new Vector2(0, 0);
+                        Boundary.Size = new Vector2(screen.Width, borderSize);
+                        break;
+                    }
                 case Edge.Bottom:
                     {
                         Boundary.Min = new Vector2(0, screen.Height - borderSize);

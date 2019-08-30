@@ -29,12 +29,26 @@ namespace zbrozonoidEngine.Managers
 
         private readonly List<IBorder> borders = new List<IBorder>();
 
-        public void Create(IScreen screen)
+        public void Create(IScreen screen, IGameConfig config)
         {
-            Border border1 = new Border(screen, Edge.Left);
-            borders.Add(border1);
-            Border border2 = new Border(screen, Edge.Right);
-            borders.Add(border2);
+            borders.Clear();
+
+            Border borderLeft = new Border(screen, Edge.Left);
+            borders.Add(borderLeft);
+            Border borderRight = new Border(screen, Edge.Right);
+            borders.Add(borderRight);
+
+            if (config.Players <= 1)
+            {
+                Border border = new Border(screen, Edge.Top);
+                borders.Add(border);
+            }
+
+            if (config.Players <= 0)
+            {
+                Border border = new Border(screen, Edge.Bottom);
+                borders.Add(border);
+            }
         }
 
         public void Add(IBorder border)

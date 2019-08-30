@@ -17,7 +17,7 @@ namespace zbrozonoidEngine.States
         public bool action(IBall ball)
         {
             IPad pad = padManager.GetFirst();
-            game.SetBallStartPosition(pad, ball);
+            padManager.SetBallStartPosition(pad, ball);
             return true;
         }
     }

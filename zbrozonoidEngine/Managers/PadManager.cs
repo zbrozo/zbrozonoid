@@ -31,6 +31,21 @@ namespace zbrozonoidEngine.Managers
             this.screen = screen;
         }
 
+        public void Create(IGameConfig config)
+        {
+            pads.Clear();
+
+            if (config.Players == 2)
+            {
+                Add(Edge.Top);
+                Add(Edge.Bottom);
+            }
+            else if (config.Players == 1)
+            {
+                Add(Edge.Bottom);
+            }
+        }
+
         public void Add(Edge edge)
         {
             IPad pad = new Pad();
@@ -69,6 +84,55 @@ namespace zbrozonoidEngine.Managers
             return e.Current.Value;
         }
 
+        public void Clear()
+        {
+            pads.Clear();
+        }
+
+        public void SetBallStartPosition(IPad pad, IBall ball)
+        {
+            bool found = FindEdge(pad, out Edge edge);
+
+            if (!found)
+            {
+                return;
+            }
+
+            int x = pad.Boundary.Min.X + pad.Boundary.Size.X / 2 - ball.Boundary.Size.X / 2;
+
+            if (edge == Edge.Top)
+            {
+                int y = pad.Boundary.Max.Y;
+                ball.Boundary.Min = new Vector2(x, y);
+                ball.InitStartPosition();
+            }
+            else if (edge == Edge.Bottom)
+            {
+                int y = pad.Boundary.Min.Y - ball.Boundary.Size.Y;
+                ball.Boundary.Min = new Vector2(x, y);
+                ball.InitStartPosition();
+            }
+        }
+
+        public void RestartBallYPosition(IPad pad, IBall ball)
+        {
+            bool found = FindEdge(pad, out Edge edge);
+
+            if (!found)
+            {
+                return;
+            }
+
+            if (edge == Edge.Top)
+            {
+                ball.SetYPosition(pad.Boundary.Max.Y);
+            }
+            else if (edge == Edge.Bottom)
+            {
+                ball.SetYPosition(pad.Boundary.Min.Y - ball.Boundary.Size.Y);
+            }
+        }
+
         public IEnumerator<IPad> GetEnumerator()
         {
             return pads.Values.GetEnumerator();
@@ -78,5 +142,24 @@ namespace zbrozonoidEngine.Managers
         {
             return (pads.Values).GetEnumerator();
         }
+
+        private bool FindEdge(IPad pad, out Edge edge)
+        {
+            bool found = false;
+            edge = Edge.Bottom;
+
+            foreach (var pair in pads)
+            {
+                if (pair.Value == pad)
+                {
+                    found = true;
+                    edge = pair.Key;
+                    break;
+                }
+            }
+
+            return found;
+        }
+
     }
 }

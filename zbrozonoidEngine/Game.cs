@@ -62,6 +62,7 @@ namespace zbrozonoidEngine
         public List<IBrick> Bricks => levelManager.GetCurrent().Bricks;
         public string BackgroundPath => levelManager.GetCurrent().BackgroundPath;
         public IGameState GameState => gameState;
+        public IGameConfig GameConfig = new GameConfig();
 
         public List<IBrick> BricksHitList = new List<IBrick>();
 
@@ -87,10 +88,9 @@ namespace zbrozonoidEngine
 
             ballStateMachine = new BallStateMachine(this, padManager, borderManager, levelManager);
 
-            padManager.Add(Edge.Top);
-            padManager.Add(Edge.Bottom);
+            padManager.Create(GameConfig);
 
-            borderManager.Create(screen);
+            borderManager.Create(screen, GameConfig);
 
             foreach (var pad in padManager)
             {
@@ -129,22 +129,6 @@ namespace zbrozonoidEngine
         public void GetPadSize(IPad pad, out int width, out int height)
         {
             pad.GetSize(out width, out height);
-        }
-
-        public void SetBallStartPosition(IPad pad, IBall ball)
-        {
-            Logger.Instance.Write("---SetStartPosition---");
-
-            int x = pad.Boundary.Min.X + pad.Boundary.Size.X / 2 - ball.Boundary.Size.X / 2;
-            int y = pad.Boundary.Max.Y;
-            ball.Boundary.Min = new Vector2(x, y);
-            ball.InitStartPosition();
-        }
-
-        public void RestartBallYPosition(IPad pad, IBall ball)
-        {
-            Logger.Instance.Write("---RestartBallYPosition---");
-            ball.SetYPosition(pad.Boundary.Max.Y);
         }
 
         public void Action()
@@ -243,11 +227,11 @@ namespace zbrozonoidEngine
                         IPad pad = padManager.GetFirst();
 
                         IBall ball1 = CreateBallFactory();
-                        SetBallStartPosition(pad, ball1);
+                        padManager.SetBallStartPosition(pad, ball1);
                         ballManager.Add(ball1);
 
                         IBall ball2 = CreateBallFactory();
-                        SetBallStartPosition(pad, ball2);
+                        padManager.SetBallStartPosition(pad, ball2);
                         ballManager.Add(ball2);
                         break;
                     }
@@ -285,7 +269,7 @@ namespace zbrozonoidEngine
             foreach (IBall ball in ballManager)
             {
                 IPad pad = padManager.GetFirst();
-                SetBallStartPosition(pad, ball);
+                padManager.SetBallStartPosition(pad, ball);
             }
         }
 
@@ -327,7 +311,7 @@ namespace zbrozonoidEngine
             ball.GoDefaultSpeed();
 
             IPad pad = padManager.GetFirst();
-            SetBallStartPosition(pad, ball);
+            padManager.SetBallStartPosition(pad, ball);
         }
 
         public bool IsBallDestroyer(IBall ball)
