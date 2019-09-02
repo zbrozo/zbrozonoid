@@ -5,7 +5,7 @@ namespace zbrozonoidEngine.States.BallInPlayCommands
 {
     public class HandlePadCollisionCommand : IHandleCollisionCommand
     {
-        private Game game;
+        private IGame game;
 
         public bool CollisionResult { set; get; }
 
@@ -13,7 +13,7 @@ namespace zbrozonoidEngine.States.BallInPlayCommands
 
         private const int padSpeedToGoBallFaster = 10;
 
-        public HandlePadCollisionCommand(Game game)
+        public HandlePadCollisionCommand(IGame game)
         {
             this.game = game;
             collisionManagerForMoveReversion = new CollisionManager();

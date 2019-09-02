@@ -5,13 +5,13 @@ namespace zbrozonoidEngine.States
 {
     public class BallInIdleState : IBallState
     {
-        private Game game;
-        private IPadManager padManager; 
+        private readonly IGame game;
+        private readonly IPadManager padManager; 
 
-        public BallInIdleState(Game game, IPadManager padManager)
+        public BallInIdleState(IGame game)
         {
             this.game = game;
-            this.padManager = padManager;
+            this.padManager = game.PadManager;
         }
 
         public bool action(IBall ball)

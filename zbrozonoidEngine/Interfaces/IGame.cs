@@ -29,9 +29,13 @@ namespace zbrozonoidEngine.Interfaces
 
         int PadCurrentSpeed { get; }
 
+        List<IBrick> BricksHitList { get; }
+
         IGameState GameState { get; }
         IGameConfig GameConfig { get; set; }
 
+        ILevelManager LevelManager { get; }
+        ICollisionManager CollisionManager { get; }
         ITailManager TailManager { get; }
         IBorderManager BorderManager { get; }
         IBallManager BallManager { get; }
@@ -57,6 +61,14 @@ namespace zbrozonoidEngine.Interfaces
         void SetBallMove();
 
         void StartPlay();
+
+        void HandleBrickCollision(IBall currentBall, List<BrickHit> bricksHit);
+
+        bool IsBallDestroyer(IBall ball);
+
+        void LostBalls();
+
+        void SavePosition(IBall ball);
 
     }
 }

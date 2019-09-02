@@ -63,7 +63,7 @@ namespace zbrozonoidEngine
         public IGameState GameState => gameState;
         public IGameConfig GameConfig { get; set; } = new GameConfig();
 
-        public List<IBrick> BricksHitList = new List<IBrick>();
+        public List<IBrick> BricksHitList { get; private set; } = new List<IBrick>();
 
         public int PadCurrentSpeed { get; private set; }
 
@@ -85,7 +85,7 @@ namespace zbrozonoidEngine
             padManager = new PadManager(screen);
             gameState = new GameState();
 
-            ballStateMachine = new BallStateMachine(this, padManager, borderManager, levelManager);
+            ballStateMachine = new BallStateMachine(this);
 
             padManager.Create(GameConfig);
 

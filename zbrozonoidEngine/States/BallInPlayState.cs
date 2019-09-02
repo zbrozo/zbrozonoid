@@ -7,7 +7,7 @@ namespace zbrozonoidEngine.States
 {
     public class BallInPlayState : IBallState
     {
-        private Game game;
+        private IGame game;
 
         private readonly IHandleCollisionCommand handleScreenCollisionCommand;
         private readonly IHandleCollisionCommand handleBorderCollisionCommand;
@@ -16,7 +16,7 @@ namespace zbrozonoidEngine.States
 
         private readonly List<IHandleCollisionCommand> collisionCommands;
 
-        public BallInPlayState(Game game)
+        public BallInPlayState(IGame game)
         {
             this.game = game;
 

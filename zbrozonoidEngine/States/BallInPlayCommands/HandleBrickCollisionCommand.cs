@@ -5,12 +5,12 @@ namespace zbrozonoidEngine.States.BallInPlayCommands
 {
     public class HandleBrickCollisionCommand : IHandleCollisionCommand
     {
-        private readonly Game game;
+        private readonly IGame game;
         private readonly IHandleCollisionCommand borderCollisionCommand;
 
         public bool CollisionResult { set; get; }
 
-        public HandleBrickCollisionCommand(Game game, IHandleCollisionCommand borderCollisionCommand)
+        public HandleBrickCollisionCommand(IGame game, IHandleCollisionCommand borderCollisionCommand)
         {
             this.game = game;
             this.borderCollisionCommand = borderCollisionCommand;

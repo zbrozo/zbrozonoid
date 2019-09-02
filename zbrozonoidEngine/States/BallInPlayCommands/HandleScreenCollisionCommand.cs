@@ -4,11 +4,11 @@ namespace zbrozonoidEngine.States.BallInPlayCommands
 {
     public class HandleScreenCollisionCommand : IHandleCollisionCommand
     {
-        private Game game;
+        private IGame game;
 
         public bool CollisionResult { set; get; }
 
-        public HandleScreenCollisionCommand(Game game)
+        public HandleScreenCollisionCommand(IGame game)
         {
             this.game = game;
         }
