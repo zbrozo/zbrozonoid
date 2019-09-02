@@ -30,7 +30,7 @@ namespace zbrozonoidEngine.Interfaces
         int PadCurrentSpeed { get; }
 
         IGameState GameState { get; }
-        IGameConfig GameConfig { get; }
+        IGameConfig GameConfig { get; set; }
 
         ITailManager TailManager { get; }
         IBorderManager BorderManager { get; }

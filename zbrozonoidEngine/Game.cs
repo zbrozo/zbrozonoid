@@ -18,7 +18,6 @@ namespace zbrozonoidEngine
 {
     using System;
     using System.Collections.Generic;
-
     using zbrozonoidEngine.Interfaces;
     using zbrozonoidEngine.Managers;
 
@@ -62,7 +61,7 @@ namespace zbrozonoidEngine
         public List<IBrick> Bricks => levelManager.GetCurrent().Bricks;
         public string BackgroundPath => levelManager.GetCurrent().BackgroundPath;
         public IGameState GameState => gameState;
-        public IGameConfig GameConfig => new GameConfig();
+        public IGameConfig GameConfig { get; set; } = new GameConfig();
 
         public List<IBrick> BricksHitList = new List<IBrick>();
 
@@ -282,6 +281,16 @@ namespace zbrozonoidEngine
 
             if (gameState.Lifes < 0)
             {
+                padManager.Create(GameConfig);
+                borderManager.Create(screen, GameConfig);
+                ballManager.Clear();
+                ballManager.Add(CreateBallFactory());
+
+                foreach (var pad in padManager)
+                {
+                    VerifyBorderCollision(pad);
+                }
+
                 gameState.Lifes = 3;
                 gameState.Scores = 0;
                 gameState.BallsOutOfScreen = 0;

@@ -17,15 +17,15 @@ namespace zbrozonoid.Menu
         private int counter = 0;
         private const int stepDelayValue = 30;
 
-        IGame game; 
+        private readonly IGame game; 
 
         public MenuViewModel(IGame game, Action CloseAction, Action InGameAction)
         {
+            this.game = game;
+
             Items.Add(new StartMenuItem(InGameAction));
             Items.Add(new PlayersMenuItem(game.GameConfig));
             Items.Add(new QuitMenuItem(CloseAction));
-
-
 
             index = GetEnumerator();
             index.MoveNext();
