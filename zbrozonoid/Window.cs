@@ -67,7 +67,7 @@ namespace zbrozonoid
             app.Resized += OnResized;
 
             viewModel = new ViewModel(game);
-            menuViewModel = new MenuViewModel(CloseAction, InGameAction);
+            menuViewModel = new MenuViewModel(game, CloseAction, InGameAction);
 
             drawGameObjects = new DrawGameObjects(app, viewModel, menuViewModel, game);
             appStateMachine = new ViewStateMachine(viewModel, drawGameObjects);

@@ -52,6 +52,7 @@
     <Compile Include="Menu\Items\QuitMenuItem.cs" />
     <Compile Include="Menu\Items\StartMenuItem.cs" />
     <Compile Include="Menu\Items\IMenuItem.cs" />
+    <Compile Include="Menu\Items\PlayersMenuItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\zbrozonoidAssets\zbrozonoidAssets.csproj">

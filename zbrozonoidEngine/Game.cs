@@ -62,7 +62,7 @@ namespace zbrozonoidEngine
         public List<IBrick> Bricks => levelManager.GetCurrent().Bricks;
         public string BackgroundPath => levelManager.GetCurrent().BackgroundPath;
         public IGameState GameState => gameState;
-        public IGameConfig GameConfig = new GameConfig();
+        public IGameConfig GameConfig => new GameConfig();
 
         public List<IBrick> BricksHitList = new List<IBrick>();
 

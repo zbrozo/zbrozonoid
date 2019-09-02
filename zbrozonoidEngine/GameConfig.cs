@@ -5,7 +5,9 @@ namespace zbrozonoidEngine
 {
     public class GameConfig : IGameConfig
     {
-        public int Players { get; set; } = 1;
+        public const int OnePlayer = 1;
+
+        public int Players { get; set; } = OnePlayer;
 
     }
 }

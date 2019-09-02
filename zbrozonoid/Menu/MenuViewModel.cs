@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using zbrozonoid.Menu.Items;
+using zbrozonoidEngine.Interfaces;
 
 namespace zbrozonoid.Menu
 {
@@ -15,10 +17,15 @@ namespace zbrozonoid.Menu
         private int counter = 0;
         private const int stepDelayValue = 30;
 
-        public MenuViewModel(Action CloseAction, Action InGameAction)
+        IGame game; 
+
+        public MenuViewModel(IGame game, Action CloseAction, Action InGameAction)
         {
             Items.Add(new StartMenuItem(InGameAction));
+            Items.Add(new PlayersMenuItem(game.GameConfig));
             Items.Add(new QuitMenuItem(CloseAction));
+
+
 
             index = GetEnumerator();
             index.MoveNext();

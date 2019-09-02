@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace zbrozonoid.Menu
+namespace zbrozonoid.Menu.Items
 {
     public class StartMenuItem : IMenuItem
     {
