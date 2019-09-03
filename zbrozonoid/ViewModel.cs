@@ -47,11 +47,6 @@ namespace zbrozonoid
                                                 { 15, new Color(187, 187, 187) }
                                             };
 
-        private Image backgroundImage;
-
-        private readonly int lineHeight = 40;
-
-        public Sprite Background { get; set; }
         public List<Brick> Bricks { get; } = new List<Brick>();
 
         public Text LiveAndScoresMessage
@@ -76,16 +71,11 @@ namespace zbrozonoid
 
         public ViewModel(ViewCommon viewCommon, IGame game)
         {
-            this.game = game;
             this.viewCommon = viewCommon;
+            this.game = game;
 
             GameOverMessage = PrepareGameOverMessage();
             PressButtonToPlayMessage = PreparePressButtonToPlayMessage();
-        }
-
-        public void Dispose()
-        {
-            backgroundImage?.Dispose();
         }
 
         public void PrepareBricksToDraw()
@@ -111,44 +101,17 @@ namespace zbrozonoid
             }
         }
 
-        public void PrepareBackground(string backgroundName)
-        {
-            backgroundImage?.Dispose();
-            backgroundImage = LoadBackground(backgroundName);
-
-            Texture backgroundTexture = new Texture(backgroundImage);
-            Background = new Sprite(backgroundTexture);
-        }
-
-
-        private Image LoadBackground(string name)
-        {
-            name = name.Replace("/", ".");
-            name = "zbrozonoidAssets." + name;
-
-            AssemblyName assemblyName = new AssemblyName(@"zbrozonoidAssets");
-            Assembly assembly = Assembly.Load(assemblyName);
-
-            using (Stream resourceStream = assembly.GetManifestResourceStream(name))
-            {
-                if (resourceStream == null)
-                {
-                    return null;
-                }
-
-                return new Image(resourceStream);
-            }
-        }
-
         private Text PrepareGameOverMessage()
         {
             uint charSize = 50;
             Text message = new Text("game over", viewCommon.Font, charSize);
             message.FillColor = Color.White;
 
-            game.GetScreenSize(out int width, out int height);
+            uint width = viewCommon.RenderWindow.Size.X;
+            uint height = viewCommon.RenderWindow.Size.Y;
+
             FloatRect localBounds = message.GetLocalBounds();
-            Vector2f rect = new Vector2f((width - localBounds.Width) / 2, lineHeight * 4);
+            Vector2f rect = new Vector2f((width - localBounds.Width) / 2, viewCommon.LineHeight * 4);
             message.Position = rect;
 
             return message;
@@ -162,7 +125,9 @@ namespace zbrozonoid
             Text message = new Text($"Lifes: {lifes}   Scores: {scores:D5}", viewCommon.Font, charSize);
             message.FillColor = Color.White;
 
-            game.GetScreenSize(out int width, out int height);
+            uint width = viewCommon.RenderWindow.Size.X;
+            uint height = viewCommon.RenderWindow.Size.Y;
+
             FloatRect localBounds = message.GetLocalBounds();
 
             int offsetX = 20;
@@ -179,9 +144,11 @@ namespace zbrozonoid
             Text message = new Text("Press mouse button to play", viewCommon.Font, charSize);
             message.FillColor = Color.White;
 
-            game.GetScreenSize(out int width, out int height);
+            uint width = viewCommon.RenderWindow.Size.X;
+            uint height = viewCommon.RenderWindow.Size.Y;
+
             FloatRect localBounds = message.GetLocalBounds();
-            Vector2f rect = new Vector2f((width - localBounds.Width) / 2, lineHeight * 4);
+            Vector2f rect = new Vector2f((width - localBounds.Width) / 2, viewCommon.LineHeight * 4);
             message.Position = rect;
 
             return message;
@@ -204,7 +171,9 @@ namespace zbrozonoid
                 FillColor = Color.White
             };
 
-            game.GetScreenSize(out int width, out int height);
+            uint width = viewCommon.RenderWindow.Size.X;
+            uint height = viewCommon.RenderWindow.Size.Y;
+
             FloatRect localBounds = message.GetLocalBounds();
 
             int offsetX = 800;
@@ -232,7 +201,9 @@ namespace zbrozonoid
                 FillColor = Color.White
             };
 
-            game.GetScreenSize(out int width, out int height);
+            uint width = viewCommon.RenderWindow.Size.X;
+            uint height = viewCommon.RenderWindow.Size.Y;
+
             FloatRect localBounds = message.GetLocalBounds();
 
             int offsetX = 800;

@@ -111,7 +111,7 @@ namespace zbrozonoid
         public void OnChangeLevel(object sender, LevelEventArgs e)
         {
             viewModel.PrepareBricksToDraw();
-            viewModel.PrepareBackground(e.Background);
+            viewCommon.PrepareBackground(e.Background);
         }
 
         public void OnLostBalls(object sender, EventArgs args)
@@ -186,7 +186,7 @@ namespace zbrozonoid
                 app.Display();
             }
 
-            viewModel.Dispose();
+            viewCommon.Dispose();
         }
 
         public void CloseAction()

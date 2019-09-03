@@ -6,7 +6,7 @@ namespace zbrozonoid
     public class TitleMessageView : IView
     {
         private ViewCommon view;
-        public Text Title { get; set; }
+        private Text Title { get; set; }
 
         public TitleMessageView(ViewCommon viewCommon)
         {
