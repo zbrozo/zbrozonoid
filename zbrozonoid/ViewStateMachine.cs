@@ -27,18 +27,18 @@ namespace zbrozonoid
 
         private IDrawGameObjects draw;
 
-        private readonly IGameView gameBegin;
-        private readonly IGameView gamePlay;
-        private readonly IGameView gameOver;
-        private readonly IGameView startPlay;
+        private readonly IView gameBegin;
+        private readonly IView gamePlay;
+        private readonly IView gameOver;
+        private readonly IView startPlay;
 
-        private IGameView currentState;
+        private IView currentState;
 
         public bool IsMenuState => currentState is GameBeginView;
 
-        public ViewStateMachine(IViewModel viewModel, IView menuView, IDrawGameObjects draw)
+        public ViewStateMachine(ViewCommon viewCommon, IViewModel viewModel, IView menuView, IDrawGameObjects draw)
         {
-            gameBegin = new GameBeginView(menuView, draw);
+            gameBegin = new GameBeginView(viewCommon, menuView);
             gamePlay = new GamePlayView(draw);
             gameOver = new GameOverView(draw);
             startPlay = new StartPlayView(draw);
@@ -55,7 +55,7 @@ namespace zbrozonoid
             draw.DrawPad();
             draw.DrawBall();
 
-            currentState?.Action();
+            currentState?.Display();
         }
 
         public void Transitions(IGame game)

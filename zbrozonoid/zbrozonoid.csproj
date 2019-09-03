@@ -40,7 +40,6 @@
     <Compile Include="Views\GameBeginView.cs" />
     <Compile Include="Views\GameOverView.cs" />
     <Compile Include="Views\GamePlayView.cs" />
-    <Compile Include="Views\IGameView.cs" />
     <Compile Include="ViewStateMachine.cs" />
     <Compile Include="ViewModel.cs" />
     <Compile Include="IViewModel.cs" />
@@ -56,6 +55,7 @@
     <Compile Include="Menu\MenuView.cs" />
     <Compile Include="IView.cs" />
     <Compile Include="ViewCommon.cs" />
+    <Compile Include="Views\TitleMessageView.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\zbrozonoidAssets\zbrozonoidAssets.csproj">

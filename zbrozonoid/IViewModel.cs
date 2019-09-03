@@ -25,7 +25,6 @@ namespace zbrozonoid
         List<Brick> Bricks { get; }
         Sprite Background { get; }
 
-        Text Title { get; }
         Text GameOverMessage { get; }
         Text LiveAndScoresMessage { get; }
         Text PressButtonToPlayMessage { get; }

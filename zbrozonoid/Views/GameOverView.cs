@@ -1,7 +1,7 @@
 ﻿using System;
 namespace zbrozonoid.Views
 {
-    public class GameOverView : IGameView
+    public class GameOverView : IView
     {
         private IDrawGameObjects draw;
 
@@ -10,7 +10,7 @@ namespace zbrozonoid.Views
             this.draw = draw;
         }
 
-        public void Action()
+        public void Display()
         {
             draw.DrawGameOver();
         }

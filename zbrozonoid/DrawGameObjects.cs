@@ -142,11 +142,6 @@ namespace zbrozonoid
             }
         }
 
-        public void DrawTitle()
-        {
-            renderWindow.Draw(viewModel.Title);
-        }
-
         public void DrawLifesAndScoresInfo()
         {
             renderWindow.Draw(viewModel.LiveAndScoresMessage);

@@ -72,11 +72,11 @@ namespace zbrozonoid
             viewCommon = new ViewCommon(app);
             viewModel = new ViewModel(viewCommon, game);
 
-            menuViewModel = new MenuViewModel(game, CloseAction, InGameAction);
+            menuViewModel = new MenuViewModel(game.GameConfig, CloseAction, InGameAction);
             menuView = new MenuView(viewCommon, menuViewModel);
 
             drawGameObjects = new DrawGameObjects(app, viewModel, menuViewModel, game);
-            appStateMachine = new ViewStateMachine(viewModel, menuView, drawGameObjects);
+            appStateMachine = new ViewStateMachine(viewCommon, viewModel, menuView, drawGameObjects);
             appStateMachine.GotoMenu();
         }
 

@@ -69,7 +69,6 @@ namespace zbrozonoid
             get { return PrepareFireBallMessage(); }
         }
 
-        public Text Title { get; set; }
         public Text GameOverMessage { get; set; }
         public Text PressButtonToPlayMessage { get; set; }
 
@@ -80,7 +79,6 @@ namespace zbrozonoid
             this.game = game;
             this.viewCommon = viewCommon;
 
-            Title = PrepareTitle();
             GameOverMessage = PrepareGameOverMessage();
             PressButtonToPlayMessage = PreparePressButtonToPlayMessage();
         }
@@ -140,20 +138,6 @@ namespace zbrozonoid
 
                 return new Image(resourceStream);
             }
-        }
-
-        private Text PrepareTitle()
-        {
-            uint charSize = 50;
-            Text message = new Text("zbrozonoid", viewCommon.Font, charSize);
-            message.FillColor = Color.White;
-
-            game.GetScreenSize(out int width, out int height);
-            FloatRect localBounds = message.GetLocalBounds();
-            Vector2f rect = new Vector2f((width - localBounds.Width) / 2, 0 );
-            message.Position = rect;
-
-            return message;
         }
 
         private Text PrepareGameOverMessage()
