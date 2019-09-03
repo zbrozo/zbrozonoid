@@ -22,11 +22,8 @@ namespace zbrozonoid
 {
     public interface IViewModel : IDisposable
     {
-        Font LoadFont(string name);
-
         List<Brick> Bricks { get; }
         Sprite Background { get; }
-        Font Font { get; }
 
         Text Title { get; }
         Text GameOverMessage { get; }
@@ -37,7 +34,5 @@ namespace zbrozonoid
 
         void PrepareBricksToDraw();
         void PrepareBackground(string backgroundName);
-        Text PrepareMenuItem(string name, int number, bool isCurrent);
-
     }
 }

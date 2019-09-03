@@ -53,7 +53,6 @@ namespace zbrozonoid
 
         public Sprite Background { get; set; }
         public List<Brick> Bricks { get; } = new List<Brick>();
-        public Font Font { get; set; }
 
         public Text LiveAndScoresMessage
         {
@@ -74,11 +73,13 @@ namespace zbrozonoid
         public Text GameOverMessage { get; set; }
         public Text PressButtonToPlayMessage { get; set; }
 
-        public ViewModel(IGame game)
+        private ViewCommon viewCommon;
+
+        public ViewModel(ViewCommon viewCommon, IGame game)
         {
             this.game = game;
+            this.viewCommon = viewCommon;
 
-            Font = LoadFont("Bungee-Regular.ttf");
             Title = PrepareTitle();
             GameOverMessage = PrepareGameOverMessage();
             PressButtonToPlayMessage = PreparePressButtonToPlayMessage();
@@ -86,7 +87,6 @@ namespace zbrozonoid
 
         public void Dispose()
         {
-            Font?.Dispose();
             backgroundImage?.Dispose();
         }
 
@@ -122,22 +122,6 @@ namespace zbrozonoid
             Background = new Sprite(backgroundTexture);
         }
 
-        public Font LoadFont(string name)
-        {
-            name = name.Replace("/", ".");
-            name = "zbrozonoidAssets.Fonts." + name;
-
-            AssemblyName assemblyName = new AssemblyName(@"zbrozonoidAssets");
-            Assembly assembly = Assembly.Load(assemblyName);
-
-            Stream resourceStream = assembly.GetManifestResourceStream(name);
-            if (resourceStream == null)
-            {
-                return null;
-            }
-
-            return new Font(resourceStream);
-        }
 
         private Image LoadBackground(string name)
         {
@@ -161,7 +145,7 @@ namespace zbrozonoid
         private Text PrepareTitle()
         {
             uint charSize = 50;
-            Text message = new Text("zbrozonoid", Font, charSize);
+            Text message = new Text("zbrozonoid", viewCommon.Font, charSize);
             message.FillColor = Color.White;
 
             game.GetScreenSize(out int width, out int height);
@@ -175,7 +159,7 @@ namespace zbrozonoid
         private Text PrepareGameOverMessage()
         {
             uint charSize = 50;
-            Text message = new Text("game over", Font, charSize);
+            Text message = new Text("game over", viewCommon.Font, charSize);
             message.FillColor = Color.White;
 
             game.GetScreenSize(out int width, out int height);
@@ -191,7 +175,7 @@ namespace zbrozonoid
             uint charSize = 20;
             int lifes = game.GameState.Lifes >= 0 ? game.GameState.Lifes : 0;
             int scores = game.GameState.Scores;
-            Text message = new Text($"Lifes: {lifes}   Scores: {scores:D5}", Font, charSize);
+            Text message = new Text($"Lifes: {lifes}   Scores: {scores:D5}", viewCommon.Font, charSize);
             message.FillColor = Color.White;
 
             game.GetScreenSize(out int width, out int height);
@@ -208,7 +192,7 @@ namespace zbrozonoid
         private Text PreparePressButtonToPlayMessage()
         {
             uint charSize = 50;
-            Text message = new Text("Press mouse button to play", Font, charSize);
+            Text message = new Text("Press mouse button to play", viewCommon.Font, charSize);
             message.FillColor = Color.White;
 
             game.GetScreenSize(out int width, out int height);
@@ -231,7 +215,7 @@ namespace zbrozonoid
             }
 
             uint charSize = 20;
-            Text message = new Text($"FasterBall: {value}", Font, charSize)
+            Text message = new Text($"FasterBall: {value}", viewCommon.Font, charSize)
             {
                 FillColor = Color.White
             };
@@ -259,7 +243,7 @@ namespace zbrozonoid
             }
 
             uint charSize = 20;
-            Text message = new Text($"FireBall: {value}", Font, charSize)
+            Text message = new Text($"FireBall: {value}", viewCommon.Font, charSize)
             {
                 FillColor = Color.White
             };
@@ -275,22 +259,5 @@ namespace zbrozonoid
             return message;
         }
 
-        public Text PrepareMenuItem(string name, int number, bool isCurrent)
-        {
-            uint charSize = 50;
-            Text message = new Text(name, Font, charSize);
-
-            if (!isCurrent)
-                message.FillColor = Color.White;
-            else
-                message.FillColor = Color.Green;
-
-            game.GetScreenSize(out int width, out int height);
-            FloatRect localBounds = message.GetLocalBounds();
-            Vector2f rect = new Vector2f((width - localBounds.Width) / 2, lineHeight * number );
-            message.Position = rect;
-
-            return message;
-        }
     }
 }

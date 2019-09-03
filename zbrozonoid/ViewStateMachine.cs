@@ -36,9 +36,9 @@ namespace zbrozonoid
 
         public bool IsMenuState => currentState is GameBeginView;
 
-        public ViewStateMachine(IViewModel viewModel, IDrawGameObjects draw)
+        public ViewStateMachine(IViewModel viewModel, IView menuView, IDrawGameObjects draw)
         {
-            gameBegin = new GameBeginView(draw);
+            gameBegin = new GameBeginView(menuView, draw);
             gamePlay = new GamePlayView(draw);
             gameOver = new GameOverView(draw);
             startPlay = new StartPlayView(draw);

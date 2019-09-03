@@ -41,8 +41,10 @@ namespace zbrozonoid
         private IDrawGameObjects drawGameObjects;
 
         private IViewModel viewModel;
-
         private IMenuViewModel menuViewModel;
+
+        private ViewCommon viewCommon;
+        private IView menuView;
 
         public Window(IGame game)
         {
@@ -66,11 +68,15 @@ namespace zbrozonoid
             app.KeyPressed += OnKeyPressed;
             app.Resized += OnResized;
 
-            viewModel = new ViewModel(game);
+
+            viewCommon = new ViewCommon(app);
+            viewModel = new ViewModel(viewCommon, game);
+
             menuViewModel = new MenuViewModel(game, CloseAction, InGameAction);
+            menuView = new MenuView(viewCommon, menuViewModel);
 
             drawGameObjects = new DrawGameObjects(app, viewModel, menuViewModel, game);
-            appStateMachine = new ViewStateMachine(viewModel, drawGameObjects);
+            appStateMachine = new ViewStateMachine(viewModel, menuView, drawGameObjects);
             appStateMachine.GotoMenu();
         }
 

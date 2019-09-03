@@ -182,18 +182,5 @@ namespace zbrozonoid
                 renderWindow.Draw(viewModel.FireBallMessage);
             }
         }
-
-        public void DrawMenu()
-        {
-            IMenuViewModel menu = menuViewModel;
-            int i = 2;
-            foreach(var item in menu.Items)
-            {
-                bool isCurrent = (item == menu.CurrentItem);
-                Text name = viewModel.PrepareMenuItem(item.Name, i, isCurrent);
-                renderWindow.Draw(name);
-                ++i;
-            }
-        }
     }
 }
