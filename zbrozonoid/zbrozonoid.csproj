@@ -54,8 +54,8 @@
     <Compile Include="Menu\Items\PlayersMenuItem.cs" />
     <Compile Include="Menu\MenuView.cs" />
     <Compile Include="IView.cs" />
-    <Compile Include="ViewCommon.cs" />
-    <Compile Include="Views\TitleMessageView.cs" />
+    <Compile Include="IPrepareTextLine.cs" />
+    <Compile Include="PrepareTextLine.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\zbrozonoidAssets\zbrozonoidAssets.csproj">

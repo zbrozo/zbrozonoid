@@ -19,6 +19,7 @@ using System.IO;
 using System.Reflection;
 using SFML.Graphics;
 using SFML.System;
+using zbrozonoid.Views;
 using zbrozonoidEngine.Interfaces;
 
 namespace zbrozonoid
@@ -66,16 +67,50 @@ namespace zbrozonoid
 
         public Text GameOverMessage { get; set; }
         public Text PressButtonToPlayMessage { get; set; }
+        public Text TitleMessage { get; set; }
 
-        private ViewCommon viewCommon;
+        private Image backgroundImage;
+        public Sprite Background { get; set; }
 
-        public ViewModel(ViewCommon viewCommon, IGame game)
+        private readonly RenderWindow render;
+        private IPrepareTextLine prepareTextLine;
+        public ViewModel(IPrepareTextLine prepareTextLine, IGame game)
         {
-            this.viewCommon = viewCommon;
+            render = prepareTextLine.Render;
+            this.prepareTextLine = prepareTextLine;
             this.game = game;
-
+    
             GameOverMessage = PrepareGameOverMessage();
             PressButtonToPlayMessage = PreparePressButtonToPlayMessage();
+            TitleMessage = PrepareTitle();
+        }
+
+        public void PrepareBackground(string backgroundName)
+        {
+            backgroundImage?.Dispose();
+            backgroundImage = LoadBackground(backgroundName);
+
+            Texture backgroundTexture = new Texture(backgroundImage);
+            Background = new Sprite(backgroundTexture);
+        }
+
+        private Image LoadBackground(string name)
+        {
+            name = name.Replace("/", ".");
+            name = "zbrozonoidAssets." + name;
+
+            AssemblyName assemblyName = new AssemblyName(@"zbrozonoidAssets");
+            Assembly assembly = Assembly.Load(assemblyName);
+
+            using (Stream resourceStream = assembly.GetManifestResourceStream(name))
+            {
+                if (resourceStream == null)
+                {
+                    return null;
+                }
+
+                return new Image(resourceStream);
+            }
         }
 
         public void PrepareBricksToDraw()
@@ -103,18 +138,7 @@ namespace zbrozonoid
 
         private Text PrepareGameOverMessage()
         {
-            uint charSize = 50;
-            Text message = new Text("game over", viewCommon.Font, charSize);
-            message.FillColor = Color.White;
-
-            uint width = viewCommon.RenderWindow.Size.X;
-            uint height = viewCommon.RenderWindow.Size.Y;
-
-            FloatRect localBounds = message.GetLocalBounds();
-            Vector2f rect = new Vector2f((width - localBounds.Width) / 2, viewCommon.LineHeight * 4);
-            message.Position = rect;
-
-            return message;
+            return prepareTextLine.Prepare("game over", 4);
         }
 
         private Text PrepareLifesAndScoresMessage()
@@ -122,36 +146,17 @@ namespace zbrozonoid
             uint charSize = 20;
             int lifes = game.GameState.Lifes >= 0 ? game.GameState.Lifes : 0;
             int scores = game.GameState.Scores;
-            Text message = new Text($"Lifes: {lifes}   Scores: {scores:D5}", viewCommon.Font, charSize);
-            message.FillColor = Color.White;
-
-            uint width = viewCommon.RenderWindow.Size.X;
-            uint height = viewCommon.RenderWindow.Size.Y;
-
-            FloatRect localBounds = message.GetLocalBounds();
-
-            int offsetX = 20;
-            int offsetY = 30;
-            Vector2f rect = new Vector2f(offsetX, height - localBounds.Height - offsetY);
-            message.Position = rect;
-
-            return message;
+            return prepareTextLine.Prepare($"Lifes: {lifes}   Scores: {scores:D5}", 0, false, true, 20, 30, charSize);
         }
 
         private Text PreparePressButtonToPlayMessage()
         {
-            uint charSize = 50;
-            Text message = new Text("Press mouse button to play", viewCommon.Font, charSize);
-            message.FillColor = Color.White;
+            return prepareTextLine.Prepare("Press mouse button to play", 4);
+        }
 
-            uint width = viewCommon.RenderWindow.Size.X;
-            uint height = viewCommon.RenderWindow.Size.Y;
-
-            FloatRect localBounds = message.GetLocalBounds();
-            Vector2f rect = new Vector2f((width - localBounds.Width) / 2, viewCommon.LineHeight * 4);
-            message.Position = rect;
-
-            return message;
+        private Text PrepareTitle()
+        {
+            return prepareTextLine.Prepare("zbrozonoid", 0);
         }
 
         private Text PrepareFasterBallMessage()
@@ -166,22 +171,7 @@ namespace zbrozonoid
             }
 
             uint charSize = 20;
-            Text message = new Text($"FasterBall: {value}", viewCommon.Font, charSize)
-            {
-                FillColor = Color.White
-            };
-
-            uint width = viewCommon.RenderWindow.Size.X;
-            uint height = viewCommon.RenderWindow.Size.Y;
-
-            FloatRect localBounds = message.GetLocalBounds();
-
-            int offsetX = 800;
-            int offsetY = 20;
-            Vector2f rect = new Vector2f(offsetX, height - localBounds.Height - offsetY);
-            message.Position = rect;
-
-            return message;
+            return prepareTextLine.Prepare($"FasterBall: {value}", 0, false, true, 800, 20, charSize);
         }
 
         private Text PrepareFireBallMessage()
@@ -196,22 +186,12 @@ namespace zbrozonoid
             }
 
             uint charSize = 20;
-            Text message = new Text($"FireBall: {value}", viewCommon.Font, charSize)
-            {
-                FillColor = Color.White
-            };
+            return prepareTextLine.Prepare($"FireBall: {value}", 0, false, true, 800, 40, charSize);
+        }
 
-            uint width = viewCommon.RenderWindow.Size.X;
-            uint height = viewCommon.RenderWindow.Size.Y;
-
-            FloatRect localBounds = message.GetLocalBounds();
-
-            int offsetX = 800;
-            int offsetY = 40;
-            Vector2f rect = new Vector2f(offsetX, height - localBounds.Height - offsetY);
-            message.Position = rect;
-
-            return message;
+        public void Dispose()
+        {
+            backgroundImage?.Dispose();
         }
 
     }

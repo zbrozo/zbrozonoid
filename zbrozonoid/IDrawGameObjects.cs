@@ -28,6 +28,7 @@ namespace zbrozonoid
         void DrawBricks(List<Brick> bricksToDraw);
         void DrawBall();
         void DrawPad();
+        void DrawTitle();
 
         void DrawLifesAndScoresInfo();
         void DrawGameOver();

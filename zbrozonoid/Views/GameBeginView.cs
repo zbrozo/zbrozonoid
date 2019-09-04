@@ -4,17 +4,20 @@ namespace zbrozonoid.Views
     public class GameBeginView : IView
     {
         private IView menuView;
-        private IView titleView;
+        //private IView titleView;
+        IDrawGameObjects draw;
 
-        public GameBeginView(ViewCommon viewCommon, IView menuView)
+        public GameBeginView(IDrawGameObjects draw, IView menuView)
         {
-            titleView = new TitleMessageView(viewCommon);
+            //titleView = new TitleMessageView(viewCommon);
+            this.draw = draw;
             this.menuView = menuView;
         }
 
         public void Display()
         {
-            titleView.Display();
+            draw.DrawTitle();
+            //titleView.Display();
             menuView.Display();
         }
 

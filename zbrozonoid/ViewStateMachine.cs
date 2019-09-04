@@ -36,13 +36,10 @@ namespace zbrozonoid
 
         public bool IsMenuState => currentState is GameBeginView;
 
-        private ViewCommon viewCommon;
-
-        public ViewStateMachine(ViewCommon viewCommon, IViewModel viewModel, IView menuView, IDrawGameObjects draw)
+        public ViewStateMachine(IViewModel viewModel, IView menuView, IDrawGameObjects draw)
         {
-            this.viewCommon = viewCommon;
 
-            gameBegin = new GameBeginView(viewCommon, menuView);
+            gameBegin = new GameBeginView(draw, menuView);
             gamePlay = new GamePlayView(draw);
             gameOver = new GameOverView(draw);
             startPlay = new StartPlayView(draw);
@@ -53,7 +50,7 @@ namespace zbrozonoid
 
         public void Action()
         {
-            draw.DrawBackground(viewCommon.Background);
+            draw.DrawBackground(viewModel.Background);
             draw.DrawBorders();
             draw.DrawBricks(viewModel.Bricks);
             draw.DrawPad();

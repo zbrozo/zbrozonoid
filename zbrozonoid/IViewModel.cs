@@ -20,10 +20,13 @@ using SFML.Graphics;
 
 namespace zbrozonoid
 {
-    public interface IViewModel 
+    public interface IViewModel : IDisposable
     {
         List<Brick> Bricks { get; }
+        Sprite Background { get; }
 
+        void PrepareBackground(string backgroundName);
+        Text TitleMessage { get; }
         Text GameOverMessage { get; }
         Text LiveAndScoresMessage { get; }
         Text PressButtonToPlayMessage { get; }

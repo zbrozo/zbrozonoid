@@ -40,6 +40,11 @@ namespace zbrozonoid
             this.menuViewModel = menuViewModel;
         }
 
+        public void DrawTitle()
+        {
+            renderWindow.Draw(viewModel.TitleMessage);
+        }
+
         public void DrawBackground(Sprite background)
         {
             renderWindow.Draw(background);
@@ -151,7 +156,6 @@ namespace zbrozonoid
         {
             renderWindow.Draw(viewModel.GameOverMessage);
         }
-
 
         public void DrawPressPlayToPlay()
         {

@@ -25,6 +25,7 @@ namespace zbrozonoid
     using zbrozonoidEngine;
     using zbrozonoidEngine.Interfaces;
     using zbrozonoid.Menu;
+    using zbrozonoid.Views;
 
     public class Window
     {
@@ -43,8 +44,8 @@ namespace zbrozonoid
         private IViewModel viewModel;
         private IMenuViewModel menuViewModel;
 
-        private ViewCommon viewCommon;
         private IView menuView;
+        private IPrepareTextLine prepareTextLine;
 
         public Window(IGame game)
         {
@@ -68,15 +69,15 @@ namespace zbrozonoid
             app.KeyPressed += OnKeyPressed;
             app.Resized += OnResized;
 
+            prepareTextLine = new PrepareTextLine(app);
 
-            viewCommon = new ViewCommon(app);
-            viewModel = new ViewModel(viewCommon, game);
+            viewModel = new ViewModel(prepareTextLine, game);
 
             menuViewModel = new MenuViewModel(game.GameConfig, CloseAction, InGameAction);
-            menuView = new MenuView(viewCommon, menuViewModel);
+            menuView = new MenuView(prepareTextLine, menuViewModel);
 
             drawGameObjects = new DrawGameObjects(app, viewModel, menuViewModel, game);
-            appStateMachine = new ViewStateMachine(viewCommon, viewModel, menuView, drawGameObjects);
+            appStateMachine = new ViewStateMachine(viewModel, menuView, drawGameObjects);
             appStateMachine.GotoMenu();
         }
 
@@ -111,7 +112,7 @@ namespace zbrozonoid
         public void OnChangeLevel(object sender, LevelEventArgs e)
         {
             viewModel.PrepareBricksToDraw();
-            viewCommon.PrepareBackground(e.Background);
+            viewModel.PrepareBackground(e.Background);
         }
 
         public void OnLostBalls(object sender, EventArgs args)
@@ -186,7 +187,7 @@ namespace zbrozonoid
                 app.Display();
             }
 
-            viewCommon.Dispose();
+            viewModel.Dispose();
         }
 
         public void CloseAction()
