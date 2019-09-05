@@ -26,6 +26,7 @@ namespace zbrozonoid
     using zbrozonoidEngine.Interfaces;
     using zbrozonoid.Menu;
     using zbrozonoid.Views;
+    using ManyMouseWrapper;
 
     public class Window
     {
@@ -47,9 +48,12 @@ namespace zbrozonoid
         private IView menuView;
         private IPrepareTextLine prepareTextLine;
 
-        public Window(IGame game)
+        private ManyMouse manymouse;
+
+        public Window(IGame game, ManyMouse manymouse)
         {
             this.game = game;
+            this.manymouse = manymouse;
 
             game.GetScreenSize(out int width, out int height);
             
@@ -60,11 +64,13 @@ namespace zbrozonoid
             settings.MajorVersion = 3;
             settings.MinorVersion = 0;
 
+            manymouse.MouseMoved += OnManyMouseMove;
+
             app = new RenderWindow(new VideoMode((uint)width, (uint)height), Name);
             app.SetVerticalSyncEnabled(true);
 
             app.Closed += OnClose;
-            app.MouseMoved += OnMouseMove;
+            //app.MouseMoved += OnMouseMove;
             app.MouseButtonPressed += OnMouseButtonPressed;
             app.KeyPressed += OnKeyPressed;
             app.Resized += OnResized;
@@ -79,6 +85,8 @@ namespace zbrozonoid
             drawGameObjects = new DrawGameObjects(app, viewModel, menuViewModel, game);
             appStateMachine = new ViewStateMachine(viewModel, menuView, drawGameObjects);
             appStateMachine.GotoMenu();
+
+
         }
 
         private void OnKeyPressed(object sender, KeyEventArgs e)
@@ -134,6 +142,7 @@ namespace zbrozonoid
 
         private void OnMouseMove(object sender, MouseMoveEventArgs args)
         {
+            /*
             int current = args.X;
 
             game.GetScreenSize(out int width, out int height);
@@ -141,10 +150,19 @@ namespace zbrozonoid
 
             int deltaX = current - pos.X;
 
+            Logger.Instance.Write("Mouse " + deltaX);
+
             game.SetPadMove(deltaX);
 
             int deltaY = args.Y - pos.Y;
             menuViewModel.Move(deltaY);
+            */           
+        }
+
+        private void OnManyMouseMove(object sender, ManyMouse.MouseMoveEventArgs args)
+        {
+            game.SetPadMove(args.X, args.Device);
+            menuViewModel.Move(args.Y);
         }
 
         public void OnBallSpeedCountdownTimerEvent(object sender, EventArgs e)
@@ -171,13 +189,15 @@ namespace zbrozonoid
             // Start the game loop
             while (app.IsOpen)
             {
+                manymouse.DispatchEvents();
+
                 // Process events
                 app.DispatchEvents();
 
-                if (!Pause)
-                {
-                    SetMousePointerInTheMiddleOfTheScreen();
-                }
+            //    if (!Pause)
+            //    {
+            //        SetMousePointerInTheMiddleOfTheScreen();
+            //    }
 
                 game.Action();
 

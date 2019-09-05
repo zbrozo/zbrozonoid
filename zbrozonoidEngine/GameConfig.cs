@@ -8,5 +8,6 @@ namespace zbrozonoidEngine
 
         public int Players { get; set; } = OnePlayer;
 
+        public int Mouses { get; set; }
     }
 }

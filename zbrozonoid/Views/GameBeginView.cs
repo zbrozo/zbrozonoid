@@ -1,15 +1,12 @@
-﻿using System;
-namespace zbrozonoid.Views
+﻿namespace zbrozonoid.Views
 {
     public class GameBeginView : IView
     {
         private IView menuView;
-        //private IView titleView;
         IDrawGameObjects draw;
 
         public GameBeginView(IDrawGameObjects draw, IView menuView)
         {
-            //titleView = new TitleMessageView(viewCommon);
             this.draw = draw;
             this.menuView = menuView;
         }
@@ -17,7 +14,6 @@ namespace zbrozonoid.Views
         public void Display()
         {
             draw.DrawTitle();
-            //titleView.Display();
             menuView.Display();
         }
 

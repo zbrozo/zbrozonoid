@@ -27,8 +27,10 @@ namespace zbrozonoidEngine.States.BallInPlayCommands
 
         protected bool HandlePadCollision(IBall ball)
         {
-            foreach (IPad pad in game.PadManager)
+            foreach (var value in game.PadManager)
             {
+                IPad pad = value.Item3;
+
                 if (game.CollisionManager.Detect(pad, ball))
                 {
                     pad.LogData();

@@ -78,8 +78,10 @@ namespace zbrozonoid
 
         public void DrawPad()
         {
-            foreach (IPad pad in game.PadManager)
+            foreach (var value in game.PadManager)
             {
+                IPad pad = value.Item3;
+
                 game.GetPadPosition(pad, out int posX, out int posY);
 
                 game.GetPadSize(pad, out int width, out int height);

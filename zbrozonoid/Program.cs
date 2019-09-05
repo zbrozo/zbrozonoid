@@ -17,6 +17,7 @@ along with this program.If not, see<https://www.gnu.org/licenses/>.
 
 namespace zbrozonoid
 {
+    using ManyMouseWrapper;
     using zbrozonoidEngine;
     using zbrozonoidEngine.Interfaces;
 
@@ -24,8 +25,15 @@ namespace zbrozonoid
     {
         static void Main(string[] args)
         {
-            IGame game = new Game();
-            Window window = new Window(game);
+            ManyMouse manymouse = new ManyMouse();
+            int number = manymouse.Init();
+            if (number == 0)
+            {
+                return;
+            }
+
+            IGame game = new Game(number);
+            Window window = new Window(game, manymouse);
 
             game.OnChangeLevel += window.OnChangeLevel;
             game.OnBrickHit += window.OnBrickHit;

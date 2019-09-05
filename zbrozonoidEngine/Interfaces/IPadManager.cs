@@ -16,13 +16,12 @@ along with this program.If not, see<https://www.gnu.org/licenses/>.
 */
 namespace zbrozonoidEngine.Interfaces
 {
+    using System;
     using System.Collections.Generic;
 
-    public interface IPadManager : IEnumerable<IPad>
+    public interface IPadManager : IEnumerable<Tuple<Edge, uint, IPad>>
     {
         void Create(IGameConfig config);
-
-        void Add(Edge edge);
 
         IPad GetFirst();
 

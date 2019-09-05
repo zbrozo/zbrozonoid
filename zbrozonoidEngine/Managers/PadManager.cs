@@ -16,6 +16,7 @@ along with this program.If not, see<https://www.gnu.org/licenses/>.
 */
 namespace zbrozonoidEngine.Managers
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
 
@@ -23,7 +24,8 @@ namespace zbrozonoidEngine.Managers
 
     public class PadManager : IPadManager
     {
-        private readonly Dictionary<Edge, IPad> pads = new Dictionary<Edge, IPad>();
+        private readonly List<Tuple<Edge, uint, IPad>> pads = new List<Tuple<Edge, uint, IPad>>();
+
         private IScreen screen;
 
         public PadManager(IScreen screen)
@@ -35,18 +37,26 @@ namespace zbrozonoidEngine.Managers
         {
             pads.Clear();
 
+            uint manipulator = 0;
+
             if (config.Players == 2)
             {
-                Add(Edge.Top);
-                Add(Edge.Bottom);
+                Add(Edge.Top, manipulator);
+
+                if (manipulator + 1 < config.Mouses)
+                {
+                    ++manipulator;
+                }
+
+                Add(Edge.Bottom, manipulator);
             }
             else if (config.Players == 1)
             {
-                Add(Edge.Bottom);
+                Add(Edge.Bottom, manipulator);
             }
         }
 
-        public void Add(Edge edge)
+        private void Add(Edge edge, uint manipulator)
         {
             IPad pad = new Pad();
 
@@ -61,27 +71,25 @@ namespace zbrozonoidEngine.Managers
                 case Edge.Top:
                     {
                         pad.Boundary.Min = new Vector2(pad.Boundary.Min.X, offset);
-                        //pad.PosY = offset;
                         break;
                     }
                 case Edge.Bottom:
                     {
                         pad.Boundary.Min = new Vector2(pad.Boundary.Min.X, screen.Height - height - offset);
-                        //(pad as IElement).PosY = screen.Height - height - offset;
                         break;
                     }
                 default:
                     break;
             }
 
-            pads.Add(edge, pad);
+            pads.Add(new Tuple<Edge, uint, IPad>(edge, manipulator, pad));
         }
 
         public IPad GetFirst()
         {
             var e = pads.GetEnumerator();
             e.MoveNext();
-            return e.Current.Value;
+            return e.Current.Item3;
         }
 
         public void Clear()
@@ -133,14 +141,14 @@ namespace zbrozonoidEngine.Managers
             }
         }
 
-        public IEnumerator<IPad> GetEnumerator()
+        public IEnumerator<Tuple<Edge, uint, IPad>> GetEnumerator()
         {
-            return pads.Values.GetEnumerator();
+            return pads.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return (pads.Values).GetEnumerator();
+            return GetEnumerator();
         }
 
         private bool FindEdge(IPad pad, out Edge edge)
@@ -150,10 +158,10 @@ namespace zbrozonoidEngine.Managers
 
             foreach (var pair in pads)
             {
-                if (pair.Value == pad)
+                if (pair.Item3 == pad)
                 {
                     found = true;
-                    edge = pair.Key;
+                    edge = pair.Item1;
                     break;
                 }
             }

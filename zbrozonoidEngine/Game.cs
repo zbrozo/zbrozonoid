@@ -67,8 +67,9 @@ namespace zbrozonoidEngine
 
         public int PadCurrentSpeed { get; private set; }
 
-        public Game()
+        public Game(int number)
         {
+            GameConfig.Mouses = number;
 
             screen = new Screen
                          {
@@ -93,7 +94,7 @@ namespace zbrozonoidEngine
 
             foreach (var pad in padManager)
             {
-                VerifyBorderCollision(pad);
+                VerifyBorderCollision(pad.Item3);
             }
 
             ballManager.Add(CreateBallFactory());
@@ -250,16 +251,21 @@ namespace zbrozonoidEngine
             }
         }
 
-        public void SetPadMove(int delta)
+        public void SetPadMove(int delta, uint manipulator)
         {
             PadCurrentSpeed = delta;
 
-            foreach (IPad pad in padManager)
+            foreach (var value in padManager)
             {
-                pad.Boundary.Min = new Vector2(pad.Boundary.Min.X + delta, pad.Boundary.Min.Y);
+                if (value.Item2 == manipulator)
+                {
+                    IPad pad = value.Item3;
 
-                screenCollisionManager.DetectAndVerify(pad);
-                VerifyBorderCollision(pad);
+                    pad.Boundary.Min = new Vector2(pad.Boundary.Min.X + PadCurrentSpeed, pad.Boundary.Min.Y);
+
+                    screenCollisionManager.DetectAndVerify(pad);
+                    VerifyBorderCollision(pad);
+                }
             }
         }
 
@@ -288,7 +294,7 @@ namespace zbrozonoidEngine
 
                 foreach (var pad in padManager)
                 {
-                    VerifyBorderCollision(pad);
+                    VerifyBorderCollision(pad.Item3);
                 }
 
                 gameState.Lifes = 3;

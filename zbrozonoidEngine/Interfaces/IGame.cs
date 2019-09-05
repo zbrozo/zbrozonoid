@@ -56,7 +56,7 @@ namespace zbrozonoidEngine.Interfaces
 
         void Action();
 
-        void SetPadMove(int delta);
+        void SetPadMove(int delta, uint manipulator);
 
         void SetBallMove();
 
