@@ -194,10 +194,10 @@ namespace zbrozonoid
                 // Process events
                 app.DispatchEvents();
 
-            //    if (!Pause)
-            //    {
-            //        SetMousePointerInTheMiddleOfTheScreen();
-            //    }
+                if (!Pause)
+                {
+                    SetMousePointerInTheMiddleOfTheScreen();
+                }
 
                 game.Action();
 

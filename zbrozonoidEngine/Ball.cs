@@ -226,7 +226,7 @@ namespace zbrozonoidEngine
                     movement.Degree));
         }
 
-        public void GoFaster()
+        public void SetFasterSpeed()
         {
             Speed = (int)BallSpeed.Faster;
 
@@ -236,7 +236,7 @@ namespace zbrozonoidEngine
             timer.Start();
         }
 
-        public void GoDefaultSpeed()
+        public void SetDefaultSpeed()
         {
             Speed = (int)BallSpeed.Default;
 

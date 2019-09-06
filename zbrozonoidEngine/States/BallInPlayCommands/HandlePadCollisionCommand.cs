@@ -40,7 +40,7 @@ namespace zbrozonoidEngine.States.BallInPlayCommands
 
                     if (game.PadCurrentSpeed > padSpeedToGoBallFaster)
                     {
-                        ball.GoFaster();
+                        ball.SetFasterSpeed();
                     }
 
                     ball.LogData();

@@ -85,26 +85,14 @@ namespace zbrozonoidEngine
             borderManager = new BorderManager();
             padManager = new PadManager(screen);
             gameState = new GameState();
-
             ballStateMachine = new BallStateMachine(this);
-
-            padManager.Create(GameConfig);
-
-            borderManager.Create(screen, GameConfig);
-
-            foreach (var pad in padManager)
-            {
-                VerifyBorderCollision(pad.Item3);
-            }
-
-            ballManager.Add(CreateBallFactory());
-
+           
             OnLostBallsEvent += OnLostBalls;
         }
 
         public void Initialize()
         {
-            InitializeNewLevel(true);
+            InitializeLevel(true);
         }
 
         public void SetScreenSize(int width, int height)
@@ -149,28 +137,9 @@ namespace zbrozonoidEngine
 
             if (levelManager.VerifyAllBricksAreHit())
             {
-                InitializeNewLevel(false);
+                InitializeLevel(false);
             }
         }
-
-        private void InitializeNewLevel(bool restartLevel)
-        {
-            ReinitBall();
-
-            if (restartLevel)
-            {
-                levelManager.Restart();
-            }
-            else
-            {
-                levelManager.MoveNext();
-                levelManager.Load();
-            }
-
-            LevelEventArgs background = new LevelEventArgs(levelManager.GetCurrent().BackgroundPath);
-            OnChangeLevel?.Invoke(this, background);
-        }
-
 
         private void VerifyBorderCollision(IPad pad)
         {
@@ -269,15 +238,6 @@ namespace zbrozonoidEngine
             }
         }
 
-        public void SetBallMove()
-        {
-            foreach (IBall ball in ballManager)
-            {
-                IPad pad = padManager.GetFirst();
-                padManager.SetBallStartPosition(pad, ball);
-            }
-        }
-
         public void StartPlay()
         {
             if (!ballStateMachine.IsBallInIdleState())
@@ -285,48 +245,72 @@ namespace zbrozonoidEngine
                 return;
             }
 
+            gameState.BallsOutOfScreen = 0;
+
             if (gameState.Lifes < 0)
             {
-                padManager.Create(GameConfig);
-                borderManager.Create(screen, GameConfig);
-                ballManager.Clear();
-                ballManager.Add(CreateBallFactory());
-
-                foreach (var pad in padManager)
-                {
-                    VerifyBorderCollision(pad.Item3);
-                }
-
                 gameState.Lifes = 3;
                 gameState.Scores = 0;
-                gameState.BallsOutOfScreen = 0;
 
-                InitializeNewLevel(true);
+                InitializeLevel(true);
             } 
             else
             {
-                ReinitBall();
+                InitBall();
             }
 
-            gameState.BallsOutOfScreen = 0;
             ballStateMachine.GoIntoPlay();
         }
 
-        private void ReinitBall()
+        private void InitializeLevel(bool restartLevel)
+        {
+            CreateObjects();
+            InitBall();
+
+            if (restartLevel)
+            {
+                levelManager.Restart();
+            }
+            else
+            {
+                levelManager.MoveNext();
+                levelManager.Load();
+            }
+
+            LevelEventArgs background = new LevelEventArgs(levelManager.GetCurrent().BackgroundPath);
+            OnChangeLevel?.Invoke(this, background);
+        }
+
+        private void CreateObjects()
+        {
+            padManager.Create(GameConfig);
+            borderManager.Create(screen, GameConfig);
+
+            ballManager.Clear();
+            for (int i = 0; i < GameConfig.Players && i < GameConfig.Mouses; ++i)
+            {
+                ballManager.Add(CreateBallFactory());
+            }
+
+            foreach (var pad in padManager)
+            {
+                VerifyBorderCollision(pad.Item3);
+            }
+        }
+
+        private void InitBall()
         {
             tailManager.Clear();
 
-            ballManager.LeaveOnlyOne();
-
-            IBall ball = ballManager.GetFirst();
-            if (ball == null)
+            var iterator = padManager.GetEnumerator();
+            iterator.MoveNext();
+            foreach (var ball in ballManager)
             {
-                return;
-            }
-            ball.GoDefaultSpeed();
+                IPad pad = iterator.Current.Item3;
+                padManager.SetBallStartPosition(pad, ball);
 
-            IPad pad = padManager.GetFirst();
-            padManager.SetBallStartPosition(pad, ball);
+                iterator.MoveNext();
+            }
         }
 
         public bool IsBallDestroyer(IBall ball)

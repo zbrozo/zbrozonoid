@@ -39,8 +39,8 @@ namespace zbrozonoidEngine.Interfaces
         void CalculateNewDegree(DegreeType range);
         void SavePosition();
 
-        void GoFaster();
-        void GoDefaultSpeed();
+        void SetFasterSpeed();
+        void SetDefaultSpeed();
 
         void LogData(bool reverse = false);
     }
