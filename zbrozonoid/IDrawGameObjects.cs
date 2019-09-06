@@ -35,5 +35,6 @@ namespace zbrozonoid
         void DrawPressPlayToPlay();
         void DrawFasterBallTimer();
         void DrawFireBallTimer();
+        void DrawStopPlayMessage();
     }
 }

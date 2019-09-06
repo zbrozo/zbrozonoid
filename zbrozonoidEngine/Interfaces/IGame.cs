@@ -58,8 +58,6 @@ namespace zbrozonoidEngine.Interfaces
 
         void SetPadMove(int delta, uint manipulator);
 
-        //void SetBallMove();
-
         void StartPlay();
 
         void HandleBrickCollision(IBall currentBall, List<BrickHit> bricksHit);
@@ -69,6 +67,10 @@ namespace zbrozonoidEngine.Interfaces
         void LostBalls();
 
         void SavePosition(IBall ball);
+
+        void InitBall();
+
+        void GameIsOver();
 
     }
 }

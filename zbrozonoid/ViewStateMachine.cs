@@ -15,7 +15,6 @@ You should have received a copy of the GNU General Public License
 along with this program.If not, see<https://www.gnu.org/licenses/>.
 */
 
-using System;
 using zbrozonoid.Views;
 using zbrozonoidEngine.Interfaces;
 
@@ -31,6 +30,7 @@ namespace zbrozonoid
         private readonly IView gamePlay;
         private readonly IView gameOver;
         private readonly IView startPlay;
+        private readonly IView stopPlay;
 
         private IView currentState;
 
@@ -38,11 +38,11 @@ namespace zbrozonoid
 
         public ViewStateMachine(IViewModel viewModel, IView menuView, IDrawGameObjects draw)
         {
-
             gameBegin = new GameBeginView(draw, menuView);
             gamePlay = new GamePlayView(draw);
             gameOver = new GameOverView(draw);
             startPlay = new StartPlayView(draw);
+            stopPlay = new StopPlayView(draw);
 
             this.draw = draw;
             this.viewModel = viewModel;
@@ -68,15 +68,41 @@ namespace zbrozonoid
                 return;
             }
 
-            if (currentState is GamePlayView && game.GameState.Lifes < 0)
+            if (currentState is GamePlayView 
+                && game.GameState.Lifes < 0
+                && !game.GameState.Pause)
             {
                 currentState = gameOver;
                 return;
             }
 
-            if (currentState is GamePlayView && game.GameState.Lifes >= 0)
+            if (currentState is GamePlayView 
+                && game.GameState.Lifes >= 0 
+                && !game.GameState.Pause)
             {
                 currentState = startPlay;
+                return;
+            }
+
+            if (currentState is GamePlayView 
+                && game.GameState.Pause)
+            {
+                currentState = stopPlay;
+                return;
+            }
+
+            if (currentState is StopPlayView
+                && game.GameState.Lifes < 0
+                && game.GameState.Pause)
+            {
+                currentState = gameOver;
+                return;
+            }
+
+            if (currentState is StopPlayView
+                && !game.GameState.Pause)
+            {
+                currentState = gamePlay;
                 return;
             }
 
@@ -89,6 +115,8 @@ namespace zbrozonoid
 
             if (currentState is GameOverView)
             {
+                game.GameIsOver();
+
                 currentState = gameBegin;
                 return;
             }

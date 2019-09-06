@@ -56,6 +56,7 @@
     <Compile Include="IView.cs" />
     <Compile Include="IPrepareTextLine.cs" />
     <Compile Include="PrepareTextLine.cs" />
+    <Compile Include="Views\StopPlayView.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\zbrozonoidAssets\zbrozonoidAssets.csproj">

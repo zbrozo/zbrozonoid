@@ -68,6 +68,7 @@ namespace zbrozonoid
         public Text GameOverMessage { get; set; }
         public Text PressButtonToPlayMessage { get; set; }
         public Text TitleMessage { get; set; }
+        public Text StopPlayMessage { get; set; }
 
         private Image backgroundImage;
         public Sprite Background { get; set; }
@@ -83,6 +84,7 @@ namespace zbrozonoid
             GameOverMessage = PrepareGameOverMessage();
             PressButtonToPlayMessage = PreparePressButtonToPlayMessage();
             TitleMessage = PrepareTitle();
+            StopPlayMessage = PrepareStopPlayMessage();
         }
 
         public void PrepareBackground(string backgroundName)
@@ -187,6 +189,11 @@ namespace zbrozonoid
 
             uint charSize = 20;
             return prepareTextLine.Prepare($"FireBall: {value}", 0, false, true, 800, 40, charSize);
+        }
+
+        private Text PrepareStopPlayMessage()
+        {
+            return prepareTextLine.Prepare("Stop play (y/n)", 4);
         }
 
         public void Dispose()

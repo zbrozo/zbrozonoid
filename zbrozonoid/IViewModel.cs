@@ -32,6 +32,7 @@ namespace zbrozonoid
         Text PressButtonToPlayMessage { get; }
         Text FasterBallMessage { get; }
         Text FireBallMessage { get; }
+        Text StopPlayMessage { get; }
         void PrepareBricksToDraw();
     }
 }

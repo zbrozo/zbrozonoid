@@ -183,5 +183,11 @@ namespace zbrozonoid
                 renderWindow.Draw(viewModel.FireBallMessage);
             }
         }
+
+        public void DrawStopPlayMessage()
+        {
+            renderWindow.Draw(viewModel.StopPlayMessage);
+        }
+
     }
 }

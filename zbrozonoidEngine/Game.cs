@@ -121,8 +121,6 @@ namespace zbrozonoidEngine
 
         public void Action()
         {
-            GameState.BallsOutOfScreen = 0;
-
             foreach (IBall ball in ballManager)
             {
                 int speed = ball.Speed;
@@ -245,6 +243,7 @@ namespace zbrozonoidEngine
                 return;
             }
 
+            gameState.Pause = false;
             gameState.BallsOutOfScreen = 0;
 
             if (gameState.Lifes < 0)
@@ -298,7 +297,7 @@ namespace zbrozonoidEngine
             }
         }
 
-        private void InitBall()
+        public void InitBall()
         {
             tailManager.Clear();
 
@@ -349,6 +348,13 @@ namespace zbrozonoidEngine
         {
             --GameState.Lifes;
             ballStateMachine.GoIntoIdle();
+        }
+
+        public void GameIsOver()
+        {
+            GameState.Pause = false;
+            ballStateMachine.GoIntoIdle();
+            InitBall();
         }
 
         public IBall CreateBallFactory()

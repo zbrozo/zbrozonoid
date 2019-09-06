@@ -36,8 +36,6 @@ namespace zbrozonoid
 
         private readonly RenderWindow app;
 
-        private bool Pause = false;
-
         private ViewStateMachine appStateMachine;
 
         private IDrawGameObjects drawGameObjects;
@@ -85,17 +83,29 @@ namespace zbrozonoid
             drawGameObjects = new DrawGameObjects(app, viewModel, menuViewModel, game);
             appStateMachine = new ViewStateMachine(viewModel, menuView, drawGameObjects);
             appStateMachine.GotoMenu();
-
-
         }
 
         private void OnKeyPressed(object sender, KeyEventArgs e)
         {
             if (e.Code == Keyboard.Key.Escape)
             {
-                Pause = true;
+                game.GameState.Pause = true;
+                appStateMachine.Transitions(game);
+                return;
+            }
 
-                app.SetMouseCursorVisible(true);
+            if (e.Code == Keyboard.Key.Y)
+            {
+                game.GameState.Lifes = -1;
+                appStateMachine.Transitions(game);
+                return;
+            }
+
+            if (e.Code == Keyboard.Key.N)
+            {
+                game.GameState.Pause = false;
+                appStateMachine.Transitions(game);
+                return;
             }
         }
 
@@ -114,7 +124,6 @@ namespace zbrozonoid
             {
                 appStateMachine.Transitions(game);
             }
-
         }
 
         public void OnChangeLevel(object sender, LevelEventArgs e)
@@ -165,11 +174,6 @@ namespace zbrozonoid
             menuViewModel.Move(args.Y);
         }
 
-        public void OnBallSpeedCountdownTimerEvent(object sender, EventArgs e)
-        {
-
-        }
-
         public void Initialize()
         {
         }
@@ -189,17 +193,17 @@ namespace zbrozonoid
             // Start the game loop
             while (app.IsOpen)
             {
+                SetMousePointerInTheMiddleOfTheScreen();
+
                 manymouse.DispatchEvents();
 
                 // Process events
                 app.DispatchEvents();
 
-                if (!Pause)
+                if (!game.GameState.Pause)
                 {
-                    SetMousePointerInTheMiddleOfTheScreen();
+                    game.Action();
                 }
-
-                game.Action();
 
                 appStateMachine.Action();
 
