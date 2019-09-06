@@ -18,13 +18,24 @@ along with this program.If not, see<https://www.gnu.org/licenses/>.
 namespace zbrozonoid
 {
     using ManyMouseWrapper;
+    using NLog;
     using zbrozonoidEngine;
     using zbrozonoidEngine.Interfaces;
 
     static class Program
     {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
         static void Main(string[] args)
         {
+            var config = new NLog.Config.LoggingConfiguration();
+            var logfile = new NLog.Targets.FileTarget("logfile") { FileName = "file.txt" };
+            config.AddRule(LogLevel.Info, LogLevel.Fatal, logfile);
+            config.AddRule(LogLevel.Debug, LogLevel.Debug, logfile);
+            NLog.LogManager.Configuration = config;
+
+            Logger.Info("Zbrozonoid starts");
+
             ManyMouse manymouse = new ManyMouse();
             int number = manymouse.Init();
             if (number == 0)
@@ -43,6 +54,10 @@ namespace zbrozonoid
             window.Initialize();
 
             window.Run();
+
+            Logger.Info("Zbrozonoid quits");
+
+            NLog.LogManager.Shutdown();
         }
     }
 }

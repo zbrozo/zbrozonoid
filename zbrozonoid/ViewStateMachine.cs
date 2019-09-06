@@ -22,6 +22,8 @@ namespace zbrozonoid
 {
     public class ViewStateMachine
     {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
         private IViewModel viewModel;
 
         private IDrawGameObjects draw;
@@ -63,6 +65,7 @@ namespace zbrozonoid
         {
             if (currentState is GameBeginView)
             {
+                Logger.Info("State: Begin -> PlayGame");
                 currentState = gamePlay;
                 game.StartPlay();
                 return;
@@ -72,6 +75,7 @@ namespace zbrozonoid
                 && game.GameState.Lifes < 0
                 && !game.GameState.Pause)
             {
+                Logger.Info("State: PlayGame -> GameOver");
                 currentState = gameOver;
                 return;
             }
@@ -80,6 +84,8 @@ namespace zbrozonoid
                 && game.GameState.Lifes >= 0 
                 && !game.GameState.Pause)
             {
+                Logger.Info("State: PlayGame -> GameOver");
+
                 currentState = startPlay;
                 return;
             }
@@ -87,6 +93,8 @@ namespace zbrozonoid
             if (currentState is GamePlayView 
                 && game.GameState.Pause)
             {
+                Logger.Info("State: PlayGame -> StopPlay");
+
                 currentState = stopPlay;
                 return;
             }
@@ -95,6 +103,8 @@ namespace zbrozonoid
                 && game.GameState.Lifes < 0
                 && game.GameState.Pause)
             {
+                Logger.Info("State: StopPlay -> GameOver");
+
                 currentState = gameOver;
                 return;
             }
@@ -102,12 +112,16 @@ namespace zbrozonoid
             if (currentState is StopPlayView
                 && !game.GameState.Pause)
             {
+                Logger.Info("State: StopPlay -> GamePlay");
+
                 currentState = gamePlay;
                 return;
             }
 
             if (currentState is StartPlayView)
             {
+                Logger.Info("State: StartPlay -> GamePlay");
+
                 currentState = gamePlay;
                 game.StartPlay();
                 return;
@@ -115,6 +129,8 @@ namespace zbrozonoid
 
             if (currentState is GameOverView)
             {
+                Logger.Info("State: GameOver -> Begin");
+
                 game.GameIsOver();
 
                 currentState = gameBegin;
