@@ -26,7 +26,7 @@ namespace zbrozonoid
     using zbrozonoidEngine.Interfaces;
     using zbrozonoid.Menu;
     using zbrozonoid.Views;
-    using ManyMouseWrapper;
+    using ManyMouseSharp;
 
     public class Window
     {
@@ -46,12 +46,9 @@ namespace zbrozonoid
         private IView menuView;
         private IPrepareTextLine prepareTextLine;
 
-        private ManyMouse manymouse;
-
-        public Window(IGame game, ManyMouse manymouse)
+        public Window(IGame game)
         {
             this.game = game;
-            this.manymouse = manymouse;
 
             game.GetScreenSize(out int width, out int height);
             
@@ -61,8 +58,6 @@ namespace zbrozonoid
             settings.AntialiasingLevel = 4;
             settings.MajorVersion = 3;
             settings.MinorVersion = 0;
-
-            manymouse.MouseMoved += OnManyMouseMove;
 
             app = new RenderWindow(new VideoMode((uint)width, (uint)height), Name);
             app.SetVerticalSyncEnabled(true);
@@ -168,12 +163,6 @@ namespace zbrozonoid
             */           
         }
 
-        private void OnManyMouseMove(object sender, ManyMouse.MouseMoveEventArgs args)
-        {
-            game.SetPadMove(args.X, args.Device);
-            menuViewModel.Move(args.Y);
-        }
-
         public void Initialize()
         {
         }
@@ -195,7 +184,17 @@ namespace zbrozonoid
             {
                 SetMousePointerInTheMiddleOfTheScreen();
 
-                manymouse.DispatchEvents();
+                while (ManyMouse.PollEvent(out ManyMouseEvent mme) > 0)
+                {
+                    if (mme.item == 0)
+                    {
+                        game.SetPadMove(mme.value, mme.device);
+                    }
+                    else
+                    {
+                        menuViewModel.Move(mme.value);
+                    }
+                }
 
                 // Process events
                 app.DispatchEvents();
