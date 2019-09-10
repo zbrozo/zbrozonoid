@@ -6,7 +6,7 @@
     <ProjectGuid>{E7D3C331-2757-4963-B21C-EBF7EAA05111}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>zbrozonoidEngine</RootNamespace>
-    <AssemblyName>zbrozonoidLibrary</AssemblyName>
+    <AssemblyName>zbrozonoidEngine</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>

@@ -50,7 +50,6 @@ namespace zbrozonoid
         //private ManyMouse manyMouse;
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
-
         public Window(IGame game/*, ManyMouse manyMouse*/)
         {
             this.game = game;

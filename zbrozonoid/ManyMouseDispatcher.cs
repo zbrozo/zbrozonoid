@@ -52,45 +52,57 @@ namespace zbrozonoid
                 data.MouseMoved = false;
             }
 
-            while (ManyMouse.PollEvent(out ManyMouseEvent mme) > 0)
+            while (ManyMouse.PollEvent(out ManyMouseEvent mmevent) > 0)
             {
-                if (mme.type == ManyMouseEventType.MANYMOUSE_EVENT_RELMOTION)
+                if (mmevent.type == ManyMouseEventType.MANYMOUSE_EVENT_RELMOTION)
                 {
-                    while (ManyMouse.PollEvent(out ManyMouseEvent mmevent) > 0)
+                    int x = 0;
+                    int y = 0;
+
+                    uint device = mmevent.device;
+                    if (mmevent.item == 0)
                     {
-                        int x = 0;
-                        int y = 0;
-
-                        uint device = mmevent.device;
-                        if (mmevent.item == 0)
-                        {
-                            x = mmevent.value;
-                        }
-                        else
-                        {
-                            y = mmevent.value;
-                        }
-
-                        mouseData[device].Device = mmevent.device;
-                        mouseData[device].X += x;
-                        mouseData[device].Y += y;
-                        mouseData[device].MouseMoved = true;
+                        x = mmevent.value;
                     }
+                    else
+                    {
+                        y = mmevent.value;
+                    }
+
+                    mouseData[device].Device = mmevent.device;
+                    mouseData[device].X += x;
+                    mouseData[device].Y += y;
+                    mouseData[device].MouseMoved = true;
                 }
-
-                foreach (var data in mouseData)
+                else if (mmevent.type == ManyMouseEventType.MANYMOUSE_EVENT_ABSMOTION)
                 {
-                    if (data.MouseMoved)
-                    {
-                        var eventArgs = new MouseMoveEventArgs
-                        {
-                            Device = data.Device,
-                            X = data.X,
-                            Y = data.Y
-                        };
+                }
+                else if (mmevent.type == ManyMouseEventType.MANYMOUSE_EVENT_BUTTON)
+                {
+                }
+                else if (mmevent.type == ManyMouseEventType.MANYMOUSE_EVENT_SCROLL)
+                {
+                }
+                else if (mmevent.type == ManyMouseEventType.MANYMOUSE_EVENT_MAX)
+                {
+                }
+                else if (mmevent.type == ManyMouseEventType.MANYMOUSE_EVENT_DISCONNECT)
+                {
+                }
+            }
 
-                        MouseMoved?.Invoke(this, eventArgs);
-                    }
+            foreach (var data in mouseData)
+            {
+                if (data.MouseMoved)
+                {
+                    var eventArgs = new MouseMoveEventArgs
+                    {
+                        Device = data.Device,
+                        X = data.X,
+                        Y = data.Y
+                    };
+
+                    MouseMoved?.Invoke(this, eventArgs);
                 }
             }
         }
