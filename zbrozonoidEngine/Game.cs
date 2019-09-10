@@ -375,39 +375,27 @@ namespace zbrozonoidEngine
 
         public void BallSpeedTimerHandler(IBall ball, int value)
         {
-            if (GameState.FasterBallCountdown.ContainsKey(ball))
+            if (value <= 0)
             {
-                if (value <= 0)
-                {
-                    GameState.FasterBallCountdown.Remove(ball);
-                    return;
-                }
+                GameState.FasterBallCountdown.Remove(ball);
+                return;
+            }
 
-                GameState.FasterBallCountdown[ball] = value;
-            }
-            else
-            {
-                GameState.FasterBallCountdown.Add(ball, value);
-            }
+            GameState.FasterBallCountdown[ball] = value;
         }
 
         public void FireBallTimerHandler(ITail tail, int value)
         {
-            if (GameState.FireBallCountdown.ContainsKey(tail))
+            if (value <= 0)
             {
-                if (value <= 0)
+                if (TailManager.Remove(tail))
                 {
-                    TailManager.Remove(tail);
                     GameState.FireBallCountdown.Remove(tail);
-                    return;
                 }
+                return;
+            }
 
-                GameState.FireBallCountdown[tail] = value;
-            }
-            else
-            {
-                GameState.FireBallCountdown.Add(tail, value);
-            }
+            GameState.FireBallCountdown[tail] = value;
         }
     }
 }

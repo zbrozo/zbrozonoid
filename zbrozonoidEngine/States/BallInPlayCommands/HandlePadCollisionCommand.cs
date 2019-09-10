@@ -11,7 +11,7 @@ namespace zbrozonoidEngine.States.BallInPlayCommands
 
         private readonly ICollisionManager collisionManagerForMoveReversion;
 
-        private const int padSpeedToGoBallFaster = 10;
+        private const int padSpeedToGoBallFaster = 5;
 
         public HandlePadCollisionCommand(IGame game)
         {

@@ -22,9 +22,9 @@ namespace zbrozonoidEngine.Interfaces
     {
         void Add(IBall ball, ITail tail);
 
-        void Remove(IBall ball);
+        bool Remove(IBall ball);
 
-        void Remove(ITail tail);
+        bool Remove(ITail tail);
 
         ITail Find(IBall ball);
 

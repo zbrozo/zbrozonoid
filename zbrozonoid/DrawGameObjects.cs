@@ -176,9 +176,7 @@ namespace zbrozonoid
 
         public void DrawFireBallTimer()
         {
-            Text message = viewModel.FireBallMessage;
-            string s = message.DisplayedString;
-            if (s.Length > 0)
+            if (viewModel.FireBallMessage.DisplayedString.Length > 0)
             {
                 renderWindow.Draw(viewModel.FireBallMessage);
             }

@@ -28,7 +28,7 @@ namespace zbrozonoid
 
         static void Main(string[] args)
         {
-            var config = new NLog.Config.LoggingConfiguration();
+           var config = new NLog.Config.LoggingConfiguration();
             var logfile = new NLog.Targets.FileTarget("logfile") { FileName = "file.txt" };
             config.AddRule(LogLevel.Info, LogLevel.Fatal, logfile);
             config.AddRule(LogLevel.Debug, LogLevel.Debug, logfile);

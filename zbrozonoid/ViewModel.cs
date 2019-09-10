@@ -1,4 +1,4 @@
-﻿/*
+﻿    /*
 Copyright(C) 2018 Tomasz Zbrożek
 
 This program is free software: you can redistribute it and/or modify
@@ -145,7 +145,7 @@ namespace zbrozonoid
 
         private Text PrepareLifesAndScoresMessage()
         {
-            uint charSize = 20;
+            const uint charSize = 20;
             int lifes = game.GameState.Lifes >= 0 ? game.GameState.Lifes : 0;
             int scores = game.GameState.Scores;
             return prepareTextLine.Prepare($"Lifes: {lifes}   Scores: {scores:D5}", 0, false, true, 20, 30, charSize);
@@ -172,7 +172,7 @@ namespace zbrozonoid
                 }
             }
 
-            uint charSize = 20;
+            const uint charSize = 20;
             return prepareTextLine.Prepare($"FasterBall: {value}", 0, false, true, 800, 20, charSize);
         }
 
@@ -187,7 +187,7 @@ namespace zbrozonoid
                 }
             }
 
-            uint charSize = 20;
+            const uint charSize = 20;
             return prepareTextLine.Prepare($"FireBall: {value}", 0, false, true, 800, 40, charSize);
         }
 

@@ -146,7 +146,7 @@ namespace zbrozonoid
 
         private void OnMouseMove(object sender, MouseMoveEventArgs args)
         {
-            /*
+
             int current = args.X;
 
             game.GetScreenSize(out int width, out int height);
@@ -156,11 +156,11 @@ namespace zbrozonoid
 
             Logger.Instance.Write("Mouse " + deltaX);
 
-            game.SetPadMove(deltaX);
+            game.SetPadMove(deltaX,0);
 
             int deltaY = args.Y - pos.Y;
             menuViewModel.Move(deltaY);
-            */           
+                       
         }
 
         public void Initialize()
@@ -182,8 +182,6 @@ namespace zbrozonoid
             // Start the game loop
             while (app.IsOpen)
             {
-                SetMousePointerInTheMiddleOfTheScreen();
-
                 while (ManyMouse.PollEvent(out ManyMouseEvent mme) > 0)
                 {
                     if (mme.item == 0)
@@ -198,6 +196,8 @@ namespace zbrozonoid
 
                 // Process events
                 app.DispatchEvents();
+
+                SetMousePointerInTheMiddleOfTheScreen();
 
                 if (!game.GameState.Pause)
                 {

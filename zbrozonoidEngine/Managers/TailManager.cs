@@ -29,21 +29,21 @@ namespace zbrozonoidEngine.Managers
             tails.Add(ball, tail);
         }
 
-        public void Remove(IBall ball)
+        public bool Remove(IBall ball)
         {
-            tails.Remove(ball);
+            return tails.Remove(ball);
         }
 
-        public void Remove(ITail tail)
+        public bool Remove(ITail tail)
         {
             foreach (var pair in tails)
             {
-                if (pair.Value is ITail)
+                if (pair.Value == tail)
                 {
-                    tails.Remove(pair.Key);
-                    return;
+                    return tails.Remove(pair.Key);
                 }
             }
+            return false;
         }
 
         public ITail Find(IBall ball)
