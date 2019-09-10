@@ -59,6 +59,7 @@
     <Compile Include="IPrepareTextLine.cs" />
     <Compile Include="PrepareTextLine.cs" />
     <Compile Include="Views\StopPlayView.cs" />
+    <Compile Include="ManyMouseDispatcher.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\zbrozonoidAssets\zbrozonoidAssets.csproj">

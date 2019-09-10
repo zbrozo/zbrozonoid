@@ -17,9 +17,10 @@ along with this program.If not, see<https://www.gnu.org/licenses/>.
 
 namespace zbrozonoid
 {
-    using NLog;
     using zbrozonoidEngine;
     using zbrozonoidEngine.Interfaces;
+    //using ManyMouseWrapper;
+    using NLog;
     using ManyMouseSharp;
 
     static class Program
@@ -28,7 +29,7 @@ namespace zbrozonoid
 
         static void Main(string[] args)
         {
-           var config = new NLog.Config.LoggingConfiguration();
+            var config = new NLog.Config.LoggingConfiguration();
             var logfile = new NLog.Targets.FileTarget("logfile") { FileName = "file.txt" };
             config.AddRule(LogLevel.Info, LogLevel.Fatal, logfile);
             config.AddRule(LogLevel.Debug, LogLevel.Debug, logfile);
@@ -42,8 +43,16 @@ namespace zbrozonoid
                 return;
             }
 
+            /*
+            ManyMouse manyMouse = new ManyMouse();
+            int number = manyMouse.Init();
+            if (number == 0)
+            {
+                return;
+            }
+            */
             IGame game = new Game(number);
-            Window window = new Window(game);
+            Window window = new Window(game/*, manyMouse*/);
 
             game.OnChangeLevel += window.OnChangeLevel;
             game.OnBrickHit += window.OnBrickHit;
