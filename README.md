@@ -16,6 +16,13 @@ To compile CSFML I've used cmake-gui application and set additional CMAKE_MODULE
 /usr/local/share/SFML/cmake/Modules
 to let CSFML find FindSFML.cmake script.
 
+Another libraries used:
+
+https://github.com/Eideren/ManyMouseSharp.git
+
+https://github.com/NLog/NLog.git
+
+
 ![](zbrozonoid.png)
 
 
