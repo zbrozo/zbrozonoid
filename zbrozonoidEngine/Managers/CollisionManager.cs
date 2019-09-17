@@ -17,7 +17,7 @@ along with this program.If not, see<https://www.gnu.org/licenses/>.
 namespace zbrozonoidEngine.Managers
 {
     using System.Collections.Generic;
-
+    using System.Linq;
     using zbrozonoidEngine;
     using zbrozonoidEngine.Interfaces;
 
@@ -331,12 +331,10 @@ namespace zbrozonoidEngine.Managers
             }
 
             var PosY = bricksHit[0].Boundary.Min.Y;
-            foreach (var value in bricksHit)
+
+            if (bricksHit.Where(x => PosY != x.Boundary.Min.Y).ToList().Count != 0)
             {
-                if (PosY != value.Boundary.Min.Y)
-                {
-                    return false;
-                }
+                return false;
             }
 
             return true;
@@ -350,12 +348,10 @@ namespace zbrozonoidEngine.Managers
             }
 
             var PosX = bricksHit[0].Boundary.Min.X;
-            foreach (var value in bricksHit)
+
+            if (bricksHit.Where(x => PosX != x.Boundary.Min.Y).ToList().Count != 0)
             {
-                if (PosX != value.Boundary.Min.X)
-                {
-                    return false;
-                }
+                return false;
             }
 
             return true;

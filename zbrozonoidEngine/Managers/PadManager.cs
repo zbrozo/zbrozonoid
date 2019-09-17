@@ -19,7 +19,7 @@ namespace zbrozonoidEngine.Managers
     using System;
     using System.Collections;
     using System.Collections.Generic;
-
+    using System.Linq;
     using zbrozonoidEngine.Interfaces;
 
     public class PadManager : IPadManager
@@ -153,20 +153,9 @@ namespace zbrozonoidEngine.Managers
 
         private bool FindEdge(IPad pad, out Edge edge)
         {
-            bool found = false;
-            edge = Edge.Bottom;
-
-            foreach (var pair in pads)
-            {
-                if (pair.Item3 == pad)
-                {
-                    found = true;
-                    edge = pair.Item1;
-                    break;
-                }
-            }
-
-            return found;
+            var padPair = pads.FirstOrDefault(p => p.Item3 == pad);
+            edge = padPair?.Item1 ?? Edge.Bottom;
+            return padPair != null;
         }
 
     }
