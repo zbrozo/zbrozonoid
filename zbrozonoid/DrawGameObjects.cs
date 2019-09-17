@@ -16,6 +16,7 @@ along with this program.If not, see<https://www.gnu.org/licenses/>.
 */
 
 using System.Collections.Generic;
+using System.Linq;
 using SFML.Graphics;
 using SFML.System;
 using zbrozonoid.Menu;
@@ -67,12 +68,9 @@ namespace zbrozonoid
 
         public void DrawBricks(List<Brick> bricksToDraw)
         {
-            foreach (Brick brick in bricksToDraw)
+            foreach (var brick in bricksToDraw.Where(x => x.IsVisible))
             {
-                if (brick.IsVisible)
-                {
-                    renderWindow.Draw(brick.Rect);
-                }
+                renderWindow.Draw(brick.Rect);
             }
         }
 
@@ -166,9 +164,7 @@ namespace zbrozonoid
 
         public void DrawFasterBallTimer()
         {
-            Text message = viewModel.FasterBallMessage;
-            string s = message.DisplayedString;
-            if (s.Length > 0)
+            if (viewModel.FasterBallMessage.DisplayedString.Length > 0)
             {
                 renderWindow.Draw(viewModel.FasterBallMessage);
             }

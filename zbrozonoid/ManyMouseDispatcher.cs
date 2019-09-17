@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using ManyMouseSharp;
 
 namespace zbrozonoid
@@ -91,19 +92,16 @@ namespace zbrozonoid
                 }
             }
 
-            foreach (var data in mouseData)
+            foreach (var data in mouseData.Where(x => x.MouseMoved))
             {
-                if (data.MouseMoved)
+                var eventArgs = new MouseMoveEventArgs
                 {
-                    var eventArgs = new MouseMoveEventArgs
-                    {
-                        Device = data.Device,
-                        X = data.X,
-                        Y = data.Y
-                    };
+                    Device = data.Device,
+                    X = data.X,
+                    Y = data.Y
+                };
 
-                    MouseMoved?.Invoke(this, eventArgs);
-                }
+                MouseMoved?.Invoke(this, eventArgs);
             }
         }
     }
