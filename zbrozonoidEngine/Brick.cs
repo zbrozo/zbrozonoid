@@ -24,33 +24,40 @@ namespace zbrozonoidEngine
 
         public int ColorNumber { get; set; }
         public BrickType Type { get; set; }
-        public bool Hit { get; set; }
+
+        public bool IsHit { get; set; }
+
+        public bool IsBeatable
+        {
+            get
+            {
+                if (Type != BrickType.Solid)
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
+
+        public bool IsVisible 
+        {
+            get
+            {
+                if (Type != BrickType.None)
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
 
         public Brick(BrickType type, int x, int y, int width = 50, int height = 25)
         {
             Boundary.Min = new Vector2(x, y);
             Boundary.Size = new Vector2(width, height);
             Type = type;
-            Hit = false;
+            IsHit = false;
         }
 
-        public bool IsBeatable()
-        {
-            if (Type != BrickType.Solid)
-            {
-                return true;
-            }
-            return false;
-        }
-
-        public bool IsVisible()
-        {
-            if (Type != BrickType.None)
-            {
-                return true;
-            }
-
-            return false;
-        }
     }
 }

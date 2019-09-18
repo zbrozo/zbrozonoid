@@ -53,7 +53,7 @@ namespace zbrozonoidEngine.States.BallInPlayCommands
             foreach (var value in bricks)
             {
                 IBrick brick = value;
-                if (brick.Hit || !brick.IsVisible())
+                if (brick.IsHit || !brick.IsVisible)
                 {
                     ++id;
                     continue;

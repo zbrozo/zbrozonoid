@@ -18,6 +18,7 @@ namespace zbrozonoidEngine
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using zbrozonoidEngine.Interfaces;
     using zbrozonoidEngine.Managers;
 
@@ -172,14 +173,11 @@ namespace zbrozonoidEngine
             type = BrickType.None;
             if (bricksHit.Count != 0)
             {
-                foreach (var brick in bricksHit)
+                foreach (var brick in bricksHit.Where(x => x.IsBeatable && x.IsVisible))
                 {
-                    if (brick.IsBeatable() && brick.IsVisible())
-                    {
-                        brick.Hit = true;
-                        type = brick.Type;
-                        return true;
-                    }
+                    brick.IsHit = true;
+                    type = brick.Type;
+                    return true;
                 }
             }
             return false;
@@ -222,17 +220,14 @@ namespace zbrozonoidEngine
         {
             PadCurrentSpeed = delta;
 
-            foreach (var value in padManager)
+            foreach (var value in padManager.Where(x => x.Item2 == manipulator))
             {
-                if (value.Item2 == manipulator)
-                {
-                    IPad pad = value.Item3;
+                IPad pad = value.Item3;
 
-                    pad.Boundary.Min = new Vector2(pad.Boundary.Min.X + PadCurrentSpeed, pad.Boundary.Min.Y);
+                pad.Boundary.Min = new Vector2(pad.Boundary.Min.X + PadCurrentSpeed, pad.Boundary.Min.Y);
 
-                    screenCollisionManager.DetectAndVerify(pad);
-                    VerifyBorderCollision(pad);
-                }
+                screenCollisionManager.DetectAndVerify(pad);
+                VerifyBorderCollision(pad);
             }
         }
 

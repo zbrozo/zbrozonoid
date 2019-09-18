@@ -29,11 +29,8 @@ namespace zbrozonoidEngine.Interfaces
     {
         int ColorNumber { get; set; }
         BrickType Type { get; set; }
-        bool Hit { get; set; }
-
-        bool IsBeatable();
-
-        bool IsVisible();
-
+        bool IsHit { get; set; }
+        bool IsBeatable { get; } 
+        bool IsVisible { get; }
     }
 }

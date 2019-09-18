@@ -126,13 +126,13 @@ namespace zbrozonoidEngine
                     rowNumber * BlockHeight + StartY,
                     BlockWidth,
                     BlockHeight),
-                Hit = false
+                IsHit = false
             }).ToList();
 
             List<IBrick> result = new List<IBrick>();
             foreach (var block in blocks)
             {
-                if (block.IsBeatable())
+                if (block.IsBeatable)
                 {
                     BeatableBricksNumber++;
                 }
