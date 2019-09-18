@@ -1,4 +1,4 @@
-﻿    /*
+﻿/*
 Copyright(C) 2018 Tomasz Zbrożek
 
 This program is free software: you can redistribute it and/or modify
@@ -16,6 +16,7 @@ along with this program.If not, see<https://www.gnu.org/licenses/>.
 */
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using SFML.Graphics;
 using SFML.System;
@@ -120,20 +121,17 @@ namespace zbrozonoid
             Bricks.Clear();
 
             List<IBrick> bricks = game.Bricks;
-            foreach (IBrick brick in bricks)
+            foreach (IBrick brick in bricks.Where(x => x.Type > 0))
             {
-                if (/*!brick.Hit &&*/ brick.Type > 0)
+                if (colors.TryGetValue((int)brick.ColorNumber, out Color color))
                 {
-                    if (colors.TryGetValue((int)brick.ColorNumber, out Color color))
-                    {
-                        RectangleShape rectangle = new RectangleShape();
-                        rectangle.Position = new Vector2f(brick.Boundary.Min.X, brick.Boundary.Min.Y);
-                        rectangle.Size = new Vector2f(brick.Boundary.Size.X, brick.Boundary.Size.Y);
-                        rectangle.FillColor = color;
+                    RectangleShape rectangle = new RectangleShape();
+                    rectangle.Position = new Vector2f(brick.Boundary.Min.X, brick.Boundary.Min.Y);
+                    rectangle.Size = new Vector2f(brick.Boundary.Size.X, brick.Boundary.Size.Y);
+                    rectangle.FillColor = color;
 
-                        Brick brickToDraw = new Brick(rectangle);
-                        Bricks.Add(brickToDraw);
-                    }
+                    Brick brickToDraw = new Brick(rectangle);
+                    Bricks.Add(brickToDraw);
                 }
             }
         }
@@ -164,12 +162,9 @@ namespace zbrozonoid
         private Text PrepareFasterBallMessage()
         {
             int value = 0;
-            foreach (var counter in game.GameState.FasterBallCountdown)
+            foreach (var counter in game.GameState.FasterBallCountdown.Where(x => x.Value > value))
             {
-                if (counter.Value > value)
-                {
-                    value = counter.Value;
-                }
+                value = counter.Value;
             }
 
             const uint charSize = 20;
@@ -179,12 +174,9 @@ namespace zbrozonoid
         private Text PrepareFireBallMessage()
         {
             int value = 0;
-            foreach (var counter in game.GameState.FireBallCountdown)
+            foreach (var counter in game.GameState.FireBallCountdown.Where(x => x.Value > value))
             {
-                if (counter.Value > value)
-                {
-                    value = counter.Value;
-                }
+                value = counter.Value;
             }
 
             const uint charSize = 20;
