@@ -98,10 +98,10 @@
     <Reference Include="System.Transactions" />
     <Reference Include="System.Xml" />
     <Reference Include="libManyMouse">
-      <HintPath>..\packages\ManyMouseSharp.1.0.3\lib\netstandard2.0\lib\win\x86\libManyMouse.dll</HintPath>
+      <HintPath>..\packages\ManyMouseSharp.1.0.6\lib\netstandard2.0\lib\win\x64\libManyMouse.dll</HintPath>
     </Reference>
     <Reference Include="ManyMouseSharp">
-      <HintPath>..\packages\ManyMouseSharp.1.0.3\lib\netstandard2.0\ManyMouseSharp.dll</HintPath>
+      <HintPath>..\packages\ManyMouseSharp.1.0.6\lib\netstandard2.0\ManyMouseSharp.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
