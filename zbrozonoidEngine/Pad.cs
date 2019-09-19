@@ -16,10 +16,13 @@ along with this program.If not, see<https://www.gnu.org/licenses/>.
 */
 namespace zbrozonoidEngine
 {
+    using NLog;
     using zbrozonoidEngine.Interfaces;
 
     public class Pad : IPad
     {
+        private static readonly NLog.Logger Logger = LogManager.GetCurrentClassLogger();
+
         public Rectangle Boundary { get; set; } = new Rectangle();
         private int OffsetY { get; set; }
 
@@ -42,7 +45,7 @@ namespace zbrozonoidEngine
 
         public void LogData()
         {
-            Logger.Instance.Write(
+            Logger.Info(
                 string.Format(
                     "Pad: {0}, {1}, {2}, {3}",
                     Boundary.Min.X,

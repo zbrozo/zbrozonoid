@@ -18,11 +18,14 @@ namespace zbrozonoidEngine.Managers
 {
     using System.Collections.Generic;
     using System.Linq;
+    using NLog;
     using zbrozonoidEngine;
     using zbrozonoidEngine.Interfaces;
 
     public class CollisionManager : ICollisionManager
     {
+        private static readonly NLog.Logger Logger = LogManager.GetCurrentClassLogger();
+
         public CollisionFlags Flags { get; set; } = new CollisionFlags();
 
         private bool Check(IBoundary first, IBoundary second)
@@ -90,7 +93,12 @@ namespace zbrozonoidEngine.Managers
 
         public bool Detect(IBoundary first, IBoundary second)
         {
-            return Check(first as IBoundary, second as IBoundary);
+            if (Check(first as IBoundary, second as IBoundary))
+            {
+                LogData();
+                return true;
+            }
+            return false;
         }
 
         public void Bounce(IPad pad, IBall ball)
@@ -101,14 +109,12 @@ namespace zbrozonoidEngine.Managers
 
         public void Bounce(List<IBrick> bricksHit, IBorder border, IBall ball)
         {
-            DegreeType degreeType = DegreeType.None;
-            Bounce(bricksHit, border, ball, out degreeType);
+            Bounce(bricksHit, border, ball, out var degreeType);
         }
 
         public void Bounce(List<IBrick> bricksHit, IBrick brick, IBall ball)
         {
-            DegreeType degreeType = DegreeType.None;
-            Bounce(bricksHit, brick, ball, out degreeType);
+            Bounce(bricksHit, brick, ball, out var degreeType);
             if (degreeType != DegreeType.None)
             {
                 ball.CalculateNewDegree(degreeType);
@@ -370,21 +376,8 @@ namespace zbrozonoidEngine.Managers
 
         public void LogData()
         {
-            Logger.Instance.Write(
-                string.Format(
-                    "Inside: {0}, {1}, {2}, {3}",
-                    Flags.XLeftInside,
-                    Flags.XRightInside,
-                    Flags.YTopInside,
-                    Flags.YBottomInside));
-
-            Logger.Instance.Write(
-                string.Format(
-                    "Outside: {0}, {1}, {2}, {3}",
-                    Flags.XLeftOutside,
-                    Flags.XRightOutside,
-                    Flags.YTopOutside,
-                    Flags.YBottomOutside));
+            Logger.Info($"Inside: {Flags.XLeftInside}, {Flags.XRightInside}, {Flags.YTopInside}, {Flags.YBottomInside}");
+            Logger.Info($"Outside: {Flags.XLeftOutside}, {Flags.XRightOutside}, {Flags.YTopOutside}, {Flags.YBottomOutside}");
         }
     }
 }

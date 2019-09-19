@@ -1,5 +1,9 @@
 ﻿using Moq;
 using NUnit.Framework;
+using NLog;
+using NLog.Config;
+using NLog.Targets;
+
 using zbrozonoidEngine;
 using zbrozonoidEngine.Interfaces;
 using zbrozonoidEngine.Managers;
@@ -8,7 +12,6 @@ namespace zbrozonoidEngineTests
 {
     public class CollisionManagerTests
     {
-        private Mock<ILoggerBase> loggerMock;
         private Mock<IRandomGenerator> generatorMock;
         private Mock<IMovement> movementMock;
 
@@ -18,17 +21,26 @@ namespace zbrozonoidEngineTests
         [SetUp]
         public void Setup()
         {
-            loggerMock = new Mock<ILoggerBase>();
+            SetupNLog();
+
             generatorMock = new Mock<IRandomGenerator>();
             movementMock = new Mock<IMovement>();
-
-            Logger.Instance = loggerMock.Object;
 
             ball1 = new Ball(generatorMock.Object, movementMock.Object);
             ball1.SetSize(15, 15);
 
             ball2 = new Ball(generatorMock.Object, movementMock.Object);
             ball2.SetSize(15, 15);
+        }
+
+        private void SetupNLog()
+        {
+            LogManager.Configuration = new LoggingConfiguration();
+            var configuration = new LoggingConfiguration();
+            var memoryTarget = new MemoryTarget { Name = "mem" };
+            configuration.AddTarget(memoryTarget);
+            configuration.LoggingRules.Add(new LoggingRule("*", LogLevel.Trace, memoryTarget));
+            LogManager.Configuration = configuration;
         }
 
         [Test]

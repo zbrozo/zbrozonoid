@@ -5,20 +5,32 @@ using zbrozonoidEngine.Interfaces;
 
 namespace zbrozonoidEngineTests
 {
+    using NLog;
+    using NLog.Config;
+    using NLog.Targets;
+
     public class EngineTests
     {
-        private Mock<ILoggerBase> loggerMock;
         private Mock<IRandomGenerator> generatorMock;
         private Mock<IMovement> movementMock;
 
         [SetUp]
         public void Setup()
         {
-            loggerMock = new Mock<ILoggerBase>();
+            SetupNLog();
+
             generatorMock = new Mock<IRandomGenerator>();
             movementMock = new Mock<IMovement>();
+        }
 
-            Logger.Instance = loggerMock.Object;
+        private void SetupNLog()
+        {
+            LogManager.Configuration = new LoggingConfiguration();
+            var configuration = new LoggingConfiguration();
+            var memoryTarget = new MemoryTarget { Name = "mem" };
+            configuration.AddTarget(memoryTarget);
+            configuration.LoggingRules.Add(new LoggingRule("*", LogLevel.Trace, memoryTarget));
+            LogManager.Configuration = configuration;
         }
 
         [Test]

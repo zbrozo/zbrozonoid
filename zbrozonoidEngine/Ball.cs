@@ -18,10 +18,13 @@ namespace zbrozonoidEngine
 {
     using System;
     using System.Timers;
+    using NLog;
     using zbrozonoidEngine.Interfaces;
 
     public class Ball : IBall
     {
+        private static readonly NLog.Logger Logger = LogManager.GetCurrentClassLogger();
+
         public Rectangle Boundary { get; set; } = new Rectangle();
 
         private Vector2 SavedPosition { get; set; }
@@ -214,7 +217,7 @@ namespace zbrozonoidEngine
 
         public void LogData(bool reverse = false)
         {
-            Logger.Instance.Write(
+            Logger.Info(
                 string.Format(
                     "Ball {0}: min: {1}| size: {2}| pos: {3}| direction: {4}| iteration: {5}| degree: {6}",
                     reverse ? "reverse" : "",

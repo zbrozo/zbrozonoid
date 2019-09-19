@@ -19,11 +19,14 @@ namespace zbrozonoidEngine
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using NLog;
     using zbrozonoidEngine.Interfaces;
     using zbrozonoidEngine.Managers;
 
     public class Game : IGame
     {
+        private static readonly NLog.Logger Logger = LogManager.GetCurrentClassLogger();
+
         public event EventHandler<LevelEventArgs> OnChangeLevel;
         public event EventHandler<BrickHitEventArgs> OnBrickHit;
         public event EventHandler<EventArgs> OnLostBallsEvent;
@@ -112,7 +115,7 @@ namespace zbrozonoidEngine
         {
             posx = pad.Boundary.Min.X;
             posy = pad.Boundary.Min.Y;
-            Logger.Instance.Write($"Pad position {posx}, {posy}");
+            Logger.Info($"Pad position {posx}, {posy}");
         }
 
         public void GetPadSize(IPad pad, out int width, out int height)
