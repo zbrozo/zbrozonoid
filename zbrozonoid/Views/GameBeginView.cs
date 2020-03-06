@@ -1,19 +1,30 @@
-﻿namespace zbrozonoid.Views
+﻿using SFML.Graphics;
+using zbrozonoid.Models;
+
+
+namespace zbrozonoid.Views
 {
     public class GameBeginView : IView
     {
-        private IView menuView;
-        IDrawGameObjects draw;
+        private GameBeginModel model = new GameBeginModel();
 
-        public GameBeginView(IDrawGameObjects draw, IView menuView)
+        private IView menuView;
+
+        private IDrawGameObjects draw;
+
+        private Text TitleMessage { get; set; }
+
+        public GameBeginView(IDrawGameObjects draw, 
+                             IView menuView)
         {
             this.draw = draw;
             this.menuView = menuView;
+            TitleMessage = draw.PrepareTextLine.Prepare(model.GetTitle(), 0);
         }
 
         public void Display()
         {
-            draw.DrawTitle();
+            draw.Render.Draw(TitleMessage);
             menuView.Display();
         }
 

@@ -26,6 +26,7 @@ namespace zbrozonoid
     using zbrozonoidEngine.Interfaces;
     using zbrozonoid.Menu;
     using zbrozonoid.Views;
+    using Autofac;
 
     public class Window
     {
@@ -35,80 +36,68 @@ namespace zbrozonoid
 
         private readonly RenderWindow app;
 
-        private ViewStateMachine appStateMachine;
-
-        private IDrawGameObjects drawGameObjects;
-
-        private IViewModel viewModel;
-        private IMenuViewModel menuViewModel;
-
-        private IView menuView;
-        private IPrepareTextLine prepareTextLine;
+        private IContainer container;
 
         private ManyMouseDispatcher manyMouseDispatcher;
 
-        //private ManyMouse manyMouse;
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
-        public Window(IGame game/*, ManyMouse manyMouse*/)
+        public Window(IGame game)
         {
             this.game = game;
-            //  this.manyMouse = manyMouse;
 
             manyMouseDispatcher = new ManyMouseDispatcher(game.GameConfig.Mouses);
 
             game.GetScreenSize(out int width, out int height);
-            
-            ContextSettings settings = new ContextSettings();
-            settings.DepthBits = 32;
-            settings.StencilBits = 8;
-            settings.AntialiasingLevel = 4;
-            settings.MajorVersion = 3;
-            settings.MinorVersion = 0;
 
             app = new RenderWindow(new VideoMode((uint)width, (uint)height), Name);
             app.SetVerticalSyncEnabled(true);
 
             app.Closed += OnClose;
             manyMouseDispatcher.MouseMoved += OnManyMouseMove;
-            //manyMouse.MouseMoved += OnManyMouseMove;
-            //app.MouseMoved += OnMouseMove;
             app.MouseButtonPressed += OnMouseButtonPressed;
             app.KeyPressed += OnKeyPressed;
             app.Resized += OnResized;
 
-            prepareTextLine = new PrepareTextLine(app);
+            RegisterComponentsInContainer();
 
-            viewModel = new ViewModel(prepareTextLine, game);
+            container.Resolve<IViewStateMachine>().GotoMenu();
+        }
 
-            menuViewModel = new MenuViewModel(game.GameConfig, CloseAction, InGameAction);
-            menuView = new MenuView(prepareTextLine, menuViewModel);
-
-            drawGameObjects = new DrawGameObjects(app, viewModel, menuViewModel, game);
-            appStateMachine = new ViewStateMachine(viewModel, menuView, drawGameObjects);
-            appStateMachine.GotoMenu();
+        private void RegisterComponentsInContainer()
+        {
+            var builder = new ContainerBuilder();
+            builder.RegisterInstance(app).As<RenderWindow>();
+            builder.RegisterInstance(game).As<IGame>();
+            builder.RegisterType<PrepareTextLine>().As<IPrepareTextLine>().SingleInstance();
+            builder.RegisterType<ViewModel>().As<IViewModel>().SingleInstance();
+            builder.RegisterInstance(new MenuViewModel(game.GameConfig, CloseAction, InGameAction)).As<IMenuViewModel>().SingleInstance();
+            builder.RegisterType<MenuView>().As<IView>().SingleInstance();
+            builder.RegisterType<DrawGameObjects>().As<IDrawGameObjects>().SingleInstance();
+            builder.RegisterType<ViewStateMachine>().As<IViewStateMachine>().SingleInstance();
+            container = builder.Build();
         }
 
         private void OnKeyPressed(object sender, KeyEventArgs e)
         {
             if (e.Code == Keyboard.Key.Escape)
             {
-                game.GameState.Pause = true;
-                appStateMachine.Transitions(game);
+                game.GameState.Pause = true; 
+                container.Resolve<IViewStateMachine>().Transitions(game);
                 return;
             }
 
             if (e.Code == Keyboard.Key.Y)
             {
                 game.GameState.Lifes = -1;
-                appStateMachine.Transitions(game);
+                container.Resolve<IViewStateMachine>().Transitions(game);
                 return;
             }
 
             if (e.Code == Keyboard.Key.N)
             {
                 game.GameState.Pause = false;
-                appStateMachine.Transitions(game);
+                container.Resolve<IViewStateMachine>().Transitions(game);
                 return;
             }
         }
@@ -120,30 +109,30 @@ namespace zbrozonoid
 
         private void OnMouseButtonPressed(object sender, MouseButtonEventArgs e)
         {
-            if (appStateMachine.IsMenuState)
+            if (container.Resolve<IViewStateMachine>().IsMenuState)
             {
-                menuViewModel.ExecuteCommand();
+                container.Resolve<IMenuViewModel>().ExecuteCommand();
             }
             else
             {
-                appStateMachine.Transitions(game);
+                container.Resolve<IViewStateMachine>().Transitions(game);
             }
         }
 
         public void OnChangeLevel(object sender, LevelEventArgs e)
         {
-            viewModel.PrepareBricksToDraw();
-            viewModel.PrepareBackground(e.Background);
+            container.Resolve<IViewModel>().PrepareBricksToDraw();
+            container.Resolve<IViewModel>().PrepareBackground(e.Background);
         }
 
         public void OnLostBalls(object sender, EventArgs args)
         {
-            appStateMachine.Transitions(game);
+            container.Resolve<IViewStateMachine>().Transitions(game);
         }
 
         public void OnBrickHit(object sender, BrickHitEventArgs arg)
         {
-            viewModel.Bricks[arg.Number].IsVisible = false;
+            container.Resolve<IViewModel>().Bricks[arg.Number].IsVisible = false;
         }
 
         private void OnClose(object sender, EventArgs e)
@@ -175,11 +164,10 @@ namespace zbrozonoid
         {
             game.SetPadMove(args.X, args.Device);
 
-            if (appStateMachine.IsMenuState)
+            if (container.Resolve<IViewStateMachine>().IsMenuState)
             {
-                menuViewModel.Move(args.Y);
+                container.Resolve<IMenuViewModel>().Move(args.Y);
             }
-
         }
 
         public void Initialize()
@@ -213,13 +201,11 @@ namespace zbrozonoid
                     game.Action();
                 }
 
-                appStateMachine.Action();
+                container.Resolve<IViewStateMachine>().Action();
 
                 // Update the window
                 app.Display();
             }
-
-            viewModel.Dispose();
         }
 
         public void CloseAction()
@@ -229,7 +215,7 @@ namespace zbrozonoid
 
         public void InGameAction()
         {
-            appStateMachine.Transitions(game);
+            container.Resolve<IViewStateMachine>().Transitions(game);
         }
 
     }

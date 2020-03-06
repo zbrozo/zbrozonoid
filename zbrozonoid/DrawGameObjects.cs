@@ -20,6 +20,7 @@ using System.Linq;
 using SFML.Graphics;
 using SFML.System;
 using zbrozonoid.Menu;
+using zbrozonoid.Views;
 using zbrozonoidEngine;
 using zbrozonoidEngine.Interfaces;
 
@@ -28,27 +29,30 @@ namespace zbrozonoid
 
     public class DrawGameObjects : IDrawGameObjects
     {
-        private RenderWindow renderWindow;
+        public RenderWindow Render { get; set; }
+        public IPrepareTextLine PrepareTextLine { get; set; }
+
         private IGame game;
         private IViewModel viewModel;
         private IMenuViewModel menuViewModel;
 
-        public DrawGameObjects(RenderWindow renderWindow, IViewModel viewModel, IMenuViewModel menuViewModel, IGame game)
+        public DrawGameObjects(RenderWindow renderWindow, IPrepareTextLine prepareTextLine, IViewModel viewModel, IMenuViewModel menuViewModel, IGame game)
         {
-            this.renderWindow = renderWindow;
+            this.Render = renderWindow;
             this.game = game;
             this.viewModel = viewModel;
+            this.PrepareTextLine = prepareTextLine;
             this.menuViewModel = menuViewModel;
         }
 
-        public void DrawTitle()
-        {
-            renderWindow.Draw(viewModel.TitleMessage);
-        }
+        //public void DrawTitle()
+        //{
+        //    renderWindow.Draw(viewModel.TitleMessage);
+        //}
 
         public void DrawBackground(Sprite background)
         {
-            renderWindow.Draw(background);
+            Render.Draw(background);
         }
 
         public void DrawBorders()
@@ -62,7 +66,7 @@ namespace zbrozonoid
                 rectangle.Size = new Vector2f(border.Boundary.Size.X, border.Boundary.Size.Y);
                 rectangle.FillColor = Color.White;
 
-                renderWindow.Draw(rectangle);
+                Render.Draw(rectangle);
             }
         }
 
@@ -70,7 +74,7 @@ namespace zbrozonoid
         {
             foreach (var brick in bricksToDraw.Where(x => x.IsVisible))
             {
-                renderWindow.Draw(brick.Rect);
+                Render.Draw(brick.Rect);
             }
         }
 
@@ -89,7 +93,7 @@ namespace zbrozonoid
                 rect.Append(new Vertex(new Vector2f(posX + width, posY), Color.White));
                 rect.Append(new Vertex(new Vector2f(posX + width, posY + height), Color.Blue));
                 rect.Append(new Vertex(new Vector2f(posX, posY + height), Color.Blue));
-                renderWindow.Draw(rect);
+                Render.Draw(rect);
             }
         }
 
@@ -108,7 +112,7 @@ namespace zbrozonoid
                 circle.Radius = (float)width / 2;
                 circle.FillColor = Color.Cyan;
 
-                renderWindow.Draw(circle);
+                Render.Draw(circle);
             }
         }
 
@@ -139,7 +143,7 @@ namespace zbrozonoid
                         circle.Position = new Vector2f(position.X, position.Y);
                         circle.Radius = (float)width / 2;
                         circle.FillColor = color;
-                        renderWindow.Draw(circle);
+                        Render.Draw(circle);
 
                         opacity = opacity - 60;
                     }
@@ -149,24 +153,24 @@ namespace zbrozonoid
 
         public void DrawLifesAndScoresInfo()
         {
-            renderWindow.Draw(viewModel.LiveAndScoresMessage);
+            Render.Draw(viewModel.LiveAndScoresMessage);
         }
 
         public void DrawGameOver()
         {
-            renderWindow.Draw(viewModel.GameOverMessage);
+            Render.Draw(viewModel.GameOverMessage);
         }
 
         public void DrawPressPlayToPlay()
         {
-            renderWindow.Draw(viewModel.PressButtonToPlayMessage);
+            Render.Draw(viewModel.PressButtonToPlayMessage);
         }
 
         public void DrawFasterBallTimer()
         {
             if (viewModel.FasterBallMessage.DisplayedString.Length > 0)
             {
-                renderWindow.Draw(viewModel.FasterBallMessage);
+                Render.Draw(viewModel.FasterBallMessage);
             }
         }
 
@@ -174,13 +178,13 @@ namespace zbrozonoid
         {
             if (viewModel.FireBallMessage.DisplayedString.Length > 0)
             {
-                renderWindow.Draw(viewModel.FireBallMessage);
+                Render.Draw(viewModel.FireBallMessage);
             }
         }
 
         public void DrawStopPlayMessage()
         {
-            renderWindow.Draw(viewModel.StopPlayMessage);
+            Render.Draw(viewModel.StopPlayMessage);
         }
 
     }

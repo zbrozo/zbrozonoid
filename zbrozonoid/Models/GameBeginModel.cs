@@ -1,10 +1,10 @@
-﻿using System;
-namespace zbrozonoid.Models
+﻿namespace zbrozonoid.Models
 {
     public class GameBeginModel
     {
-        public GameBeginModel()
+        public string GetTitle()
         {
+            return "zbrozonoid";
         }
     }
 }

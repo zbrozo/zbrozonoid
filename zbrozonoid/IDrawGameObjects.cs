@@ -18,17 +18,22 @@ along with this program.If not, see<https://www.gnu.org/licenses/>.
 using System;
 using System.Collections.Generic;
 using SFML.Graphics;
+using zbrozonoid.Views;
 
 namespace zbrozonoid
 {
     public interface IDrawGameObjects
     {
+
+        RenderWindow Render { get; set; }
+        IPrepareTextLine PrepareTextLine { get; set; }
+
         void DrawBackground(Sprite background);
         void DrawBorders();
         void DrawBricks(List<Brick> bricksToDraw);
         void DrawBall();
         void DrawPad();
-        void DrawTitle();
+        //void DrawTitle();
 
         void DrawLifesAndScoresInfo();
         void DrawGameOver();

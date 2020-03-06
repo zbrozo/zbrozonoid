@@ -60,6 +60,8 @@
     <Compile Include="PrepareTextLine.cs" />
     <Compile Include="Views\StopPlayView.cs" />
     <Compile Include="ManyMouseDispatcher.cs" />
+    <Compile Include="IViewStateMachine.cs" />
+    <Compile Include="Models\GameBeginModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\zbrozonoidAssets\zbrozonoidAssets.csproj">
@@ -98,14 +100,18 @@
     <Reference Include="System.Transactions" />
     <Reference Include="System.Xml" />
     <Reference Include="libManyMouse">
-      <HintPath>..\packages\ManyMouseSharp.1.0.6\lib\netstandard2.0\lib\win\x64\libManyMouse.dll</HintPath>
+      <HintPath>..\packages\ManyMouseSharp.1.0.7\lib\netstandard2.0\lib\win\x86\libManyMouse.dll</HintPath>
     </Reference>
     <Reference Include="ManyMouseSharp">
-      <HintPath>..\packages\ManyMouseSharp.1.0.6\lib\netstandard2.0\ManyMouseSharp.dll</HintPath>
+      <HintPath>..\packages\ManyMouseSharp.1.0.7\lib\netstandard2.0\ManyMouseSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac">
+      <HintPath>..\packages\Autofac.4.9.4\lib\net45\Autofac.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Menu\" />
     <Folder Include="Menu\Items\" />
+    <Folder Include="Models\" />
   </ItemGroup>
 </Project>

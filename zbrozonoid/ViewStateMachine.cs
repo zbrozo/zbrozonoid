@@ -20,7 +20,7 @@ using zbrozonoidEngine.Interfaces;
 
 namespace zbrozonoid
 {
-    public class ViewStateMachine
+    public class ViewStateMachine : IViewStateMachine
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
