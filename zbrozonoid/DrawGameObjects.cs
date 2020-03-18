@@ -29,10 +29,10 @@ namespace zbrozonoid
 
     public class DrawGameObjects : IDrawGameObjects
     {
-        public RenderWindow Render { get; set; }
-        public IPrepareTextLine PrepareTextLine { get; set; }
+        public RenderWindow Render { get; private set; }
+        public IPrepareTextLine PrepareTextLine { get; private set; }
+        public IGame game { get; private set; }
 
-        private IGame game;
         private IViewModel viewModel;
         private IMenuViewModel menuViewModel;
 
@@ -44,11 +44,6 @@ namespace zbrozonoid
             this.PrepareTextLine = prepareTextLine;
             this.menuViewModel = menuViewModel;
         }
-
-        //public void DrawTitle()
-        //{
-        //    renderWindow.Draw(viewModel.TitleMessage);
-        //}
 
         public void DrawBackground(Sprite background)
         {
@@ -69,6 +64,7 @@ namespace zbrozonoid
                 Render.Draw(rectangle);
             }
         }
+
 
         public void DrawBricks(List<Brick> bricksToDraw)
         {
@@ -151,11 +147,6 @@ namespace zbrozonoid
             }
         }
 
-        public void DrawLifesAndScoresInfo()
-        {
-            Render.Draw(viewModel.LiveAndScoresMessage);
-        }
-
         public void DrawGameOver()
         {
             Render.Draw(viewModel.GameOverMessage);
@@ -164,22 +155,6 @@ namespace zbrozonoid
         public void DrawPressPlayToPlay()
         {
             Render.Draw(viewModel.PressButtonToPlayMessage);
-        }
-
-        public void DrawFasterBallTimer()
-        {
-            if (viewModel.FasterBallMessage.DisplayedString.Length > 0)
-            {
-                Render.Draw(viewModel.FasterBallMessage);
-            }
-        }
-
-        public void DrawFireBallTimer()
-        {
-            if (viewModel.FireBallMessage.DisplayedString.Length > 0)
-            {
-                Render.Draw(viewModel.FireBallMessage);
-            }
         }
 
         public void DrawStopPlayMessage()

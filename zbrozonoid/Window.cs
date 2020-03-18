@@ -61,7 +61,7 @@ namespace zbrozonoid
 
             RegisterComponentsInContainer();
 
-            container.Resolve<IViewStateMachine>().GotoMenu();
+            container.Resolve<IViewStateMachine>().Initialize(container);
         }
 
         private void RegisterComponentsInContainer()
@@ -72,9 +72,16 @@ namespace zbrozonoid
             builder.RegisterType<PrepareTextLine>().As<IPrepareTextLine>().SingleInstance();
             builder.RegisterType<ViewModel>().As<IViewModel>().SingleInstance();
             builder.RegisterInstance(new MenuViewModel(game.GameConfig, CloseAction, InGameAction)).As<IMenuViewModel>().SingleInstance();
-            builder.RegisterType<MenuView>().As<IView>().SingleInstance();
+            builder.RegisterType<MenuView>().As<IMenuView>().SingleInstance();
             builder.RegisterType<DrawGameObjects>().As<IDrawGameObjects>().SingleInstance();
             builder.RegisterType<ViewStateMachine>().As<IViewStateMachine>().SingleInstance();
+
+            builder.RegisterType<GameBeginView>().As<IView>().AsSelf().SingleInstance();
+            builder.RegisterType<GameOverView>().As<IView>().AsSelf().SingleInstance(); 
+            builder.RegisterType<GamePlayView>().As<IView>().AsSelf().SingleInstance(); 
+            builder.RegisterType<StartPlayView>().As<IView>().AsSelf().SingleInstance(); 
+            builder.RegisterType<StopPlayView>().As<IView>().AsSelf().SingleInstance(); 
+
             container = builder.Build();
         }
 
@@ -121,8 +128,8 @@ namespace zbrozonoid
 
         public void OnChangeLevel(object sender, LevelEventArgs e)
         {
-            container.Resolve<IViewModel>().PrepareBricksToDraw();
-            container.Resolve<IViewModel>().PrepareBackground(e.Background);
+            container.Resolve<GamePlayView>().PrepareBricksToDraw();
+            container.Resolve<GamePlayView>().PrepareBackground(e.Background);
         }
 
         public void OnLostBalls(object sender, EventArgs args)
@@ -132,7 +139,8 @@ namespace zbrozonoid
 
         public void OnBrickHit(object sender, BrickHitEventArgs arg)
         {
-            container.Resolve<IViewModel>().Bricks[arg.Number].IsVisible = false;
+
+            container.Resolve<GamePlayView>().Bricks[arg.Number].IsVisible = false;
         }
 
         private void OnClose(object sender, EventArgs e)

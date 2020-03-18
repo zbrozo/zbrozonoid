@@ -62,6 +62,8 @@
     <Compile Include="ManyMouseDispatcher.cs" />
     <Compile Include="IViewStateMachine.cs" />
     <Compile Include="Models\GameBeginModel.cs" />
+    <Compile Include="Models\GamePlayModel.cs" />
+    <Compile Include="Menu\IMenuView.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\zbrozonoidAssets\zbrozonoidAssets.csproj">

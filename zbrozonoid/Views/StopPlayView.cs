@@ -14,5 +14,9 @@ namespace zbrozonoid.Views
         {
             draw.DrawStopPlayMessage();
         }
+
+        public void Dispose()
+        {
+        }
     }
 }

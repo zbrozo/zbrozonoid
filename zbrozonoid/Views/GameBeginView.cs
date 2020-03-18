@@ -1,6 +1,6 @@
 ﻿using SFML.Graphics;
+using zbrozonoid.Menu;
 using zbrozonoid.Models;
-
 
 namespace zbrozonoid.Views
 {
@@ -14,8 +14,8 @@ namespace zbrozonoid.Views
 
         private Text TitleMessage { get; set; }
 
-        public GameBeginView(IDrawGameObjects draw, 
-                             IView menuView)
+        public GameBeginView(IDrawGameObjects draw,
+                             IMenuView menuView)
         {
             this.draw = draw;
             this.menuView = menuView;
@@ -28,5 +28,8 @@ namespace zbrozonoid.Views
             menuView.Display();
         }
 
+        public void Dispose()
+        {
+        }
     }
 }

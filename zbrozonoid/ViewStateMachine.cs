@@ -15,6 +15,7 @@ You should have received a copy of the GNU General Public License
 along with this program.If not, see<https://www.gnu.org/licenses/>.
 */
 
+using Autofac;
 using zbrozonoid.Views;
 using zbrozonoidEngine.Interfaces;
 
@@ -24,39 +25,37 @@ namespace zbrozonoid
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
+        private IGame game;
         private IViewModel viewModel;
 
         private IDrawGameObjects draw;
 
-        private readonly IView gameBegin;
-        private readonly IView gamePlay;
-        private readonly IView gameOver;
-        private readonly IView startPlay;
-        private readonly IView stopPlay;
-
         private IView currentState;
+        private IContainer container;
 
         public bool IsMenuState => currentState is GameBeginView;
 
-        public ViewStateMachine(IViewModel viewModel, IView menuView, IDrawGameObjects draw)
+        public ViewStateMachine(IGame game, IViewModel viewModel, IView menuView, IDrawGameObjects draw)
         {
-            gameBegin = new GameBeginView(draw, menuView);
-            gamePlay = new GamePlayView(draw);
-            gameOver = new GameOverView(draw);
-            startPlay = new StartPlayView(draw);
-            stopPlay = new StopPlayView(draw);
-
+            this.game = game;
             this.draw = draw;
             this.viewModel = viewModel;
         }
 
+
+        public void Initialize(IContainer container)
+        {
+            this.container = container;
+            GotoMenu();
+        }
+
         public void Action()
         {
-            draw.DrawBackground(viewModel.Background);
-            draw.DrawBorders();
-            draw.DrawBricks(viewModel.Bricks);
-            draw.DrawPad();
-            draw.DrawBall();
+            //draw.DrawBackground(viewModel.Background);
+            //draw.DrawBorders();
+            //draw.DrawBricks(viewModel.Bricks);
+            //draw.DrawPad();
+            //draw.DrawBall();
 
             currentState?.Display();
         }
@@ -66,7 +65,7 @@ namespace zbrozonoid
             if (currentState is GameBeginView)
             {
                 Logger.Info("State: Begin -> PlayGame");
-                currentState = gamePlay;
+                currentState = container.Resolve<GamePlayView>();
                 game.StartPlay();
                 return;
             }
@@ -76,7 +75,7 @@ namespace zbrozonoid
                 && !game.GameState.Pause)
             {
                 Logger.Info("State: PlayGame -> GameOver");
-                currentState = gameOver;
+                currentState = container.Resolve<GameOverView>();
                 return;
             }
 
@@ -86,7 +85,7 @@ namespace zbrozonoid
             {
                 Logger.Info("State: PlayGame -> GameOver");
 
-                currentState = startPlay;
+                currentState = container.Resolve<StartPlayView>();
                 return;
             }
 
@@ -95,7 +94,7 @@ namespace zbrozonoid
             {
                 Logger.Info("State: PlayGame -> StopPlay");
 
-                currentState = stopPlay;
+                currentState = container.Resolve<StopPlayView>();
                 return;
             }
 
@@ -105,7 +104,7 @@ namespace zbrozonoid
             {
                 Logger.Info("State: StopPlay -> GameOver");
 
-                currentState = gameOver;
+                currentState = container.Resolve<GameOverView>(); 
                 return;
             }
 
@@ -114,7 +113,7 @@ namespace zbrozonoid
             {
                 Logger.Info("State: StopPlay -> GamePlay");
 
-                currentState = gamePlay;
+                currentState = container.Resolve<GamePlayView>();
                 return;
             }
 
@@ -122,7 +121,7 @@ namespace zbrozonoid
             {
                 Logger.Info("State: StartPlay -> GamePlay");
 
-                currentState = gamePlay;
+                currentState = container.Resolve<GamePlayView>();
                 game.StartPlay();
                 return;
             }
@@ -133,24 +132,24 @@ namespace zbrozonoid
 
                 game.GameIsOver();
 
-                currentState = gameBegin;
+                currentState = container.Resolve<GameBeginView>();
                 return;
             }
         }
 
         public void GotoMenu()
         {
-            currentState = gameBegin;
+            currentState = container.Resolve<GameBeginView>();
         }
 
         public void GotoPlay()
         {
-            currentState = gamePlay;
+            currentState = container.Resolve<GamePlayView>();
         }
 
         public void GotoGameOver()
         {
-            currentState = gameOver;
+            currentState = container.Resolve<GameOverView>();
         }
 
     }

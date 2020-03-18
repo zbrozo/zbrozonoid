@@ -19,27 +19,29 @@ using System;
 using System.Collections.Generic;
 using SFML.Graphics;
 using zbrozonoid.Views;
+using zbrozonoidEngine.Interfaces;
 
 namespace zbrozonoid
 {
     public interface IDrawGameObjects
     {
 
-        RenderWindow Render { get; set; }
-        IPrepareTextLine PrepareTextLine { get; set; }
+        RenderWindow Render { get; }
+        IPrepareTextLine PrepareTextLine { get; }
+        IGame game { get; }
 
         void DrawBackground(Sprite background);
-        void DrawBorders();
-        void DrawBricks(List<Brick> bricksToDraw);
+        //void DrawBorders();
+        //void DrawBricks(List<Brick> bricksToDraw);
         void DrawBall();
         void DrawPad();
         //void DrawTitle();
 
-        void DrawLifesAndScoresInfo();
+        //void DrawLifesAndScoresInfo();
         void DrawGameOver();
         void DrawPressPlayToPlay();
-        void DrawFasterBallTimer();
-        void DrawFireBallTimer();
+        //void DrawFasterBallTimer();
+        //void DrawFireBallTimer();
         void DrawStopPlayMessage();
     }
 }

@@ -15,5 +15,8 @@ namespace zbrozonoid.Views
             draw.DrawGameOver();
         }
 
+        public void Dispose()
+        {
+        }
     }
 }

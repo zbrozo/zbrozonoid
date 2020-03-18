@@ -1,17 +1,15 @@
 ﻿using SFML.Graphics;
-using SFML.System;
 using zbrozonoid.Views;
-using zbrozonoidEngine.Interfaces;
 
 namespace zbrozonoid.Menu
 {
-    public class MenuView : IView
+    public class MenuView : IMenuView
     {
         private readonly IPrepareTextLine writer;
         private readonly IMenuViewModel menuViewModel;
 
-        public MenuView(IPrepareTextLine writer, 
-                        IMenuViewModel menuViewModel) 
+        public MenuView(IPrepareTextLine writer,
+                        IMenuViewModel menuViewModel)
         {
             this.writer = writer;
             this.menuViewModel = menuViewModel;
@@ -33,6 +31,10 @@ namespace zbrozonoid.Menu
                 writer.Render.Draw(name);
                 ++i;
             }
+        }
+
+        public void Dispose()
+        {
         }
     }
 }
