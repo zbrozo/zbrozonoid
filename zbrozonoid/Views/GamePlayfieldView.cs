@@ -54,6 +54,11 @@ namespace zbrozonoid.Views
             DrawFireBallTimer();
         }
 
+        public void BrickHit(int number)
+        {
+            Bricks[number].IsVisible = false;
+        }
+
         public void DrawBackground(Sprite background)
         {
             draw.Render.Draw(background);

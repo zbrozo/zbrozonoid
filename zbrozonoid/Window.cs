@@ -79,15 +79,12 @@ namespace zbrozonoid
 
             builder.RegisterType<GameBeginView>().As<IView>().AsSelf().SingleInstance();
             builder.RegisterType<GameOverView>().As<IView>().AsSelf().SingleInstance(); 
-            builder.RegisterType<GamePlayfieldView>().As<IGamePlayfieldView>().AsSelf().SingleInstance();
+            builder.RegisterType<GamePlayfieldView>().As<IGamePlayfieldView>().SingleInstance();
             builder.RegisterType<GamePlayView>().As<IView>().AsSelf().SingleInstance();
             builder.RegisterType<StartPlayView>().As<IView>().AsSelf().SingleInstance(); 
             builder.RegisterType<StopPlayView>().As<IView>().AsSelf().SingleInstance(); 
 
             container = builder.Build();
-
-
-
         }
 
         private void OnKeyPressed(object sender, KeyEventArgs e)
@@ -133,8 +130,8 @@ namespace zbrozonoid
 
         public void OnChangeLevel(object sender, LevelEventArgs e)
         {
-            container.Resolve<GamePlayfieldView>().PrepareBricksToDraw();
-            container.Resolve<GamePlayfieldView>().PrepareBackground(e.Background);
+            container.Resolve<IGamePlayfieldView>().PrepareBricksToDraw();
+            container.Resolve<IGamePlayfieldView>().PrepareBackground(e.Background);
         }
 
         public void OnLostBalls(object sender, EventArgs args)
@@ -144,7 +141,7 @@ namespace zbrozonoid
 
         public void OnBrickHit(object sender, BrickHitEventArgs arg)
         {
-            container.Resolve<GamePlayfieldView>().Bricks[arg.Number].IsVisible = false;
+            container.Resolve<IGamePlayfieldView>().BrickHit(arg.Number);
         }
 
         private void OnClose(object sender, EventArgs e)
