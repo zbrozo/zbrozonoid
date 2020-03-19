@@ -23,9 +23,6 @@ namespace zbrozonoid
     public class ViewModel : IViewModel
     {
         private IGame game;
-        public Text GameOverMessage { get; set; }
-        public Text PressButtonToPlayMessage { get; set; }
-        public Text StopPlayMessage { get; set; }
 
         private readonly RenderWindow render;
         private IPrepareTextLine prepareTextLine;
@@ -34,25 +31,7 @@ namespace zbrozonoid
             render = prepareTextLine.Render;
             this.prepareTextLine = prepareTextLine;
             this.game = game;
-    
-            GameOverMessage = PrepareGameOverMessage();
-            PressButtonToPlayMessage = PreparePressButtonToPlayMessage();
-            StopPlayMessage = PrepareStopPlayMessage();
-        }
 
-        private Text PrepareGameOverMessage()
-        {
-            return prepareTextLine.Prepare("game over", 4);
-        }
-
-        private Text PreparePressButtonToPlayMessage()
-        {
-            return prepareTextLine.Prepare("Press mouse button to play", 4);
-        }
-
-        private Text PrepareStopPlayMessage()
-        {
-            return prepareTextLine.Prepare("Stop play (y/n)", 4);
         }
 
         public void Dispose()

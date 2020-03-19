@@ -26,22 +26,16 @@ namespace zbrozonoid
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
         private IGame game;
-        private IViewModel viewModel;
-
-        private IDrawGameObjects draw;
 
         private IView currentState;
         private IContainer container;
 
         public bool IsMenuState => currentState is GameBeginView;
 
-        public ViewStateMachine(IGame game, IViewModel viewModel, IView menuView, IDrawGameObjects draw)
+        public ViewStateMachine(IGame game)
         {
             this.game = game;
-            this.draw = draw;
-            this.viewModel = viewModel;
         }
-
 
         public void Initialize(IContainer container)
         {
@@ -51,12 +45,6 @@ namespace zbrozonoid
 
         public void Action()
         {
-            //draw.DrawBackground(viewModel.Background);
-            //draw.DrawBorders();
-            //draw.DrawBricks(viewModel.Bricks);
-            //draw.DrawPad();
-            //draw.DrawBall();
-
             currentState?.Display();
         }
 

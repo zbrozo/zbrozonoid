@@ -10,27 +10,24 @@ namespace zbrozonoid.Views
 
         private IView menuView;
         private IView playfieldView;
-
-        private IDrawGameObjects draw;
+        private IRenderProxy render;
 
         private Text TitleMessage { get; set; }
 
-        public GameBeginView(
-                             IDrawGameObjects draw,
+        public GameBeginView(IRenderProxy render,
                              IGamePlayfieldView playfieldView,
                              IMenuView menuView)
         {
-            this.draw = draw;
+            this.render = render;
             this.menuView = menuView;
             this.playfieldView = playfieldView;
-            TitleMessage = draw.PrepareTextLine.Prepare(model.GetTitle(), 0);
+            TitleMessage = render.PrepareTextLine(model.GetTitle(), 0);
         }
 
         public void Display()
         {
             playfieldView.Display();
-
-            draw.Render.Draw(TitleMessage);
+            render.Draw(TitleMessage);
             menuView.Display();
         }
 

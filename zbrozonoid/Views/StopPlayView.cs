@@ -1,22 +1,32 @@
 ﻿using System;
+using SFML.Graphics;
+
 namespace zbrozonoid.Views
 {
     public class StopPlayView : IView
     {
-        private IDrawGameObjects draw;
+        private IRenderProxy render;
+        private readonly Text StopPlayMessage;
 
-        public StopPlayView(IDrawGameObjects draw)
+        public StopPlayView(IRenderProxy render)
         {
-            this.draw = draw;
+            this.render = render;
+            StopPlayMessage = PrepareStopPlayMessage();
         }
 
         public void Display()
         {
-            draw.DrawStopPlayMessage();
+            render.Draw(StopPlayMessage);
         }
 
         public void Dispose()
         {
         }
+
+        private Text PrepareStopPlayMessage()
+        {
+            return render.PrepareTextLine("Stop play (y/n)", 4);
+        }
+
     }
 }

@@ -74,7 +74,7 @@ namespace zbrozonoid
             builder.RegisterType<ViewModel>().As<IViewModel>().SingleInstance();
             builder.RegisterInstance(new MenuViewModel(game.GameConfig, CloseAction, InGameAction)).As<IMenuViewModel>().SingleInstance();
             builder.RegisterType<MenuView>().As<IMenuView>().SingleInstance();
-            builder.RegisterType<DrawGameObjects>().As<IDrawGameObjects>().SingleInstance();
+            builder.RegisterType<RenderProxy>().As<IRenderProxy>().SingleInstance();
             builder.RegisterType<ViewStateMachine>().As<IViewStateMachine>().SingleInstance();
 
             builder.RegisterType<GameBeginView>().As<IView>().AsSelf().SingleInstance();
@@ -85,6 +85,7 @@ namespace zbrozonoid
             builder.RegisterType<StopPlayView>().As<IView>().AsSelf().SingleInstance(); 
 
             container = builder.Build();
+
         }
 
         private void OnKeyPressed(object sender, KeyEventArgs e)

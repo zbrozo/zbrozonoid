@@ -13,7 +13,7 @@ namespace zbrozonoid.Views
     public class GamePlayfieldView : IGamePlayfieldView
     {
         private IGame game;
-        private IDrawGameObjects draw;
+        private IRenderProxy render;
 
         private Image backgroundImage;
         public Sprite Background { get; set; }
@@ -37,10 +37,10 @@ namespace zbrozonoid.Views
             get { return PrepareFireBallMessage(); }
         }
 
-        public GamePlayfieldView(IDrawGameObjects draw)
+        public GamePlayfieldView(IRenderProxy render, IGame game)
         {
-            this.draw = draw;
-            this.game = draw.game;
+            this.render = render;
+            this.game = game;
         }
 
         public void Display()
@@ -61,19 +61,19 @@ namespace zbrozonoid.Views
 
         public void DrawBackground(Sprite background)
         {
-            draw.Render.Draw(background);
+            render.Draw(background);
         }
 
         private void DrawLifesAndScoresInfo()
         {
-            draw.Render.Draw(LiveAndScoresMessage);
+            render.Draw(LiveAndScoresMessage);
         }
 
         private void DrawFasterBallTimer()
         {
             if (FasterBallMessage.DisplayedString.Length > 0)
             {
-                draw.Render.Draw(FasterBallMessage);
+                render.Draw(FasterBallMessage);
             }
         }
 
@@ -81,7 +81,7 @@ namespace zbrozonoid.Views
         {
             if (FireBallMessage.DisplayedString.Length > 0)
             {
-                draw.Render.Draw(FireBallMessage);
+                render.Draw(FireBallMessage);
             }
         }
 
@@ -89,7 +89,7 @@ namespace zbrozonoid.Views
         {
             foreach (var brick in Bricks.Where(x => x.IsVisible))
             {
-                draw.Render.Draw(brick.Rect);
+                render.Draw(brick.Rect);
             }
         }
 
@@ -104,7 +104,7 @@ namespace zbrozonoid.Views
                 rectangle.Size = new Vector2f(border.Boundary.Size.X, border.Boundary.Size.Y);
                 rectangle.FillColor = Color.White;
 
-                draw.Render.Draw(rectangle);
+                render.Draw(rectangle);
             }
         }
 
@@ -114,7 +114,7 @@ namespace zbrozonoid.Views
             const uint charSize = 20;
             int lifes = game.GameState.Lifes >= 0 ? game.GameState.Lifes : 0;
             int scores = game.GameState.Scores;
-            return draw.PrepareTextLine.Prepare($"Lifes: {lifes}   Scores: {scores:D5}", 0, false, true, 20, 30, charSize);
+            return render.PrepareTextLine($"Lifes: {lifes}   Scores: {scores:D5}", 0, false, true, 20, 30, charSize);
         }
 
         private Text PrepareFasterBallMessage()
@@ -126,7 +126,7 @@ namespace zbrozonoid.Views
             }
 
             const uint charSize = 20;
-            return draw.PrepareTextLine.Prepare($"FasterBall: {value}", 0, false, true, 800, 20, charSize);
+            return render.PrepareTextLine($"FasterBall: {value}", 0, false, true, 800, 20, charSize);
         }
 
         private Text PrepareFireBallMessage()
@@ -138,7 +138,7 @@ namespace zbrozonoid.Views
             }
 
             const uint charSize = 20;
-            return draw.PrepareTextLine.Prepare($"FireBall: {value}", 0, false, true, 800, 40, charSize);
+            return render.PrepareTextLine($"FireBall: {value}", 0, false, true, 800, 40, charSize);
         }
 
         public void PrepareBricksToDraw()

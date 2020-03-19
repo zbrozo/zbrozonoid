@@ -8,16 +8,17 @@ namespace zbrozonoid.Views
 {
     public class GamePlayView : IView
     {
-        private IDrawGameObjects draw;
+        private IRenderProxy render;
         private IView playfieldView;
         private IGame game;
 
-        public GamePlayView(IDrawGameObjects draw,
-                            IGamePlayfieldView playfieldView)
+        public GamePlayView(IRenderProxy render,
+                            IGamePlayfieldView playfieldView,
+                            IGame game)
         {
-            this.draw = draw;
+            this.render = render;
             this.playfieldView = playfieldView;
-            this.game = draw.game;
+            this.game = game;
         }
 
         public void Display()
@@ -48,7 +49,7 @@ namespace zbrozonoid.Views
                 rect.Append(new Vertex(new Vector2f(posX + width, posY), Color.White));
                 rect.Append(new Vertex(new Vector2f(posX + width, posY + height), Color.Blue));
                 rect.Append(new Vertex(new Vector2f(posX, posY + height), Color.Blue));
-                draw.Render.Draw(rect);
+                render.Draw(rect);
             }
         }
 
@@ -67,7 +68,7 @@ namespace zbrozonoid.Views
                 circle.Radius = (float)width / 2;
                 circle.FillColor = Color.Cyan;
 
-                draw.Render.Draw(circle);
+                render.Draw(circle);
             }
         }
 
@@ -98,7 +99,7 @@ namespace zbrozonoid.Views
                         circle.Position = new Vector2f(position.X, position.Y);
                         circle.Radius = (float)width / 2;
                         circle.FillColor = color;
-                        draw.Render.Draw(circle);
+                        render.Draw(circle);
 
                         opacity = opacity - 60;
                     }

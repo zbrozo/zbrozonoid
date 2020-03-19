@@ -1,21 +1,35 @@
-﻿using System;
+﻿using SFML.Graphics;
+
 namespace zbrozonoid.Views
 {
     public class StartPlayView : IView
     {
-        private IDrawGameObjects draw;
+        private IRenderProxy render;
 
-        public StartPlayView(IDrawGameObjects draw)
+        private readonly Text PressButtonToPlayMessage;
+
+
+        public StartPlayView(IRenderProxy render)
         {
-            this.draw = draw;
+            this.render = render;
+
+            PressButtonToPlayMessage = PreparePressButtonToPlayMessage();
         }
 
         public void Display()
         {
-            draw.DrawPressPlayToPlay();
+            render.Draw(PressButtonToPlayMessage);
         }
+
         public void Dispose()
         {
         }
+
+        private Text PreparePressButtonToPlayMessage()
+        {
+            return render.PrepareTextLine("Press mouse button to play", 4);
+        }
+
+
     }
 }

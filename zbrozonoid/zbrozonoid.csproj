@@ -36,8 +36,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Window.cs" />
-    <Compile Include="DrawGameObjects.cs" />
-    <Compile Include="IDrawGameObjects.cs" />
     <Compile Include="Brick.cs" />
     <Compile Include="Views\GameBeginView.cs" />
     <Compile Include="Views\GameOverView.cs" />
@@ -66,6 +64,8 @@
     <Compile Include="Models\GamePlayfieldModel.cs" />
     <Compile Include="Views\IGamePlayfieldView.cs" />
     <Compile Include="Views\GamePlayView.cs" />
+    <Compile Include="RenderProxy.cs" />
+    <Compile Include="IRenderProxy.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\zbrozonoidAssets\zbrozonoidAssets.csproj">
