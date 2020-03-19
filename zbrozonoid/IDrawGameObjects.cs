@@ -33,8 +33,8 @@ namespace zbrozonoid
         //void DrawBackground(Sprite background);
         //void DrawBorders();
         //void DrawBricks(List<Brick> bricksToDraw);
-        void DrawBall();
-        void DrawPad();
+        //void DrawBall();
+        //void DrawPad();
         //void DrawTitle();
 
         //void DrawLifesAndScoresInfo();

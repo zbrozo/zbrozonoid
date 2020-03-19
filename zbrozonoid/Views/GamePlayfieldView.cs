@@ -10,7 +10,7 @@ using System.IO;
 
 namespace zbrozonoid.Views
 {
-    public class GamePlayfieldView : IView
+    public class GamePlayfieldView : IGamePlayfieldView
     {
         private IGame game;
         private IDrawGameObjects draw;
@@ -46,13 +46,12 @@ namespace zbrozonoid.Views
         public void Display()
         {
             DrawBackground(Background);
+            DrawBorders();
+            DrawBricks();
 
             DrawLifesAndScoresInfo();
             DrawFasterBallTimer();
             DrawFireBallTimer();
-
-            PrepareBricksToDraw();
-            DrawBricks();
         }
 
         public void DrawBackground(Sprite background)

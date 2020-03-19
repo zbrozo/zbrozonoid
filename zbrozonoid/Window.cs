@@ -79,7 +79,8 @@ namespace zbrozonoid
 
             builder.RegisterType<GameBeginView>().As<IView>().AsSelf().SingleInstance();
             builder.RegisterType<GameOverView>().As<IView>().AsSelf().SingleInstance(); 
-            builder.RegisterType<GamePlayfieldView>().As<IView>().AsSelf().SingleInstance(); 
+            builder.RegisterType<GamePlayfieldView>().As<IGamePlayfieldView>().AsSelf().SingleInstance();
+            builder.RegisterType<GamePlayView>().As<IView>().AsSelf().SingleInstance();
             builder.RegisterType<StartPlayView>().As<IView>().AsSelf().SingleInstance(); 
             builder.RegisterType<StopPlayView>().As<IView>().AsSelf().SingleInstance(); 
 

@@ -64,6 +64,8 @@
     <Compile Include="Menu\IMenuView.cs" />
     <Compile Include="Views\GamePlayfieldView.cs" />
     <Compile Include="Models\GamePlayfieldModel.cs" />
+    <Compile Include="Views\IGamePlayfieldView.cs" />
+    <Compile Include="Views\GamePlayView.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\zbrozonoidAssets\zbrozonoidAssets.csproj">

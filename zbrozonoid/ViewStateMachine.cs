@@ -65,12 +65,12 @@ namespace zbrozonoid
             if (currentState is GameBeginView)
             {
                 Logger.Info("State: Begin -> PlayGame");
-                currentState = container.Resolve<GamePlayfieldView>();
+                currentState = container.Resolve<GamePlayView>();
                 game.StartPlay();
                 return;
             }
 
-            if (currentState is GamePlayfieldView 
+            if (currentState is GamePlayView 
                 && game.GameState.Lifes < 0
                 && !game.GameState.Pause)
             {
@@ -79,7 +79,7 @@ namespace zbrozonoid
                 return;
             }
 
-            if (currentState is GamePlayfieldView 
+            if (currentState is GamePlayView 
                 && game.GameState.Lifes >= 0 
                 && !game.GameState.Pause)
             {
@@ -89,7 +89,7 @@ namespace zbrozonoid
                 return;
             }
 
-            if (currentState is GamePlayfieldView 
+            if (currentState is GamePlayView 
                 && game.GameState.Pause)
             {
                 Logger.Info("State: PlayGame -> StopPlay");
@@ -113,7 +113,7 @@ namespace zbrozonoid
             {
                 Logger.Info("State: StopPlay -> GamePlay");
 
-                currentState = container.Resolve<GamePlayfieldView>();
+                currentState = container.Resolve<GamePlayView>();
                 return;
             }
 
@@ -121,7 +121,7 @@ namespace zbrozonoid
             {
                 Logger.Info("State: StartPlay -> GamePlay");
 
-                currentState = container.Resolve<GamePlayfieldView>();
+                currentState = container.Resolve<GamePlayView>();
                 game.StartPlay();
                 return;
             }
@@ -144,7 +144,7 @@ namespace zbrozonoid
 
         public void GotoPlay()
         {
-            currentState = container.Resolve<GamePlayfieldView>();
+            currentState = container.Resolve<GamePlayView>();
         }
 
         public void GotoGameOver()
