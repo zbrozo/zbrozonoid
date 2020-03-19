@@ -10,7 +10,7 @@ using System.IO;
 
 namespace zbrozonoid.Views
 {
-    public class GamePlayView : IView
+    public class GamePlayfieldView : IView
     {
         private IGame game;
         private IDrawGameObjects draw;
@@ -18,7 +18,7 @@ namespace zbrozonoid.Views
         private Image backgroundImage;
         public Sprite Background { get; set; }
 
-        private readonly GamePlayModel model = new GamePlayModel();
+        private readonly GamePlayfieldModel model = new GamePlayfieldModel();
 
         public List<Brick> Bricks { get; } = new List<Brick>();
 
@@ -37,7 +37,7 @@ namespace zbrozonoid.Views
             get { return PrepareFireBallMessage(); }
         }
 
-        public GamePlayView(IDrawGameObjects draw)
+        public GamePlayfieldView(IDrawGameObjects draw)
         {
             this.draw = draw;
             this.game = draw.game;

@@ -27,6 +27,7 @@ namespace zbrozonoid
     using zbrozonoid.Menu;
     using zbrozonoid.Views;
     using Autofac;
+    using System.Collections.Generic;
 
     public class Window
     {
@@ -78,11 +79,14 @@ namespace zbrozonoid
 
             builder.RegisterType<GameBeginView>().As<IView>().AsSelf().SingleInstance();
             builder.RegisterType<GameOverView>().As<IView>().AsSelf().SingleInstance(); 
-            builder.RegisterType<GamePlayView>().As<IView>().AsSelf().SingleInstance(); 
+            builder.RegisterType<GamePlayfieldView>().As<IView>().AsSelf().SingleInstance(); 
             builder.RegisterType<StartPlayView>().As<IView>().AsSelf().SingleInstance(); 
             builder.RegisterType<StopPlayView>().As<IView>().AsSelf().SingleInstance(); 
 
             container = builder.Build();
+
+
+
         }
 
         private void OnKeyPressed(object sender, KeyEventArgs e)
@@ -128,8 +132,8 @@ namespace zbrozonoid
 
         public void OnChangeLevel(object sender, LevelEventArgs e)
         {
-            container.Resolve<GamePlayView>().PrepareBricksToDraw();
-            container.Resolve<GamePlayView>().PrepareBackground(e.Background);
+            container.Resolve<GamePlayfieldView>().PrepareBricksToDraw();
+            container.Resolve<GamePlayfieldView>().PrepareBackground(e.Background);
         }
 
         public void OnLostBalls(object sender, EventArgs args)
@@ -139,8 +143,7 @@ namespace zbrozonoid
 
         public void OnBrickHit(object sender, BrickHitEventArgs arg)
         {
-
-            container.Resolve<GamePlayView>().Bricks[arg.Number].IsVisible = false;
+            container.Resolve<GamePlayfieldView>().Bricks[arg.Number].IsVisible = false;
         }
 
         private void OnClose(object sender, EventArgs e)

@@ -41,7 +41,6 @@
     <Compile Include="Brick.cs" />
     <Compile Include="Views\GameBeginView.cs" />
     <Compile Include="Views\GameOverView.cs" />
-    <Compile Include="Views\GamePlayView.cs" />
     <Compile Include="ViewStateMachine.cs" />
     <Compile Include="ViewModel.cs" />
     <Compile Include="IViewModel.cs" />
@@ -62,8 +61,9 @@
     <Compile Include="ManyMouseDispatcher.cs" />
     <Compile Include="IViewStateMachine.cs" />
     <Compile Include="Models\GameBeginModel.cs" />
-    <Compile Include="Models\GamePlayModel.cs" />
     <Compile Include="Menu\IMenuView.cs" />
+    <Compile Include="Views\GamePlayfieldView.cs" />
+    <Compile Include="Models\GamePlayfieldModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\zbrozonoidAssets\zbrozonoidAssets.csproj">

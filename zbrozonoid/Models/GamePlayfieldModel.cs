@@ -4,7 +4,7 @@ using SFML.Graphics;
 
 namespace zbrozonoid.Models
 {
-    public class GamePlayModel
+    public class GamePlayfieldModel
     {
         public Dictionary<int, Color> colors = new Dictionary<int, Color>
                                             {
@@ -26,8 +26,5 @@ namespace zbrozonoid.Models
                                                 { 15, new Color(187, 187, 187) }
                                             };
 
-        public GamePlayModel()
-        {
-        }
     }
 }

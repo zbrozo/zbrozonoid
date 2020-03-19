@@ -30,7 +30,7 @@ namespace zbrozonoid
         IPrepareTextLine PrepareTextLine { get; }
         IGame game { get; }
 
-        void DrawBackground(Sprite background);
+        //void DrawBackground(Sprite background);
         //void DrawBorders();
         //void DrawBricks(List<Brick> bricksToDraw);
         void DrawBall();

@@ -44,12 +44,12 @@ namespace zbrozonoid
             this.PrepareTextLine = prepareTextLine;
             this.menuViewModel = menuViewModel;
         }
-
+        /*
         public void DrawBackground(Sprite background)
         {
             Render.Draw(background);
         }
-
+        */
         public void DrawBorders()
         {
             var borderManager = game.BorderManager;
@@ -65,7 +65,7 @@ namespace zbrozonoid
             }
         }
 
-
+        /*
         public void DrawBricks(List<Brick> bricksToDraw)
         {
             foreach (var brick in bricksToDraw.Where(x => x.IsVisible))
@@ -73,7 +73,7 @@ namespace zbrozonoid
                 Render.Draw(brick.Rect);
             }
         }
-
+        */
         public void DrawPad()
         {
             foreach (var value in game.PadManager)
