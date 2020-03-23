@@ -1,10 +1,11 @@
 ﻿using SFML.Graphics;
 using zbrozonoid.Menu;
 using zbrozonoid.Models;
+using zbrozonoid.Views.Interfaces;
 
 namespace zbrozonoid.Views
 {
-    public class GameBeginView : IView
+    public class GameBeginView : IGameBeginView
     {
         private GameBeginModel model = new GameBeginModel();
 

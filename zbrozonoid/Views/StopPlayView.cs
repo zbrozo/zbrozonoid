@@ -1,9 +1,9 @@
-﻿using System;
-using SFML.Graphics;
+﻿using SFML.Graphics;
+using zbrozonoid.Views.Interfaces;
 
 namespace zbrozonoid.Views
 {
-    public class StopPlayView : IView
+    public class StopPlayView : IStopPlayView
     {
         private IRenderProxy render;
         private readonly Text StopPlayMessage;

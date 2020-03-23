@@ -17,6 +17,7 @@ along with this program.If not, see<https://www.gnu.org/licenses/>.
 namespace zbrozonoid
 {
     using System;
+    using Autofac;
 
     using SFML.System;
     using SFML.Graphics;
@@ -24,10 +25,10 @@ namespace zbrozonoid
 
     using zbrozonoidEngine;
     using zbrozonoidEngine.Interfaces;
+
     using zbrozonoid.Menu;
     using zbrozonoid.Views;
-    using Autofac;
-    using System.Collections.Generic;
+    using zbrozonoid.Views.Interfaces;
 
     public class Window
     {
@@ -77,12 +78,12 @@ namespace zbrozonoid
             builder.RegisterType<RenderProxy>().As<IRenderProxy>().SingleInstance();
             builder.RegisterType<ViewStateMachine>().As<IViewStateMachine>().SingleInstance();
 
-            builder.RegisterType<GameBeginView>().As<IView>().AsSelf().SingleInstance();
-            builder.RegisterType<GameOverView>().As<IView>().AsSelf().SingleInstance(); 
+            builder.RegisterType<GameBeginView>().As<IGameBeginView>().SingleInstance();
+            builder.RegisterType<GameOverView>().As<IGameOverView>().SingleInstance(); 
             builder.RegisterType<GamePlayfieldView>().As<IGamePlayfieldView>().SingleInstance();
-            builder.RegisterType<GamePlayView>().As<IView>().AsSelf().SingleInstance();
-            builder.RegisterType<StartPlayView>().As<IView>().AsSelf().SingleInstance(); 
-            builder.RegisterType<StopPlayView>().As<IView>().AsSelf().SingleInstance(); 
+            builder.RegisterType<GamePlayView>().As<IGamePlayView>().SingleInstance();
+            builder.RegisterType<StartPlayView>().As<IStartPlayView>().SingleInstance(); 
+            builder.RegisterType<StopPlayView>().As<IStopPlayView>().SingleInstance(); 
 
             container = builder.Build();
 

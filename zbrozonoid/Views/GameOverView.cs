@@ -1,8 +1,9 @@
 ﻿using SFML.Graphics;
+using zbrozonoid.Views.Interfaces;
 
 namespace zbrozonoid.Views
 {
-    public class GameOverView : IView
+    public class GameOverView : IGameOverView
     {
         private IRenderProxy render;
         private readonly Text GameOverMessage;

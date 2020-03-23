@@ -1,12 +1,12 @@
-﻿using System;
-using SFML.Graphics;
+﻿using SFML.Graphics;
 using SFML.System;
+using zbrozonoid.Views.Interfaces;
 using zbrozonoidEngine;
 using zbrozonoidEngine.Interfaces;
 
 namespace zbrozonoid.Views
 {
-    public class GamePlayView : IView
+    public class GamePlayView : IGamePlayView
     {
         private IRenderProxy render;
         private IView playfieldView;

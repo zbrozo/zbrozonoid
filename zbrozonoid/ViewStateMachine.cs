@@ -17,6 +17,7 @@ along with this program.If not, see<https://www.gnu.org/licenses/>.
 
 using Autofac;
 using zbrozonoid.Views;
+using zbrozonoid.Views.Interfaces;
 using zbrozonoidEngine.Interfaces;
 
 namespace zbrozonoid
@@ -30,7 +31,7 @@ namespace zbrozonoid
         private IView currentState;
         private IContainer container;
 
-        public bool IsMenuState => currentState is GameBeginView;
+        public bool IsMenuState => currentState is IGameBeginView;
 
         public ViewStateMachine(IGame game)
         {
@@ -50,94 +51,94 @@ namespace zbrozonoid
 
         public void Transitions(IGame game)
         {
-            if (currentState is GameBeginView)
+            if (currentState is IGameBeginView)
             {
                 Logger.Info("State: Begin -> PlayGame");
-                currentState = container.Resolve<GamePlayView>();
+                currentState = container.Resolve<IGamePlayView>();
                 game.StartPlay();
                 return;
             }
 
-            if (currentState is GamePlayView 
+            if (currentState is IGamePlayView 
                 && game.GameState.Lifes < 0
                 && !game.GameState.Pause)
             {
                 Logger.Info("State: PlayGame -> GameOver");
-                currentState = container.Resolve<GameOverView>();
+                currentState = container.Resolve<IGameOverView>();
                 return;
             }
 
-            if (currentState is GamePlayView 
+            if (currentState is IGamePlayView 
                 && game.GameState.Lifes >= 0 
                 && !game.GameState.Pause)
             {
                 Logger.Info("State: PlayGame -> GameOver");
 
-                currentState = container.Resolve<StartPlayView>();
+                currentState = container.Resolve<IStartPlayView>();
                 return;
             }
 
-            if (currentState is GamePlayView 
+            if (currentState is IGamePlayView 
                 && game.GameState.Pause)
             {
                 Logger.Info("State: PlayGame -> StopPlay");
 
-                currentState = container.Resolve<StopPlayView>();
+                currentState = container.Resolve<IStopPlayView>();
                 return;
             }
 
-            if (currentState is StopPlayView
+            if (currentState is IStopPlayView
                 && game.GameState.Lifes < 0
                 && game.GameState.Pause)
             {
                 Logger.Info("State: StopPlay -> GameOver");
 
-                currentState = container.Resolve<GameOverView>(); 
+                currentState = container.Resolve<IGameOverView>(); 
                 return;
             }
 
-            if (currentState is StopPlayView
+            if (currentState is IStopPlayView
                 && !game.GameState.Pause)
             {
                 Logger.Info("State: StopPlay -> GamePlay");
 
-                currentState = container.Resolve<GamePlayView>();
+                currentState = container.Resolve<IGamePlayView>();
                 return;
             }
 
-            if (currentState is StartPlayView)
+            if (currentState is IStartPlayView)
             {
                 Logger.Info("State: StartPlay -> GamePlay");
 
-                currentState = container.Resolve<GamePlayView>();
+                currentState = container.Resolve<IGamePlayView>();
                 game.StartPlay();
                 return;
             }
 
-            if (currentState is GameOverView)
+            if (currentState is IGameOverView)
             {
                 Logger.Info("State: GameOver -> Begin");
 
                 game.GameIsOver();
 
-                currentState = container.Resolve<GameBeginView>();
+                currentState = container.Resolve<IGameBeginView>();
                 return;
             }
         }
 
         public void GotoMenu()
         {
-            currentState = container.Resolve<GameBeginView>();
+            currentState = container.Resolve<IGameBeginView>();
         }
 
         public void GotoPlay()
         {
-            currentState = container.Resolve<GamePlayView>();
+            currentState = container.Resolve<IGamePlayView>();
         }
 
         public void GotoGameOver()
         {
-            currentState = container.Resolve<GameOverView>();
+            currentState = container.Resolve<IGameOverView>();
         }
 
     }

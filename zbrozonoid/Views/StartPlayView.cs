@@ -1,13 +1,13 @@
 ﻿using SFML.Graphics;
+using zbrozonoid.Views.Interfaces;
 
 namespace zbrozonoid.Views
 {
-    public class StartPlayView : IView
+    public class StartPlayView : IStartPlayView
     {
         private IRenderProxy render;
 
         private readonly Text PressButtonToPlayMessage;
-
 
         public StartPlayView(IRenderProxy render)
         {
