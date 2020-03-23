@@ -72,7 +72,6 @@ namespace zbrozonoid
             builder.RegisterInstance(app).As<RenderWindow>();
             builder.RegisterInstance(game).As<IGame>();
             builder.RegisterType<PrepareTextLine>().As<IPrepareTextLine>().SingleInstance();
-            builder.RegisterType<ViewModel>().As<IViewModel>().SingleInstance();
             builder.RegisterInstance(new MenuViewModel(game.GameConfig, CloseAction, InGameAction)).As<IMenuViewModel>().SingleInstance();
             builder.RegisterType<MenuView>().As<IMenuView>().SingleInstance();
             builder.RegisterType<RenderProxy>().As<IRenderProxy>().SingleInstance();

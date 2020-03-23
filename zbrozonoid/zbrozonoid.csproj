@@ -40,8 +40,6 @@
     <Compile Include="Views\GameBeginView.cs" />
     <Compile Include="Views\GameOverView.cs" />
     <Compile Include="ViewStateMachine.cs" />
-    <Compile Include="ViewModel.cs" />
-    <Compile Include="IViewModel.cs" />
     <Compile Include="Views\StartPlayView.cs" />
     <Compile Include="Menu\MenuViewModel.cs" />
     <Compile Include="Menu\IMenuViewModel.cs" />
