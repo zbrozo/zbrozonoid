@@ -27,31 +27,33 @@ namespace zbrozonoidEngine.Managers
 
         public bool IsReadOnly { get; } = false;
 
-        private readonly List<IBall> balls = new List<IBall>();
+        private readonly Dictionary<IBall, IPad> balls = new Dictionary<IBall, IPad>();
 
-        public void Add(IBall ball)
+        public void Add(IBall ball, IPad pad)
         {
-            balls.Add(ball);
+            balls.Add(ball, pad);
         }
 
         public void Clear()
         {
             balls.Clear();
         }
-
-        public bool Contains(IBall ball)
+        /*
+        public bool Contains(KeyValuePair<IBall, IPad> ball)
         {
-            return balls.Contains(ball);
+            //return balls.Contains(ball);
+            return true;
         }
 
-        public void CopyTo(IBall[] ballsArray, int arrayIndex)
+        public void CopyTo(KeyValuePair<IBall, IPad>[] ballsArray, int arrayIndex)
         {
-            balls.CopyTo(ballsArray, arrayIndex);
+            //balls.CopyTo(ballsArray, arrayIndex);
         }
 
-        public bool Remove(IBall item)
+        public bool Remove(KeyValuePair<IBall, IPad> item)
         {
-            return balls.Remove(item);
+            //return balls.Remove(item);
+            return false;
         }
 
         public IBall GetFirst()
@@ -63,23 +65,45 @@ namespace zbrozonoidEngine.Managers
 
             return null;
         }
+        */
 
+        public void Remove(IBall ball)
+        {
+            balls.Remove(ball);
+        }
+
+        public IPad GetPadAssignedToBall(IBall ball)
+        {
+            return balls[ball];
+        }
+
+        /*
         public void LeaveOnlyOne()
         {
             if (balls.Count > 1)
             {
-                balls.RemoveRange(1, balls.Count - 1);
+                Dictionary<IBall, IPad>.KeyCollection b = balls.Keys;
+                var i = b.GetEnumerator();
+                i.MoveNext();
+                IBall ball = i.Current;
+                IPad pad = balls[ball];
+
+                balls.Clear();
+                balls.Add(ball, pad);
+
+                //balls.RemoveRange(1, balls.Count - 1);
             }
+        }
+        */
+
+        public IEnumerator<IBall> GetEnumerator()
+        {
+            return balls.Keys.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return GetEnumerator();
-        }
-
-        public IEnumerator<IBall> GetEnumerator()
-        {
-            return new BallEnum(balls);
+            return balls.Keys.GetEnumerator();
         }
     }
 }

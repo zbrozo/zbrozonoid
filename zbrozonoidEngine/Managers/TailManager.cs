@@ -26,7 +26,10 @@ namespace zbrozonoidEngine.Managers
 
         public void Add(IBall ball, ITail tail)
         {
-            tails.Add(ball, tail);
+            if (!tails.ContainsKey(ball))
+            {
+                tails.Add(ball, tail);
+            }
         }
 
         public bool Remove(IBall ball)

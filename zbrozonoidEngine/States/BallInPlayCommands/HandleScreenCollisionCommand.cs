@@ -19,7 +19,7 @@ namespace zbrozonoidEngine.States.BallInPlayCommands
 
             if (CollisionResult)
             {
-                game.GameState.BallsOutOfScreen++;
+                game.BallManager.Remove(ball);
 
                 CheckBallsOutOfScreen();
 
@@ -41,7 +41,7 @@ namespace zbrozonoidEngine.States.BallInPlayCommands
 
         protected void CheckBallsOutOfScreen()
         {
-            if (game.GameState.BallsOutOfScreen == game.BallManager.Count)
+            if (game.BallManager.Count == 0)
             {
                 game.LostBalls();
             }

@@ -14,14 +14,20 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.If not, see<https://www.gnu.org/licenses/>.
 */
+using System.Collections.Generic;
+
 namespace zbrozonoidEngine.Interfaces
 {
-    using System.Collections.Generic;
-
-    public interface IBallManager : ICollection<IBall>
+    public interface IBallManager : IEnumerable<IBall>
     {
-        IBall GetFirst();
+        void Clear();
 
-        void LeaveOnlyOne();
+        void Add(IBall ball, IPad pad);
+
+        int Count { get; }
+
+        void Remove(IBall ball);
+
+        IPad GetPadAssignedToBall(IBall ball);
     }
 }

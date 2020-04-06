@@ -125,7 +125,7 @@ namespace zbrozonoidEngine
 
         public void Action()
         {
-            foreach (IBall ball in ballManager)
+            foreach (IBall ball in ballManager.ToList())
             {
                 int speed = ball.Speed;
                 for (int i = 0; i < speed; ++i)
@@ -192,15 +192,15 @@ namespace zbrozonoidEngine
             {
                 case BrickType.ThreeBalls:
                     {
-                        IPad pad = padManager.GetFirst();
+                        IPad pad = ballManager.GetPadAssignedToBall(currentBall);
 
                         IBall ball1 = CreateBallFactory();
                         padManager.SetBallStartPosition(pad, ball1);
-                        ballManager.Add(ball1);
+                        ballManager.Add(ball1, pad);
 
                         IBall ball2 = CreateBallFactory();
                         padManager.SetBallStartPosition(pad, ball2);
-                        ballManager.Add(ball2);
+                        ballManager.Add(ball2, pad);
                         break;
                     }
                 case BrickType.DestroyerBall:
@@ -242,7 +242,6 @@ namespace zbrozonoidEngine
             }
 
             gameState.Pause = false;
-            gameState.BallsOutOfScreen = 0;
 
             if (gameState.Lifes < 0)
             {
@@ -253,7 +252,8 @@ namespace zbrozonoidEngine
             } 
             else
             {
-                InitBall();
+                CreateBalls();
+                InitBalls();
             }
 
             ballStateMachine.GoIntoPlay();
@@ -262,7 +262,6 @@ namespace zbrozonoidEngine
         private void InitializeLevel(bool restartLevel)
         {
             CreateObjects();
-            InitBall();
 
             if (restartLevel)
             {
@@ -283,30 +282,32 @@ namespace zbrozonoidEngine
             padManager.Create(GameConfig);
             borderManager.Create(screen, GameConfig);
 
-            ballManager.Clear();
-            for (int i = 0; i < GameConfig.Players && i < GameConfig.Mouses; ++i)
-            {
-                ballManager.Add(CreateBallFactory());
-            }
-
             foreach (var pad in padManager)
             {
                 VerifyBorderCollision(pad.Item3);
             }
+
+            CreateBalls();
+            InitBalls();
         }
 
-        public void InitBall()
+        private void CreateBalls()
+        {
+            ballManager.Clear();
+            for (int i = 0; i < GameConfig.Players && i < GameConfig.Mouses; ++i)
+            {
+                ballManager.Add(CreateBallFactory(), padManager.GetFirst());
+            }
+        }
+
+        public void InitBalls()
         {
             tailManager.Clear();
 
-            var iterator = padManager.GetEnumerator();
-            iterator.MoveNext();
             foreach (var ball in ballManager)
             {
-                IPad pad = iterator.Current.Item3;
+                IPad pad = ballManager.GetPadAssignedToBall(ball);
                 padManager.SetBallStartPosition(pad, ball);
-
-                iterator.MoveNext();
             }
         }
 
@@ -352,7 +353,6 @@ namespace zbrozonoidEngine
         {
             GameState.Pause = false;
             ballStateMachine.GoIntoIdle();
-            InitBall();
         }
 
         public IBall CreateBallFactory()
