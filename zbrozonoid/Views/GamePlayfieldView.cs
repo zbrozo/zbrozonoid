@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using SFML.Graphics;
-using SFML.System;
-using zbrozonoidEngine.Interfaces;
-using zbrozonoid.Models;
 using System.Reflection;
 using System.IO;
+
+using SFML.Graphics;
+using SFML.System;
+
+using zbrozonoidEngine.Interfaces;
+using zbrozonoid.Models;
 
 namespace zbrozonoid.Views
 {
@@ -21,21 +23,6 @@ namespace zbrozonoid.Views
 
         public List<Brick> Bricks { get; } = new List<Brick>();
 
-        private Text LiveAndScoresMessage
-        {
-            get { return PrepareLifesAndScoresMessage(); }
-        }
-
-        private Text FasterBallMessage
-        {
-            get { return PrepareFasterBallMessage(); }
-        }
-
-        private Text FireBallMessage
-        {
-            get { return PrepareFireBallMessage(); }
-        }
-
         public GamePlayfieldView(IRenderProxy render, IGame game)
         {
             this.render = render;
@@ -47,10 +34,6 @@ namespace zbrozonoid.Views
             DrawBackground(Background);
             DrawBorders();
             DrawBricks();
-
-            DrawLifesAndScoresInfo();
-            DrawFasterBallTimer();
-            DrawFireBallTimer();
         }
 
         public void BrickHit(int number)
@@ -61,27 +44,6 @@ namespace zbrozonoid.Views
         public void DrawBackground(Sprite background)
         {
             render.Draw(background);
-        }
-
-        private void DrawLifesAndScoresInfo()
-        {
-            render.Draw(LiveAndScoresMessage);
-        }
-
-        private void DrawFasterBallTimer()
-        {
-            if (FasterBallMessage.DisplayedString.Length > 0)
-            {
-                render.Draw(FasterBallMessage);
-            }
-        }
-
-        private void DrawFireBallTimer()
-        {
-            if (FireBallMessage.DisplayedString.Length > 0)
-            {
-                render.Draw(FireBallMessage);
-            }
         }
 
         private void DrawBricks()
@@ -105,39 +67,6 @@ namespace zbrozonoid.Views
 
                 render.Draw(rectangle);
             }
-        }
-
-
-        private Text PrepareLifesAndScoresMessage()
-        {
-            const uint charSize = 20;
-            int lifes = game.GameState.Lifes >= 0 ? game.GameState.Lifes : 0;
-            int scores = game.GameState.Scores;
-            return render.PrepareTextLine($"Lifes: {lifes}   Scores: {scores:D5}", 0, false, true, 20, 30, charSize);
-        }
-
-        private Text PrepareFasterBallMessage()
-        {
-            int value = 0;
-            foreach (var counter in game.GameState.FasterBallCountdown.Where(x => x.Value > value))
-            {
-                value = counter.Value;
-            }
-
-            const uint charSize = 20;
-            return render.PrepareTextLine($"FasterBall: {value}", 0, false, true, 800, 20, charSize);
-        }
-
-        private Text PrepareFireBallMessage()
-        {
-            int value = 0;
-            foreach (var counter in game.GameState.FireBallCountdown.Where(x => x.Value > value))
-            {
-                value = counter.Value;
-            }
-
-            const uint charSize = 20;
-            return render.PrepareTextLine($"FireBall: {value}", 0, false, true, 800, 40, charSize);
         }
 
         public void PrepareBricksToDraw()

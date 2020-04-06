@@ -69,6 +69,8 @@
     <Compile Include="Views\Interfaces\IGameOverView.cs" />
     <Compile Include="Views\Interfaces\IStartPlayView.cs" />
     <Compile Include="Views\Interfaces\IStopPlayView.cs" />
+    <Compile Include="Views\InfoPanelView.cs" />
+    <Compile Include="Views\Interfaces\IInfoPanelView.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\zbrozonoidAssets\zbrozonoidAssets.csproj">

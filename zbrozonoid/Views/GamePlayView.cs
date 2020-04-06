@@ -10,20 +10,24 @@ namespace zbrozonoid.Views
     {
         private IRenderProxy render;
         private IView playfieldView;
+        private IView infoView;
         private IGame game;
 
         public GamePlayView(IRenderProxy render,
                             IGamePlayfieldView playfieldView,
+                            IInfoPanelView infoView,
                             IGame game)
         {
             this.render = render;
             this.playfieldView = playfieldView;
+            this.infoView = infoView;
             this.game = game;
         }
 
         public void Display()
         {
             playfieldView.Display();
+            infoView.Display();
 
             DrawPad();
             DrawBall();
