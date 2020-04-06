@@ -10,12 +10,6 @@ namespace zbrozonoid.Views
 
         bool IsMenuState { get; }
 
-        void GotoMenu();
-
-        void GotoPlay();
-
-        void GotoGameOver();
-
         void Action();
 
         void Transitions(IGame game);

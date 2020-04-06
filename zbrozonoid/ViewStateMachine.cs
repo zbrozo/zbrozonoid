@@ -41,7 +41,7 @@ namespace zbrozonoid
         public void Initialize(IContainer container)
         {
             this.container = container;
-            GotoMenu();
+            currentState = container.Resolve<IGameBeginView>();
         }
 
         public void Action()
@@ -125,21 +125,5 @@ namespace zbrozonoid
                 return;
             }
         }
-
-        public void GotoMenu()
-        {
-            currentState = container.Resolve<IGameBeginView>();
-        }
-
-        public void GotoPlay()
-        {
-            currentState = container.Resolve<IGamePlayView>();
-        }
-
-        public void GotoGameOver()
-        {
-            currentState = container.Resolve<IGameOverView>();
-        }
-
     }
 }
