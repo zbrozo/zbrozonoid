@@ -99,18 +99,33 @@ namespace zbrozonoid
                 return;
             }
 
-            if (e.Code == Keyboard.Key.Y)
+
+            if (container.Resolve<IViewStateMachine>().IsStopState)
             {
-                game.GameState.Lifes = -1;
-                container.Resolve<IViewStateMachine>().Transitions(game);
-                return;
+                if (e.Code == Keyboard.Key.Y)
+                {
+                    game.GameState.Lifes = -1;
+                    container.Resolve<IViewStateMachine>().Transitions(game);
+                    return;
+                }
+
+                if (e.Code == Keyboard.Key.N)
+                {
+                    game.GameState.Pause = false;
+                    container.Resolve<IViewStateMachine>().Transitions(game);
+                    return;
+                }
+
             }
 
-            if (e.Code == Keyboard.Key.N)
+            if (container.Resolve<IViewStateMachine>().IsPlayState)
             {
-                game.GameState.Pause = false;
-                container.Resolve<IViewStateMachine>().Transitions(game);
-                return;
+                if (e.Code == Keyboard.Key.Backspace)
+                {
+                    game.ForceChangeLevel = true;
+                    container.Resolve<IViewStateMachine>().Transitions(game);
+                    return;
+                }
             }
         }
 
@@ -174,6 +189,8 @@ namespace zbrozonoid
 
         private void OnManyMouseMove(object sender, MouseMoveEventArgs args)
         {
+            Logger.Debug($"Mouse move: {args.X}, Device:{args.Device}");
+
             game.SetPadMove(args.X, args.Device);
 
             if (container.Resolve<IViewStateMachine>().IsMenuState)

@@ -25,6 +25,8 @@ namespace zbrozonoidEngine.Interfaces
         event EventHandler<BrickHitEventArgs> OnBrickHit;
         event EventHandler<EventArgs> OnLostBallsEvent;
 
+        bool ForceChangeLevel { get; set; }
+
         void OnLostBalls(object sender, EventArgs args);
 
         int PadCurrentSpeed { get; }

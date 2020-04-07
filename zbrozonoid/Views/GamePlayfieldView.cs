@@ -74,7 +74,7 @@ namespace zbrozonoid.Views
             Bricks.Clear();
 
             List<IBrick> bricks = game.Bricks;
-            foreach (IBrick brick in bricks.Where(x => x.Type > 0))
+            foreach (IBrick brick in bricks)
             {
                 if (model.colors.TryGetValue((int)brick.ColorNumber, out Color color))
                 {
@@ -84,6 +84,7 @@ namespace zbrozonoid.Views
                     rectangle.FillColor = color;
 
                     Brick brickToDraw = new Brick(rectangle);
+                    brickToDraw.IsVisible = brick.Type > 0;
                     Bricks.Add(brickToDraw);
                 }
             }
@@ -93,7 +94,6 @@ namespace zbrozonoid.Views
         {
             backgroundImage?.Dispose();
             backgroundImage = LoadBackground(backgroundName);
-
             Texture backgroundTexture = new Texture(backgroundImage);
             Background = new Sprite(backgroundTexture);
         }

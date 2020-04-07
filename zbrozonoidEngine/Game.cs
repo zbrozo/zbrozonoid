@@ -71,6 +71,8 @@ namespace zbrozonoidEngine
 
         public int PadCurrentSpeed { get; private set; }
 
+        public bool ForceChangeLevel { get; set; }
+
         public Game(int number)
         {
             GameConfig.Mouses = number;
@@ -137,8 +139,9 @@ namespace zbrozonoidEngine
                 }
             }
 
-            if (levelManager.VerifyAllBricksAreHit())
+            if (levelManager.VerifyAllBricksAreHit() || ForceChangeLevel)
             {
+                ForceChangeLevel = false;
                 InitializeLevel(false);
             }
         }

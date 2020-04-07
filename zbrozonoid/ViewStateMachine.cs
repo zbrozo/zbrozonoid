@@ -32,6 +32,8 @@ namespace zbrozonoid
         private IContainer container;
 
         public bool IsMenuState => currentState is IGameBeginView;
+        public bool IsPlayState => currentState is IGamePlayView;
+        public bool IsStopState => currentState is IStopPlayView;
 
         public ViewStateMachine(IGame game)
         {

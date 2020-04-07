@@ -36,6 +36,9 @@ namespace zbrozonoid.Views
             else
                 message.FillColor = Color.Green;
 
+            message.OutlineColor = Color.Black;
+            message.OutlineThickness = 2;
+
             FloatRect localBounds = message.GetLocalBounds();
             Vector2f rect = new Vector2f((width - localBounds.Width) / 2, LineHeight * number);
             message.Position = rect;
@@ -69,7 +72,9 @@ namespace zbrozonoid.Views
             uint charSize = fontSize;
             Text message = new Text(text, Font, charSize)
             {
-                FillColor = Color.White
+                FillColor = Color.White,
+                OutlineColor = Color.Black,
+                OutlineThickness = 2
             };
 
             FloatRect localBounds = message.GetLocalBounds();

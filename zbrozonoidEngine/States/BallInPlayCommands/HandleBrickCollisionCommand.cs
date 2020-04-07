@@ -32,6 +32,18 @@ namespace zbrozonoidEngine.States.BallInPlayCommands
                 game.HandleBrickCollision(ball, bricksHit);
 
                 bool destroyerBall = game.IsBallDestroyer(ball);
+
+                if (destroyerBall)
+                {
+                    foreach (var brick in bricksHit)
+                    {
+                        if (!brick.Brick.IsBeatable)
+                        {
+                            game.CollisionManager.Bounce(game.BricksHitList, game.BricksHitList[0], ball);
+                        }
+                    }
+                }
+
                 if (!borderHit && !destroyerBall)
                 {
                     game.CollisionManager.Bounce(game.BricksHitList, game.BricksHitList[0], ball);

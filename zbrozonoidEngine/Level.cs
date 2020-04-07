@@ -32,6 +32,8 @@ namespace zbrozonoidEngine
 
         public List<IBrick> Bricks { get; set; } = new List<IBrick>();
 
+
+
         public string BackgroundPath { get; set; }
 
         public int BeatableBricksNumber { get; set; }
@@ -42,7 +44,7 @@ namespace zbrozonoidEngine
 
         private const int BlockHeight = 25;
 
-        private const int StartY = 250;
+        private const int StartY = 150;
 
         public bool Load(string fileName)
         {

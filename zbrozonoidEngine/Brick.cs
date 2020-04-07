@@ -31,7 +31,7 @@ namespace zbrozonoidEngine
         {
             get
             {
-                if (Type != BrickType.Solid)
+                if (Type != BrickType.Solid && Type != BrickType.None)
                 {
                     return true;
                 }

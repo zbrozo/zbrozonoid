@@ -9,6 +9,8 @@ namespace zbrozonoid.Views
         void Initialize(IContainer container);
 
         bool IsMenuState { get; }
+        bool IsPlayState { get; }
+        bool IsStopState { get; }
 
         void Action();
 
