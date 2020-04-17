@@ -106,6 +106,7 @@
     <Compile Include="BallSpeed.cs" />
     <Compile Include="GameConfig.cs" />
     <Compile Include="Interfaces\IGameConfig.cs" />
+    <Compile Include="States\BallCollisionResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

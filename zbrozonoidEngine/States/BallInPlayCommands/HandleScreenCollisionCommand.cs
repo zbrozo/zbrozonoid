@@ -4,48 +4,27 @@ namespace zbrozonoidEngine.States.BallInPlayCommands
 {
     public class HandleScreenCollisionCommand : IHandleCollisionCommand
     {
-        private IGame game;
+        private IScreenCollisionManager screenCollisionManager;
+        BallCollisionState collisionState;
 
-        public bool CollisionResult { set; get; }
-
-        public HandleScreenCollisionCommand(IGame game)
+        public HandleScreenCollisionCommand(IScreenCollisionManager screenCollisionManager, 
+                                            BallCollisionState collisionState)
         {
-            this.game = game;
+            this.screenCollisionManager = screenCollisionManager;
+            this.collisionState = collisionState;
         }
 
-        public bool Execute(IBall ball)
+        public void Execute(IBall ball)
         {
-            CollisionResult = HandleScreenCollision(ball);
-
-            if (CollisionResult)
-            {
-                game.BallManager.Remove(ball);
-
-                CheckBallsOutOfScreen();
-
-                return false;
-            }
-
-            return true;
+            HandleScreenCollision(ball);
         }
 
-        protected bool HandleScreenCollision(IBall ball)
+        private void HandleScreenCollision(IBall ball)
         {
-            // in this place you can change to DetectAndVerify to make balls bounce from screen borders
-            if (game.ScreenCollisionManager.Detect(ball))
+            if (screenCollisionManager.Detect(ball))
             {
-                return true;
-            }
-            return false;
-        }
-
-        protected void CheckBallsOutOfScreen()
-        {
-            if (game.BallManager.Count == 0)
-            {
-                game.LostBalls();
+                collisionState.SetScreenCollistionState(true, false);
             }
         }
-
     }
 }

@@ -7,47 +7,49 @@ namespace zbrozonoidEngine.States.BallInPlayCommands
     {
         private IGame game;
 
-        public bool CollisionResult { set; get; }
-
-        private readonly ICollisionManager collisionManagerForMoveReversion;
+        private readonly ICollisionManager collisionManagerForMoveReversion = new CollisionManager();
+        private BallCollisionState collisionState;
 
         private const int padSpeedToGoBallFaster = 5;
 
-        public HandlePadCollisionCommand(IGame game)
+        public HandlePadCollisionCommand(IGame game, BallCollisionState collisionState)
         {
             this.game = game;
-            collisionManagerForMoveReversion = new CollisionManager();
+            this.collisionState = collisionState;
         }
 
-        public bool Execute(IBall ball)
+        public void Execute(IBall ball)
         {
-            CollisionResult = HandlePadCollision(ball);
-            return !CollisionResult;
+            HandlePadCollision(ball);
         }
 
-        protected bool HandlePadCollision(IBall ball)
+        protected void HandlePadCollision(IBall ball)
         {
+            IPad pad = null;
+
+            bool collisionDetected = false;
             foreach (var value in game.PadManager)
             {
-                IPad pad = value.Item3;
-
+                pad = value.Item3;
                 if (game.CollisionManager.Detect(pad, ball))
                 {
-                    pad.LogData();
+                    collisionDetected = true;
 
                     CorrectBallPosition(pad, ball);
-                    game.CollisionManager.Bounce(pad, ball);
 
                     if (game.PadCurrentSpeed > padSpeedToGoBallFaster)
                     {
                         ball.SetFasterSpeed();
                     }
 
-                    ball.LogData();
-                    return true;
+                    break;
                 }
             }
-            return false;
+
+            if (collisionDetected)
+            {
+                collisionState.SetPadCollistionState(true, true, pad);
+            }
         }
 
         private void CorrectBallPosition(IPad pad, IBall ball)

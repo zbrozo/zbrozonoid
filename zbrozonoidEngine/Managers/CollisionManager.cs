@@ -109,19 +109,27 @@ namespace zbrozonoidEngine.Managers
 
         public void Bounce(List<IBrick> bricksHit, IBorder border, IBall ball)
         {
-            Bounce(bricksHit, border, ball, out var degreeType);
+            List<IBoundary> obstacles = bricksHit.Cast<IBoundary>().ToList(); 
+            Bounce(obstacles, border, ball, out var degreeType);
+        }
+
+        public void Bounce(List<IBorder> bordersHit, IBorder border, IBall ball)
+        {
+            List<IBoundary> obstacles = bordersHit.Cast<IBoundary>().ToList();
+            Bounce(obstacles, border, ball, out var degreeType);
         }
 
         public void Bounce(List<IBrick> bricksHit, IBrick brick, IBall ball)
         {
-            Bounce(bricksHit, brick, ball, out var degreeType);
+            List<IBoundary> obstacles = bricksHit.Cast<IBoundary>().ToList();
+            Bounce(obstacles, brick, ball, out var degreeType);
             if (degreeType != DegreeType.None)
             {
                 ball.CalculateNewDegree(degreeType);
             }
         }
 
-        private void Bounce(List<IBrick> bricksHit, IBoundary obstacle, IBall ball, out DegreeType degreeType)
+        private void Bounce(List<IBoundary> bricksHit, IBoundary obstacle, IBall ball, out DegreeType degreeType)
         {
             degreeType = DegreeType.None;
 
@@ -145,10 +153,15 @@ namespace zbrozonoidEngine.Managers
                 }
                 else
                 {
+                    // bounce with 3 Bricks e.g. set in following way:
+                    //    ==
+                    //    o=
+                    //
                     ball.BounceBack();
                 }
             }
         }
+
 
         private void BounceBall(IBoundary obstacle, IBall ball, out DegreeType type)
         {
@@ -329,7 +342,7 @@ namespace zbrozonoidEngine.Managers
             return false;
         }
 
-        private bool IsPosYEqual(List<IBrick> bricksHit)
+        private bool IsPosYEqual(List<IBoundary> bricksHit)
         {
             if (bricksHit.Count == 0)
             {
@@ -346,7 +359,7 @@ namespace zbrozonoidEngine.Managers
             return true;
         }
 
-        private bool IsPosXEqual(List<IBrick> bricksHit)
+        private bool IsPosXEqual(List<IBoundary> bricksHit)
         {
             if (bricksHit.Count == 0)
             {
@@ -355,7 +368,7 @@ namespace zbrozonoidEngine.Managers
 
             var PosX = bricksHit[0].Boundary.Min.X;
 
-            if (bricksHit.Where(x => PosX != x.Boundary.Min.Y).ToList().Count != 0)
+            if (bricksHit.Where(x => PosX != x.Boundary.Min.X).ToList().Count != 0)
             {
                 return false;
             }
@@ -376,8 +389,8 @@ namespace zbrozonoidEngine.Managers
 
         public void LogData()
         {
-            Logger.Info($"Inside: {Flags.XLeftInside}, {Flags.XRightInside}, {Flags.YTopInside}, {Flags.YBottomInside}");
-            Logger.Info($"Outside: {Flags.XLeftOutside}, {Flags.XRightOutside}, {Flags.YTopOutside}, {Flags.YBottomOutside}");
+            //Logger.Info($"Inside: {Flags.XLeftInside}, {Flags.XRightInside}, {Flags.YTopInside}, {Flags.YBottomInside}");
+            //Logger.Info($"Outside: {Flags.XLeftOutside}, {Flags.XRightOutside}, {Flags.YTopOutside}, {Flags.YBottomOutside}");
         }
     }
 }

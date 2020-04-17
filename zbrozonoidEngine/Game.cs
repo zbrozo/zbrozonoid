@@ -117,7 +117,7 @@ namespace zbrozonoidEngine
         {
             posx = pad.Boundary.Min.X;
             posy = pad.Boundary.Min.Y;
-            Logger.Info($"Pad position {posx}, {posy}");
+            //Logger.Info($"Pad position {posx}, {posy}");
         }
 
         public void GetPadSize(IPad pad, out int width, out int height)
@@ -297,9 +297,11 @@ namespace zbrozonoidEngine
         private void CreateBalls()
         {
             ballManager.Clear();
+            var padIterator = padManager.GetEnumerator();
             for (int i = 0; i < GameConfig.Players && i < GameConfig.Mouses; ++i)
             {
-                ballManager.Add(CreateBallFactory(), padManager.GetFirst());
+                padIterator.MoveNext();
+                ballManager.Add(CreateBallFactory(), padIterator.Current.Item3 );
             }
         }
 

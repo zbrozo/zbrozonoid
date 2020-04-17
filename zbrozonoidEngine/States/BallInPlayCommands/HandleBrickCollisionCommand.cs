@@ -5,64 +5,62 @@ namespace zbrozonoidEngine.States.BallInPlayCommands
 {
     public class HandleBrickCollisionCommand : IHandleCollisionCommand
     {
-        private readonly IGame game;
-        private readonly IHandleCollisionCommand borderCollisionCommand;
+        private readonly ILevelManager levelManager;
+        private readonly ICollisionManager collisionManager;
+        private readonly ITailManager tailManager;
+        private BallCollisionState collisionState;
 
-        public bool CollisionResult { set; get; }
-
-        public HandleBrickCollisionCommand(IGame game, IHandleCollisionCommand borderCollisionCommand)
+        public HandleBrickCollisionCommand(ILevelManager levelManager,
+                                           ITailManager tailManager, 
+                                           ICollisionManager collisionManager,
+                                           BallCollisionState collisionState
+                                           )
         {
-            this.game = game;
-            this.borderCollisionCommand = borderCollisionCommand;
+            this.levelManager = levelManager;
+            this.collisionManager = collisionManager;
+            this.tailManager = tailManager;
+            this.collisionState = collisionState;
         }
 
-        public bool Execute(IBall ball)
+        public void Execute(IBall ball)
         {
-            CollisionResult = HandleBrickCollision(ball, borderCollisionCommand.CollisionResult);
-            return !CollisionResult;
+            HandleBrickCollision(ball, tailManager?.Find(ball) != null);
         }
 
-        protected bool HandleBrickCollision(IBall ball, bool borderHit)
+        private void HandleBrickCollision(IBall ball, bool isDestroyer)
         {
-            game.BricksHitList.Clear();
+            bool bounce = false;
 
-            bool result = DetectBrickCollision(ball, out List<BrickHit> bricksHit);
+            bool result = DetectBrickCollision(ball, out List<BrickHit> bricksHitList);
             if (result)
-            {
-                game.HandleBrickCollision(ball, bricksHit);
-
-                bool destroyerBall = game.IsBallDestroyer(ball);
-
-                if (destroyerBall)
+            { 
+                if (isDestroyer)
                 {
-                    foreach (var brick in bricksHit)
+                    foreach (var brick in bricksHitList)
                     {
                         if (!brick.Brick.IsBeatable)
                         {
-                            game.CollisionManager.Bounce(game.BricksHitList, game.BricksHitList[0], ball);
+                            bounce = true;
                         }
                     }
                 }
-
-                if (!borderHit && !destroyerBall)
+                else
                 {
-                    game.CollisionManager.Bounce(game.BricksHitList, game.BricksHitList[0], ball);
+                    bounce = true;
                 }
 
-                return true;
+                collisionState.SetBrickCollisionState(true, bounce, bricksHitList); 
             }
 
-            return false;
         }
 
-        private bool DetectBrickCollision(IBall ball, out List<BrickHit> bricksHit)
+        private bool DetectBrickCollision(IBall ball, out List<BrickHit> bricksHitList)
         {
-            bricksHit = new List<BrickHit>();
-            List<IBrick> bricks = game.LevelManager.GetCurrent().Bricks;
+            List<BrickHit> bricks = new List<BrickHit>();
 
             bool result = false;
             int id = 0;
-            foreach (var value in bricks)
+            foreach (var value in levelManager.GetCurrent().Bricks)
             {
                 IBrick brick = value;
                 if (brick.IsHit || !brick.IsVisible)
@@ -71,13 +69,15 @@ namespace zbrozonoidEngine.States.BallInPlayCommands
                     continue;
                 }
 
-                if (game.CollisionManager.Detect(brick, ball))
+                if (collisionManager.Detect(brick, ball))
                 {
-                    bricksHit.Add(new BrickHit(id, brick));
+                    bricks.Add(new BrickHit(id, brick));
                     result = true;
                 }
                 ++id;
             }
+
+            bricksHitList = bricks;
             return result;
         }
 

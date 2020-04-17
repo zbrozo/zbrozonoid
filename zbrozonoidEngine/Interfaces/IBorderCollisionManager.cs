@@ -21,6 +21,9 @@ namespace zbrozonoidEngine.Interfaces
     interface IBorderCollisionManager
     {
         bool DetectAndVerify(IPad pad);
-        bool DetectAndVerify(List<IBrick> bricksHitList, IBall ball);
+
+        bool Detect(IBall ball);
+
+        void Bounce(List<IBrick> bricksHitList, IBall ball);
     }
 }

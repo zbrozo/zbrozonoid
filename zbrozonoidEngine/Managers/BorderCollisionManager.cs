@@ -53,15 +53,15 @@ namespace zbrozonoidEngine.Managers
             return false;
         }
 
-        public bool DetectAndVerify(List<IBrick> bricksHitList, IBall ball)
+        public bool Detect(IBall ball)
         {
-            if (collisionManager.Detect(border, ball))
-            {
-                collisionManager.Bounce(bricksHitList, border, ball);
-                ball.SavePosition();
-                return true;
-            }
-            return false;
+            return collisionManager.Detect(border, ball);
+        }
+
+        public void Bounce(List<IBrick> bricksHitList, IBall ball)
+        {
+            collisionManager.Bounce(bricksHitList, border, ball);
+            ball.SavePosition();
         }
     }
 }

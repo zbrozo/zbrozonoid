@@ -1,36 +1,46 @@
-﻿using zbrozonoidEngine.Interfaces;
+﻿using System.Collections.Generic;
+using zbrozonoidEngine.Interfaces;
 using zbrozonoidEngine.Managers;
 
 namespace zbrozonoidEngine.States.BallInPlayCommands
 {
     public class HandleBorderCollisionCommand : IHandleCollisionCommand
     {
-        private IGame game;
+        private readonly IBorderManager borderManager;
+        private readonly ICollisionManager collisionManager;
+        private BallCollisionState collisionState;
 
-        public bool CollisionResult { set; get; }
-
-        public HandleBorderCollisionCommand(IGame game)
+        public HandleBorderCollisionCommand(IBorderManager borderManager, 
+                                            ICollisionManager collisionManager,
+                                            BallCollisionState collisionState)
         {
-            this.game = game;
+            this.borderManager = borderManager;
+            this.collisionManager = collisionManager;
+            this.collisionState = collisionState;
         }
 
-        public bool Execute(IBall ball)
+        public void Execute(IBall ball)
         { 
-            CollisionResult = HandleBorderCollision(ball);
-            return true;
+            HandleBorderCollision(ball);
         }
 
-        protected bool HandleBorderCollision(IBall ball)
+        protected void HandleBorderCollision(IBall ball)
         {
-            foreach (IBorder border in game.BorderManager)
+            List<IBorder> bordersHitList = new List<IBorder>();
+
+            foreach (IBorder border in borderManager)
             {
-                IBorderCollisionManager borderCollisionManager = new BorderCollisionManager(border, game.CollisionManager);
-                if (borderCollisionManager.DetectAndVerify(game.BricksHitList, ball))
+                IBorderCollisionManager borderCollisionManager = new BorderCollisionManager(border, collisionManager);
+                if (borderCollisionManager.Detect(ball))
                 {
-                    return true;
+                    bordersHitList.Add(border);
                 }
             }
-            return false;
+
+            if (bordersHitList.Count > 0)
+            {
+                collisionState.SetBorderCollistionState(true, true, bordersHitList);
+            }
         }
 
     }

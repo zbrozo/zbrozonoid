@@ -27,6 +27,7 @@ namespace zbrozonoidEngine.Interfaces
         void Bounce(IPad pad, IBall ball);
         void Bounce(List<IBrick> bricksHit, IBorder border, IBall ball);
         void Bounce(List<IBrick> bricksHit, IBrick brick, IBall ball);
+        void Bounce(List<IBorder> bricksHit, IBorder border, IBall ball);
 
         void LogData();
     }
