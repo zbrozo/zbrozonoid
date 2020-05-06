@@ -158,7 +158,7 @@ namespace zbrozonoidEngine
             }
         }
 
-        public void HandleBrickCollision(IBall currentBall, List<BrickHit> bricksHit)
+        public void HandleBrickCollision(IBall currentBall, List<BrickWithNumber> bricksHit)
         {
             BricksHitList = GetBricksHit(bricksHit);
 
@@ -333,12 +333,12 @@ namespace zbrozonoidEngine
             }
         }
 
-        private List<IBrick> GetBricksHit(List<BrickHit> bricksHit)
+        private List<IBrick> GetBricksHit(List<BrickWithNumber> bricksHit)
         {
             List<IBrick> bricks = new List<IBrick>();
             foreach (var value in bricksHit)
             {
-                bricks.Add(value.Brick);
+                bricks.Add(value);
             }
             return bricks;
         }

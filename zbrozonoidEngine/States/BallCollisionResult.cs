@@ -5,7 +5,7 @@ namespace zbrozonoidEngine.States
 {
     public class BallCollisionState
     {
-        public List<BrickHit> BricksHitList { get; private set; } = new List<BrickHit>();
+        public List<BrickWithNumber> BricksHitList { get; private set; } = new List<BrickWithNumber>();
         public List<IBorder> BordersHitList { get; private set; } = new List<IBorder>();
         public IPad Pad { get; private set; }
 
@@ -21,7 +21,7 @@ namespace zbrozonoidEngine.States
         public bool CollisionWithPad { get; private set; }
         public bool BounceFromPad { get; private set; }
 
-        public void SetBrickCollisionState(bool hit, bool bounce, List<BrickHit> bricksHitList)
+        public void SetBrickCollisionState(bool hit, bool bounce, List<BrickWithNumber> bricksHitList)
         {
             CollisionWithBrick = hit;
             BounceFromBrick = bounce;

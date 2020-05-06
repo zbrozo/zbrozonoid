@@ -26,7 +26,7 @@ namespace zbrozonoidEngine.Interfaces
     }
 
     public interface IBrick : IBoundary
-    {
+    {   
         int ColorNumber { get; set; }
         BrickType Type { get; set; }
         bool IsHit { get; set; }

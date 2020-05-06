@@ -21,7 +21,7 @@ namespace zbrozonoidEngineTests
 
         private IBall ball;
         private List<IBrick> bricks;
-        private List<BrickHit> bricksHit;
+        private List<BrickWithNumber> bricksHit;
         private ICollisionManager manager;
         private BallCollisionState collisionState;
         private Mock<ILevelManager> levelManagerMock;
@@ -39,7 +39,7 @@ namespace zbrozonoidEngineTests
             ball.SetSize(15, 15);
 
             bricks = new List<IBrick>();
-            bricksHit = new List<BrickHit>();
+            bricksHit = new List<BrickWithNumber>();
             manager = new CollisionManager();
             collisionState = new BallCollisionState();
 

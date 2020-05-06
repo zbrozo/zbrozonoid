@@ -59,5 +59,12 @@ namespace zbrozonoidEngine
             IsHit = false;
         }
 
+        public Brick(IBrick brick)
+        {
+            Boundary = brick.Boundary;
+            ColorNumber = brick.ColorNumber;
+            Type = brick.Type;
+            IsHit = brick.IsHit;
+        }
     }
 }

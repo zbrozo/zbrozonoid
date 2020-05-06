@@ -62,7 +62,7 @@ namespace zbrozonoidEngine.Interfaces
 
         void StartPlay();
 
-        void HandleBrickCollision(IBall currentBall, List<BrickHit> bricksHit);
+        void HandleBrickCollision(IBall currentBall, List<BrickWithNumber> bricksHit);
 
         bool IsBallDestroyer(IBall ball);
 
