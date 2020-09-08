@@ -61,13 +61,10 @@ namespace zbrozonoidEngine
         public IBorderManager BorderManager => borderManager;
         public IBallManager BallManager => ballManager;
         public IPadManager PadManager => padManager;
-        public List<IBrick> Bricks => levelManager.GetCurrent().Bricks;
-        public string BackgroundPath => levelManager.GetCurrent().BackgroundPath;
+        public List<IBrick> Bricks { get; private set; } = new List<IBrick>(); 
+        public string BackgroundPath => levelManager?.GetCurrent()?.BackgroundPath;
         public IGameState GameState => gameState;
         public IGameConfig GameConfig { get; set; } = new GameConfig();
-
-        public List<IBrick> BricksHitList { get; private set; } = new List<IBrick>();
-        public List<BrickWithNumber> BricksWithNumbers { get; private set; } = new List<BrickWithNumber>();
 
         public int PadCurrentSpeed { get; private set; }
 
@@ -158,11 +155,11 @@ namespace zbrozonoidEngine
             }
         }
 
-        public void HandleBrickCollision(IBall currentBall, IEnumerable<BrickWithNumber> bricksHit)
+        public void HandleBrickCollision(IBall currentBall, IEnumerable<int> bricksHit)
         {
             if (HitBrick(bricksHit, out BrickType type))
             {
-                BrickHitEventArgs brickHitArgs = new BrickHitEventArgs(bricksHit.First().Number);
+                BrickHitEventArgs brickHitArgs = new BrickHitEventArgs(bricksHit.First());
                 OnBrickHit?.Invoke(this, brickHitArgs);
 
                 --levelManager.GetCurrent().BeatableBricksNumber;
@@ -172,14 +169,14 @@ namespace zbrozonoidEngine
             }
         }
 
-        private bool HitBrick(IEnumerable<BrickWithNumber> bricks, out BrickType type)
+        private bool HitBrick(IEnumerable<int> bricksHitList, out BrickType type)
         {
             type = BrickType.None;
 
-            var bricksFound = bricks.Where(x => x.IsBeatable && x.IsVisible);
+            var bricksFound = Bricks.FilterByIndex(bricksHitList).Where(x => x.IsBeatable && x.IsVisible);
             if (bricksFound.Any())
             {
-                BricksWithNumbers[bricksFound.First().Number].IsHit = true;
+                bricksFound.First().IsHit = true;
                 type = bricksFound.First().Type;
 
                 return true;
@@ -295,9 +292,8 @@ namespace zbrozonoidEngine
                 levelManager.Load();
             }
 
-            var count = Bricks.Count();
-            BricksWithNumbers.Clear();
-            BricksWithNumbers.AddRange(Enumerable.Range(0, count).Zip(Bricks, (id, brick) => new BrickWithNumber(id, brick)).ToList());
+            Bricks.Clear();
+            Bricks.AddRange(levelManager.GetCurrent().Bricks);
         }
 
         private void CreateBalls()

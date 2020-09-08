@@ -25,7 +25,7 @@ namespace zbrozonoidEngine.States
             handleScreenCollisionCommand = new HandleScreenCollisionCommand(game.ScreenCollisionManager, collisionState);
             handleBorderCollisionCommand = new HandleBorderCollisionCommand(game.BorderManager, game.CollisionManager, collisionState);
             handlePadCollisionCommand = new HandlePadCollisionCommand(game, collisionState);
-            handleBrickCollisionCommand = new HandleBrickCollisionCommand(  game.BricksWithNumbers,
+            handleBrickCollisionCommand = new HandleBrickCollisionCommand(  game.Bricks,
                                                                             game.LevelManager,
                                                                             game.TailManager,
                                                                             game.CollisionManager,
@@ -78,7 +78,8 @@ namespace zbrozonoidEngine.States
                 !collisionState.BounceFromBorder
                 )
             {
-                gameMain.CollisionManager.Bounce(collisionState.BricksHitList.ToBricks(), collisionState.BricksHitList[0], ball);
+                var bricks = gameMain.Bricks.FilterByIndex(collisionState.BricksHitList);
+                gameMain.CollisionManager.Bounce(bricks, bricks[0], ball);
             }
         }
 
@@ -89,7 +90,8 @@ namespace zbrozonoidEngine.States
                 collisionState.BounceFromBorder
                 )
             {
-                gameMain.CollisionManager.Bounce(collisionState.BricksHitList.ToBricks(), collisionState.BordersHitList[0], ball);
+                var bricks = gameMain.Bricks.FilterByIndex(collisionState.BricksHitList);
+                gameMain.CollisionManager.Bounce(bricks, bricks[0], ball);
             }
         }
 

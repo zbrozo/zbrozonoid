@@ -31,8 +31,6 @@ namespace zbrozonoidEngine.Interfaces
 
         int PadCurrentSpeed { get; }
 
-        List<IBrick> BricksHitList { get; }
-
         IGameState GameState { get; }
         IGameConfig GameConfig { get; set; }
 
@@ -45,7 +43,6 @@ namespace zbrozonoidEngine.Interfaces
         IScreenCollisionManager ScreenCollisionManager { get; }
 
         List<IBrick> Bricks { get; }
-        List<BrickWithNumber> BricksWithNumbers { get; }
 
         string BackgroundPath { get; }
 
@@ -65,7 +62,7 @@ namespace zbrozonoidEngine.Interfaces
 
         void StartPlay();
 
-        void HandleBrickCollision(IBall currentBall, IEnumerable<BrickWithNumber> bricksHit);
+        void HandleBrickCollision(IBall currentBall, IEnumerable<int> bricksHit);
 
         bool IsBallDestroyer(IBall ball);
 
