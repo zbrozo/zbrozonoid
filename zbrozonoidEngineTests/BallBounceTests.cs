@@ -21,6 +21,7 @@ namespace zbrozonoidEngineTests
 
         private IBall ball;
         private List<IBrick> bricks;
+        private List<BrickWithNumber> bricksWithNumbers;
         private List<BrickWithNumber> bricksHit;
         private ICollisionManager manager;
         private BallCollisionState collisionState;
@@ -39,6 +40,7 @@ namespace zbrozonoidEngineTests
             ball.SetSize(15, 15);
 
             bricks = new List<IBrick>();
+            bricksWithNumbers = new List<BrickWithNumber>();
             bricksHit = new List<BrickWithNumber>();
             manager = new CollisionManager();
             collisionState = new BallCollisionState();
@@ -64,7 +66,7 @@ namespace zbrozonoidEngineTests
         {
             ball.Boundary.Min = new Vector2(0, 50);
 
-            IHandleCollisionCommand command = new HandleBrickCollisionCommand(levelManagerMock.Object, null, manager, collisionState);
+            IHandleCollisionCommand command = new HandleBrickCollisionCommand(bricksWithNumbers, levelManagerMock.Object, null, manager, collisionState);
             command.Execute(ball);
 
             Assert.AreEqual(0, bricksHit.Count);
@@ -77,7 +79,7 @@ namespace zbrozonoidEngineTests
         {
             ball.Boundary.Min = new Vector2(0, 20);
 
-            IHandleCollisionCommand command = new HandleBrickCollisionCommand(levelManagerMock.Object, null, manager,collisionState);
+            IHandleCollisionCommand command = new HandleBrickCollisionCommand(bricksWithNumbers, levelManagerMock.Object, null, manager,collisionState);
             command.Execute(ball);
 
             Assert.AreEqual(1, bricksHit.Count);
@@ -91,7 +93,7 @@ namespace zbrozonoidEngineTests
         {
             ball.Boundary.Min = new Vector2(45, 20);
 
-            IHandleCollisionCommand command = new HandleBrickCollisionCommand(levelManagerMock.Object, null, manager, collisionState);
+            IHandleCollisionCommand command = new HandleBrickCollisionCommand(bricksWithNumbers, levelManagerMock.Object, null, manager, collisionState);
             command.Execute(ball);
 
             Assert.AreEqual(2, bricksHit.Count);

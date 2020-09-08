@@ -52,7 +52,6 @@ namespace zbrozonoidEngine
         private readonly IPadManager padManager;
 
         private readonly BallStateMachine ballStateMachine;
-
         private readonly IGameState gameState;
 
         public ILevelManager LevelManager => levelManager;
@@ -68,6 +67,7 @@ namespace zbrozonoidEngine
         public IGameConfig GameConfig { get; set; } = new GameConfig();
 
         public List<IBrick> BricksHitList { get; private set; } = new List<IBrick>();
+        public List<BrickWithNumber> BricksWithNumbers { get; private set; } = new List<BrickWithNumber>();
 
         public int PadCurrentSpeed { get; private set; }
 
@@ -158,13 +158,11 @@ namespace zbrozonoidEngine
             }
         }
 
-        public void HandleBrickCollision(IBall currentBall, List<BrickWithNumber> bricksHit)
+        public void HandleBrickCollision(IBall currentBall, IEnumerable<BrickWithNumber> bricksHit)
         {
-            BricksHitList = GetBricksHit(bricksHit);
-
-            if (HitBrick(BricksHitList, out BrickType type))
+            if (HitBrick(bricksHit, out BrickType type))
             {
-                BrickHitEventArgs brickHitArgs = new BrickHitEventArgs(bricksHit[0].Number);
+                BrickHitEventArgs brickHitArgs = new BrickHitEventArgs(bricksHit.First().Number);
                 OnBrickHit?.Invoke(this, brickHitArgs);
 
                 --levelManager.GetCurrent().BeatableBricksNumber;
@@ -174,17 +172,17 @@ namespace zbrozonoidEngine
             }
         }
 
-        private bool HitBrick(List<IBrick> bricksHit, out BrickType type)
+        private bool HitBrick(IEnumerable<BrickWithNumber> bricks, out BrickType type)
         {
             type = BrickType.None;
-            if (bricksHit.Count != 0)
+
+            var bricksFound = bricks.Where(x => x.IsBeatable && x.IsVisible);
+            if (bricksFound.Any())
             {
-                foreach (var brick in bricksHit.Where(x => x.IsBeatable && x.IsVisible))
-                {
-                    brick.IsHit = true;
-                    type = brick.Type;
-                    return true;
-                }
+                BricksWithNumbers[bricksFound.First().Number].IsHit = true;
+                type = bricksFound.First().Type;
+
+                return true;
             }
             return false;
         }
@@ -265,16 +263,7 @@ namespace zbrozonoidEngine
         private void InitializeLevel(bool restartLevel)
         {
             CreateObjects();
-
-            if (restartLevel)
-            {
-                levelManager.Restart();
-            }
-            else
-            {
-                levelManager.MoveNext();
-                levelManager.Load();
-            }
+            CreateLevelMap(restartLevel);
 
             LevelEventArgs background = new LevelEventArgs(levelManager.GetCurrent().BackgroundPath);
             OnChangeLevel?.Invoke(this, background);
@@ -292,6 +281,23 @@ namespace zbrozonoidEngine
 
             CreateBalls();
             InitBalls();
+        }
+
+        private void CreateLevelMap(bool restartLevel)
+        {
+            if (restartLevel)
+            {
+                levelManager.Restart();
+            }
+            else
+            {
+                levelManager.MoveNext();
+                levelManager.Load();
+            }
+
+            var count = Bricks.Count();
+            BricksWithNumbers.Clear();
+            BricksWithNumbers.AddRange(Enumerable.Range(0, count).Zip(Bricks, (id, brick) => new BrickWithNumber(id, brick)).ToList());
         }
 
         private void CreateBalls()
@@ -331,16 +337,6 @@ namespace zbrozonoidEngine
                 Vector2 position = new Vector2 ( ball.Boundary.Min.X, ball.Boundary.Min.Y );
                 tail.Add(position);
             }
-        }
-
-        private List<IBrick> GetBricksHit(List<BrickWithNumber> bricksHit)
-        {
-            List<IBrick> bricks = new List<IBrick>();
-            foreach (var value in bricksHit)
-            {
-                bricks.Add(value);
-            }
-            return bricks;
         }
 
         public void LostBalls()

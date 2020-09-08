@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using zbrozonoidEngine.Interfaces;
 
@@ -7,17 +6,20 @@ namespace zbrozonoidEngine.States.BallInPlayCommands
 {
     public class HandleBrickCollisionCommand : IHandleCollisionCommand
     {
+        private readonly IEnumerable<BrickWithNumber> bricksWithNumbers;
         private readonly ILevelManager levelManager;
         private readonly ICollisionManager collisionManager;
         private readonly ITailManager tailManager;
         private BallCollisionState collisionState;
 
-        public HandleBrickCollisionCommand(ILevelManager levelManager,
+        public HandleBrickCollisionCommand(IEnumerable<BrickWithNumber> bricksWithNumbers,
+                                           ILevelManager levelManager,
                                            ITailManager tailManager, 
                                            ICollisionManager collisionManager,
                                            BallCollisionState collisionState
                                            )
         {
+            this.bricksWithNumbers = bricksWithNumbers;
             this.levelManager = levelManager;
             this.collisionManager = collisionManager;
             this.tailManager = tailManager;
@@ -57,8 +59,6 @@ namespace zbrozonoidEngine.States.BallInPlayCommands
 
         private bool DetectBrickCollision(IBall ball, out List<BrickWithNumber> bricksHitList)
         {
-            var count = levelManager.GetCurrent().Bricks.Count();
-            IEnumerable<BrickWithNumber> bricksWithNumbers = Enumerable.Range(1,count).Zip(levelManager.GetCurrent().Bricks, (id, brick) => new BrickWithNumber(id, brick));
             bricksHitList = bricksWithNumbers.DetectCollision(ball, collisionManager).ToList();
             return bricksHitList.Any();
         }

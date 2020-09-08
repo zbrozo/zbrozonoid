@@ -23,5 +23,16 @@ namespace zbrozonoidEngine
 
             return brickHitList;
         }
+
+        public static List<IBrick> ToBricks(this IEnumerable<BrickWithNumber> bricks)
+        {
+            List<IBrick> convertedBricks = new List<IBrick>();
+            foreach (var brick in bricks)
+            {
+                convertedBricks.Add(brick);
+            }
+            return convertedBricks;
+        }
+
     }
 }

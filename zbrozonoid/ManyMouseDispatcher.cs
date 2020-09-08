@@ -20,7 +20,10 @@ namespace zbrozonoid
 
     public class ManyMouseDispatcher
     {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
         public event EventHandler<MouseMoveEventArgs> MouseMoved;
+        //public event EventHandler<EventArgs> Disconnected;
 
         private class MouseData
         {
@@ -83,12 +86,16 @@ namespace zbrozonoid
                 }
                 else if (mmevent.type == ManyMouseEventType.MANYMOUSE_EVENT_SCROLL)
                 {
+                    Logger.Debug($"mmevent SCROLL");
                 }
                 else if (mmevent.type == ManyMouseEventType.MANYMOUSE_EVENT_MAX)
                 {
+                    Logger.Debug($"mmevent MAX");
                 }
                 else if (mmevent.type == ManyMouseEventType.MANYMOUSE_EVENT_DISCONNECT)
                 {
+                    Logger.Debug($"mmevent DISCONNECTED");
+                    //Disconnected?.Invoke(this, null);
                 }
             }
 

@@ -43,7 +43,10 @@ namespace zbrozonoidEngine.Interfaces
         IBallManager BallManager { get; }
         IPadManager PadManager { get; }
         IScreenCollisionManager ScreenCollisionManager { get; }
+
         List<IBrick> Bricks { get; }
+        List<BrickWithNumber> BricksWithNumbers { get; }
+
         string BackgroundPath { get; }
 
         void Initialize();
@@ -62,7 +65,7 @@ namespace zbrozonoidEngine.Interfaces
 
         void StartPlay();
 
-        void HandleBrickCollision(IBall currentBall, List<BrickWithNumber> bricksHit);
+        void HandleBrickCollision(IBall currentBall, IEnumerable<BrickWithNumber> bricksHit);
 
         bool IsBallDestroyer(IBall ball);
 

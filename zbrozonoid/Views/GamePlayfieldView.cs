@@ -8,6 +8,7 @@ using SFML.System;
 
 using zbrozonoidEngine.Interfaces;
 using zbrozonoid.Models;
+using NLog;
 
 namespace zbrozonoid.Views
 {
@@ -22,6 +23,8 @@ namespace zbrozonoid.Views
         private readonly GamePlayfieldModel model = new GamePlayfieldModel();
 
         public List<Brick> Bricks { get; } = new List<Brick>();
+
+        private static readonly NLog.Logger Logger = LogManager.GetCurrentClassLogger();
 
         public GamePlayfieldView(IRenderProxy render, IGame game)
         {

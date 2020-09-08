@@ -29,6 +29,7 @@ namespace zbrozonoid
     using zbrozonoid.Menu;
     using zbrozonoid.Views;
     using zbrozonoid.Views.Interfaces;
+    using ManyMouseSharp;
 
     public class Window
     {
@@ -189,7 +190,7 @@ namespace zbrozonoid
 
         private void OnManyMouseMove(object sender, MouseMoveEventArgs args)
         {
-            Logger.Debug($"Mouse move: {args.X}, Device:{args.Device}");
+            //Logger.Debug($"Mouse move: {args.X}, Device:{args.Device}");
 
             game.SetPadMove(args.X, args.Device);
 
