@@ -107,19 +107,19 @@ namespace zbrozonoidEngine.Managers
             ball.CalculateNewDegree(type);
         }
 
-        public void Bounce(List<IBrick> bricksHit, IBorder border, IBall ball)
+        public void Bounce(ICollection<IBrick> bricksHit, IBorder border, IBall ball)
         {
             List<IBoundary> obstacles = bricksHit.Cast<IBoundary>().ToList(); 
             Bounce(obstacles, border, ball, out var degreeType);
         }
 
-        public void Bounce(List<IBorder> bordersHit, IBorder border, IBall ball)
+        public void Bounce(ICollection<IBorder> bordersHit, IBorder border, IBall ball)
         {
             List<IBoundary> obstacles = bordersHit.Cast<IBoundary>().ToList();
             Bounce(obstacles, border, ball, out var degreeType);
         }
 
-        public void Bounce(List<IBrick> bricksHit, IBrick brick, IBall ball)
+        public void Bounce(ICollection<IBrick> bricksHit, IBrick brick, IBall ball)
         {
             List<IBoundary> obstacles = bricksHit.Cast<IBoundary>().ToList();
             Bounce(obstacles, brick, ball, out var degreeType);
@@ -129,7 +129,7 @@ namespace zbrozonoidEngine.Managers
             }
         }
 
-        private void Bounce(List<IBoundary> bricksHit, IBoundary obstacle, IBall ball, out DegreeType degreeType)
+        private void Bounce(ICollection<IBoundary> bricksHit, IBoundary obstacle, IBall ball, out DegreeType degreeType)
         {
             degreeType = DegreeType.None;
 
@@ -342,14 +342,14 @@ namespace zbrozonoidEngine.Managers
             return false;
         }
 
-        private bool IsPosYEqual(List<IBoundary> bricksHit)
+        private bool IsPosYEqual(ICollection<IBoundary> bricksHit)
         {
             if (bricksHit.Count == 0)
             {
                 return false;
             }
 
-            var PosY = bricksHit[0].Boundary.Min.Y;
+            var PosY = bricksHit.First().Boundary.Min.Y;
 
             if (bricksHit.Where(x => PosY != x.Boundary.Min.Y).ToList().Count != 0)
             {
@@ -359,14 +359,14 @@ namespace zbrozonoidEngine.Managers
             return true;
         }
 
-        private bool IsPosXEqual(List<IBoundary> bricksHit)
+        private bool IsPosXEqual(ICollection<IBoundary> bricksHit)
         {
             if (bricksHit.Count == 0)
             {
                 return false;
             }
 
-            var PosX = bricksHit[0].Boundary.Min.X;
+            var PosX = bricksHit.First().Boundary.Min.X;
 
             if (bricksHit.Where(x => PosX != x.Boundary.Min.X).ToList().Count != 0)
             {
