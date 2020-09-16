@@ -21,7 +21,6 @@ namespace zbrozonoidEngineTests
 
         private IBall ball;
         private List<IBrick> bricks;
-        private List<BrickWithNumber> bricksHit;
         private ICollisionManager manager;
         private BallCollisionState collisionState;
         private Mock<ILevelManager> levelManagerMock;
@@ -39,7 +38,6 @@ namespace zbrozonoidEngineTests
             ball.SetSize(15, 15);
 
             bricks = new List<IBrick>();
-            bricksHit = new List<BrickWithNumber>();
             manager = new CollisionManager();
             collisionState = new BallCollisionState();
 
@@ -67,7 +65,7 @@ namespace zbrozonoidEngineTests
             IHandleCollisionCommand command = new HandleBrickCollisionCommand(bricks, levelManagerMock.Object, null, manager, collisionState);
             command.Execute(ball);
 
-            Assert.AreEqual(0, bricksHit.Count);
+            Assert.AreEqual(0, collisionState.BricksHitList.Count);
             Assert.IsFalse(collisionState.CollisionWithBrick);
             Assert.IsFalse(collisionState.BounceFromBrick);
         }
@@ -80,7 +78,7 @@ namespace zbrozonoidEngineTests
             IHandleCollisionCommand command = new HandleBrickCollisionCommand(bricks, levelManagerMock.Object, null, manager,collisionState);
             command.Execute(ball);
 
-            Assert.AreEqual(1, bricksHit.Count);
+            Assert.AreEqual(1, collisionState.BricksHitList.Count);
             Assert.IsTrue(collisionState.CollisionWithBrick);
             Assert.IsTrue(collisionState.BounceFromBrick);
         }
@@ -94,13 +92,9 @@ namespace zbrozonoidEngineTests
             IHandleCollisionCommand command = new HandleBrickCollisionCommand(bricks, levelManagerMock.Object, null, manager, collisionState);
             command.Execute(ball);
 
-            Assert.AreEqual(2, bricksHit.Count);
+            Assert.AreEqual(2, collisionState.BricksHitList.Count);
             Assert.IsTrue(collisionState.CollisionWithBrick);
             Assert.IsTrue(collisionState.BounceFromBrick);
         }
-
-
-
-
     }
 }
