@@ -71,6 +71,7 @@
     <Compile Include="Views\Interfaces\IStopPlayView.cs" />
     <Compile Include="Views\InfoPanelView.cs" />
     <Compile Include="Views\Interfaces\IInfoPanelView.cs" />
+    <Compile Include="ViewScopeFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\zbrozonoidAssets\zbrozonoidAssets.csproj">

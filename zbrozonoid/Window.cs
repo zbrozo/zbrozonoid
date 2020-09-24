@@ -28,8 +28,6 @@ namespace zbrozonoid
 
     using zbrozonoid.Menu;
     using zbrozonoid.Views;
-    using zbrozonoid.Views.Interfaces;
-    using ManyMouseSharp;
 
     public class Window
     {
@@ -39,15 +37,20 @@ namespace zbrozonoid
 
         private readonly RenderWindow app;
 
-        private IContainer container;
+        private ILifetimeScope viewScope;
+        private ViewScopeFactory viewScopeFactory = new ViewScopeFactory();
 
         private ManyMouseDispatcher manyMouseDispatcher;
 
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
+        private readonly IMenuViewModel menuViewModel;
+        private readonly IGamePlayfieldView gamePlayfieldView;
+        private readonly IViewStateMachine viewStateMachine;
+
         public Window(IGame game)
         {
-            this.game = game;
+            this.game = game; // GAME ENGINE
 
             manyMouseDispatcher = new ManyMouseDispatcher(game.GameConfig.Mouses);
 
@@ -62,33 +65,13 @@ namespace zbrozonoid
             app.KeyPressed += OnKeyPressed;
             app.Resized += OnResized;
 
-            RegisterComponentsInContainer();
+            viewScope = viewScopeFactory.Create(app, game, InGameAction);
 
-            container.Resolve<IViewStateMachine>().Initialize(container);
-        }
+            menuViewModel = viewScope.Resolve<IMenuViewModel>();
+            gamePlayfieldView = viewScope.Resolve<IGamePlayfieldView>();
+            viewStateMachine = viewScope.Resolve<IViewStateMachine>();
 
-        private void RegisterComponentsInContainer()
-        {
-            var builder = new ContainerBuilder();
-            builder.RegisterInstance(app).As<RenderWindow>();
-            builder.RegisterInstance(game).As<IGame>();
-            builder.RegisterType<PrepareTextLine>().As<IPrepareTextLine>().SingleInstance();
-            builder.RegisterInstance(new MenuViewModel(game.GameConfig, CloseAction, InGameAction)).As<IMenuViewModel>().SingleInstance();
-            builder.RegisterType<MenuView>().As<IMenuView>().SingleInstance();
-            builder.RegisterType<RenderProxy>().As<IRenderProxy>().SingleInstance();
-            builder.RegisterType<ViewStateMachine>().As<IViewStateMachine>().SingleInstance();
-
-            builder.RegisterType<GameBeginView>().As<IGameBeginView>().SingleInstance();
-            builder.RegisterType<GameOverView>().As<IGameOverView>().SingleInstance(); 
-            builder.RegisterType<GamePlayView>().As<IGamePlayView>().SingleInstance();
-            builder.RegisterType<StartPlayView>().As<IStartPlayView>().SingleInstance(); 
-            builder.RegisterType<StopPlayView>().As<IStopPlayView>().SingleInstance();
-
-            builder.RegisterType<GamePlayfieldView>().As<IGamePlayfieldView>().SingleInstance();
-            builder.RegisterType<InfoPanelView>().As<IInfoPanelView>().SingleInstance();
-
-            container = builder.Build();
-
+            viewStateMachine.Initialize(viewScope);
         }
 
         private void OnKeyPressed(object sender, KeyEventArgs e)
@@ -96,35 +79,34 @@ namespace zbrozonoid
             if (e.Code == Keyboard.Key.Escape)
             {
                 game.GameState.Pause = true; 
-                container.Resolve<IViewStateMachine>().Transitions(game);
+                viewStateMachine.Transitions(game);
                 return;
             }
 
-
-            if (container.Resolve<IViewStateMachine>().IsStopState)
+            if (viewStateMachine.IsStopState)
             {
                 if (e.Code == Keyboard.Key.Y)
                 {
                     game.GameState.Lifes = -1;
-                    container.Resolve<IViewStateMachine>().Transitions(game);
+                    viewStateMachine.Transitions(game);
                     return;
                 }
 
                 if (e.Code == Keyboard.Key.N)
                 {
                     game.GameState.Pause = false;
-                    container.Resolve<IViewStateMachine>().Transitions(game);
+                    viewStateMachine.Transitions(game);
                     return;
                 }
 
             }
 
-            if (container.Resolve<IViewStateMachine>().IsPlayState)
+            if (viewStateMachine.IsPlayState)
             {
                 if (e.Code == Keyboard.Key.Backspace)
                 {
                     game.ForceChangeLevel = true;
-                    container.Resolve<IViewStateMachine>().Transitions(game);
+                    viewStateMachine.Transitions(game);
                     return;
                 }
             }
@@ -132,35 +114,35 @@ namespace zbrozonoid
 
         private void OnResized(object sender, SizeEventArgs e)
         {
-            // TODO
+            // TODO ?
         }
 
         private void OnMouseButtonPressed(object sender, MouseButtonEventArgs e)
         {
-            if (container.Resolve<IViewStateMachine>().IsMenuState)
+            if (viewStateMachine.IsMenuState)
             {
-                container.Resolve<IMenuViewModel>().ExecuteCommand();
+                menuViewModel.ExecuteCommand();
             }
             else
             {
-                container.Resolve<IViewStateMachine>().Transitions(game);
+                viewStateMachine.Transitions(game);
             }
         }
 
         public void OnChangeLevel(object sender, LevelEventArgs e)
         {
-            container.Resolve<IGamePlayfieldView>().PrepareBricksToDraw();
-            container.Resolve<IGamePlayfieldView>().PrepareBackground(e.Background);
+            gamePlayfieldView.PrepareBricksToDraw();
+            gamePlayfieldView.PrepareBackground(e.Background);
         }
 
         public void OnLostBalls(object sender, EventArgs args)
         {
-            container.Resolve<IViewStateMachine>().Transitions(game);
+            viewStateMachine.Transitions(game);
         }
 
         public void OnBrickHit(object sender, BrickHitEventArgs arg)
         {
-            container.Resolve<IGamePlayfieldView>().BrickHit(arg.Number);
+            gamePlayfieldView.BrickHit(arg.Number);
         }
 
         private void OnClose(object sender, EventArgs e)
@@ -194,9 +176,9 @@ namespace zbrozonoid
 
             game.SetPadMove(args.X, args.Device);
 
-            if (container.Resolve<IViewStateMachine>().IsMenuState)
+            if (viewStateMachine.IsMenuState)
             {
-                container.Resolve<IMenuViewModel>().Move(args.Y);
+                menuViewModel.Move(args.Y);
             }
         }
 
@@ -231,22 +213,16 @@ namespace zbrozonoid
                     game.Action();
                 }
 
-                container.Resolve<IViewStateMachine>().Action();
+                viewStateMachine.Action();
 
                 // Update the window
                 app.Display();
             }
         }
 
-        public void CloseAction()
-        {
-            app.Close();
-        }
-
         public void InGameAction()
         {
-            container.Resolve<IViewStateMachine>().Transitions(game);
+            viewStateMachine.Transitions(game);
         }
-
     }
 }

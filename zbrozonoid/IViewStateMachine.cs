@@ -1,12 +1,11 @@
-﻿using System;
-using Autofac;
+﻿using Autofac;
 using zbrozonoidEngine.Interfaces;
 
 namespace zbrozonoid.Views
 {
     public interface IViewStateMachine
     {
-        void Initialize(IContainer container);
+        void Initialize(ILifetimeScope scope);
 
         bool IsMenuState { get; }
         bool IsPlayState { get; }

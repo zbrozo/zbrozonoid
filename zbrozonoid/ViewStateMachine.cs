@@ -29,7 +29,7 @@ namespace zbrozonoid
         private IGame game;
 
         private IView currentState;
-        private IContainer container;
+        private ILifetimeScope scope;
 
         public bool IsMenuState => currentState is IGameBeginView;
         public bool IsPlayState => currentState is IGamePlayView;
@@ -40,10 +40,10 @@ namespace zbrozonoid
             this.game = game;
         }
 
-        public void Initialize(IContainer container)
+        public void Initialize(ILifetimeScope scope)
         {
-            this.container = container;
-            currentState = container.Resolve<IGameBeginView>();
+            this.scope = scope;
+            currentState = scope.Resolve<IGameBeginView>();
         }
 
         public void Action()
@@ -56,7 +56,7 @@ namespace zbrozonoid
             if (currentState is IGameBeginView)
             {
                 Logger.Info("State: Begin -> PlayGame");
-                currentState = container.Resolve<IGamePlayView>();
+                currentState = scope.Resolve<IGamePlayView>();
                 game.StartPlay();
                 return;
             }
@@ -66,7 +66,7 @@ namespace zbrozonoid
                 && !game.GameState.Pause)
             {
                 Logger.Info("State: PlayGame -> GameOver");
-                currentState = container.Resolve<IGameOverView>();
+                currentState = scope.Resolve<IGameOverView>();
                 return;
             }
 
@@ -76,7 +76,7 @@ namespace zbrozonoid
             {
                 Logger.Info("State: PlayGame -> GameOver");
 
-                currentState = container.Resolve<IStartPlayView>();
+                currentState = scope.Resolve<IStartPlayView>();
                 return;
             }
 
@@ -85,7 +85,7 @@ namespace zbrozonoid
             {
                 Logger.Info("State: PlayGame -> StopPlay");
 
-                currentState = container.Resolve<IStopPlayView>();
+                currentState = scope.Resolve<IStopPlayView>();
                 return;
             }
 
@@ -95,7 +95,7 @@ namespace zbrozonoid
             {
                 Logger.Info("State: StopPlay -> GameOver");
 
-                currentState = container.Resolve<IGameOverView>(); 
+                currentState = scope.Resolve<IGameOverView>(); 
                 return;
             }
 
@@ -104,7 +104,7 @@ namespace zbrozonoid
             {
                 Logger.Info("State: StopPlay -> GamePlay");
 
-                currentState = container.Resolve<IGamePlayView>();
+                currentState = scope.Resolve<IGamePlayView>();
                 return;
             }
 
@@ -112,7 +112,7 @@ namespace zbrozonoid
             {
                 Logger.Info("State: StartPlay -> GamePlay");
 
-                currentState = container.Resolve<IGamePlayView>();
+                currentState = scope.Resolve<IGamePlayView>();
                 game.StartPlay();
                 return;
             }
@@ -123,7 +123,7 @@ namespace zbrozonoid
 
                 game.GameIsOver();
 
-                currentState = container.Resolve<IGameBeginView>();
+                currentState = scope.Resolve<IGameBeginView>();
                 return;
             }
         }
