@@ -28,26 +28,17 @@ namespace zbrozonoidEngine
         public void CreateBalls()
         {
             ballManager.Clear();
+            tailManager.Clear();
 
             var padIterator = padManager.GetEnumerator();
             for (int i = 0; i < gameConfig.Players && i < gameConfig.Mouses; ++i)
             {
                 padIterator.MoveNext();
-                ballManager.Add(CreateBall(), padIterator.Current.Item3);
+
+                IPad pad = padIterator.Current.Item3;
+                CreateBall(pad);
             }
         }
-
-        public void InitBalls()
-        {
-            tailManager.Clear();
-
-            foreach (var ball in ballManager)
-            {
-                IPad pad = ballManager.GetPadAssignedToBall(ball);
-                padManager.SetBallStartPosition(pad, ball);
-            }
-        }
-
 
         public void CreateBall(IPad pad)
         {

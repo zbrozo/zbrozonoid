@@ -103,7 +103,7 @@ namespace zbrozonoidEngine
 
         public void Action()
         {
-            foreach (IBall ball in ballManager.ToList())
+            foreach (IBall ball in ballManager.ToArray())
             {
                 int speed = ball.Speed;
                 for (int i = 0; i < speed; ++i)
@@ -225,7 +225,6 @@ namespace zbrozonoidEngine
             else
             {
                 ballFactory.CreateBalls();
-                ballFactory.InitBalls();
             }
 
             ballStateMachine.GoIntoPlay();
@@ -251,7 +250,6 @@ namespace zbrozonoidEngine
             }
 
             ballFactory.CreateBalls();
-            ballFactory.InitBalls();
         }
 
         private void CreateLevelMap(bool restartLevel)
