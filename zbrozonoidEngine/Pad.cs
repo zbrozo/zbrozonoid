@@ -45,6 +45,12 @@ namespace zbrozonoidEngine
             height = Boundary.Size.Y;
         }
 
+        public void GetPosition(out int posx, out int posy)
+        {
+            posx = Boundary.Min.X;
+            posy = Boundary.Min.Y;
+        }
+
         public void LogData()
         {
             Logger.Info(

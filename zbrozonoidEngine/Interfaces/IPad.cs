@@ -22,6 +22,7 @@ namespace zbrozonoidEngine.Interfaces
 
         void SetSize(int width, int height);
         void GetSize(out int width, out int height);
+        void GetPosition(out int posx, out int posy);
         void LogData();
     }
 }

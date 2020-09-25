@@ -41,10 +41,6 @@ namespace zbrozonoidEngine.Interfaces
 
         void GetScreenSize(out int width, out int height);
 
-        void GetPadPosition(IPad pad, out int posx, out int posy);
-
-        void GetPadSize(IPad pad, out int width, out int height);
-
         void Action();
 
         void SetPadMove(int delta, uint manipulator);

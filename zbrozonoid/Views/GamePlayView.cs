@@ -12,7 +12,6 @@ namespace zbrozonoid.Views
         private IRenderProxy render;
         private IView playfieldView;
         private IView infoView;
-        private IGame game;
         private readonly IPadManager padManager;
         private readonly IBallManager ballManager;
         private readonly ITailManager tailManager;
@@ -20,7 +19,6 @@ namespace zbrozonoid.Views
         public GamePlayView(IRenderProxy render,
                             IGamePlayfieldView playfieldView,
                             IInfoPanelView infoView,
-                            IGame game,
                             IPadManager padManager,
                             IBallManager ballManager,
                             ITailManager tailManager
@@ -29,7 +27,6 @@ namespace zbrozonoid.Views
             this.render = render;
             this.playfieldView = playfieldView;
             this.infoView = infoView;
-            this.game = game;
             this.padManager = padManager;
             this.ballManager = ballManager;
             this.tailManager = tailManager;
@@ -55,9 +52,8 @@ namespace zbrozonoid.Views
             {
                 IPad pad = value.Item3;
 
-                game.GetPadPosition(pad, out int posX, out int posY);
-
-                game.GetPadSize(pad, out int width, out int height);
+                pad.GetPosition(out int posX, out int posY);
+                pad.GetSize(out int width, out int height);
 
                 VertexArray rect = new VertexArray(PrimitiveType.Quads, 4);
                 rect.Append(new Vertex(new Vector2f(posX, posY), Color.White));

@@ -99,18 +99,6 @@ namespace zbrozonoidEngine
             height = ScreenHeight;
         }
 
-        public void GetPadPosition(IPad pad, out int posx, out int posy)
-        {
-            posx = pad.Boundary.Min.X;
-            posy = pad.Boundary.Min.Y;
-            //Logger.Info($"Pad position {posx}, {posy}");
-        }
-
-        public void GetPadSize(IPad pad, out int width, out int height)
-        {
-            pad.GetSize(out width, out height);
-        }
-
         public void Action()
         {
             foreach (IBall ball in ballManager.ToList())
