@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Autofac;
 using SFML.Graphics;
 using zbrozonoid.Menu;
@@ -35,7 +36,11 @@ namespace zbrozonoid
                 builder.RegisterType<StartPlayView>().As<IStartPlayView>().SingleInstance();
                 builder.RegisterType<StopPlayView>().As<IStopPlayView>().SingleInstance();
 
-                builder.RegisterType<GamePlayfieldView>().As<IGamePlayfieldView>().SingleInstance();
+                builder.RegisterType<GamePlayfieldView>()
+                    .As<IGamePlayfieldView>()
+                    .WithParameter(new TypedParameter(typeof(ICollection<IBrick>), game.Bricks))
+                    .SingleInstance();
+
                 builder.RegisterType<InfoPanelView>().As<IInfoPanelView>().SingleInstance();
 
             });

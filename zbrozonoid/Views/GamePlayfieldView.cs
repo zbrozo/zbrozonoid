@@ -15,7 +15,6 @@ namespace zbrozonoid.Views
 {
     public class GamePlayfieldView : IGamePlayfieldView
     {
-        private IGame game;
         private IRenderProxy render;
         private IBorderManager borderManager;
 
@@ -24,18 +23,19 @@ namespace zbrozonoid.Views
 
         private readonly GamePlayfieldModel model = new GamePlayfieldModel();
 
-        public List<Brick> Bricks { get; } = new List<Brick>();
+        private List<Brick> ViewBricks { get; } = new List<Brick>();
+        private readonly ICollection<IBrick> bricks;
 
         private static readonly NLog.Logger Logger = LogManager.GetCurrentClassLogger();
 
         public GamePlayfieldView(
             IRenderProxy render, 
-            IGame game,
+            ICollection<IBrick> bricks,
             IBorderManager borderManager
             )
         {
             this.render = render;
-            this.game = game;
+            this.bricks = bricks;
             this.borderManager = borderManager;
         }
 
@@ -48,7 +48,7 @@ namespace zbrozonoid.Views
 
         public void BrickHit(int number)
         {
-            Bricks[number].IsVisible = false;
+            ViewBricks[number].IsVisible = false;
         }
 
         public void DrawBackground(Sprite background)
@@ -58,7 +58,7 @@ namespace zbrozonoid.Views
 
         private void DrawBricks()
         {
-            foreach (var brick in Bricks.Where(x => x.IsVisible))
+            foreach (var brick in ViewBricks.Where(x => x.IsVisible))
             {
                 render.Draw(brick.Rect);
             }
@@ -79,9 +79,7 @@ namespace zbrozonoid.Views
 
         public void PrepareBricksToDraw()
         {
-            Bricks.Clear();
-
-            List<IBrick> bricks = game.Bricks;
+            ViewBricks.Clear();
             foreach (IBrick brick in bricks)
             {
                 if (model.colors.TryGetValue((int)brick.ColorNumber, out Color color))
@@ -93,7 +91,7 @@ namespace zbrozonoid.Views
 
                     Brick brickToDraw = new Brick(rectangle);
                     brickToDraw.IsVisible = brick.Type > 0;
-                    Bricks.Add(brickToDraw);
+                    ViewBricks.Add(brickToDraw);
                 }
             }
         }
