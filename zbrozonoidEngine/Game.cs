@@ -41,7 +41,6 @@ namespace zbrozonoidEngine
         private readonly BallStateMachine ballStateMachine;
 
         public List<IBrick> Bricks { get; private set; } = new List<IBrick>(); 
-        public string BackgroundPath => ManagerScope.Resolve<ILevelManager>()?.GetCurrent()?.BackgroundPath;
 
         public IGameState GameState { get; } = new GameState();
         public IGameConfig GameConfig { get; } = new GameConfig();
@@ -51,6 +50,8 @@ namespace zbrozonoidEngine
 
         public bool ForceChangeLevel { get; set; }
 
+
+
         private ILevelManager levelManager;
         private IBallManager ballManager;
         private IPadManager padManager;
@@ -58,6 +59,8 @@ namespace zbrozonoidEngine
         private IBorderManager borderManager;
         private ICollisionManager collisionManager;
         private IScreenCollisionManager screenCollisionManager;
+
+
 
 
         public Game(int number)
@@ -88,12 +91,6 @@ namespace zbrozonoidEngine
         public void Initialize()
         {
             InitializeLevel(true);
-        }
-
-        public void SetScreenSize(int width, int height)
-        {
-            screen.Width = width;
-            screen.Height = height;
         }
 
         public void GetScreenSize(out int width, out int height)

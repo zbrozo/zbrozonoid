@@ -37,11 +37,7 @@ namespace zbrozonoidEngine.Interfaces
 
         List<IBrick> Bricks { get; }
 
-        string BackgroundPath { get; }
-
         void Initialize();
-
-        void SetScreenSize(int width, int height);
 
         void GetScreenSize(out int width, out int height);
 
