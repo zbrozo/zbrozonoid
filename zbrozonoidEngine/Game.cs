@@ -39,15 +39,15 @@ namespace zbrozonoidEngine
         private readonly IScreen screen;
 
         private readonly BallStateMachine ballStateMachine;
-        private readonly IGameState gameState;
 
         public List<IBrick> Bricks { get; private set; } = new List<IBrick>(); 
         public string BackgroundPath => ManagerScope.Resolve<ILevelManager>()?.GetCurrent()?.BackgroundPath;
-        public IGameState GameState => gameState;
-        public IGameConfig GameConfig { get; set; } = new GameConfig();
+
+        public IGameState GameState { get; } = new GameState();
+        public IGameConfig GameConfig { get; } = new GameConfig();
 
         private readonly ManagerScopeFactory managerScopeFactory = new ManagerScopeFactory();
-        public ILifetimeScope ManagerScope { get; set; }
+        public ILifetimeScope ManagerScope { get; private set; }
 
         public bool ForceChangeLevel { get; set; }
 
@@ -80,16 +80,6 @@ namespace zbrozonoidEngine
             collisionManager = ManagerScope.Resolve<ICollisionManager>();
             screenCollisionManager = ManagerScope.Resolve<IScreenCollisionManager>();
 
-            //levelManager = new LevelManager();
-            //collisionManager = new CollisionManager();
-            //screenCollisionManager = new ScreenCollisionManager(screen);
-            //tailManager = new TailManager();
-            //ballManager = new BallManager();
-            //borderManager = new BorderManager();
-            //padManager = new PadManager(screen);
-
-
-            gameState = new GameState();
             ballStateMachine = new BallStateMachine(ManagerScope, Bricks, SavePosition, HandleBrickCollision, LostBalls);
            
             OnLostBallsEvent += OnLostBalls;
@@ -165,7 +155,7 @@ namespace zbrozonoidEngine
                 OnBrickHit?.Invoke(this, brickHitArgs);
 
                 --levelManager.GetCurrent().BeatableBricksNumber;
-                gameState.Scores++;
+                GameState.Scores++;
 
                 ExecuteAdditionalEffect(currentBall, type);
             }
@@ -242,12 +232,12 @@ namespace zbrozonoidEngine
                 return;
             }
 
-            gameState.Pause = false;
+            GameState.Pause = false;
 
-            if (gameState.Lifes < 0)
+            if (GameState.Lifes < 0)
             {
-                gameState.Lifes = 3;
-                gameState.Scores = 0;
+                GameState.Lifes = 3;
+                GameState.Scores = 0;
 
                 InitializeLevel(true);
             } 

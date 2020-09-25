@@ -26,14 +26,14 @@ namespace zbrozonoidEngine.Interfaces
         event EventHandler<BrickHitEventArgs> OnBrickHit;
         event EventHandler<EventArgs> OnLostBallsEvent;
 
-        ILifetimeScope ManagerScope { get; set;  }
+        ILifetimeScope ManagerScope { get; }
 
         bool ForceChangeLevel { get; set; }
 
         void OnLostBalls(object sender, EventArgs args);
 
         IGameState GameState { get; }
-        IGameConfig GameConfig { get; set; }
+        IGameConfig GameConfig { get; }
 
         List<IBrick> Bricks { get; }
 
