@@ -122,6 +122,7 @@
     <Compile Include="States\BallCollisionResult.cs" />
     <Compile Include="BrickExtenstions.cs" />
     <Compile Include="ManagerScopeFactory.cs" />
+    <Compile Include="BallFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

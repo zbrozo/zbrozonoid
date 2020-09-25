@@ -55,9 +55,6 @@ namespace zbrozonoidEngine.Interfaces
 
         void SavePosition(IBall ball);
 
-        void InitBalls();
-
         void GameIsOver();
-
     }
 }

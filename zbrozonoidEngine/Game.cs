@@ -50,7 +50,7 @@ namespace zbrozonoidEngine
 
         public bool ForceChangeLevel { get; set; }
 
-
+        private BallFactory ballFactory;
 
         private ILevelManager levelManager;
         private IBallManager ballManager;
@@ -84,7 +84,9 @@ namespace zbrozonoidEngine
             screenCollisionManager = ManagerScope.Resolve<IScreenCollisionManager>();
 
             ballStateMachine = new BallStateMachine(ManagerScope, Bricks, SavePosition, HandleBrickCollision, LostBalls);
-           
+
+            ballFactory = new BallFactory(ballManager, tailManager, padManager, GameConfig, BallSpeedTimerHandler);
+
             OnLostBallsEvent += OnLostBalls;
         }
 
@@ -168,14 +170,8 @@ namespace zbrozonoidEngine
                 case BrickType.ThreeBalls:
                     {
                         IPad pad = ballManager.GetPadAssignedToBall(currentBall);
-
-                        IBall ball1 = CreateBallFactory();
-                        padManager.SetBallStartPosition(pad, ball1);
-                        ballManager.Add(ball1, pad);
-
-                        IBall ball2 = CreateBallFactory();
-                        padManager.SetBallStartPosition(pad, ball2);
-                        ballManager.Add(ball2, pad);
+                        ballFactory.CreateBall(pad);
+                        ballFactory.CreateBall(pad);
                         break;
                     }
                 case BrickType.DestroyerBall:
@@ -228,8 +224,8 @@ namespace zbrozonoidEngine
             } 
             else
             {
-                CreateBalls();
-                InitBalls();
+                ballFactory.CreateBalls();
+                ballFactory.InitBalls();
             }
 
             ballStateMachine.GoIntoPlay();
@@ -254,8 +250,8 @@ namespace zbrozonoidEngine
                 VerifyBorderCollision(pad.Item3);
             }
 
-            CreateBalls();
-            InitBalls();
+            ballFactory.CreateBalls();
+            ballFactory.InitBalls();
         }
 
         private void CreateLevelMap(bool restartLevel)
@@ -272,28 +268,6 @@ namespace zbrozonoidEngine
 
             Bricks.Clear();
             Bricks.AddRange(levelManager.GetCurrent().Bricks);
-        }
-
-        private void CreateBalls()
-        {
-            ballManager.Clear();
-            var padIterator = padManager.GetEnumerator();
-            for (int i = 0; i < GameConfig.Players && i < GameConfig.Mouses; ++i)
-            {
-                padIterator.MoveNext();
-                ballManager.Add(CreateBallFactory(), padIterator.Current.Item3 );
-            }
-        }
-
-        public void InitBalls()
-        {
-            tailManager.Clear();
-
-            foreach (var ball in ballManager)
-            {
-                IPad pad = ballManager.GetPadAssignedToBall(ball);
-                padManager.SetBallStartPosition(pad, ball);
-            }
         }
 
         public bool IsBallDestroyer(IBall ball)
@@ -328,22 +302,6 @@ namespace zbrozonoidEngine
         {
             GameState.Pause = false;
             ballStateMachine.GoIntoIdle();
-        }
-
-        public IBall CreateBallFactory()
-        {
-            const int defaultDegree = 45;
-            var defaultDirection = new Vector2(1, 1);
-            var defaultOffset = new Vector2(0, 0);
-            IBall ball = new Ball(new RandomGenerator(),
-                                  new LinearMovement(0, defaultDegree, defaultOffset, defaultDirection)
-                            )
-            {
-                BallSpeedTimerCallback = BallSpeedTimerHandler
-            };
-
-            ball.SetSize(15, 15);
-            return ball;
         }
 
         public void BallSpeedTimerHandler(IBall ball, int value)
