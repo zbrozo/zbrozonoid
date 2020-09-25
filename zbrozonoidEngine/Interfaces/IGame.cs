@@ -18,6 +18,7 @@ namespace zbrozonoidEngine.Interfaces
 {
     using System;
     using System.Collections.Generic;
+    using Autofac;
 
     public interface IGame
     {
@@ -25,22 +26,14 @@ namespace zbrozonoidEngine.Interfaces
         event EventHandler<BrickHitEventArgs> OnBrickHit;
         event EventHandler<EventArgs> OnLostBallsEvent;
 
+        ILifetimeScope ManagerScope { get; set;  }
+
         bool ForceChangeLevel { get; set; }
 
         void OnLostBalls(object sender, EventArgs args);
 
-        int PadCurrentSpeed { get; }
-
         IGameState GameState { get; }
         IGameConfig GameConfig { get; set; }
-
-        ILevelManager LevelManager { get; }
-        ICollisionManager CollisionManager { get; }
-        ITailManager TailManager { get; }
-        IBorderManager BorderManager { get; }
-        IBallManager BallManager { get; }
-        IPadManager PadManager { get; }
-        IScreenCollisionManager ScreenCollisionManager { get; }
 
         List<IBrick> Bricks { get; }
 

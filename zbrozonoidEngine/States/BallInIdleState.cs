@@ -1,17 +1,16 @@
-﻿using zbrozonoidEngine.Interfaces;
+﻿using Autofac;
+using zbrozonoidEngine.Interfaces;
 using zbrozonoidEngine.Interfaces.States;
 
 namespace zbrozonoidEngine.States
 {
     public class BallInIdleState : IBallState
     {
-        private readonly IGame game;
         private readonly IPadManager padManager; 
 
-        public BallInIdleState(IGame game)
+        public BallInIdleState(ILifetimeScope scope)
         {
-            this.game = game;
-            this.padManager = game.PadManager;
+            this.padManager = scope.Resolve<IPadManager>();
         }
 
         public bool action(IBall ball)

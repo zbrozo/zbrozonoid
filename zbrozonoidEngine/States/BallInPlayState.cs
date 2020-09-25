@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Autofac;
 using zbrozonoidEngine.Interfaces;
 using zbrozonoidEngine.Interfaces.States;
 using zbrozonoidEngine.States.BallInPlayCommands;
@@ -8,7 +9,14 @@ namespace zbrozonoidEngine.States
 {
     public class BallInPlayState : IBallState
     {
-        private static IGame gameMain;
+        private ICollection<IBrick> bricks;
+
+        private Action<IBall> savePosition;
+        private Action<IBall, List<int>> handleBrickCollision;
+        private Action lostBalls;
+
+        private ILifetimeScope managerScope;
+
         private static BallCollisionState collisionState = new BallCollisionState();
 
         private readonly IHandleCollisionCommand handleScreenCollisionCommand;
@@ -18,19 +26,39 @@ namespace zbrozonoidEngine.States
 
         private readonly List<IHandleCollisionCommand> collisionCommands;
 
-        public BallInPlayState(IGame game)
+        public BallInPlayState(
+            ILifetimeScope scope, 
+            ICollection<IBrick> bricks, 
+            Action<IBall> savePosition,
+            Action<IBall, List<int>> handleBrickCollision,
+            Action lostBalls)
         {
-            gameMain = game;
+            this.bricks = bricks;
+            this.savePosition = savePosition;
+            this.handleBrickCollision = handleBrickCollision;
+            this.lostBalls = lostBalls;
 
-            handleScreenCollisionCommand = new HandleScreenCollisionCommand(game.ScreenCollisionManager, collisionState);
-            handleBorderCollisionCommand = new HandleBorderCollisionCommand(game.BorderManager, game.CollisionManager, collisionState);
-            handlePadCollisionCommand = new HandlePadCollisionCommand(game, collisionState);
-            handleBrickCollisionCommand = new HandleBrickCollisionCommand(  game.Bricks,
-                                                                            game.LevelManager,
-                                                                            game.TailManager,
-                                                                            game.CollisionManager,
-                                                                            collisionState
-                                                                            );
+            managerScope = scope;
+
+            handleScreenCollisionCommand = new HandleScreenCollisionCommand(
+                scope.Resolve<IScreenCollisionManager>(), 
+                collisionState);
+            handleBorderCollisionCommand = new HandleBorderCollisionCommand(
+                scope.Resolve<IBorderManager>(), 
+                scope.Resolve<ICollisionManager>(), 
+                collisionState);
+            handlePadCollisionCommand = new HandlePadCollisionCommand(
+                scope.Resolve<IPadManager>(),
+                scope.Resolve<IBorderManager>(),
+                scope.Resolve<IScreenCollisionManager>(),
+                scope.Resolve<ICollisionManager>(), 
+                collisionState);
+            handleBrickCollisionCommand = new HandleBrickCollisionCommand(  
+                bricks,
+                scope.Resolve<ILevelManager>(),
+                scope.Resolve<ITailManager>(),
+                scope.Resolve<ICollisionManager>(),
+                collisionState);
 
             collisionCommands = new List<IHandleCollisionCommand>() { 
                 handleScreenCollisionCommand,
@@ -59,7 +87,7 @@ namespace zbrozonoidEngine.States
             PadBounceHandler(ball);
             ScreenCollisionHandler(ball);
 
-            gameMain.SavePosition(ball);
+            savePosition(ball);
             return true;
         }
 
@@ -67,7 +95,7 @@ namespace zbrozonoidEngine.States
         {
             if (collisionState.CollisionWithBrick)
             {
-                gameMain.HandleBrickCollision(ball, collisionState.BricksHitList);
+                handleBrickCollision(ball, collisionState.BricksHitList);
             }
         }
 
@@ -78,8 +106,8 @@ namespace zbrozonoidEngine.States
                 !collisionState.BounceFromBorder
                 )
             {
-                var bricks = gameMain.Bricks.FilterByIndex(collisionState.BricksHitList);
-                gameMain.CollisionManager.Bounce(bricks, bricks[0], ball);
+                var bricks = this.bricks.FilterByIndex(collisionState.BricksHitList);
+                managerScope.Resolve<ICollisionManager>().Bounce(bricks, bricks[0], ball);
             }
         }
 
@@ -90,8 +118,8 @@ namespace zbrozonoidEngine.States
                 collisionState.BounceFromBorder
                 )
             {
-                var bricks = gameMain.Bricks.FilterByIndex(collisionState.BricksHitList);
-                gameMain.CollisionManager.Bounce(bricks, bricks[0], ball);
+                var bricks = this.bricks.FilterByIndex(collisionState.BricksHitList);
+                managerScope.Resolve<ICollisionManager>().Bounce(bricks, bricks[0], ball);
             }
         }
 
@@ -102,7 +130,7 @@ namespace zbrozonoidEngine.States
                 collisionState.BounceFromBorder
                 )
             {
-                gameMain.CollisionManager.Bounce(collisionState.BordersHitList, collisionState.BordersHitList[0], ball);
+                managerScope.Resolve<ICollisionManager>().Bounce(collisionState.BordersHitList, collisionState.BordersHitList[0], ball);
             }
         }
 
@@ -110,7 +138,7 @@ namespace zbrozonoidEngine.States
         {
             if (collisionState.BounceFromPad)
             {
-                gameMain.CollisionManager.Bounce(collisionState.Pad, ball);
+                managerScope.Resolve<ICollisionManager>().Bounce(collisionState.Pad, ball);
             }
         }
 
@@ -118,10 +146,10 @@ namespace zbrozonoidEngine.States
         {
             if (collisionState.CollisionWithScreen)
             {
-                gameMain.BallManager.Remove(ball);
-                if (gameMain.BallManager.Count == 0)
+                managerScope.Resolve<IBallManager>().Remove(ball);
+                if (managerScope.Resolve<IBallManager>().Count == 0)
                 {
-                    gameMain.LostBalls();
+                    lostBalls();
                 }
             }
         }

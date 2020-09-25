@@ -18,6 +18,8 @@ namespace zbrozonoidEngine.Interfaces
 {
     public interface IPad : IBoundary
     {
+        int Speed { get; set; }
+
         void SetSize(int width, int height);
         void GetSize(out int width, out int height);
         void LogData();

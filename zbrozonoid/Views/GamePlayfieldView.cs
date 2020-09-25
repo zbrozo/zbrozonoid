@@ -9,6 +9,7 @@ using SFML.System;
 using zbrozonoidEngine.Interfaces;
 using zbrozonoid.Models;
 using NLog;
+using Autofac;
 
 namespace zbrozonoid.Views
 {
@@ -16,6 +17,7 @@ namespace zbrozonoid.Views
     {
         private IGame game;
         private IRenderProxy render;
+        private IBorderManager borderManager;
 
         private Image backgroundImage;
         public Sprite Background { get; set; }
@@ -26,10 +28,15 @@ namespace zbrozonoid.Views
 
         private static readonly NLog.Logger Logger = LogManager.GetCurrentClassLogger();
 
-        public GamePlayfieldView(IRenderProxy render, IGame game)
+        public GamePlayfieldView(
+            IRenderProxy render, 
+            IGame game,
+            IBorderManager borderManager
+            )
         {
             this.render = render;
             this.game = game;
+            this.borderManager = borderManager;
         }
 
         public void Display()
@@ -59,8 +66,6 @@ namespace zbrozonoid.Views
 
         public void DrawBorders()
         {
-            var borderManager = game.BorderManager;
-
             foreach (IBorder border in borderManager)
             {
                 RectangleShape rectangle = new RectangleShape();

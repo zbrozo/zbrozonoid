@@ -1,4 +1,5 @@
-﻿using SFML.Graphics;
+﻿using Autofac;
+using SFML.Graphics;
 using SFML.System;
 using zbrozonoid.Views.Interfaces;
 using zbrozonoidEngine;
@@ -12,16 +13,26 @@ namespace zbrozonoid.Views
         private IView playfieldView;
         private IView infoView;
         private IGame game;
+        private readonly IPadManager padManager;
+        private readonly IBallManager ballManager;
+        private readonly ITailManager tailManager;
 
         public GamePlayView(IRenderProxy render,
                             IGamePlayfieldView playfieldView,
                             IInfoPanelView infoView,
-                            IGame game)
+                            IGame game,
+                            IPadManager padManager,
+                            IBallManager ballManager,
+                            ITailManager tailManager
+                            )
         {
             this.render = render;
             this.playfieldView = playfieldView;
             this.infoView = infoView;
             this.game = game;
+            this.padManager = padManager;
+            this.ballManager = ballManager;
+            this.tailManager = tailManager;
         }
 
         public void Display()
@@ -40,7 +51,7 @@ namespace zbrozonoid.Views
 
         public void DrawPad()
         {
-            foreach (var value in game.PadManager)
+            foreach (var value in padManager)
             {
                 IPad pad = value.Item3;
 
@@ -59,7 +70,6 @@ namespace zbrozonoid.Views
 
         public void DrawBall()
         {
-            var ballManager = game.BallManager;
             foreach (IBall ball in ballManager)
             {
                 ball.GetPosition(out int posX, out int posY);
@@ -78,7 +88,7 @@ namespace zbrozonoid.Views
 
         private void DrawTail(IBall ball)
         {
-            ITail tail = game.TailManager.Find(ball);
+            ITail tail = tailManager.Find(ball);
             if (tail != null)
             {
                 int i = 0;

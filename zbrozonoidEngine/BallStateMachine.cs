@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using Autofac;
 using zbrozonoidEngine.Interfaces;
 using zbrozonoidEngine.Interfaces.States;
 using zbrozonoidEngine.States;
@@ -13,10 +15,15 @@ namespace zbrozonoidEngine
 
         IBallState currentState;
 
-        public BallStateMachine(IGame game)
+        public BallStateMachine(
+            ILifetimeScope scope, 
+            ICollection<IBrick> bricks,
+            Action<IBall> savePosition,
+            Action<IBall, List<int>> handleBrickCollision,
+            Action lostBalls)
         {
-            ballInPlayState = new BallInPlayState(game);
-            ballInIdleState = new BallInIdleState(game);
+            ballInPlayState = new BallInPlayState(scope, bricks, savePosition, handleBrickCollision, lostBalls);
+            ballInIdleState = new BallInIdleState(scope);
 
             currentState = ballInIdleState;
         }

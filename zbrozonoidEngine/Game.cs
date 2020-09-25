@@ -19,6 +19,7 @@ namespace zbrozonoidEngine
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Autofac;
     using NLog;
     using zbrozonoidEngine.Interfaces;
     using zbrozonoidEngine.Managers;
@@ -37,38 +38,27 @@ namespace zbrozonoidEngine
 
         private readonly IScreen screen;
 
-        private readonly ILevelManager levelManager;
-
-        private readonly ICollisionManager collisionManager;
-
-        private readonly IBallManager ballManager;
-
-        private readonly IBorderManager borderManager;
-
-        private readonly IScreenCollisionManager screenCollisionManager;
-
-        private readonly ITailManager tailManager;
-
-        private readonly IPadManager padManager;
-
         private readonly BallStateMachine ballStateMachine;
         private readonly IGameState gameState;
 
-        public ILevelManager LevelManager => levelManager;
-        public ICollisionManager CollisionManager => collisionManager;
-        public IScreenCollisionManager ScreenCollisionManager => screenCollisionManager;
-        public ITailManager TailManager => tailManager;
-        public IBorderManager BorderManager => borderManager;
-        public IBallManager BallManager => ballManager;
-        public IPadManager PadManager => padManager;
         public List<IBrick> Bricks { get; private set; } = new List<IBrick>(); 
-        public string BackgroundPath => levelManager?.GetCurrent()?.BackgroundPath;
+        public string BackgroundPath => ManagerScope.Resolve<ILevelManager>()?.GetCurrent()?.BackgroundPath;
         public IGameState GameState => gameState;
         public IGameConfig GameConfig { get; set; } = new GameConfig();
 
-        public int PadCurrentSpeed { get; private set; }
+        private readonly ManagerScopeFactory managerScopeFactory = new ManagerScopeFactory();
+        public ILifetimeScope ManagerScope { get; set; }
 
         public bool ForceChangeLevel { get; set; }
+
+        private ILevelManager levelManager;
+        private IBallManager ballManager;
+        private IPadManager padManager;
+        private ITailManager tailManager;
+        private IBorderManager borderManager;
+        private ICollisionManager collisionManager;
+        private IScreenCollisionManager screenCollisionManager;
+
 
         public Game(int number)
         {
@@ -80,15 +70,27 @@ namespace zbrozonoidEngine
                              Height = ScreenHeight
                          };
 
-            levelManager = new LevelManager();
-            collisionManager = new CollisionManager();
-            screenCollisionManager = new ScreenCollisionManager(screen);
-            tailManager = new TailManager();
-            ballManager = new BallManager();
-            borderManager = new BorderManager();
-            padManager = new PadManager(screen);
+            ManagerScope = managerScopeFactory.Create(screen);
+
+            levelManager = ManagerScope.Resolve<ILevelManager>();
+            ballManager = ManagerScope.Resolve<IBallManager>();
+            padManager = ManagerScope.Resolve<IPadManager>();
+            tailManager = ManagerScope.Resolve<ITailManager>();
+            borderManager = ManagerScope.Resolve<IBorderManager>();
+            collisionManager = ManagerScope.Resolve<ICollisionManager>();
+            screenCollisionManager = ManagerScope.Resolve<IScreenCollisionManager>();
+
+            //levelManager = new LevelManager();
+            //collisionManager = new CollisionManager();
+            //screenCollisionManager = new ScreenCollisionManager(screen);
+            //tailManager = new TailManager();
+            //ballManager = new BallManager();
+            //borderManager = new BorderManager();
+            //padManager = new PadManager(screen);
+
+
             gameState = new GameState();
-            ballStateMachine = new BallStateMachine(this);
+            ballStateMachine = new BallStateMachine(ManagerScope, Bricks, SavePosition, HandleBrickCollision, LostBalls);
            
             OnLostBallsEvent += OnLostBalls;
         }
@@ -219,13 +221,14 @@ namespace zbrozonoidEngine
 
         public void SetPadMove(int delta, uint manipulator)
         {
-            PadCurrentSpeed = delta;
 
             foreach (var value in padManager.Where(x => x.Item2 == manipulator))
             {
                 IPad pad = value.Item3;
 
-                pad.Boundary.Min = new Vector2(pad.Boundary.Min.X + PadCurrentSpeed, pad.Boundary.Min.Y);
+                pad.Speed = delta;
+
+                pad.Boundary.Min = new Vector2(pad.Boundary.Min.X + pad.Speed, pad.Boundary.Min.Y);
 
                 screenCollisionManager.DetectAndVerify(pad);
                 VerifyBorderCollision(pad);
@@ -383,7 +386,7 @@ namespace zbrozonoidEngine
         {
             if (value <= 0)
             {
-                if (TailManager.Remove(tail))
+                if (tailManager.Remove(tail))
                 {
                     GameState.FireBallCountdown.Remove(tail);
                 }

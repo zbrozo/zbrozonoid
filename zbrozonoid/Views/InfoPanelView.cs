@@ -73,11 +73,7 @@ namespace zbrozonoid.Views
 
         private Text PrepareFasterBallMessage()
         {
-            int value = 0;
-            foreach (var counter in game.GameState.FasterBallCountdown.Where(x => x.Value > value))
-            {
-                value = counter.Value;
-            }
+            int value = game.GameState.FasterBallCountdown.Any() ? game.GameState.FasterBallCountdown.Max(x => x.Value) : 0;
 
             const uint charSize = 20;
             return render.PrepareTextLine($"FasterBall: {value}", 0, false, true, 800, 20, charSize);
@@ -85,11 +81,7 @@ namespace zbrozonoid.Views
 
         private Text PrepareFireBallMessage()
         {
-            int value = 0;
-            foreach (var counter in game.GameState.FireBallCountdown.Where(x => x.Value > value))
-            {
-                value = counter.Value;
-            }
+            int value = game.GameState.FireBallCountdown.Any() ? game.GameState.FireBallCountdown.Max(x => x.Value) : 0;
 
             const uint charSize = 20;
             return render.PrepareTextLine($"FireBall: {value}", 0, false, true, 800, 40, charSize);

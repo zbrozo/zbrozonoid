@@ -5,16 +5,27 @@ namespace zbrozonoidEngine.States.BallInPlayCommands
 {
     public class HandlePadCollisionCommand : IHandleCollisionCommand
     {
-        private IGame game;
-
         private readonly ICollisionManager collisionManagerForMoveReversion = new CollisionManager();
+
+        private IPadManager padManager;
+        private ICollisionManager collisionManager;
+        private IScreenCollisionManager screenCollisionManager;
+        private IBorderManager borderManager;
         private BallCollisionState collisionState;
 
         private const int padSpeedToGoBallFaster = 5;
 
-        public HandlePadCollisionCommand(IGame game, BallCollisionState collisionState)
+        public HandlePadCollisionCommand(
+            IPadManager padManager, 
+            IBorderManager borderManager,
+            IScreenCollisionManager screenCollisionManager,
+            ICollisionManager collisionManager, 
+            BallCollisionState collisionState)
         {
-            this.game = game;
+            this.padManager = padManager;
+            this.collisionManager = collisionManager;
+            this.screenCollisionManager = screenCollisionManager;
+            this.borderManager = borderManager;
             this.collisionState = collisionState;
         }
 
@@ -28,16 +39,16 @@ namespace zbrozonoidEngine.States.BallInPlayCommands
             IPad pad = null;
 
             bool collisionDetected = false;
-            foreach (var value in game.PadManager)
+            foreach (var value in padManager)
             {
                 pad = value.Item3;
-                if (game.CollisionManager.Detect(pad, ball))
+                if (collisionManager.Detect(pad, ball))
                 {
                     collisionDetected = true;
 
                     CorrectBallPosition(pad, ball);
 
-                    if (game.PadCurrentSpeed > padSpeedToGoBallFaster)
+                    if (pad.Speed > padSpeedToGoBallFaster)
                     {
                         ball.SetFasterSpeed();
                     }
@@ -60,25 +71,25 @@ namespace zbrozonoidEngine.States.BallInPlayCommands
                 if (!ball.MoveBall(true))
                 {
                     ball.Boundary.Min = previous;
-                    game.PadManager.RestartBallYPosition(pad, ball);
+                    padManager.RestartBallYPosition(pad, ball);
                     return;
                 }
 
                 previous = ball.Boundary.Min;
                 ball.SavePosition();
 
-                foreach (IBorder border in game.BorderManager)
+                foreach (IBorder border in borderManager)
                 {
                     if (collisionManagerForMoveReversion.Detect(border, ball))
                     {
-                        game.PadManager.SetBallStartPosition(pad, ball);
+                        padManager.SetBallStartPosition(pad, ball);
                         break;
                     }
                 }
 
-                if (game.ScreenCollisionManager.DetectAndVerify(ball))
+                if (screenCollisionManager.DetectAndVerify(ball))
                 {
-                    game.PadManager.SetBallStartPosition(pad, ball);
+                    padManager.SetBallStartPosition(pad, ball);
                     break;
                 }
 

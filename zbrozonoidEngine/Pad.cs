@@ -23,6 +23,8 @@ namespace zbrozonoidEngine
     {
         private static readonly NLog.Logger Logger = LogManager.GetCurrentClassLogger();
 
+        public int Speed { get; set; }
+
         public Rectangle Boundary { get; set; } = new Rectangle();
         private int OffsetY { get; set; }
 

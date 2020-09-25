@@ -68,11 +68,5 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\zbrozonoidEngine\zbrozonoidEngine.csproj">
-      <Project>{E7D3C331-2757-4963-B21C-EBF7EAA05111}</Project>
-      <Name>zbrozonoidEngine</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -38,6 +38,8 @@ namespace zbrozonoid
         private readonly RenderWindow app;
 
         private ILifetimeScope viewScope;
+        private ILifetimeScope managerScope;
+
         private ViewScopeFactory viewScopeFactory = new ViewScopeFactory();
 
         private ManyMouseDispatcher manyMouseDispatcher;
@@ -52,6 +54,8 @@ namespace zbrozonoid
         {
             this.game = game; // GAME ENGINE
 
+            managerScope = game.ManagerScope;
+
             manyMouseDispatcher = new ManyMouseDispatcher(game.GameConfig.Mouses);
 
             game.GetScreenSize(out int width, out int height);
@@ -65,7 +69,7 @@ namespace zbrozonoid
             app.KeyPressed += OnKeyPressed;
             app.Resized += OnResized;
 
-            viewScope = viewScopeFactory.Create(app, game, InGameAction);
+            viewScope = viewScopeFactory.Create(app, game, InGameAction, managerScope);
 
             menuViewModel = viewScope.Resolve<IMenuViewModel>();
             gamePlayfieldView = viewScope.Resolve<IGamePlayfieldView>();
@@ -218,6 +222,8 @@ namespace zbrozonoid
                 // Update the window
                 app.Display();
             }
+
+            managerScope.Dispose();
         }
 
         public void InGameAction()

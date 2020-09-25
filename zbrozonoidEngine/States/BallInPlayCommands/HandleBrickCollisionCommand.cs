@@ -6,13 +6,13 @@ namespace zbrozonoidEngine.States.BallInPlayCommands
 {
     public class HandleBrickCollisionCommand : IHandleCollisionCommand
     {
-        private readonly List<IBrick> bricks;
+        private readonly ICollection<IBrick> bricks;
         private readonly ILevelManager levelManager;
         private readonly ICollisionManager collisionManager;
         private readonly ITailManager tailManager;
         private BallCollisionState collisionState;
 
-        public HandleBrickCollisionCommand(List<IBrick> bricks,
+        public HandleBrickCollisionCommand(ICollection<IBrick> bricks,
                                            ILevelManager levelManager,
                                            ITailManager tailManager, 
                                            ICollisionManager collisionManager,
@@ -42,7 +42,7 @@ namespace zbrozonoidEngine.States.BallInPlayCommands
                 {
                     foreach (var number in bricksHitList)
                     {
-                        if (!bricks[number].IsBeatable)
+                        if (!bricks.ElementAt(number).IsBeatable)
                         {
                             bounce = true;
                         }

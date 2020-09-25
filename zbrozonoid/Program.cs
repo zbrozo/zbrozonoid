@@ -63,8 +63,9 @@ namespace zbrozonoid
 
             window.Run();
 
-            Logger.Info("Zbrozonoid quits");
+            ManyMouse.Quit();
 
+            Logger.Info("Zbrozonoid quits");
             LogManager.Shutdown();
         }
     }
