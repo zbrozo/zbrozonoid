@@ -23,15 +23,15 @@ namespace zbrozonoidEngine
     using NLog;
     using zbrozonoidEngine.Counters;
     using zbrozonoidEngine.Interfaces;
-    using zbrozonoidEngine.Managers;
 
     public class Game : IGame
     {
         private static readonly NLog.Logger Logger = LogManager.GetCurrentClassLogger();
 
-        public event EventHandler<LevelEventArgs> OnChangeLevel;
-        public event EventHandler<BrickHitEventArgs> OnBrickHit;
-        public event EventHandler<EventArgs> OnLostBallsEvent;
+        // external events 
+        public event EventHandler<LevelEventArgs> OnChangeLevelEvent;
+        public event EventHandler<BrickHitEventArgs> OnBrickHitEvent;
+        public event EventHandler<EventArgs> OnLostBallEvent;
 
         private int ScreenWidth = 1024;
 
@@ -105,8 +105,6 @@ namespace zbrozonoidEngine
                 ballFactory,
                 GameConfig,
                 Bricks);
-
-            OnLostBallsEvent += OnLostBalls;
         }
 
         public void Initialize()
@@ -146,7 +144,7 @@ namespace zbrozonoidEngine
             if (HitBrick(bricksHit, out BrickType type))
             {
                 BrickHitEventArgs brickHitArgs = new BrickHitEventArgs(bricksHit.First());
-                OnBrickHit?.Invoke(this, brickHitArgs);
+                OnBrickHitEvent?.Invoke(this, brickHitArgs);
 
                 --levelManager.GetCurrent().BeatableBricksNumber;
                 GameState.Scores++;
@@ -247,13 +245,10 @@ namespace zbrozonoidEngine
 
         public void LostBalls()
         {
-            OnLostBallsEvent?.Invoke(this, null);
-        }
-
-        public void OnLostBalls(object sender, EventArgs args)
-        {
             --GameState.Lifes;
             ballStateMachine.GoIntoIdle();
+
+            OnLostBallEvent?.Invoke(this, null);
         }
 
         public void GameIsOver()
@@ -266,7 +261,7 @@ namespace zbrozonoidEngine
         {
             levelFactory.Create(restartLevel);
             var args = new LevelEventArgs(levelManager.GetCurrent().BackgroundPath);
-            OnChangeLevel?.Invoke(this, args);
+            OnChangeLevelEvent?.Invoke(this, args);
         }
 
     }

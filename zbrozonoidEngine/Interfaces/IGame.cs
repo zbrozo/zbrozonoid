@@ -23,15 +23,13 @@ namespace zbrozonoidEngine.Interfaces
 
     public interface IGame
     {
-        event EventHandler<LevelEventArgs> OnChangeLevel;
-        event EventHandler<BrickHitEventArgs> OnBrickHit;
-        event EventHandler<EventArgs> OnLostBallsEvent;
+        event EventHandler<LevelEventArgs> OnChangeLevelEvent;
+        event EventHandler<BrickHitEventArgs> OnBrickHitEvent;
+        event EventHandler<EventArgs> OnLostBallEvent;
 
         ILifetimeScope ManagerScope { get; }
 
         bool ForceChangeLevel { get; set; }
-
-        void OnLostBalls(object sender, EventArgs args);
 
         FastBallCounter FastBallCounter { get; }
         FireBallCounter FireBallCounter { get; }

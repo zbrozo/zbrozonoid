@@ -54,9 +54,9 @@ namespace zbrozonoid
             IGame game = new Game(number);
             Window window = new Window(game/*, manyMouse*/);
 
-            game.OnChangeLevel += window.OnChangeLevel;
-            game.OnBrickHit += window.OnBrickHit;
-            game.OnLostBallsEvent += window.OnLostBalls;
+            game.OnChangeLevelEvent += window.OnChangeLevel;
+            game.OnBrickHitEvent += window.OnBrickHit;
+            game.OnLostBallEvent += window.OnLostBalls;
 
             game.Initialize();
             window.Initialize();
