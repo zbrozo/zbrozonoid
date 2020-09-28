@@ -41,7 +41,7 @@ namespace zbrozonoidEngine
 
         private readonly BallStateMachine ballStateMachine;
 
-        public List<IBrick> Bricks { get; private set; } = new List<IBrick>();
+        public ICollection<IBrick> Bricks { get; private set; } = new List<IBrick>();
 
         public FastBallCounter FastBallCounter { get; } = new FastBallCounter();
         public FireBallCounter FireBallCounter { get; private set; }
@@ -92,7 +92,7 @@ namespace zbrozonoidEngine
 
             FireBallCounter = new FireBallCounter(tailManager);
 
-            ballStateMachine = new BallStateMachine(ManagerScope, Bricks, SavePosition, HandleBrickCollision, LostBalls);
+            ballStateMachine = new BallStateMachine(ManagerScope, Bricks, SavePosition, HandleBrickCollision, LostBall);
 
             ballFactory = new BallFactory(ballManager, tailManager, padManager, GameConfig, FastBallCounter.TimerHandler);
 
@@ -139,7 +139,7 @@ namespace zbrozonoidEngine
             }
         }
 
-        public void HandleBrickCollision(IBall currentBall, IEnumerable<int> bricksHit)
+        private void HandleBrickCollision(IBall currentBall, IEnumerable<int> bricksHit)
         {
             if (HitBrick(bricksHit, out BrickType type))
             {
@@ -231,19 +231,7 @@ namespace zbrozonoidEngine
             ballStateMachine.GoIntoPlay();
         }
 
-        public void SavePosition(IBall ball)
-        {
-            ball.SavePosition();
-
-            ITail tail = tailManager.Find(ball);
-            if (tail != null)
-            {
-                Vector2 position = new Vector2 ( ball.Boundary.Min.X, ball.Boundary.Min.Y );
-                tail.Add(position);
-            }
-        }
-
-        public void LostBalls()
+        private void LostBall()
         {
             --GameState.Lifes;
             ballStateMachine.GoIntoIdle();
@@ -255,6 +243,18 @@ namespace zbrozonoidEngine
         {
             GameState.Pause = false;
             ballStateMachine.GoIntoIdle();
+        }
+
+        private void SavePosition(IBall ball)
+        {
+            ball.SavePosition();
+
+            ITail tail = tailManager.Find(ball);
+            if (tail != null)
+            {
+                Vector2 position = new Vector2(ball.Boundary.Min.X, ball.Boundary.Min.Y);
+                tail.Add(position);
+            }
         }
 
         private void CreateLevel(bool restartLevel)

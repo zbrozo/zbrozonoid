@@ -23,6 +23,7 @@ namespace zbrozonoidEngine.Interfaces
 
     public interface IGame
     {
+        // external events to connect to GUI
         event EventHandler<LevelEventArgs> OnChangeLevelEvent;
         event EventHandler<BrickHitEventArgs> OnBrickHitEvent;
         event EventHandler<EventArgs> OnLostBallEvent;
@@ -37,24 +38,16 @@ namespace zbrozonoidEngine.Interfaces
         IGameState GameState { get; }
         IGameConfig GameConfig { get; }
 
-        List<IBrick> Bricks { get; }
-
-        void Initialize();
-
-        void GetScreenSize(out int width, out int height);
-
-        void Action();
+        ICollection<IBrick> Bricks { get; }
 
         void SetPadMove(int delta, uint manipulator);
 
+        void Initialize();
         void StartPlay();
-
-        void HandleBrickCollision(IBall currentBall, IEnumerable<int> bricksHit);
-
-        void LostBalls();
-
-        void SavePosition(IBall ball);
-
         void GameIsOver();
+
+        void GetScreenSize(out int width, out int height);
+
+        void Action(); // main loop
     }
 }
