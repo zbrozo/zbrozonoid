@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Autofac;
 using zbrozonoidEngine.Interfaces;
 using zbrozonoidEngine.Interfaces.States;
@@ -106,8 +107,8 @@ namespace zbrozonoidEngine.States
                 !collisionState.BounceFromBorder
                 )
             {
-                var bricks = this.bricks.FilterByIndex(collisionState.BricksHitList);
-                managerScope.Resolve<ICollisionManager>().Bounce(bricks, bricks[0], ball);
+                var hitBricks = this.bricks.FilterByIndex(collisionState.BricksHitList).Select(x => x.Key).ToArray();
+                managerScope.Resolve<ICollisionManager>().Bounce(hitBricks, hitBricks[0], ball);
             }
         }
 
@@ -118,8 +119,8 @@ namespace zbrozonoidEngine.States
                 collisionState.BounceFromBorder
                 )
             {
-                var bricks = this.bricks.FilterByIndex(collisionState.BricksHitList);
-                managerScope.Resolve<ICollisionManager>().Bounce(bricks, bricks[0], ball);
+                var hitBricks = this.bricks.FilterByIndex(collisionState.BricksHitList).Select(x => x.Key).ToArray();
+                managerScope.Resolve<ICollisionManager>().Bounce(hitBricks, hitBricks[0], ball);
             }
         }
 

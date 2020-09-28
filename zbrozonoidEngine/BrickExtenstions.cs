@@ -28,9 +28,9 @@ namespace zbrozonoidEngine
             return brickHitList;
         }
 
-        public static List<IBrick> FilterByIndex(this ICollection<IBrick> bricks, IEnumerable<int> indexes)
+        public static List<KeyValuePair<IBrick, int>> FilterByIndex(this ICollection<IBrick> bricks, IEnumerable<int> indexes)
         {
-            return indexes.Select(i => bricks.ElementAt(i)).ToList();
+            return indexes.Select(i => new KeyValuePair<IBrick, int>(bricks.ElementAt(i), i)).ToList();
         }
     }
 }

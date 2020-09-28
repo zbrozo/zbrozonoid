@@ -92,7 +92,12 @@ namespace zbrozonoidEngine
 
             FireBallCounter = new FireBallCounter(tailManager);
 
-            ballStateMachine = new BallStateMachine(ManagerScope, Bricks, SavePosition, HandleBrickCollision, LostBall);
+            ballStateMachine = new BallStateMachine(
+                ManagerScope, 
+                Bricks, 
+                SavePosition, 
+                HitBrick, 
+                LostBall);
 
             ballBuilder = new BallBuilder(ballManager, tailManager, padManager, FastBallCounter.TimerHandler);
 
@@ -118,6 +123,30 @@ namespace zbrozonoidEngine
             height = ScreenHeight;
         }
 
+        public void StartPlay()
+        {
+            if (!ballStateMachine.IsBallInIdleState())
+            {
+                return;
+            }
+
+            GameState.Pause = false;
+
+            if (GameState.Lifes < 0)
+            {
+                GameState.Lifes = 3;
+                GameState.Scores = 0;
+
+                CreateLevel(true);
+            }
+            else
+            {
+                ballBuilder.Create(GameConfig);
+            }
+
+            ballStateMachine.GoIntoPlay();
+        }
+
         public void Action()
         {
             foreach (IBall ball in ballManager.ToArray())
@@ -139,30 +168,29 @@ namespace zbrozonoidEngine
             }
         }
 
-        private void HandleBrickCollision(IBall currentBall, IEnumerable<int> bricksHit)
+        private void HitBrick(IBall currentBall, IEnumerable<int> bricksHit)
         {
-            if (HitBrick(bricksHit, out BrickType type))
+            if (GetBrickWithNumber(bricksHit, out KeyValuePair<IBrick, int>? brick))
             {
-                BrickHitEventArgs brickHitArgs = new BrickHitEventArgs(bricksHit.First());
-                OnBrickHitEvent?.Invoke(this, brickHitArgs);
-
+                brick.Value.Key.IsHit = true;
                 --levelManager.GetCurrent().BeatableBricksNumber;
                 GameState.Scores++;
 
-                ExecuteAdditionalEffect(currentBall, type);
+                BrickHitEventArgs brickHitArgs = new BrickHitEventArgs(brick.Value.Value);
+                OnBrickHitEvent?.Invoke(this, brickHitArgs);
+
+                ExecuteAdditionalEffect(currentBall, brick.Value.Key.Type);
             }
         }
 
-        private bool HitBrick(IEnumerable<int> bricksHitList, out BrickType type)
+        private bool GetBrickWithNumber(IEnumerable<int> bricksHitList, out KeyValuePair<IBrick,int>? brick)
         {
-            type = BrickType.None;
+            brick = null;
 
-            var bricksFound = Bricks.FilterByIndex(bricksHitList).Where(x => x.IsBeatable && x.IsVisible);
+            var bricksFound = Bricks.FilterByIndex(bricksHitList).Where(x => x.Key.IsBeatable && x.Key.IsVisible);
             if (bricksFound.Any())
             {
-                bricksFound.First().IsHit = true;
-                type = bricksFound.First().Type;
-
+                brick = bricksFound.First();
                 return true;
             }
             return false;
@@ -205,30 +233,6 @@ namespace zbrozonoidEngine
                 screenCollisionManager.DetectAndVerify(pad);
                 borderCollisionManager.DetectAndVerify(borderManager, pad);
             }
-        }
-
-        public void StartPlay()
-        {
-            if (!ballStateMachine.IsBallInIdleState())
-            {
-                return;
-            }
-
-            GameState.Pause = false;
-
-            if (GameState.Lifes < 0)
-            {
-                GameState.Lifes = 3;
-                GameState.Scores = 0;
-
-                CreateLevel(true);
-            }
-            else
-            {
-                ballBuilder.Create(GameConfig);
-            }
-
-            ballStateMachine.GoIntoPlay();
         }
 
         private void LostBall()
