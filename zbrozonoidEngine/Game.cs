@@ -21,6 +21,7 @@ namespace zbrozonoidEngine
     using System.Linq;
     using Autofac;
     using NLog;
+    using zbrozonoidEngine.Counters;
     using zbrozonoidEngine.Interfaces;
     using zbrozonoidEngine.Managers;
 
@@ -40,8 +41,9 @@ namespace zbrozonoidEngine
 
         private readonly BallStateMachine ballStateMachine;
 
-        public List<IBrick> Bricks { get; private set; } = new List<IBrick>(); 
+        public List<IBrick> Bricks { get; private set; } = new List<IBrick>();
 
+        public FastBallCounter FastBallCounter { get; } = new FastBallCounter();
         public IGameState GameState { get; } = new GameState();
         public IGameConfig GameConfig { get; } = new GameConfig();
 
@@ -85,7 +87,7 @@ namespace zbrozonoidEngine
 
             ballStateMachine = new BallStateMachine(ManagerScope, Bricks, SavePosition, HandleBrickCollision, LostBalls);
 
-            ballFactory = new BallFactory(ballManager, tailManager, padManager, GameConfig, BallSpeedTimerHandler);
+            ballFactory = new BallFactory(ballManager, tailManager, padManager, GameConfig, FastBallCounter.TimerHandler);
 
             OnLostBallsEvent += OnLostBalls;
         }
@@ -300,17 +302,6 @@ namespace zbrozonoidEngine
         {
             GameState.Pause = false;
             ballStateMachine.GoIntoIdle();
-        }
-
-        public void BallSpeedTimerHandler(IBall ball, int value)
-        {
-            if (value <= 0)
-            {
-                GameState.FasterBallCountdown.Remove(ball);
-                return;
-            }
-
-            GameState.FasterBallCountdown[ball] = value;
         }
 
         public void FireBallTimerHandler(ITail tail, int value)

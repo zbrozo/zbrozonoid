@@ -10,7 +10,7 @@ namespace zbrozonoidEngine.Interfaces
 
         int Scores { get; set; }
 
-        Dictionary<IBall, int> FasterBallCountdown { get; }
+        //Dictionary<IBall, int> FasterBallCountdown { get; }
 
         Dictionary<ITail, int> FireBallCountdown { get; }
     }

@@ -18,7 +18,6 @@ namespace zbrozonoidEngine.Managers
 {
     using System.Collections;
     using System.Collections.Generic;
-    using zbrozonoidEngine.Enumerators;
     using zbrozonoidEngine.Interfaces;
 
     public class BallManager : IBallManager
@@ -38,34 +37,6 @@ namespace zbrozonoidEngine.Managers
         {
             balls.Clear();
         }
-        /*
-        public bool Contains(KeyValuePair<IBall, IPad> ball)
-        {
-            //return balls.Contains(ball);
-            return true;
-        }
-
-        public void CopyTo(KeyValuePair<IBall, IPad>[] ballsArray, int arrayIndex)
-        {
-            //balls.CopyTo(ballsArray, arrayIndex);
-        }
-
-        public bool Remove(KeyValuePair<IBall, IPad> item)
-        {
-            //return balls.Remove(item);
-            return false;
-        }
-
-        public IBall GetFirst()
-        {
-            if (Count > 0)
-            {
-                return balls[0];
-            }
-
-            return null;
-        }
-        */
 
         public void Remove(IBall ball)
         {
@@ -77,25 +48,6 @@ namespace zbrozonoidEngine.Managers
             return balls[ball];
         }
 
-        /*
-        public void LeaveOnlyOne()
-        {
-            if (balls.Count > 1)
-            {
-                Dictionary<IBall, IPad>.KeyCollection b = balls.Keys;
-                var i = b.GetEnumerator();
-                i.MoveNext();
-                IBall ball = i.Current;
-                IPad pad = balls[ball];
-
-                balls.Clear();
-                balls.Add(ball, pad);
-
-                //balls.RemoveRange(1, balls.Count - 1);
-            }
-        }
-        */
-
         public IEnumerator<IBall> GetEnumerator()
         {
             return balls.Keys.GetEnumerator();
@@ -105,5 +57,6 @@ namespace zbrozonoidEngine.Managers
         {
             return balls.Keys.GetEnumerator();
         }
+
     }
 }

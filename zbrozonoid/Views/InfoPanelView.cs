@@ -73,7 +73,7 @@ namespace zbrozonoid.Views
 
         private Text PrepareFasterBallMessage()
         {
-            int value = game.GameState.FasterBallCountdown.Any() ? game.GameState.FasterBallCountdown.Max(x => x.Value) : 0;
+            int value = game.FastBallCounter.GetValue();
 
             const uint charSize = 20;
             return render.PrepareTextLine($"FasterBall: {value}", 0, false, true, 800, 20, charSize);

@@ -19,6 +19,7 @@ namespace zbrozonoidEngine.Interfaces
     using System;
     using System.Collections.Generic;
     using Autofac;
+    using zbrozonoidEngine.Counters;
 
     public interface IGame
     {
@@ -31,6 +32,8 @@ namespace zbrozonoidEngine.Interfaces
         bool ForceChangeLevel { get; set; }
 
         void OnLostBalls(object sender, EventArgs args);
+
+        FastBallCounter FastBallCounter { get; }
 
         IGameState GameState { get; }
         IGameConfig GameConfig { get; }

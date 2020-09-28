@@ -123,12 +123,14 @@
     <Compile Include="BrickExtenstions.cs" />
     <Compile Include="ManagerScopeFactory.cs" />
     <Compile Include="BallFactory.cs" />
+    <Compile Include="Counters\FastBallCounter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
     <Folder Include="States\" />
     <Folder Include="Interfaces\States\" />
     <Folder Include="States\BallInPlayCommands\" />
+    <Folder Include="Counters\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
