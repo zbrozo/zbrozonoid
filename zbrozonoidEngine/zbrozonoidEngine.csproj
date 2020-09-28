@@ -124,6 +124,7 @@
     <Compile Include="ManagerScopeFactory.cs" />
     <Compile Include="BallFactory.cs" />
     <Compile Include="Counters\FastBallCounter.cs" />
+    <Compile Include="Counters\FireBallCounter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

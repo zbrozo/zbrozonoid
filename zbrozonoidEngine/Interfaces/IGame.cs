@@ -34,6 +34,7 @@ namespace zbrozonoidEngine.Interfaces
         void OnLostBalls(object sender, EventArgs args);
 
         FastBallCounter FastBallCounter { get; }
+        FireBallCounter FireBallCounter { get; }
 
         IGameState GameState { get; }
         IGameConfig GameConfig { get; }

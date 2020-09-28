@@ -81,7 +81,7 @@ namespace zbrozonoid.Views
 
         private Text PrepareFireBallMessage()
         {
-            int value = game.GameState.FireBallCountdown.Any() ? game.GameState.FireBallCountdown.Max(x => x.Value) : 0;
+            int value = game.FireBallCounter.GetValue();
 
             const uint charSize = 20;
             return render.PrepareTextLine($"FireBall: {value}", 0, false, true, 800, 40, charSize);

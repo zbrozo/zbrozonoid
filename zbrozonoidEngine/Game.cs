@@ -44,6 +44,8 @@ namespace zbrozonoidEngine
         public List<IBrick> Bricks { get; private set; } = new List<IBrick>();
 
         public FastBallCounter FastBallCounter { get; } = new FastBallCounter();
+        public FireBallCounter FireBallCounter { get; private set; }
+ 
         public IGameState GameState { get; } = new GameState();
         public IGameConfig GameConfig { get; } = new GameConfig();
 
@@ -84,6 +86,8 @@ namespace zbrozonoidEngine
             borderManager = ManagerScope.Resolve<IBorderManager>();
             collisionManager = ManagerScope.Resolve<ICollisionManager>();
             screenCollisionManager = ManagerScope.Resolve<IScreenCollisionManager>();
+
+            FireBallCounter = new FireBallCounter(tailManager);
 
             ballStateMachine = new BallStateMachine(ManagerScope, Bricks, SavePosition, HandleBrickCollision, LostBalls);
 
@@ -178,11 +182,7 @@ namespace zbrozonoidEngine
                     }
                 case BrickType.DestroyerBall:
                     {
-                        ITail tail = new Tail
-                        {
-                            FireBallTimerCallback = FireBallTimerHandler
-                        };
-
+                        ITail tail = new Tail { FireBallTimerCallback = FireBallCounter.FireBallTimerHandler };
                         tailManager.Add(currentBall, tail);
                         break;
                     }
@@ -302,20 +302,6 @@ namespace zbrozonoidEngine
         {
             GameState.Pause = false;
             ballStateMachine.GoIntoIdle();
-        }
-
-        public void FireBallTimerHandler(ITail tail, int value)
-        {
-            if (value <= 0)
-            {
-                if (tailManager.Remove(tail))
-                {
-                    GameState.FireBallCountdown.Remove(tail);
-                }
-                return;
-            }
-
-            GameState.FireBallCountdown[tail] = value;
         }
     }
 }
