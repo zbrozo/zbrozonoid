@@ -55,6 +55,7 @@ namespace zbrozonoidEngine
         public bool ForceChangeLevel { get; set; }
 
         private BallBuilder ballBuilder;
+        private BallExtraFeatureBuilder ballExtraFeatureBuilder;
 
         private LevelBuilder levelBuilder;
 
@@ -99,7 +100,17 @@ namespace zbrozonoidEngine
                 HitBrick, 
                 LostBall);
 
-            ballBuilder = new BallBuilder(ballManager, tailManager, padManager, FastBallCounter.TimerHandler);
+            ballBuilder = new BallBuilder(
+                ballManager, 
+                tailManager, 
+                padManager, 
+                FastBallCounter.TimerHandler);
+
+            ballExtraFeatureBuilder = new BallExtraFeatureBuilder(
+                ballManager,
+                tailManager,
+                ballBuilder,
+                FireBallCounter);
 
             levelBuilder = new LevelBuilder(
                 screen,
@@ -176,10 +187,10 @@ namespace zbrozonoidEngine
                 --levelManager.GetCurrent().BeatableBricksNumber;
                 GameState.Scores++;
 
+                ballExtraFeatureBuilder.Create(currentBall, brick.Value.Key.Type);
+
                 BrickHitEventArgs brickHitArgs = new BrickHitEventArgs(brick.Value.Value);
                 OnBrickHitEvent?.Invoke(this, brickHitArgs);
-
-                ExecuteAdditionalEffect(currentBall, brick.Value.Key.Type);
             }
         }
 
@@ -196,32 +207,8 @@ namespace zbrozonoidEngine
             return false;
         }
 
-        private void ExecuteAdditionalEffect(IBall currentBall, BrickType type)
-        {
-            switch (type)
-            {
-                case BrickType.ThreeBalls:
-                    {
-                        IPad pad = ballManager.GetPadAssignedToBall(currentBall);
-                        ballBuilder.Create(pad);
-                        ballBuilder.Create(pad);
-                        break;
-                    }
-                case BrickType.DestroyerBall:
-                    {
-                        ITail tail = new Tail { FireBallTimerCallback = FireBallCounter.FireBallTimerHandler };
-                        tailManager.Add(currentBall, tail);
-                        break;
-                    }
-
-                default:
-                    break;
-            }
-        }
-
         public void SetPadMove(int delta, uint manipulator)
         {
-
             foreach (var value in padManager.Where(x => x.Item2 == manipulator))
             {
                 IPad pad = value.Item3;

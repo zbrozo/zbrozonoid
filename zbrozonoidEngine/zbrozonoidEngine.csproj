@@ -126,6 +126,7 @@
     <Compile Include="Interfaces\IGameEngine.cs" />
     <Compile Include="BallBuilder.cs" />
     <Compile Include="LevelBuilder.cs" />
+    <Compile Include="BallExtraFeatureBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
