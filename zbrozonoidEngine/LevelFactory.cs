@@ -12,7 +12,7 @@ namespace zbrozonoidEngine
         private IPadManager padManager;
         private IBorderManager borderManager;
         private IBorderCollisionManager borderCollisionManager;
-        private BallFactory ballFactory;
+        private BallBuilder ballBuilder;
         private IGameConfig gameConfig;
         private ICollection<IBrick> bricks;
 
@@ -22,7 +22,7 @@ namespace zbrozonoidEngine
             IPadManager padManager,
             IBorderManager borderManager,
             IBorderCollisionManager borderCollisionManager,
-            BallFactory ballFactory,
+            BallBuilder ballBuilder,
             IGameConfig gameConfig,
             ICollection<IBrick> bricks)
         {
@@ -31,7 +31,7 @@ namespace zbrozonoidEngine
             this.padManager = padManager;
             this.borderManager = borderManager;
             this.borderCollisionManager = borderCollisionManager;
-            this.ballFactory = ballFactory;
+            this.ballBuilder = ballBuilder;
             this.gameConfig = gameConfig;
             this.bricks = bricks;
         }
@@ -52,7 +52,7 @@ namespace zbrozonoidEngine
                 borderCollisionManager.DetectAndVerify(borderManager, pad.Item3);
             }
 
-            ballFactory.CreateBalls();
+            ballBuilder.Create(gameConfig);
         }
 
         private void CreateLevelMap(bool restartLevel)

@@ -3,29 +3,26 @@ using zbrozonoidEngine.Interfaces;
 
 namespace zbrozonoidEngine
 {
-    public class BallFactory
+    public class BallBuilder
     {
         private readonly IBallManager ballManager;
         private readonly ITailManager tailManager;
         private readonly IPadManager padManager;
-        private readonly IGameConfig gameConfig;
         private readonly Action<IBall, int> SpeedTimerHandler;
 
-        public BallFactory(
+        public BallBuilder(
             IBallManager ballManager,
             ITailManager tailManager,
             IPadManager padManager,
-            IGameConfig gameConfig,
             Action<IBall, int> SpeedTimerHandler)
         {
             this.ballManager = ballManager;
             this.tailManager = tailManager;
             this.padManager = padManager;
-            this.gameConfig = gameConfig;
             this.SpeedTimerHandler = SpeedTimerHandler;
         }
 
-        public void CreateBalls()
+        public void Create(IGameConfig gameConfig)
         {
             ballManager.Clear();
             tailManager.Clear();
@@ -36,18 +33,18 @@ namespace zbrozonoidEngine
                 padIterator.MoveNext();
 
                 IPad pad = padIterator.Current.Item3;
-                CreateBall(pad);
+                Create(pad);
             }
         }
 
-        public void CreateBall(IPad pad)
+        public void Create(IPad pad)
         {
-            IBall ball = CreateBall();
+            IBall ball = Create();
             padManager.SetBallStartPosition(pad, ball);
             ballManager.Add(ball, pad);
         }
 
-        private IBall CreateBall()
+        private IBall Create()
         {
             const int defaultDegree = 45;
             var defaultDirection = new Vector2(1, 1);

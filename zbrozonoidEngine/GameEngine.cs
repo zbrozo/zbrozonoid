@@ -54,7 +54,7 @@ namespace zbrozonoidEngine
 
         public bool ForceChangeLevel { get; set; }
 
-        private BallFactory ballFactory;
+        private BallBuilder ballBuilder;
 
         private LevelFactory levelFactory;
 
@@ -94,7 +94,7 @@ namespace zbrozonoidEngine
 
             ballStateMachine = new BallStateMachine(ManagerScope, Bricks, SavePosition, HandleBrickCollision, LostBall);
 
-            ballFactory = new BallFactory(ballManager, tailManager, padManager, GameConfig, FastBallCounter.TimerHandler);
+            ballBuilder = new BallBuilder(ballManager, tailManager, padManager, FastBallCounter.TimerHandler);
 
             levelFactory = new LevelFactory(
                 screen,
@@ -102,7 +102,7 @@ namespace zbrozonoidEngine
                 padManager,
                 borderManager,
                 borderCollisionManager,
-                ballFactory,
+                ballBuilder,
                 GameConfig,
                 Bricks);
         }
@@ -175,8 +175,8 @@ namespace zbrozonoidEngine
                 case BrickType.ThreeBalls:
                     {
                         IPad pad = ballManager.GetPadAssignedToBall(currentBall);
-                        ballFactory.CreateBall(pad);
-                        ballFactory.CreateBall(pad);
+                        ballBuilder.Create(pad);
+                        ballBuilder.Create(pad);
                         break;
                     }
                 case BrickType.DestroyerBall:
@@ -225,7 +225,7 @@ namespace zbrozonoidEngine
             }
             else
             {
-                ballFactory.CreateBalls();
+                ballBuilder.Create(GameConfig);
             }
 
             ballStateMachine.GoIntoPlay();
