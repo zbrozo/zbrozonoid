@@ -23,7 +23,7 @@ namespace zbrozonoid.Views
 
         private readonly GamePlayfieldModel model = new GamePlayfieldModel();
 
-        private List<Brick> ViewBricks { get; } = new List<Brick>();
+        private ICollection<Brick> BricksToDisplay { get; } = new List<Brick>();
         private readonly ICollection<IBrick> bricks;
 
         private static readonly NLog.Logger Logger = LogManager.GetCurrentClassLogger();
@@ -48,7 +48,7 @@ namespace zbrozonoid.Views
 
         public void BrickHit(int number)
         {
-            ViewBricks[number].IsVisible = false;
+            BricksToDisplay.ElementAt(number).IsVisible = false;
         }
 
         public void DrawBackground(Sprite background)
@@ -58,7 +58,7 @@ namespace zbrozonoid.Views
 
         private void DrawBricks()
         {
-            foreach (var brick in ViewBricks.Where(x => x.IsVisible))
+            foreach (var brick in BricksToDisplay.Where(x => x.IsVisible))
             {
                 render.Draw(brick.Rect);
             }
@@ -79,7 +79,7 @@ namespace zbrozonoid.Views
 
         public void PrepareBricksToDraw()
         {
-            ViewBricks.Clear();
+            BricksToDisplay.Clear();
             foreach (IBrick brick in bricks)
             {
                 if (model.colors.TryGetValue((int)brick.ColorNumber, out Color color))
@@ -91,7 +91,7 @@ namespace zbrozonoid.Views
 
                     Brick brickToDraw = new Brick(rectangle);
                     brickToDraw.IsVisible = brick.Type > 0;
-                    ViewBricks.Add(brickToDraw);
+                    BricksToDisplay.Add(brickToDraw);
                 }
             }
         }
