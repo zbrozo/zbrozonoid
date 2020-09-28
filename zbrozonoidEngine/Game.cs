@@ -265,8 +265,8 @@ namespace zbrozonoidEngine
         private void CreateLevel(bool restartLevel)
         {
             levelFactory.Create(restartLevel);
-            LevelEventArgs background = new LevelEventArgs(levelManager.GetCurrent().BackgroundPath);
-            OnChangeLevel?.Invoke(this, background);
+            var args = new LevelEventArgs(levelManager.GetCurrent().BackgroundPath);
+            OnChangeLevel?.Invoke(this, args);
         }
 
     }
