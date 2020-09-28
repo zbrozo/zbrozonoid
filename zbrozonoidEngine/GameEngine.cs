@@ -24,7 +24,7 @@ namespace zbrozonoidEngine
     using zbrozonoidEngine.Counters;
     using zbrozonoidEngine.Interfaces;
 
-    public class Game : IGame
+    public class GameEngine : IGameEngine
     {
         private static readonly NLog.Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -69,7 +69,7 @@ namespace zbrozonoidEngine
 
 
 
-        public Game(int number)
+        public GameEngine(int number)
         {
             GameConfig.Mouses = number;
 

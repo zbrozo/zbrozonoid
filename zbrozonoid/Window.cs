@@ -33,7 +33,7 @@ namespace zbrozonoid
     {
         private const string Name = "Zbrozonoid - a free arkanoid clone";
 
-        private readonly IGame game;
+        private readonly IGameEngine game;
 
         private readonly RenderWindow app;
 
@@ -50,7 +50,7 @@ namespace zbrozonoid
         private readonly IGamePlayfieldView gamePlayfieldView;
         private readonly IViewStateMachine viewStateMachine;
 
-        public Window(IGame game)
+        public Window(IGameEngine game)
         {
             this.game = game; // GAME ENGINE
 

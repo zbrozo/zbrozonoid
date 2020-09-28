@@ -51,7 +51,7 @@ namespace zbrozonoid
                 return;
             }
             */
-            IGame game = new Game(number);
+            IGameEngine game = new GameEngine(number);
             Window window = new Window(game/*, manyMouse*/);
 
             game.OnChangeLevelEvent += window.OnChangeLevel;

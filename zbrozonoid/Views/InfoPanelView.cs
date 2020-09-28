@@ -7,7 +7,7 @@ namespace zbrozonoid.Views
 {
     public class InfoPanelView : IInfoPanelView
     {
-        private IGame game;
+        private IGameEngine game;
         private IRenderProxy render;
 
         private Text LiveAndScoresMessage
@@ -25,7 +25,7 @@ namespace zbrozonoid.Views
             get { return PrepareFireBallMessage(); }
         }
 
-        public InfoPanelView(IRenderProxy render, IGame game)
+        public InfoPanelView(IRenderProxy render, IGameEngine game)
         {
             this.game = game;
             this.render = render;

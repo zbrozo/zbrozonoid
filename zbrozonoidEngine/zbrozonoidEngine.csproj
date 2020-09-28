@@ -63,7 +63,6 @@
     <Compile Include="Ball.cs" />
     <Compile Include="Border.cs" />
     <Compile Include="Brick.cs" />
-    <Compile Include="Game.cs" />
     <Compile Include="Level.cs" />
     <Compile Include="Pad.cs" />
     <Compile Include="RandomGenerator.cs" />
@@ -78,7 +77,6 @@
     <Compile Include="Interfaces\IBrick.cs" />
     <Compile Include="Interfaces\ICollisionManager.cs" />
     <Compile Include="Interfaces\IElement.cs" />
-    <Compile Include="Interfaces\IGame.cs" />
     <Compile Include="Interfaces\ILevel.cs" />
     <Compile Include="Interfaces\ILevelManager.cs" />
     <Compile Include="Interfaces\ILoggerBase.cs" />
@@ -126,6 +124,8 @@
     <Compile Include="Counters\FastBallCounter.cs" />
     <Compile Include="Counters\FireBallCounter.cs" />
     <Compile Include="LevelFactory.cs" />
+    <Compile Include="GameEngine.cs" />
+    <Compile Include="Interfaces\IGameEngine.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

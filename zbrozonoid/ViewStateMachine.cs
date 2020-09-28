@@ -26,7 +26,7 @@ namespace zbrozonoid
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
-        private IGame game;
+        private IGameEngine game;
 
         private IView currentState;
         private ILifetimeScope scope;
@@ -35,7 +35,7 @@ namespace zbrozonoid
         public bool IsPlayState => currentState is IGamePlayView;
         public bool IsStopState => currentState is IStopPlayView;
 
-        public ViewStateMachine(IGame game)
+        public ViewStateMachine(IGameEngine game)
         {
             this.game = game;
         }
@@ -51,7 +51,7 @@ namespace zbrozonoid
             currentState?.Display();
         }
 
-        public void Transitions(IGame game)
+        public void Transitions(IGameEngine game)
         {
             if (currentState is IGameBeginView)
             {

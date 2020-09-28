@@ -13,6 +13,6 @@ namespace zbrozonoid.Views
 
         void Action();
 
-        void Transitions(IGame game);
+        void Transitions(IGameEngine game);
     }
 }

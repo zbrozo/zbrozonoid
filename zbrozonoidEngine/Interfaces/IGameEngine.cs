@@ -21,7 +21,7 @@ namespace zbrozonoidEngine.Interfaces
     using Autofac;
     using zbrozonoidEngine.Counters;
 
-    public interface IGame
+    public interface IGameEngine
     {
         // external events to connect to GUI
         event EventHandler<LevelEventArgs> OnChangeLevelEvent;
