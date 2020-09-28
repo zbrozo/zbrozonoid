@@ -18,7 +18,7 @@ using System.Collections.Generic;
 
 namespace zbrozonoidEngine.Interfaces
 {
-    interface IBorderCollisionManager
+    public interface IBorderCollisionManager
     {
         bool DetectAndVerify(IEnumerable<IBorder> borders, IPad pad);
 

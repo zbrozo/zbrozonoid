@@ -56,6 +56,8 @@ namespace zbrozonoidEngine
 
         private BallFactory ballFactory;
 
+        private LevelFactory levelFactory;
+
         private ILevelManager levelManager;
         private IBallManager ballManager;
         private IPadManager padManager;
@@ -94,12 +96,22 @@ namespace zbrozonoidEngine
 
             ballFactory = new BallFactory(ballManager, tailManager, padManager, GameConfig, FastBallCounter.TimerHandler);
 
+            levelFactory = new LevelFactory(
+                screen,
+                levelManager,
+                padManager,
+                borderManager,
+                borderCollisionManager,
+                ballFactory,
+                GameConfig,
+                Bricks);
+
             OnLostBallsEvent += OnLostBalls;
         }
 
         public void Initialize()
         {
-            InitializeLevel(true);
+            CreateLevel(false);
         }
 
         public void GetScreenSize(out int width, out int height)
@@ -125,7 +137,7 @@ namespace zbrozonoidEngine
             if (levelManager.VerifyAllBricksAreHit() || ForceChangeLevel)
             {
                 ForceChangeLevel = false;
-                InitializeLevel(false);
+                CreateLevel(false);
             }
         }
 
@@ -211,52 +223,14 @@ namespace zbrozonoidEngine
                 GameState.Lifes = 3;
                 GameState.Scores = 0;
 
-                InitializeLevel(true);
-            } 
+                CreateLevel(true);
+            }
             else
             {
                 ballFactory.CreateBalls();
             }
 
             ballStateMachine.GoIntoPlay();
-        }
-
-        private void InitializeLevel(bool restartLevel)
-        {
-            CreateObjects();
-            CreateLevelMap(restartLevel);
-
-            LevelEventArgs background = new LevelEventArgs(levelManager.GetCurrent().BackgroundPath);
-            OnChangeLevel?.Invoke(this, background);
-        }
-
-        private void CreateObjects()
-        {
-            padManager.Create(GameConfig);
-            borderManager.Create(screen, GameConfig);
-
-            foreach (var pad in padManager)
-            {
-                borderCollisionManager.DetectAndVerify(borderManager, pad.Item3);
-            }
-
-            ballFactory.CreateBalls();
-        }
-
-        private void CreateLevelMap(bool restartLevel)
-        {
-            if (restartLevel)
-            {
-                levelManager.Restart();
-            }
-            else
-            {
-                levelManager.MoveNext();
-                levelManager.Load();
-            }
-
-            Bricks.Clear();
-            Bricks.AddRange(levelManager.GetCurrent().Bricks);
         }
 
         public void SavePosition(IBall ball)
@@ -287,5 +261,13 @@ namespace zbrozonoidEngine
             GameState.Pause = false;
             ballStateMachine.GoIntoIdle();
         }
+
+        private void CreateLevel(bool restartLevel)
+        {
+            levelFactory.Create(restartLevel);
+            LevelEventArgs background = new LevelEventArgs(levelManager.GetCurrent().BackgroundPath);
+            OnChangeLevel?.Invoke(this, background);
+        }
+
     }
 }
