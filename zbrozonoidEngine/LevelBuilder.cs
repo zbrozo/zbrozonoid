@@ -5,7 +5,7 @@ using zbrozonoidEngine.Interfaces;
 
 namespace zbrozonoidEngine
 {
-    public class LevelFactory
+    public class LevelBuilder
     {
         private IScreen screen;
         private ILevelManager levelManager;
@@ -16,7 +16,7 @@ namespace zbrozonoidEngine
         private IGameConfig gameConfig;
         private ICollection<IBrick> bricks;
 
-        public LevelFactory(
+        public LevelBuilder(
             IScreen screen,
             ILevelManager levelManager,
             IPadManager padManager,

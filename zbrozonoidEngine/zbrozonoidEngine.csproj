@@ -122,10 +122,10 @@
     <Compile Include="ManagerScopeFactory.cs" />
     <Compile Include="Counters\FastBallCounter.cs" />
     <Compile Include="Counters\FireBallCounter.cs" />
-    <Compile Include="LevelFactory.cs" />
     <Compile Include="GameEngine.cs" />
     <Compile Include="Interfaces\IGameEngine.cs" />
     <Compile Include="BallBuilder.cs" />
+    <Compile Include="LevelBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

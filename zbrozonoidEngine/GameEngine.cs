@@ -56,7 +56,7 @@ namespace zbrozonoidEngine
 
         private BallBuilder ballBuilder;
 
-        private LevelFactory levelFactory;
+        private LevelBuilder levelBuilder;
 
         private ILevelManager levelManager;
         private IBallManager ballManager;
@@ -96,7 +96,7 @@ namespace zbrozonoidEngine
 
             ballBuilder = new BallBuilder(ballManager, tailManager, padManager, FastBallCounter.TimerHandler);
 
-            levelFactory = new LevelFactory(
+            levelBuilder = new LevelBuilder(
                 screen,
                 levelManager,
                 padManager,
@@ -259,7 +259,7 @@ namespace zbrozonoidEngine
 
         private void CreateLevel(bool restartLevel)
         {
-            levelFactory.Create(restartLevel);
+            levelBuilder.Create(restartLevel);
             var args = new LevelEventArgs(levelManager.GetCurrent().BackgroundPath);
             OnChangeLevelEvent?.Invoke(this, args);
         }
