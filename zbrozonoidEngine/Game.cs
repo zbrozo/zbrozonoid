@@ -63,7 +63,7 @@ namespace zbrozonoidEngine
         private IBorderManager borderManager;
         private ICollisionManager collisionManager;
         private IScreenCollisionManager screenCollisionManager;
-
+        private IBorderCollisionManager borderCollisionManager;
 
 
 
@@ -86,6 +86,7 @@ namespace zbrozonoidEngine
             borderManager = ManagerScope.Resolve<IBorderManager>();
             collisionManager = ManagerScope.Resolve<ICollisionManager>();
             screenCollisionManager = ManagerScope.Resolve<IScreenCollisionManager>();
+            borderCollisionManager = ManagerScope.Resolve<IBorderCollisionManager>();
 
             FireBallCounter = new FireBallCounter(tailManager);
 
@@ -125,18 +126,6 @@ namespace zbrozonoidEngine
             {
                 ForceChangeLevel = false;
                 InitializeLevel(false);
-            }
-        }
-
-        private void VerifyBorderCollision(IPad pad)
-        {
-            foreach(IBorder border in borderManager)
-            {
-                IBorderCollisionManager borderCollisionManager = new BorderCollisionManager(border, collisionManager);
-                if (borderCollisionManager.DetectAndVerify(pad))
-                {
-                    break;
-                }
             }
         }
 
@@ -204,7 +193,7 @@ namespace zbrozonoidEngine
                 pad.Boundary.Min = new Vector2(pad.Boundary.Min.X + pad.Speed, pad.Boundary.Min.Y);
 
                 screenCollisionManager.DetectAndVerify(pad);
-                VerifyBorderCollision(pad);
+                borderCollisionManager.DetectAndVerify(borderManager, pad);
             }
         }
 
@@ -248,7 +237,7 @@ namespace zbrozonoidEngine
 
             foreach (var pad in padManager)
             {
-                VerifyBorderCollision(pad.Item3);
+                borderCollisionManager.DetectAndVerify(borderManager, pad.Item3);
             }
 
             ballFactory.CreateBalls();
@@ -268,11 +257,6 @@ namespace zbrozonoidEngine
 
             Bricks.Clear();
             Bricks.AddRange(levelManager.GetCurrent().Bricks);
-        }
-
-        public bool IsBallDestroyer(IBall ball)
-        {
-            return tailManager.Find(ball) != null;
         }
 
         public void SavePosition(IBall ball)

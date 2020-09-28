@@ -20,10 +20,10 @@ namespace zbrozonoidEngine.Interfaces
 {
     interface IBorderCollisionManager
     {
-        bool DetectAndVerify(IPad pad);
+        bool DetectAndVerify(IEnumerable<IBorder> borders, IPad pad);
 
-        bool Detect(IBall ball);
+        bool Detect(IBorder border, IBall ball);
 
-        void Bounce(List<IBrick> bricksHitList, IBall ball);
+        void Bounce(IReadOnlyCollection<IBrick> bricksHitList, IBorder border, IBall ball);
     }
 }

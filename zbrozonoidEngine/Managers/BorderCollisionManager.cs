@@ -23,17 +23,14 @@ namespace zbrozonoidEngine.Managers
 
     public class BorderCollisionManager : IBorderCollisionManager
     {
-        private IBorder border;
-
         private ICollisionManager collisionManager;
 
-        public BorderCollisionManager(IBorder border, ICollisionManager collisionManager)
+        public BorderCollisionManager(ICollisionManager collisionManager)
         {
-            this.border = border;
             this.collisionManager = collisionManager;
         }
 
-        public bool DetectAndVerify(IPad pad)
+        private bool DetectAndVerify(IBorder border, IPad pad)
         {
             if (collisionManager.Detect(border, pad))
             {
@@ -53,12 +50,25 @@ namespace zbrozonoidEngine.Managers
             return false;
         }
 
-        public bool Detect(IBall ball)
+        public bool DetectAndVerify(IEnumerable<IBorder> borders, IPad pad)
+        {
+            foreach (IBorder border in borders)
+            {
+                if (DetectAndVerify(border, pad))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public bool Detect(IBorder border, IBall ball)
         {
             return collisionManager.Detect(border, ball);
         }
 
-        public void Bounce(List<IBrick> bricksHitList, IBall ball)
+        public void Bounce(IReadOnlyCollection<IBrick> bricksHitList, IBorder border, IBall ball)
         {
             collisionManager.Bounce(bricksHitList, border, ball);
             ball.SavePosition();

@@ -107,19 +107,19 @@ namespace zbrozonoidEngine.Managers
             ball.CalculateNewDegree(type);
         }
 
-        public void Bounce(ICollection<IBrick> bricksHit, IBorder border, IBall ball)
+        public void Bounce(IReadOnlyCollection<IBrick> bricksHit, IBorder border, IBall ball)
         {
             List<IBoundary> obstacles = bricksHit.Cast<IBoundary>().ToList(); 
             Bounce(obstacles, border, ball, out var degreeType);
         }
 
-        public void Bounce(ICollection<IBorder> bordersHit, IBorder border, IBall ball)
+        public void Bounce(IReadOnlyCollection<IBorder> bordersHit, IBorder border, IBall ball)
         {
             List<IBoundary> obstacles = bordersHit.Cast<IBoundary>().ToList();
             Bounce(obstacles, border, ball, out var degreeType);
         }
 
-        public void Bounce(ICollection<IBrick> bricksHit, IBrick brick, IBall ball)
+        public void Bounce(IReadOnlyCollection<IBrick> bricksHit, IBrick brick, IBall ball)
         {
             List<IBoundary> obstacles = bricksHit.Cast<IBoundary>().ToList();
             Bounce(obstacles, brick, ball, out var degreeType);
@@ -129,7 +129,7 @@ namespace zbrozonoidEngine.Managers
             }
         }
 
-        private void Bounce(ICollection<IBoundary> bricksHit, IBoundary obstacle, IBall ball, out DegreeType degreeType)
+        private void Bounce(IReadOnlyCollection<IBoundary> bricksHit, IBoundary obstacle, IBall ball, out DegreeType degreeType)
         {
             degreeType = DegreeType.None;
 
@@ -342,7 +342,7 @@ namespace zbrozonoidEngine.Managers
             return false;
         }
 
-        private bool IsPosYEqual(ICollection<IBoundary> bricksHit)
+        private bool IsPosYEqual(IReadOnlyCollection<IBoundary> bricksHit)
         {
             if (bricksHit.Count == 0)
             {
@@ -359,7 +359,7 @@ namespace zbrozonoidEngine.Managers
             return true;
         }
 
-        private bool IsPosXEqual(ICollection<IBoundary> bricksHit)
+        private bool IsPosXEqual(IReadOnlyCollection<IBoundary> bricksHit)
         {
             if (bricksHit.Count == 0)
             {

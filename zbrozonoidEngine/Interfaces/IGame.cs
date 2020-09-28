@@ -53,8 +53,6 @@ namespace zbrozonoidEngine.Interfaces
 
         void HandleBrickCollision(IBall currentBall, IEnumerable<int> bricksHit);
 
-        bool IsBallDestroyer(IBall ball);
-
         void LostBalls();
 
         void SavePosition(IBall ball);

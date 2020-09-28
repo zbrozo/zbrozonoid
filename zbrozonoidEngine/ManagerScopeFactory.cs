@@ -22,6 +22,7 @@ namespace zbrozonoidEngine
             builder.RegisterType<BallManager>().As<IBallManager>().SingleInstance();
             builder.RegisterType<BorderManager>().As<IBorderManager>().SingleInstance();
             builder.RegisterType<PadManager>().As<IPadManager>().SingleInstance();
+            builder.RegisterType<BorderCollisionManager>().As<IBorderCollisionManager>().SingleInstance();
 
             return builder.Build();
         }

@@ -30,8 +30,8 @@ namespace zbrozonoidEngine.States.BallInPlayCommands
 
             foreach (IBorder border in borderManager)
             {
-                IBorderCollisionManager borderCollisionManager = new BorderCollisionManager(border, collisionManager);
-                if (borderCollisionManager.Detect(ball))
+                var borderCollisionManager = new BorderCollisionManager(collisionManager);
+                if (borderCollisionManager.Detect(border, ball))
                 {
                     bordersHitList.Add(border);
                 }
