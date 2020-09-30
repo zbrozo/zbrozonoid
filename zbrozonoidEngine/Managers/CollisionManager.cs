@@ -109,45 +109,40 @@ namespace zbrozonoidEngine.Managers
 
         public void Bounce(IReadOnlyCollection<IBrick> bricksHit, IBorder border, IBall ball)
         {
-            List<IBoundary> obstacles = bricksHit.Cast<IBoundary>().ToList(); 
-            Bounce(obstacles, border, ball, out var degreeType);
+            ball.BounceBack();
         }
 
-        public void Bounce(IReadOnlyCollection<IBorder> bordersHit, IBorder border, IBall ball)
+        public void Bounce(IReadOnlyCollection<IBorder> borders, IBall ball)
         {
-            List<IBoundary> obstacles = bordersHit.Cast<IBoundary>().ToList();
-            Bounce(obstacles, border, ball, out var degreeType);
+            var obstacles = borders.Cast<IBoundary>().ToList();
+            Bounce(obstacles, ball, out var degreeType);
         }
 
-        public void Bounce(IReadOnlyCollection<IBrick> bricksHit, IBrick brick, IBall ball)
+        public void Bounce(IReadOnlyCollection<IBrick> bricks, IBall ball)
         {
-            List<IBoundary> obstacles = bricksHit.Cast<IBoundary>().ToList();
-            Bounce(obstacles, brick, ball, out var degreeType);
+            var obstacles = bricks.Cast<IBoundary>().ToList();
+            Bounce(obstacles, ball, out var degreeType);
             if (degreeType != DegreeType.None)
             {
                 ball.CalculateNewDegree(degreeType);
             }
         }
 
-        private void Bounce(IReadOnlyCollection<IBoundary> bricksHit, IBoundary obstacle, IBall ball, out DegreeType degreeType)
+        private void Bounce(IReadOnlyCollection<IBoundary> obstacles, IBall ball, out DegreeType degreeType)
         {
             degreeType = DegreeType.None;
 
-            if (bricksHit == null || bricksHit.Count == 0)
+            if (obstacles.Count == 1)
             {
-                BounceBall(obstacle, ball, out degreeType);
+                BounceBall(obstacles.First(), ball, out degreeType);
             }
-            else if (bricksHit.Count == 1)
+            else if (obstacles.Count > 0)
             {
-                BounceBall(obstacle, ball, out degreeType);
-            }
-            else if (bricksHit.Count > 0)
-            {
-                if (IsPosXEqual(bricksHit))
+                if (IsPosXEqual(obstacles))
                 {
                     BallBounceFromVertEdge(ball);
                 }
-                else if (IsPosYEqual(bricksHit))
+                else if (IsPosYEqual(obstacles))
                 {
                     BallBounceFromHorizEdge(ball);
                 }

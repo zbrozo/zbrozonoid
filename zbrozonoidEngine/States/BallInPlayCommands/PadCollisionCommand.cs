@@ -3,7 +3,7 @@ using zbrozonoidEngine.Managers;
 
 namespace zbrozonoidEngine.States.BallInPlayCommands
 {
-    public class HandlePadCollisionCommand : IHandleCollisionCommand
+    public class PadCollisionCommand : ICollisionCommand
     {
         private readonly ICollisionManager collisionManagerForMoveReversion = new CollisionManager();
 
@@ -15,7 +15,7 @@ namespace zbrozonoidEngine.States.BallInPlayCommands
 
         private const int padSpeedToGoBallFaster = 5;
 
-        public HandlePadCollisionCommand(
+        public PadCollisionCommand(
             IPadManager padManager, 
             IBorderManager borderManager,
             IScreenCollisionManager screenCollisionManager,
@@ -29,12 +29,20 @@ namespace zbrozonoidEngine.States.BallInPlayCommands
             this.collisionState = collisionState;
         }
 
-        public void Execute(IBall ball)
+        public void Detect(IBall ball)
         {
-            HandlePadCollision(ball);
+            DetectPadCollision(ball);
         }
 
-        protected void HandlePadCollision(IBall ball)
+        public void Bounce(IBall ball)
+        {
+            if (collisionState.BounceFromPad)
+            {
+                collisionManager.Bounce(collisionState.Pad, ball);
+            }
+        }
+
+        protected void DetectPadCollision(IBall ball)
         {
             IPad pad = null;
 

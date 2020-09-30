@@ -2,8 +2,9 @@
 
 namespace zbrozonoidEngine.States.BallInPlayCommands
 {
-    public interface IHandleCollisionCommand
+    public interface ICollisionCommand
     {
-        void Execute(IBall ball);
+        void Detect(IBall ball);
+        void Bounce(IBall ball);
     }
 }

@@ -70,7 +70,8 @@ namespace zbrozonoidEngine.Managers
 
         public void Bounce(IReadOnlyCollection<IBrick> bricksHitList, IBorder border, IBall ball)
         {
-            collisionManager.Bounce(bricksHitList, border, ball);
+            // TODO
+            //collisionManager.Bounce(bricksHitList, border, ball);
             ball.SavePosition();
         }
     }

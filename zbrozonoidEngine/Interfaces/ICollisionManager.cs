@@ -25,9 +25,9 @@ namespace zbrozonoidEngine.Interfaces
         bool Detect(IBoundary first, IBoundary second);
 
         void Bounce(IPad pad, IBall ball);
-        void Bounce(IReadOnlyCollection<IBrick> bricksHit, IBorder border, IBall ball);
-        void Bounce(IReadOnlyCollection<IBrick> bricksHit, IBrick brick, IBall ball);
-        void Bounce(IReadOnlyCollection<IBorder> bricksHit, IBorder border, IBall ball);
+        void Bounce(IReadOnlyCollection<IBrick> bricks, IBorder border, IBall ball);
+        void Bounce(IReadOnlyCollection<IBrick> bricks, IBall ball);
+        void Bounce(IReadOnlyCollection<IBorder> borders, IBall ball);
 
         void LogData();
     }

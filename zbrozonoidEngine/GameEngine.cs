@@ -96,7 +96,6 @@ namespace zbrozonoidEngine
             ballStateMachine = new BallStateMachine(
                 ManagerScope, 
                 Bricks, 
-                SavePosition, 
                 HitBrick, 
                 LostBall);
 
@@ -169,6 +168,8 @@ namespace zbrozonoidEngine
                     {
                         break;
                     }
+
+                    SavePosition(ball);
                 }
             }
 

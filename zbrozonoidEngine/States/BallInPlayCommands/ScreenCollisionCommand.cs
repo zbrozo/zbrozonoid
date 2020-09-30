@@ -2,24 +2,29 @@
 
 namespace zbrozonoidEngine.States.BallInPlayCommands
 {
-    public class HandleScreenCollisionCommand : IHandleCollisionCommand
+    public class ScreenCollisionCommand : ICollisionCommand
     {
         private IScreenCollisionManager screenCollisionManager;
         BallCollisionState collisionState;
 
-        public HandleScreenCollisionCommand(IScreenCollisionManager screenCollisionManager, 
-                                            BallCollisionState collisionState)
+        public ScreenCollisionCommand(
+            IScreenCollisionManager screenCollisionManager, 
+            BallCollisionState collisionState)
         {
             this.screenCollisionManager = screenCollisionManager;
             this.collisionState = collisionState;
         }
 
-        public void Execute(IBall ball)
+        public void Detect(IBall ball)
         {
-            HandleScreenCollision(ball);
+            DetectScreenCollision(ball);
         }
 
-        private void HandleScreenCollision(IBall ball)
+        public void Bounce(IBall ball)
+        {
+        }
+
+        private void DetectScreenCollision(IBall ball)
         {
             if (screenCollisionManager.Detect(ball))
             {

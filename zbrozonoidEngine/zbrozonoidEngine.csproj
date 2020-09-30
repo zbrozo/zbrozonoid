@@ -33,7 +33,7 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml" />
     <Reference Include="NLog">
-      <HintPath>..\packages\NLog.4.7.4\lib\net45\NLog.dll</HintPath>
+      <HintPath>..\packages\NLog.4.7.5\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Configuration" />
@@ -54,9 +54,22 @@
     </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="Autofac">
-      <HintPath>..\packages\Autofac.5.2.0\lib\net461\Autofac.dll</HintPath>
+      <HintPath>..\packages\Autofac.6.0.0\lib\netstandard2.0\Autofac.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Buffers">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics.Vectors">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Memory">
+      <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.DiagnosticSource">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.7.1\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BackgroundEventArgs.cs" />
@@ -107,11 +120,6 @@
     <Compile Include="Interfaces\IMovement.cs" />
     <Compile Include="LinearMovement.cs" />
     <Compile Include="CollisionFlags.cs" />
-    <Compile Include="States\BallInPlayCommands\IHandleCollisionCommand.cs" />
-    <Compile Include="States\BallInPlayCommands\HandleScreenCollisionCommand.cs" />
-    <Compile Include="States\BallInPlayCommands\HandleBorderCollisionCommand.cs" />
-    <Compile Include="States\BallInPlayCommands\HandlePadCollisionCommand.cs" />
-    <Compile Include="States\BallInPlayCommands\HandleBrickCollisionCommand.cs" />
     <Compile Include="Vector2.cs" />
     <Compile Include="Rectangle.cs" />
     <Compile Include="BallSpeed.cs" />
@@ -127,6 +135,11 @@
     <Compile Include="BallBuilder.cs" />
     <Compile Include="LevelBuilder.cs" />
     <Compile Include="BallExtraFeatureBuilder.cs" />
+    <Compile Include="States\BallInPlayCommands\ICollisionCommand.cs" />
+    <Compile Include="States\BallInPlayCommands\BrickCollisionCommand.cs" />
+    <Compile Include="States\BallInPlayCommands\ScreenCollisionCommand.cs" />
+    <Compile Include="States\BallInPlayCommands\BorderCollisionCommand.cs" />
+    <Compile Include="States\BallInPlayCommands\PadCollisionCommand.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

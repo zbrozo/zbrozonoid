@@ -18,11 +18,11 @@ namespace zbrozonoidEngine
         public BallStateMachine(
             ILifetimeScope scope, 
             ICollection<IBrick> bricks,
-            Action<IBall> savePosition,
-            Action<IBall, List<int>> handleBrickCollision,
+            //Action<IBall> savePosition,
+            Action<IBall, IEnumerable<int>> handleBrickCollision,
             Action lostBalls)
         {
-            ballInPlayState = new BallInPlayState(scope, bricks, savePosition, handleBrickCollision, lostBalls);
+            ballInPlayState = new BallInPlayState(scope, bricks, handleBrickCollision, lostBalls);
             ballInIdleState = new BallInIdleState(scope);
 
             currentState = ballInIdleState;

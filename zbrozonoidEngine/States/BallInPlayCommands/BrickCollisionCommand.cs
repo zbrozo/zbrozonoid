@@ -4,7 +4,7 @@ using zbrozonoidEngine.Interfaces;
 
 namespace zbrozonoidEngine.States.BallInPlayCommands
 {
-    public class HandleBrickCollisionCommand : IHandleCollisionCommand
+    public class BrickCollisionCommand : ICollisionCommand
     {
         private readonly ICollection<IBrick> bricks;
         private readonly ILevelManager levelManager;
@@ -12,12 +12,12 @@ namespace zbrozonoidEngine.States.BallInPlayCommands
         private readonly ITailManager tailManager;
         private BallCollisionState collisionState;
 
-        public HandleBrickCollisionCommand(ICollection<IBrick> bricks,
-                                           ILevelManager levelManager,
-                                           ITailManager tailManager, 
-                                           ICollisionManager collisionManager,
-                                           BallCollisionState collisionState
-                                           )
+        public BrickCollisionCommand(
+            ICollection<IBrick> bricks,
+            ILevelManager levelManager,
+            ITailManager tailManager, 
+            ICollisionManager collisionManager,
+            BallCollisionState collisionState)
         {
             this.bricks = bricks;
             this.levelManager = levelManager;
@@ -26,12 +26,24 @@ namespace zbrozonoidEngine.States.BallInPlayCommands
             this.collisionState = collisionState;
         }
 
-        public void Execute(IBall ball)
+        public void Detect(IBall ball)
         {
-            HandleBrickCollision(ball, tailManager?.Find(ball) != null);
+            DetectBrickCollision(ball, tailManager?.Find(ball) != null);
         }
 
-        private void HandleBrickCollision(IBall ball, bool isDestroyer)
+        public void Bounce(IBall ball)
+        {
+            if (collisionState.CollisionWithBrick &&
+                collisionState.BounceFromBrick &&
+                !collisionState.BounceFromBorder
+                )
+            {
+                var hitBricks = bricks.FilterByIndex(collisionState.BricksHitList).Select(x => x.Key).ToArray();
+                collisionManager.Bounce(hitBricks, ball);
+            }
+        }
+
+        private void DetectBrickCollision(IBall ball, bool isDestroyer)
         {
             bool bounce = false;
 
