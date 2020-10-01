@@ -28,6 +28,7 @@ namespace zbrozonoid
 
     using zbrozonoid.Menu;
     using zbrozonoid.Views;
+    using Newtonsoft.Json;
 
     public class Window
     {
@@ -49,6 +50,8 @@ namespace zbrozonoid
         private readonly IMenuViewModel menuViewModel;
         private readonly IGamePlayfieldView gamePlayfieldView;
         private readonly IViewStateMachine viewStateMachine;
+
+        private readonly WebClient webClient = new WebClient();
 
         public Window(IGameEngine game)
         {
@@ -180,6 +183,26 @@ namespace zbrozonoid
 
             game.SetPadMove(args.X, args.Device);
 
+
+
+
+            bool remote = false;
+            if (remote)
+            {
+                var movementJson = JsonConvert.SerializeObject(new PadMovement { PlayerId = 1, Move = args.X });
+                webClient.Put(1, movementJson);
+
+                var response = webClient.Get(1);
+                var movement = JsonConvert.DeserializeObject<PadMovement>(response);
+                if (movement != null)
+                {
+                    game.SetPadMove(movement.Move, 9000);
+                }
+            }
+
+
+
+
             if (viewStateMachine.IsMenuState)
             {
                 menuViewModel.Move(args.Y);
@@ -218,6 +241,7 @@ namespace zbrozonoid
                 }
 
                 viewStateMachine.Action();
+
 
                 // Update the window
                 app.Display();

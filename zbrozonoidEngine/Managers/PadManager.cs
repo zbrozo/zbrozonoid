@@ -28,6 +28,9 @@ namespace zbrozonoidEngine.Managers
 
         private IScreen screen;
 
+        public uint ManipulatorDefaultId { get; } = 0;
+        public uint ManipulatorRemoteId { get; } = 9000;
+
         public PadManager(IScreen screen)
         {
             this.screen = screen;
@@ -37,7 +40,7 @@ namespace zbrozonoidEngine.Managers
         {
             pads.Clear();
 
-            uint manipulator = 0;
+            uint manipulator = ManipulatorDefaultId;
 
             if (config.Players == 2)
             {
@@ -46,9 +49,12 @@ namespace zbrozonoidEngine.Managers
                 if (manipulator + 1 < config.Mouses)
                 {
                     ++manipulator;
+                    Add(Edge.Bottom, manipulator);
                 }
-
-                Add(Edge.Bottom, manipulator);
+                else
+                {
+                    Add(Edge.Bottom, ManipulatorRemoteId);
+                }
             }
             else if (config.Players == 1)
             {
