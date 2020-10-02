@@ -19,11 +19,11 @@ namespace zbrozonoid.Menu
 
         private readonly IGameConfig config; 
 
-        public MenuViewModel(IGameConfig config, Action CloseAction, Action InGameAction)
+        public MenuViewModel(IGameConfig config, Action CloseAction, Action StartGameAction)
         {
             this.config = config;
 
-            Items.Add(new StartMenuItem(InGameAction));
+            Items.Add(new StartMenuItem(StartGameAction));
             Items.Add(new PlayersMenuItem(config));
             Items.Add(new QuitMenuItem(CloseAction));
 

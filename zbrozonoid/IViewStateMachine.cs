@@ -10,6 +10,8 @@ namespace zbrozonoid.Views
         bool IsMenuState { get; }
         bool IsPlayState { get; }
         bool IsStopState { get; }
+        bool IsStartState { get; }
+        bool IsGameOverState { get; }
 
         void Action();
 

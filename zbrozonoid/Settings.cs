@@ -8,7 +8,7 @@ namespace zbrozonoid
     public class Settings
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        private const int MaxPlayers = 2;
+        public const int MaxPlayers = 2;
 
         [JsonProperty("WebServiceAddress")]
         public string WebServiceAddress { get; set; } = "http://localhost:5000/api/";

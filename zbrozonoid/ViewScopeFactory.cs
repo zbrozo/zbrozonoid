@@ -15,7 +15,7 @@ namespace zbrozonoid
         {
         }
 
-        public ILifetimeScope Create(RenderWindow app, IGameEngine game, Action InGameAction, ILifetimeScope managerScope)
+        public ILifetimeScope Create(RenderWindow app, IGameEngine game, Action StartGameAction, ILifetimeScope managerScope)
         {
             var scope = managerScope.BeginLifetimeScope(builder =>
             {
@@ -23,7 +23,7 @@ namespace zbrozonoid
                 builder.RegisterInstance(game).As<IGameEngine>();
                 builder.RegisterType<PrepareTextLine>().As<IPrepareTextLine>().SingleInstance();
 
-                builder.RegisterInstance(new MenuViewModel(game.GameConfig, app.Close, InGameAction)).As<IMenuViewModel>().SingleInstance();
+                builder.RegisterInstance(new MenuViewModel(game.GameConfig, app.Close, StartGameAction)).As<IMenuViewModel>().SingleInstance();
                 builder.RegisterType<MenuView>().As<IMenuView>().SingleInstance();
 
                 builder.RegisterType<RenderProxy>().As<IRenderProxy>().SingleInstance();

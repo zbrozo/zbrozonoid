@@ -29,11 +29,12 @@ namespace zbrozonoid
     using zbrozonoid.Menu;
     using zbrozonoid.Views;
     using Newtonsoft.Json;
-    using System.IO;
 
     public class Window
     {
         private const string Name = "Zbrozonoid - a free arkanoid clone";
+
+        private const int RemoteManipulatorId = 9000;
 
         private readonly IGameEngine game;
 
@@ -55,6 +56,8 @@ namespace zbrozonoid
         private readonly WebClient webClient = new WebClient();
 
         private Settings settings;
+
+        private readonly int[] manipulators = new int[Settings.MaxPlayers];
 
         public Window(IGameEngine game)
         {
@@ -79,7 +82,11 @@ namespace zbrozonoid
             app.KeyPressed += OnKeyPressed;
             app.Resized += OnResized;
 
-            viewScope = viewScopeFactory.Create(app, game, InGameAction, managerScope);
+            viewScope = viewScopeFactory.Create(
+                app, 
+                game, 
+                StartPlayAction,
+                managerScope);
 
             menuViewModel = viewScope.Resolve<IMenuViewModel>();
             gamePlayfieldView = viewScope.Resolve<IGamePlayfieldView>();
@@ -117,13 +124,15 @@ namespace zbrozonoid
 
             if (viewStateMachine.IsPlayState)
             {
-                if (e.Code == Keyboard.Key.Backspace)
+                if (e.Code == Keyboard.Key.Backspace) // force level change :)
                 {
                     game.ForceChangeLevel = true;
                     viewStateMachine.Transitions(game);
                     return;
                 }
             }
+
+
         }
 
         private void OnResized(object sender, SizeEventArgs e)
@@ -139,7 +148,16 @@ namespace zbrozonoid
             }
             else
             {
-                viewStateMachine.Transitions(game);
+                if (viewStateMachine.IsStartState)
+                {
+                    viewStateMachine.Transitions(game);
+                    game.StartPlay();
+                }
+
+                if (viewStateMachine.IsGameOverState)
+                {
+                    viewStateMachine.Transitions(game);
+                }
             }
         }
 
@@ -152,6 +170,7 @@ namespace zbrozonoid
         public void OnLostBalls(object sender, EventArgs args)
         {
             viewStateMachine.Transitions(game);
+            game.GameIsOver();
         }
 
         public void OnBrickHit(object sender, BrickHitEventArgs arg)
@@ -190,25 +209,10 @@ namespace zbrozonoid
 
             game.SetPadMove(args.X, args.Device);
 
-
-
-
-            bool remote = false;
-            if (remote)
+            if (settings.Remote)
             {
-                var movementJson = JsonConvert.SerializeObject(new PadMovement { PlayerId = 1, Move = args.X });
-                webClient.Put(1, movementJson);
-
-                var response = webClient.Get(1);
-                var movement = JsonConvert.DeserializeObject<PadMovement>(response);
-                if (movement != null)
-                {
-                    game.SetPadMove(movement.Move, 9000);
-                }
+                RemotePadMovement(args.X, RemoteManipulatorId);
             }
-
-
-
 
             if (viewStateMachine.IsMenuState)
             {
@@ -260,11 +264,40 @@ namespace zbrozonoid
             managerScope.Dispose();
         }
 
-        public void InGameAction()
+        public void StartPlayAction()
         {
+            InitManipulators();
             viewStateMachine.Transitions(game);
+            game.StartPlay();
         }
 
+        private void InitManipulators()
+        {
+            int id = 0;
+            for (int i = 0; i < game.GameConfig.Mouses && i < game.GameConfig.Players; i++)
+            {
+                manipulators[i] = id;
+                ++id;
+            }
+
+            if (settings.Remote)
+            {
+                manipulators[game.GameConfig.Players - 1] = RemoteManipulatorId;
+            }
+        }
+
+        private void RemotePadMovement(int movement, uint id)
+        {
+            var movementJson = JsonConvert.SerializeObject(new PadMovement { PlayerId = (int)settings.PlayerOneId, Move = movement });
+            webClient.Put((int)settings.PlayerOneId, movementJson);
+
+            var response = webClient.Get((int)settings.PlayerTwoId);
+            var padMovement = JsonConvert.DeserializeObject<PadMovement>(response);
+            if (padMovement != null)
+            {
+                game.SetPadMove(padMovement.Move, id);
+            }
+        }
     }
 }
 
