@@ -29,6 +29,7 @@ namespace zbrozonoid
     using zbrozonoid.Menu;
     using zbrozonoid.Views;
     using Newtonsoft.Json;
+    using System.IO;
 
     public class Window
     {
@@ -53,9 +54,15 @@ namespace zbrozonoid
 
         private readonly WebClient webClient = new WebClient();
 
+        private Settings settings;
+
         public Window(IGameEngine game)
         {
             this.game = game; // GAME ENGINE
+
+            settings = Settings.LoadSettings() ?? new Settings(); 
+            Settings.ValidateSettings(settings);
+            game.GameConfig.Players = (int) settings.Players;
 
             managerScope = game.ManagerScope;
 
@@ -247,6 +254,9 @@ namespace zbrozonoid
                 app.Display();
             }
 
+            settings.Players = (uint) game.GameConfig.Players;
+            Settings.SaveSettings(settings);
+
             managerScope.Dispose();
         }
 
@@ -254,5 +264,7 @@ namespace zbrozonoid
         {
             viewStateMachine.Transitions(game);
         }
+
     }
 }
+
