@@ -27,6 +27,7 @@ namespace zbrozonoidEngine.Interfaces
         event EventHandler<LevelEventArgs> OnChangeLevelEvent;
         event EventHandler<BrickHitEventArgs> OnBrickHitEvent;
         event EventHandler<EventArgs> OnLostBallEvent;
+        event EventHandler<EventArgs> OnLevelCompletedEvent;
 
         ILifetimeScope ManagerScope { get; }
 
@@ -43,8 +44,9 @@ namespace zbrozonoidEngine.Interfaces
         void SetPadMove(int delta, uint manipulator);
 
         void Initialize();
+        void InitPlay(int[] manipulators);
         void StartPlay();
-        void GameIsOver();
+        void StopPlay();
 
         void GetScreenSize(out int width, out int height);
 

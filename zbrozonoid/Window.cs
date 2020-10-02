@@ -110,6 +110,7 @@ namespace zbrozonoid
                 {
                     game.GameState.Lifes = -1;
                     viewStateMachine.Transitions(game);
+                    game.StopPlay(); // game over
                     return;
                 }
 
@@ -128,6 +129,7 @@ namespace zbrozonoid
                 {
                     game.ForceChangeLevel = true;
                     viewStateMachine.Transitions(game);
+                    game.StopPlay(); 
                     return;
                 }
             }
@@ -167,10 +169,15 @@ namespace zbrozonoid
             gamePlayfieldView.PrepareBackground(e.Background);
         }
 
+        public void OnLevelCompleted(object sender, EventArgs e)
+        {
+            game.InitPlay(manipulators);
+        }
+
         public void OnLostBalls(object sender, EventArgs args)
         {
             viewStateMachine.Transitions(game);
-            game.GameIsOver();
+            game.StopPlay(); // game over
         }
 
         public void OnBrickHit(object sender, BrickHitEventArgs arg)
@@ -267,7 +274,10 @@ namespace zbrozonoid
         public void StartPlayAction()
         {
             InitManipulators();
+
             viewStateMachine.Transitions(game);
+
+            game.InitPlay(manipulators);
             game.StartPlay();
         }
 

@@ -21,7 +21,7 @@ namespace zbrozonoidEngine.Interfaces
 
     public interface IPadManager : IEnumerable<Tuple<Edge, uint, IPad>>
     {
-        void Create(IGameConfig config);
+        void Create(IGameConfig config, int[] manipulators);
 
         IPad GetFirst();
 

@@ -7,6 +7,9 @@ namespace zbrozonoidEngine
 {
     public class LevelBuilder
     {
+
+        private int[] manipulators;
+
         private IScreen screen;
         private ILevelManager levelManager;
         private IPadManager padManager;
@@ -36,6 +39,11 @@ namespace zbrozonoidEngine
             this.bricks = bricks;
         }
 
+        public void SetManipulators(int[] manipulators)
+        {
+            this.manipulators = manipulators;
+        }
+
         public void Create(bool restartLevel)
         {
             CreateObjects();
@@ -44,7 +52,11 @@ namespace zbrozonoidEngine
 
         private void CreateObjects()
         {
-            padManager.Create(gameConfig);
+            if (manipulators != null)
+            {
+                padManager.Create(gameConfig, manipulators);
+            }
+
             borderManager.Create(screen, gameConfig);
 
             foreach (var pad in padManager)
@@ -52,7 +64,7 @@ namespace zbrozonoidEngine
                 borderCollisionManager.DetectAndVerify(borderManager, pad.Item3);
             }
 
-            ballBuilder.Create(gameConfig);
+            //ballBuilder.Create(gameConfig);
         }
 
         private void CreateLevelMap(bool restartLevel)

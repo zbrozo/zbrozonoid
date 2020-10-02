@@ -32,6 +32,7 @@ namespace zbrozonoidEngine
         public event EventHandler<LevelEventArgs> OnChangeLevelEvent;
         public event EventHandler<BrickHitEventArgs> OnBrickHitEvent;
         public event EventHandler<EventArgs> OnLostBallEvent;
+        public event EventHandler<EventArgs> OnLevelCompletedEvent;
 
         private int ScreenWidth = 1024;
 
@@ -124,13 +125,42 @@ namespace zbrozonoidEngine
 
         public void Initialize()
         {
-            CreateLevel(false);
+            CreateLevel(false, new int[2] { 0, 0 });
+            ballBuilder.Create(GameConfig);
         }
 
         public void GetScreenSize(out int width, out int height)
         {
             width = ScreenWidth;
             height = ScreenHeight;
+        }
+
+
+        public void InitPlay(int[] manipulators)
+        {
+            if (!ballStateMachine.IsBallInIdleState())
+            {
+                return;
+            }
+
+            GameState.Pause = false;
+
+            if (levelManager.VerifyAllBricksAreHit() || ForceChangeLevel)
+            {
+                ForceChangeLevel = false;
+                CreateLevel(false, manipulators);
+            }
+            else
+            {
+                if (GameState.Lifes < 0)
+                {
+                    GameState.Lifes = 3;
+                    GameState.Scores = 0;
+
+                    CreateLevel(true, manipulators);
+                }
+            }
+
         }
 
         public void StartPlay()
@@ -140,21 +170,15 @@ namespace zbrozonoidEngine
                 return;
             }
 
-            GameState.Pause = false;
-
-            if (GameState.Lifes < 0)
-            {
-                GameState.Lifes = 3;
-                GameState.Scores = 0;
-
-                CreateLevel(true);
-            }
-            else
-            {
-                ballBuilder.Create(GameConfig);
-            }
+            ballBuilder.Create(GameConfig);
 
             ballStateMachine.GoIntoPlay();
+        }
+
+        public void StopPlay()
+        {
+            GameState.Pause = false;
+            ballStateMachine.GoIntoIdle();
         }
 
         public void Action()
@@ -175,9 +199,9 @@ namespace zbrozonoidEngine
 
             if (levelManager.VerifyAllBricksAreHit() || ForceChangeLevel)
             {
-                ForceChangeLevel = false;
-                CreateLevel(false);
+                OnLevelCompletedEvent?.Invoke(this, null);
             }
+
         }
 
         private void HitBrick(IBall currentBall, IEnumerable<int> bricksHit)
@@ -231,12 +255,6 @@ namespace zbrozonoidEngine
             OnLostBallEvent?.Invoke(this, null);
         }
 
-        public void GameIsOver()
-        {
-            GameState.Pause = false;
-            ballStateMachine.GoIntoIdle();
-        }
-
         private void SavePosition(IBall ball)
         {
             ball.SavePosition();
@@ -249,8 +267,9 @@ namespace zbrozonoidEngine
             }
         }
 
-        private void CreateLevel(bool restartLevel)
+        private void CreateLevel(bool restartLevel, int[] manipulators)
         {
+            levelBuilder.SetManipulators(manipulators);
             levelBuilder.Create(restartLevel);
             var args = new LevelEventArgs(levelManager.GetCurrent().BackgroundPath);
             OnChangeLevelEvent?.Invoke(this, args);
