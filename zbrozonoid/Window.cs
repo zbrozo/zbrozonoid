@@ -171,7 +171,7 @@ namespace zbrozonoid
 
         public void OnLevelCompleted(object sender, EventArgs e)
         {
-            game.InitPlay(manipulators);
+            game.InitPlay(manipulators, settings.PlayerOneLocation);
         }
 
         public void OnLostBalls(object sender, EventArgs args)
@@ -277,7 +277,7 @@ namespace zbrozonoid
 
             viewStateMachine.Transitions(game);
 
-            game.InitPlay(manipulators);
+            game.InitPlay(manipulators, settings.PlayerOneLocation);
             game.StartPlay();
         }
 
@@ -303,10 +303,14 @@ namespace zbrozonoid
 
             var response = webClient.Get((int)settings.PlayerTwoId);
             var padMovement = JsonConvert.DeserializeObject<PadMovement>(response);
-            if (padMovement != null)
+            if (padMovement == null)
             {
-                game.SetPadMove(padMovement.Move, id);
+                Logger.Error("Remote paddle movement not received");
+                return;
             }
+
+            game.SetPadMove(padMovement.Move, id);
+
         }
     }
 }

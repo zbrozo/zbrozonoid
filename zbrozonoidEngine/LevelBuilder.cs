@@ -9,6 +9,7 @@ namespace zbrozonoidEngine
     {
 
         private int[] manipulators;
+        private Edge playerOneLocation;
 
         private IScreen screen;
         private ILevelManager levelManager;
@@ -44,6 +45,11 @@ namespace zbrozonoidEngine
             this.manipulators = manipulators;
         }
 
+        public void SetPlayerOneLocation(Edge playerOneLocation)
+        {
+            this.playerOneLocation = playerOneLocation;
+        }
+
         public void Create(bool restartLevel)
         {
             CreateObjects();
@@ -54,7 +60,7 @@ namespace zbrozonoidEngine
         {
             if (manipulators != null)
             {
-                padManager.Create(gameConfig, manipulators);
+                padManager.Create(gameConfig, manipulators, playerOneLocation);
             }
 
             borderManager.Create(screen, gameConfig);
@@ -63,8 +69,6 @@ namespace zbrozonoidEngine
             {
                 borderCollisionManager.DetectAndVerify(borderManager, pad.Item3);
             }
-
-            //ballBuilder.Create(gameConfig);
         }
 
         private void CreateLevelMap(bool restartLevel)

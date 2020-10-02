@@ -124,8 +124,8 @@ namespace zbrozonoidEngine
         }
 
         public void Initialize()
-        {
-            CreateLevel(false, new int[2] { 0, 0 });
+        { 
+            CreateLevel(false, new int[2] { 0, 0 }, Edge.Bottom);
             ballBuilder.Create(GameConfig);
         }
 
@@ -135,8 +135,7 @@ namespace zbrozonoidEngine
             height = ScreenHeight;
         }
 
-
-        public void InitPlay(int[] manipulators)
+        public void InitPlay(int[] manipulators, Edge playerOneLocation)
         {
             if (!ballStateMachine.IsBallInIdleState())
             {
@@ -148,7 +147,7 @@ namespace zbrozonoidEngine
             if (levelManager.VerifyAllBricksAreHit() || ForceChangeLevel)
             {
                 ForceChangeLevel = false;
-                CreateLevel(false, manipulators);
+                CreateLevel(false, manipulators, playerOneLocation);
             }
             else
             {
@@ -157,7 +156,7 @@ namespace zbrozonoidEngine
                     GameState.Lifes = 3;
                     GameState.Scores = 0;
 
-                    CreateLevel(true, manipulators);
+                    CreateLevel(true, manipulators, playerOneLocation);
                 }
             }
 
@@ -267,9 +266,10 @@ namespace zbrozonoidEngine
             }
         }
 
-        private void CreateLevel(bool restartLevel, int[] manipulators)
+        private void CreateLevel(bool restartLevel, int[] manipulators, Edge playerOneLocation)
         {
             levelBuilder.SetManipulators(manipulators);
+            levelBuilder.SetPlayerOneLocation(playerOneLocation);
             levelBuilder.Create(restartLevel);
             var args = new LevelEventArgs(levelManager.GetCurrent().BackgroundPath);
             OnChangeLevelEvent?.Invoke(this, args);

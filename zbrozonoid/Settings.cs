@@ -2,6 +2,7 @@
 using System.IO;
 using Newtonsoft.Json;
 using NLog;
+using zbrozonoidEngine.Interfaces;
 
 namespace zbrozonoid
 {
@@ -24,6 +25,9 @@ namespace zbrozonoid
 
         [JsonProperty("Players")]
         public uint Players { get; set; } = 1;
+
+        [JsonProperty("PlayerOneType")]
+        public Edge PlayerOneLocation { get; set; } = Edge.Bottom;
 
         public static Settings LoadSettings()
         {
