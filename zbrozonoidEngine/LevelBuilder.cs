@@ -53,7 +53,7 @@ namespace zbrozonoidEngine
         private void CreateObjects()
         {
             padManager.Create(gameConfig, players);
-            borderManager.Create(screen, gameConfig);
+            borderManager.Create(screen, gameConfig, players.First(x => x.nr == 1).location);
 
             foreach (var pad in padManager)
             {

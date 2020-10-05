@@ -29,7 +29,7 @@ namespace zbrozonoidEngine.Managers
 
         private readonly List<IBorder> borders = new List<IBorder>();
 
-        public void Create(IScreen screen, IGameConfig config)
+        public void Create(IScreen screen, IGameConfig config, Edge playerOneLocation)
         {
             borders.Clear();
 
@@ -40,7 +40,7 @@ namespace zbrozonoidEngine.Managers
 
             if (config.Players <= 1)
             {
-                Border border = new Border(screen, Edge.Top);
+                Border border = new Border(screen, playerOneLocation == Edge.Bottom ? Edge.Top : Edge.Bottom);
                 borders.Add(border);
             }
 

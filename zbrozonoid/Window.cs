@@ -66,7 +66,7 @@ namespace zbrozonoid
         {
             this.game = game; // GAME ENGINE
 
-            settings = Settings.LoadSettings() ?? new Settings(); 
+            settings = Settings.LoadSettings() ?? new Settings();
             Settings.ValidateSettings(settings);
             game.GameConfig.Players = settings.Players.PlayersAmount;
 
@@ -86,8 +86,8 @@ namespace zbrozonoid
             app.Resized += OnResized;
 
             viewScope = viewScopeFactory.Create(
-                app, 
-                game, 
+                app,
+                game,
                 StartPlayAction,
                 managerScope);
 
@@ -102,7 +102,7 @@ namespace zbrozonoid
         {
             if (e.Code == Keyboard.Key.Escape)
             {
-                game.GameState.Pause = true; 
+                game.GameState.Pause = true;
                 viewStateMachine.Transitions(game);
                 return;
             }
@@ -132,7 +132,7 @@ namespace zbrozonoid
                 {
                     game.ForceChangeLevel = true;
                     viewStateMachine.Transitions(game);
-                    game.StopPlay(); 
+                    game.StopPlay();
                     return;
                 }
             }
@@ -276,9 +276,31 @@ namespace zbrozonoid
 
         public void StartPlayAction()
         {
+            ICollection<int> manipulators = PrepareManipulators();
+            PreparePlayers(manipulators);
 
-            ICollection<int> manipulators = GetManipulators();
+            viewStateMachine.Transitions(game);
 
+            game.InitPlay(Players);
+            game.StartPlay();
+        }
+
+        private ICollection<int> PrepareManipulators()
+        {
+            IList<int> manipulators = new List<int>();
+
+            int id = 0;
+            for (int i = 0; i < game.GameConfig.Mouses && i < game.GameConfig.Players; i++)
+            {
+                manipulators.Add(id);
+                ++id;
+            }
+
+            return manipulators;
+        }
+
+        private void PreparePlayers(ICollection<int> manipulators)
+        {
             Players = new List<zbrozonoidEngine.Player>();
             foreach (var details in settings.Players.PlayersDetails)
             {
@@ -299,29 +321,14 @@ namespace zbrozonoid
                 Players.Add(player);
             }
 
-            viewStateMachine.Transitions(game);
-
-            game.InitPlay(Players);
-            game.StartPlay();
-        }
-
-        private ICollection<int> GetManipulators()
-        {
-            IList<int> manipulators = new List<int>();
-
-            int id = 0;
-            for (int i = 0; i < game.GameConfig.Mouses && i < game.GameConfig.Players; i++)
-            {
-                manipulators.Add(id);
-                ++id;
-            }
-
             if (settings.Remote)
             {
-                manipulators[game.GameConfig.Players - 1] = RemoteManipulatorId;
+                var player = Players.First(x => x.nr == 2);
+                if (player != null)
+                {
+                    player.manipulator = RemoteManipulatorId;
+                }
             }
-
-            return manipulators;
         }
 
         private void RemotePadMovement(int movement, uint id)
