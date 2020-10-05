@@ -20,6 +20,6 @@ namespace zbrozonoidEngine.Interfaces
 
     public interface IBorderManager : ICollection<IBorder>
     {
-        void Create(IScreen screen, IGameConfig config, Edge playerOneLocation);
+        void Create(IScreen screen, IGameConfig config, ICollection<Player> players);
     }
 }

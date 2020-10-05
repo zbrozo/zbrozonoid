@@ -59,7 +59,6 @@ namespace zbrozonoid
             {
                 Logger.Info("State: Begin -> PlayGame");
                 currentState = scope.Resolve<IGamePlayView>();
-                //game.StartPlay();
                 return;
             }
 
@@ -114,7 +113,6 @@ namespace zbrozonoid
             {
                 Logger.Info("State: StartPlay -> GamePlay");
                 currentState = scope.Resolve<IGamePlayView>();
-                //game.StartPlay();
                 return;
             }
 
@@ -122,7 +120,6 @@ namespace zbrozonoid
             {
                 Logger.Info("State: GameOver -> Begin");
                 currentState = scope.Resolve<IGameBeginView>();
-                //game.GameIsOver();
                 return;
             }
         }

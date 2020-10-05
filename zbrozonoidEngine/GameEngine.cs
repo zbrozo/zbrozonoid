@@ -125,7 +125,11 @@ namespace zbrozonoidEngine
 
         public void Initialize()
         { 
-            CreateLevel(false, new List<Player> { new Player {nr = 1, manipulator = 0, location = Edge.Bottom } });
+            CreateLevel(false, new List<Player> { 
+                new Player {nr = 1, manipulator = 0, location = Edge.Bottom },
+                new Player {nr = 2, manipulator = 0, location = Edge.Bottom } 
+                });
+
             ballBuilder.Create(GameConfig);
         }
 

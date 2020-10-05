@@ -18,8 +18,8 @@ namespace zbrozonoidEngine.Managers
 {
     using System.Collections;
     using System.Collections.Generic;
-
-        using zbrozonoidEngine.Interfaces;
+    using System.Linq;
+    using zbrozonoidEngine.Interfaces;
 
     public class BorderManager : IBorderManager
     {
@@ -29,7 +29,7 @@ namespace zbrozonoidEngine.Managers
 
         private readonly List<IBorder> borders = new List<IBorder>();
 
-        public void Create(IScreen screen, IGameConfig config, Edge playerOneLocation)
+        public void Create(IScreen screen, IGameConfig config, ICollection<Player> players)
         {
             borders.Clear();
 
@@ -38,9 +38,25 @@ namespace zbrozonoidEngine.Managers
             Border borderRight = new Border(screen, Edge.Right);
             borders.Add(borderRight);
 
+            if (config.Players == 2)
+            {
+                var locations = players.Select(x => x.location).Distinct().ToList();
+                if (locations.Count == 1)
+                {
+                    Edge edge = locations.First();
+                    Border border = new Border(screen, edge == Edge.Bottom ? Edge.Top : Edge.Bottom);
+                    borders.Add(border);
+                }
+            }
+
             if (config.Players <= 1)
             {
-                Border border = new Border(screen, playerOneLocation == Edge.Bottom ? Edge.Top : Edge.Bottom);
+                Edge edge = Edge.Top;
+                if (players.Count > 0)
+                {
+                    edge = players.First(x => x.nr == 1).location == Edge.Bottom ? Edge.Top : Edge.Bottom;
+                }
+                Border border = new Border(screen, edge);
                 borders.Add(border);
             }
 
