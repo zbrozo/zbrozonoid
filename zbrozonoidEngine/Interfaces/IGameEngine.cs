@@ -44,7 +44,7 @@ namespace zbrozonoidEngine.Interfaces
         void SetPadMove(int delta, uint manipulator);
 
         void Initialize();
-        void InitPlay(int[] manipulators, Edge playerOneLocation);
+        void InitPlay(ICollection<Player> players);
         void StartPlay();
         void StopPlay();
 

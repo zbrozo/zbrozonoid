@@ -8,8 +8,7 @@ namespace zbrozonoidEngine
     public class LevelBuilder
     {
 
-        private int[] manipulators;
-        private Edge playerOneLocation;
+        private ICollection<Player> players;
 
         private IScreen screen;
         private ILevelManager levelManager;
@@ -40,14 +39,9 @@ namespace zbrozonoidEngine
             this.bricks = bricks;
         }
 
-        public void SetManipulators(int[] manipulators)
+        public void SetPlayers(ICollection<Player> players)
         {
-            this.manipulators = manipulators;
-        }
-
-        public void SetPlayerOneLocation(Edge playerOneLocation)
-        {
-            this.playerOneLocation = playerOneLocation;
+            this.players = players;
         }
 
         public void Create(bool restartLevel)
@@ -58,11 +52,7 @@ namespace zbrozonoidEngine
 
         private void CreateObjects()
         {
-            if (manipulators != null)
-            {
-                padManager.Create(gameConfig, manipulators, playerOneLocation);
-            }
-
+            padManager.Create(gameConfig, players);
             borderManager.Create(screen, gameConfig);
 
             foreach (var pad in padManager)

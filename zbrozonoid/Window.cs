@@ -29,6 +29,9 @@ namespace zbrozonoid
     using zbrozonoid.Menu;
     using zbrozonoid.Views;
     using Newtonsoft.Json;
+    using zbrozonoid.AppSettings;
+    using System.Collections.Generic;
+    using System.Linq;
 
     public class Window
     {
@@ -57,7 +60,7 @@ namespace zbrozonoid
 
         private Settings settings;
 
-        private readonly int[] manipulators = new int[Settings.MaxPlayers];
+        private ICollection<zbrozonoidEngine.Player> Players;
 
         public Window(IGameEngine game)
         {
@@ -65,7 +68,7 @@ namespace zbrozonoid
 
             settings = Settings.LoadSettings() ?? new Settings(); 
             Settings.ValidateSettings(settings);
-            game.GameConfig.Players = (int) settings.Players;
+            game.GameConfig.Players = settings.Players.PlayersAmount;
 
             managerScope = game.ManagerScope;
 
@@ -171,7 +174,7 @@ namespace zbrozonoid
 
         public void OnLevelCompleted(object sender, EventArgs e)
         {
-            game.InitPlay(manipulators, settings.PlayerOneLocation);
+            game.InitPlay(Players);
         }
 
         public void OnLostBalls(object sender, EventArgs args)
@@ -265,7 +268,7 @@ namespace zbrozonoid
                 app.Display();
             }
 
-            settings.Players = (uint) game.GameConfig.Players;
+            settings.Players.PlayersAmount = game.GameConfig.Players;
             Settings.SaveSettings(settings);
 
             managerScope.Dispose();
@@ -273,20 +276,43 @@ namespace zbrozonoid
 
         public void StartPlayAction()
         {
-            InitManipulators();
+
+            ICollection<int> manipulators = GetManipulators();
+
+            Players = new List<zbrozonoidEngine.Player>();
+            foreach (var details in settings.Players.PlayersDetails)
+            {
+                var player = new zbrozonoidEngine.Player();
+
+                player.nr = details.Nr;
+
+                if (manipulators.Count <= player.nr - 1)
+                {
+                    player.manipulator = manipulators.ElementAt(0);
+                }
+                else
+                {
+                    player.manipulator = manipulators.ElementAt(player.nr - 1);
+                }
+                player.location = details.Location;
+
+                Players.Add(player);
+            }
 
             viewStateMachine.Transitions(game);
 
-            game.InitPlay(manipulators, settings.PlayerOneLocation);
+            game.InitPlay(Players);
             game.StartPlay();
         }
 
-        private void InitManipulators()
+        private ICollection<int> GetManipulators()
         {
+            IList<int> manipulators = new List<int>();
+
             int id = 0;
             for (int i = 0; i < game.GameConfig.Mouses && i < game.GameConfig.Players; i++)
             {
-                manipulators[i] = id;
+                manipulators.Add(id);
                 ++id;
             }
 
@@ -294,14 +320,16 @@ namespace zbrozonoid
             {
                 manipulators[game.GameConfig.Players - 1] = RemoteManipulatorId;
             }
+
+            return manipulators;
         }
 
         private void RemotePadMovement(int movement, uint id)
         {
-            var movementJson = JsonConvert.SerializeObject(new PadMovement { PlayerId = (int)settings.PlayerOneId, Move = movement });
-            webClient.Put((int)settings.PlayerOneId, movementJson);
+            var movementJson = JsonConvert.SerializeObject(new PadMovement { PlayerId = settings.Players.PlayersDetails[0].WebId, Move = movement });
+            webClient.Put(settings.Players.PlayersDetails[0].WebId, movementJson);
 
-            var response = webClient.Get((int)settings.PlayerTwoId);
+            var response = webClient.Get(settings.Players.PlayersDetails[1].WebId);
             var padMovement = JsonConvert.DeserializeObject<PadMovement>(response);
             if (padMovement == null)
             {

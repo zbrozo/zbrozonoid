@@ -2,9 +2,8 @@
 using System.IO;
 using Newtonsoft.Json;
 using NLog;
-using zbrozonoidEngine.Interfaces;
 
-namespace zbrozonoid
+namespace zbrozonoid.AppSettings
 {
     public class Settings
     {
@@ -14,20 +13,11 @@ namespace zbrozonoid
         [JsonProperty("WebServiceAddress")]
         public string WebServiceAddress { get; set; } = "http://localhost:5000/api/";
 
-        [JsonProperty("PlayerOneId")]
-        public uint PlayerOneId { get; set; } = 1;
-
-        [JsonProperty("PlayerTwoId")]
-        public uint PlayerTwoId { get; set; } = 2;
-
         [JsonProperty("Remote")]
         public bool Remote { get; set; } = false;
 
         [JsonProperty("Players")]
-        public uint Players { get; set; } = 1;
-
-        [JsonProperty("PlayerOneType")]
-        public Edge PlayerOneLocation { get; set; } = Edge.Bottom;
+        public Players Players { get; set; } = new Players();
 
         public static Settings LoadSettings()
         {
@@ -49,7 +39,7 @@ namespace zbrozonoid
 
         public static void ValidateSettings(Settings settings)
         {
-            if (settings.Players > MaxPlayers)
+            if (settings.Players.PlayersAmount > MaxPlayers)
             {
                 throw new OutOfMemoryException();
             }
@@ -57,7 +47,7 @@ namespace zbrozonoid
 
         public static void SaveSettings(Settings settings)
         {
-            var json = JsonConvert.SerializeObject(settings);
+            var json = JsonConvert.SerializeObject(settings, Formatting.Indented);
             using (StreamWriter file = new StreamWriter(@"settings.json"))
             {
                 file.Write(json);

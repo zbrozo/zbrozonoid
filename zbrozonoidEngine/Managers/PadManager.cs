@@ -33,18 +33,22 @@ namespace zbrozonoidEngine.Managers
             this.screen = screen;
         }
 
-        public void Create(IGameConfig config, int[] manipulators, Edge playerOneLocation)
+        public void Create(IGameConfig config, ICollection<Player> players)
         {
             pads.Clear();
 
             if (config.Players == 2)
             {
-                Add(playerOneLocation, (uint) manipulators[0]);
-                Add(playerOneLocation == Edge.Bottom ? Edge.Top : Edge.Bottom, (uint) manipulators[1]);
+                foreach (var player in players)
+                {
+                    Add(player.location, (uint) player.manipulator);
+                }
+
             }
             else if (config.Players == 1)
             {
-                Add(playerOneLocation, (uint) manipulators[0]);
+                var player = players.First(x => x.nr == 1);
+                Add(player.location, (uint) player.manipulator);
             }
         }
 
