@@ -85,7 +85,6 @@ namespace zbrozonoidEngineTests
             Assert.IsTrue(collisionState.BounceFromBrick);
         }
 
-
         [Test]
         public void VerifyBallShouldBounceFromTwoHorizontalBricks()
         {
@@ -107,7 +106,7 @@ namespace zbrozonoidEngineTests
             var borders = CreateBorders();
 
             ball.Boundary.Min = new Vector2(Width - BorderSize - (BallSize - 1), Height - BorderSize - (BallSize - 1));
-            
+
             collisionState.SetBorderCollistionState(true, true, borders);
             ICollisionCommand command = new BorderCollisionCommand(borders, manager, collisionState);
             command.Detect(ball);
