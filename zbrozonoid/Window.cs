@@ -131,8 +131,6 @@ namespace zbrozonoid
                 if (e.Code == Keyboard.Key.Backspace) // force level change :)
                 {
                     game.ForceChangeLevel = true;
-                    viewStateMachine.Transitions(game);
-                    game.StopPlay();
                     return;
                 }
             }
@@ -174,6 +172,8 @@ namespace zbrozonoid
 
         public void OnLevelCompleted(object sender, EventArgs e)
         {
+            viewStateMachine.Transitions(game);
+            game.StopPlay();
             game.InitPlay(Players);
         }
 
