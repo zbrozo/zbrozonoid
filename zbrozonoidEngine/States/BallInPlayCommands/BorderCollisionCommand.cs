@@ -8,7 +8,7 @@ namespace zbrozonoidEngine.States.BallInPlayCommands
     {
         private readonly IEnumerable<IBorder> borders;
         private readonly ICollisionManager collisionManager;
-        private BallCollisionState collisionState;
+        private readonly BallCollisionState collisionState;
 
         public BorderCollisionCommand(
             IEnumerable<IBorder> borders, 
@@ -36,9 +36,9 @@ namespace zbrozonoidEngine.States.BallInPlayCommands
             }
         }
 
-        protected void DetectBorderCollision(IBall ball)
+        private void DetectBorderCollision(IBall ball)
         {
-            List<IBorder> bordersHitList = new List<IBorder>();
+            var bordersHitList = new List<IBorder>();
 
             foreach (IBorder border in borders)
             {
@@ -54,6 +54,5 @@ namespace zbrozonoidEngine.States.BallInPlayCommands
                 collisionState.SetBorderCollistionState(true, true, bordersHitList);
             }
         }
-
     }
 }

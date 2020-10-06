@@ -25,7 +25,7 @@ namespace zbrozonoid
 
     static class Program
     {
-        private static readonly NLog.Logger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         static void Main(string[] args)
         {

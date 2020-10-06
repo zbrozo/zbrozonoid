@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Moq;
 using NLog;
 using NLog.Config;
@@ -15,20 +14,21 @@ namespace zbrozonoidEngineTests
 {
     public class BounceTests
     {
-        private const int width = 1024;
-        private const int height = 800;
-        private const int borderSize = 12;
-        private const int ballSize = 15;
+        private const int Width = 1024;
+        private const int Height = 800;
+        private const int BorderSize = 12;
+        private const int BallSize = 15;
 
         private Mock<IRandomGenerator> generatorMock;
         private Mock<IMovement> movementMock;
+        private Mock<ILevelManager> levelManagerMock;
+
         private IBall ball;
-        private IScreen screen = new Screen() { Width = width, Height = height };
-        private List<IBrick> bricks;
-        private List<IBorder> borders;
+
+        private readonly IScreen screen = new Screen() { Width = Width, Height = Height };
+
         private ICollisionManager manager;
         private BallCollisionState collisionState;
-        private Mock<ILevelManager> levelManagerMock;
 
         [SetUp]
         public void Setup()
@@ -40,21 +40,10 @@ namespace zbrozonoidEngineTests
             levelManagerMock = new Mock<ILevelManager>();
 
             ball = new Ball(generatorMock.Object, movementMock.Object);
-            ball.SetSize(ballSize, ballSize);
+            ball.SetSize(BallSize, BallSize);
 
-            bricks = new List<IBrick>();
-            borders = new List<IBorder>();
             manager = new CollisionManager();
             collisionState = new BallCollisionState();
-
-            bricks.Add(new Brick(BrickType.Solid, 0, 0));
-            bricks.Add(new Brick(BrickType.Solid, 50, 0));
-            bricks.Add(new Brick(BrickType.Solid, 100, 0));
-            bricks.Add(new Brick(BrickType.Solid, 100, 25));
-
-            borders.Add(new Border(screen, Edge.Right));
-            borders.Add(new Border(screen, Edge.Bottom));
-
         }
 
         private void SetupNLog()
@@ -70,6 +59,7 @@ namespace zbrozonoidEngineTests
         [Test]
         public void VerifyBallShouldNOTBounceFromOneBrick()
         {
+            var bricks = CreateBricks(0, 0);
             ball.Boundary.Min = new Vector2(0, 50);
 
             ICollisionCommand command = new BrickCollisionCommand(bricks, levelManagerMock.Object, null, manager, collisionState);
@@ -83,6 +73,8 @@ namespace zbrozonoidEngineTests
         [Test]
         public void VerifyBallShouldBounceFromOneBrick()
         {
+            var bricks = CreateBricks(0, 0);
+
             ball.Boundary.Min = new Vector2(0, 20);
 
             ICollisionCommand command = new BrickCollisionCommand(bricks, levelManagerMock.Object, null, manager,collisionState);
@@ -97,6 +89,8 @@ namespace zbrozonoidEngineTests
         [Test]
         public void VerifyBallShouldBounceFromTwoHorizontalBricks()
         {
+            var bricks = CreateBricks(0, 0);
+
             ball.Boundary.Min = new Vector2(45, 20);
 
             ICollisionCommand command = new BrickCollisionCommand(bricks, levelManagerMock.Object, null, manager, collisionState);
@@ -110,15 +104,42 @@ namespace zbrozonoidEngineTests
         [Test]
         public void VerifyBallShouldBounceFromBorders()
         {
-            ball.Boundary.Min = new Vector2(width - borderSize - (ballSize -1), height - borderSize - (ballSize - 1));
+            var borders = CreateBorders();
 
+            ball.Boundary.Min = new Vector2(Width - BorderSize - (BallSize - 1), Height - BorderSize - (BallSize - 1));
+            
+            collisionState.SetBorderCollistionState(true, true, borders);
             ICollisionCommand command = new BorderCollisionCommand(borders, manager, collisionState);
             command.Detect(ball);
+            command.Bounce(ball);
 
             Assert.AreEqual(2, collisionState.BordersHitList.Count);
             Assert.IsTrue(collisionState.CollisionWithBorder);
             Assert.IsTrue(collisionState.BounceFromBorder);
         }
 
+        private List<IBrick> CreateBricks(int posx, int posy)
+        {
+            var bricks = new List<IBrick>();
+
+            bricks.Add(new Brick(BrickType.Solid, posx, posy));
+            bricks.Add(new Brick(BrickType.Solid, posx + 50, posy + 0));
+            bricks.Add(new Brick(BrickType.Solid, posx + 100, posy + 0));
+            bricks.Add(new Brick(BrickType.Solid, posx + 100, posy + 25));
+
+            return bricks;
+        }
+
+        private List<IBorder> CreateBorders()
+        {
+            var borders  = new List<IBorder>();
+
+            borders.Add(new Border(screen, Edge.Top));
+            borders.Add(new Border(screen, Edge.Left));
+            borders.Add(new Border(screen, Edge.Right));
+            borders.Add(new Border(screen, Edge.Bottom));
+
+            return borders;
+        }
     }
 }

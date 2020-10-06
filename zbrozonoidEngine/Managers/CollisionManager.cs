@@ -19,6 +19,7 @@ namespace zbrozonoidEngine.Managers
     using System.Collections.Generic;
     using System.Linq;
     using NLog;
+    using NLog.Filters;
     using zbrozonoidEngine;
     using zbrozonoidEngine.Interfaces;
 
@@ -115,7 +116,13 @@ namespace zbrozonoidEngine.Managers
         public void Bounce(IReadOnlyCollection<IBorder> borders, IBall ball)
         {
             var obstacles = borders.Cast<IBoundary>().ToList();
-            Bounce(obstacles, ball, out var degreeType);
+            if (obstacles.Count > 1) // the case when collision in borders corner
+            {
+                ball.BounceBack(); 
+                return;
+            }
+
+            Bounce(obstacles, ball, out _);
         }
 
         public void Bounce(IReadOnlyCollection<IBrick> bricks, IBall ball)
