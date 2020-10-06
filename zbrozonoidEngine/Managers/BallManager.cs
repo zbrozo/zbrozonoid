@@ -16,6 +16,7 @@ along with this program.If not, see<https://www.gnu.org/licenses/>.
 */
 namespace zbrozonoidEngine.Managers
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
     using zbrozonoidEngine.Interfaces;
@@ -40,6 +41,7 @@ namespace zbrozonoidEngine.Managers
 
         public void Remove(IBall ball)
         {
+            (ball as IDisposable)?.Dispose();
             balls.Remove(ball);
         }
 

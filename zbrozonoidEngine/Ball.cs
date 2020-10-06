@@ -21,7 +21,7 @@ namespace zbrozonoidEngine
     using NLog;
     using zbrozonoidEngine.Interfaces;
 
-    public class Ball : IBall
+    public class Ball : IBall, IDisposable
     {
         private static readonly NLog.Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -37,7 +37,7 @@ namespace zbrozonoidEngine
 
         private readonly IMovement movement;
 
-        private Timer timer = new Timer();
+        private readonly Timer timer = new Timer();
 
         private const int timerInterval = 1000;
         private const int timerMaxTime = 20; // 20 seconds
@@ -53,6 +53,7 @@ namespace zbrozonoidEngine
             timer.Elapsed += OnTimerEvent;
             timer.Interval = timerInterval;
             timer.AutoReset = true;
+            timer.Start();
 
             DegreeType = DegreeType.Centre;
             Speed = (int)BallSpeed.Default;
@@ -261,5 +262,11 @@ namespace zbrozonoidEngine
             ++timerCounter;
         }
 
+        public void Dispose()
+        {
+            timer.Stop();
+            BallSpeedTimerCallback?.Invoke(this, 0);
+            timerCounter = 0;
+        }
     }
 }

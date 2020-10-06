@@ -173,6 +173,9 @@ namespace zbrozonoidEngine
                 return;
             }
 
+            FastBallCounter.Clear();
+            FireBallCounter.Clear();
+
             ballBuilder.Create(GameConfig);
 
             ballStateMachine.GoIntoPlay();

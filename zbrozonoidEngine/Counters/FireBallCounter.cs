@@ -29,5 +29,10 @@ namespace zbrozonoidEngine.Counters
 
             counters[tail] = value;
         }
+
+        public void Clear()
+        {
+            counters.Clear();
+        }
     }
 }

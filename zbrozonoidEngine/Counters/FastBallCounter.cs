@@ -8,7 +8,7 @@ namespace zbrozonoidEngine.Counters
 {
     public class FastBallCounter : IEnumerable<int>
     {
-        private Dictionary<IBall, int> counters = new Dictionary<IBall, int>();
+        private readonly Dictionary<IBall, int> counters = new Dictionary<IBall, int>();
 
         public int GetValue() => counters.Any() ? counters.Max(x => x.Value) : 0;
 
@@ -21,6 +21,11 @@ namespace zbrozonoidEngine.Counters
             }
 
             counters[ball] = value;
+        }
+
+        public void Clear()
+        {
+            counters.Clear();
         }
 
         public IEnumerator<int> GetEnumerator()
