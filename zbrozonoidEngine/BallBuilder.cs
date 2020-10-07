@@ -46,11 +46,15 @@ namespace zbrozonoidEngine
 
         private IBall Create()
         {
-            const int defaultDegree = 45;
+            //const int defaultDegree = 45;
+
+            var randomGenerator = new RandomGenerator();
+            var degree = randomGenerator.GenerateDegree(DegreeType.Centre);
+
             var defaultDirection = new Vector2(1, 1);
             var defaultOffset = new Vector2(0, 0);
             IBall ball = new Ball(new RandomGenerator(),
-                                  new LinearMovement(0, defaultDegree, defaultOffset, defaultDirection)
+                                  new LinearMovement(0, degree, defaultOffset, defaultDirection)
                             )
             {
                 BallSpeedTimerCallback = SpeedTimerHandler
