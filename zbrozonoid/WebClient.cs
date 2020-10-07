@@ -1,10 +1,16 @@
 ﻿using RestSharp;
+using zbrozonoid.AppSettings;
 
 namespace zbrozonoid
 {
     public class WebClient
     {
-        private RestClient client = new RestClient("http://localhost:5000/api/");
+        private readonly RestClient client;
+
+        public WebClient(Settings settings)
+        {
+            client = new RestClient(settings.WebServiceAddress);
+        }
 
         public void Put(int id, string data)
         {

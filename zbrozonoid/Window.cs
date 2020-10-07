@@ -56,9 +56,8 @@ namespace zbrozonoid
         private readonly IGamePlayfieldView gamePlayfieldView;
         private readonly IViewStateMachine viewStateMachine;
 
-        private readonly WebClient webClient = new WebClient();
-
-        private Settings settings;
+        private readonly Settings settings;
+        private readonly WebClient webClient;
 
         private ICollection<zbrozonoidEngine.Player> Players;
 
@@ -69,6 +68,8 @@ namespace zbrozonoid
             settings = Settings.LoadSettings() ?? new Settings();
             Settings.ValidateSettings(settings);
             game.GameConfig.Players = settings.Players.PlayersAmount;
+
+            webClient = new WebClient(settings);
 
             managerScope = game.ManagerScope;
 
