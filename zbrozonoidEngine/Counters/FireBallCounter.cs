@@ -27,7 +27,14 @@ namespace zbrozonoidEngine.Counters
                 return;
             }
 
-            counters[tail] = value;
+            if (!counters.Keys.Contains(tail))
+            {
+                counters.Add(tail, value);
+            }
+            else
+            {
+                counters[tail] = value;
+            }
         }
 
         public void Clear()

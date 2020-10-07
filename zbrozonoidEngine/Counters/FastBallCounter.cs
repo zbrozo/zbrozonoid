@@ -20,7 +20,14 @@ namespace zbrozonoidEngine.Counters
                 return;
             }
 
-            counters[ball] = value;
+            if (!counters.Keys.Contains(ball))
+            {
+                counters.Add(ball, value);
+            }
+            else
+            {
+                counters[ball] = value;
+            }
         }
 
         public void Clear()
