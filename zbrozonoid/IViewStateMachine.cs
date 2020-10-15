@@ -1,7 +1,7 @@
 ﻿using Autofac;
 using zbrozonoidEngine.Interfaces;
 
-namespace zbrozonoid.Views
+namespace zbrozonoid
 {
     public interface IViewStateMachine
     {
@@ -15,6 +15,6 @@ namespace zbrozonoid.Views
 
         void Action();
 
-        void Transitions(IGameEngine game);
+        void Transitions(IGameState gameState);
     }
 }
