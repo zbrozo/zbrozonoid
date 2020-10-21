@@ -16,7 +16,6 @@ along with this program.If not, see<https://www.gnu.org/licenses/>.
 */
 
 using Autofac;
-using zbrozonoid.Views;
 using zbrozonoid.Views.Interfaces;
 using zbrozonoidEngine.Interfaces;
 
@@ -26,8 +25,6 @@ namespace zbrozonoid
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
-        private IGameEngine game;
-
         private IView currentState;
         private ILifetimeScope scope;
 
@@ -36,11 +33,6 @@ namespace zbrozonoid
         public bool IsPlayState => currentState is IGamePlayView;
         public bool IsStopState => currentState is IStopPlayView;
         public bool IsStartState => currentState is IStartPlayView;
-
-        public ViewStateMachine(IGameEngine game, int[] mani)
-        {
-            this.game = game;
-        }
 
         public void Initialize(ILifetimeScope scope)
         {
@@ -53,7 +45,7 @@ namespace zbrozonoid
             currentState?.Display();
         }
 
-        public void Transitions(IGameEngine game)
+        public void Transitions(IGameState gameState)
         {
             if (currentState is IGameBeginView)
             {
@@ -63,8 +55,8 @@ namespace zbrozonoid
             }
 
             if (currentState is IGamePlayView 
-                && game.GameState.Lifes < 0
-                && !game.GameState.Pause)
+                && gameState.Lifes < 0
+                && !gameState.Pause)
             {
                 Logger.Info("State: PlayGame -> GameOver");
                 currentState = scope.Resolve<IGameOverView>();
@@ -72,8 +64,8 @@ namespace zbrozonoid
             }
 
             if (currentState is IGamePlayView 
-                && game.GameState.Lifes >= 0 
-                && !game.GameState.Pause)
+                && gameState.Lifes >= 0 
+                && !gameState.Pause)
             {
                 Logger.Info("State: PlayGame -> StartPlay");
 
@@ -82,7 +74,7 @@ namespace zbrozonoid
             }
 
             if (currentState is IGamePlayView 
-                && game.GameState.Pause)
+                && gameState.Pause)
             {
                 Logger.Info("State: PlayGame -> StopPlay");
 
@@ -91,8 +83,8 @@ namespace zbrozonoid
             }
 
             if (currentState is IStopPlayView
-                && game.GameState.Lifes < 0
-                && game.GameState.Pause)
+                && gameState.Lifes < 0
+                && gameState.Pause)
             {
                 Logger.Info("State: StopPlay -> GameOver");
 
@@ -101,7 +93,7 @@ namespace zbrozonoid
             }
 
             if (currentState is IStopPlayView
-                && !game.GameState.Pause)
+                && !gameState.Pause)
             {
                 Logger.Info("State: StopPlay -> GamePlay");
 

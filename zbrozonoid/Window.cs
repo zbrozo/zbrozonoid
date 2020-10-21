@@ -106,7 +106,7 @@ namespace zbrozonoid
             if (e.Code == Keyboard.Key.Escape)
             {
                 game.GameState.Pause = true;
-                viewStateMachine.Transitions(game);
+                viewStateMachine.Transitions(game.GameState);
                 return;
             }
 
@@ -115,7 +115,7 @@ namespace zbrozonoid
                 if (e.Code == Keyboard.Key.Y)
                 {
                     game.GameState.Lifes = -1;
-                    viewStateMachine.Transitions(game);
+                    viewStateMachine.Transitions(game.GameState);
                     game.StopPlay(); // game over
                     return;
                 }
@@ -123,7 +123,7 @@ namespace zbrozonoid
                 if (e.Code == Keyboard.Key.N)
                 {
                     game.GameState.Pause = false;
-                    viewStateMachine.Transitions(game);
+                    viewStateMachine.Transitions(game.GameState);
                     return;
                 }
 
@@ -156,13 +156,13 @@ namespace zbrozonoid
             {
                 if (viewStateMachine.IsStartState)
                 {
-                    viewStateMachine.Transitions(game);
+                    viewStateMachine.Transitions(game.GameState);
                     game.StartPlay();
                 }
 
                 if (viewStateMachine.IsGameOverState)
                 {
-                    viewStateMachine.Transitions(game);
+                    viewStateMachine.Transitions(game.GameState);
                 }
             }
         }
@@ -175,14 +175,14 @@ namespace zbrozonoid
 
         public void OnLevelCompleted(object sender, EventArgs e)
         {
-            viewStateMachine.Transitions(game);
+            viewStateMachine.Transitions(game.GameState);
             game.StopPlay();
             game.InitPlay(Players);
         }
 
         public void OnLostBalls(object sender, EventArgs args)
         {
-            viewStateMachine.Transitions(game);
+            viewStateMachine.Transitions(game.GameState);
             game.StopPlay(); // game over
         }
 
@@ -282,7 +282,7 @@ namespace zbrozonoid
             ICollection<int> manipulators = PrepareManipulators();
             PreparePlayers(manipulators);
 
-            viewStateMachine.Transitions(game);
+            viewStateMachine.Transitions(game.GameState);
 
             game.InitPlay(Players);
             game.StartPlay();
