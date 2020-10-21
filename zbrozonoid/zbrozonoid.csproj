@@ -76,6 +76,7 @@
     <Compile Include="AppSettings\Settings.cs" />
     <Compile Include="AppSettings\Player.cs" />
     <Compile Include="AppSettings\Players.cs" />
+    <Compile Include="RemotePadMovement.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\zbrozonoidAssets\zbrozonoidAssets.csproj">

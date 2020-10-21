@@ -12,7 +12,7 @@ namespace zbrozonoidEngine
             var brickHitList = new List<int>();
 
             int i = 0;
-            foreach (var brick in bricks)
+            foreach (var brick in bricks)   
             {
                 if (!brick.IsHit && brick.IsVisible)
                 {

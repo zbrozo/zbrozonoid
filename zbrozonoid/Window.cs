@@ -32,6 +32,7 @@ namespace zbrozonoid
     using zbrozonoid.AppSettings;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
 
     public class Window
     {
@@ -57,9 +58,10 @@ namespace zbrozonoid
         private readonly IViewStateMachine viewStateMachine;
 
         private readonly Settings settings;
-        private readonly WebClient webClient;
-
+        private readonly RemotePadMovement remotePadMovement;
         private ICollection<zbrozonoidEngine.Player> Players;
+
+
 
         public Window(IGameEngine game)
         {
@@ -69,7 +71,7 @@ namespace zbrozonoid
             Settings.ValidateSettings(settings);
             game.GameConfig.Players = settings.Players.PlayersAmount;
 
-            webClient = new WebClient(settings);
+            remotePadMovement = new RemotePadMovement(settings);
 
             managerScope = game.ManagerScope;
 
@@ -222,7 +224,7 @@ namespace zbrozonoid
 
             if (settings.Remote)
             {
-                RemotePadMovement(args.X, RemoteManipulatorId);
+                remotePadMovement.PutAndGet(args.X, RemoteManipulatorId, game.SetPadMove);
             }
 
             if (viewStateMachine.IsMenuState)
@@ -330,23 +332,6 @@ namespace zbrozonoid
                     player.manipulator = RemoteManipulatorId;
                 }
             }
-        }
-
-        private void RemotePadMovement(int movement, uint id)
-        {
-            var movementJson = JsonConvert.SerializeObject(new PadMovement { PlayerId = settings.Players.PlayersDetails[0].WebId, Move = movement });
-            webClient.Put(settings.Players.PlayersDetails[0].WebId, movementJson);
-
-            var response = webClient.Get(settings.Players.PlayersDetails[1].WebId);
-            var padMovement = JsonConvert.DeserializeObject<PadMovement>(response);
-            if (padMovement == null)
-            {
-                Logger.Error("Remote paddle movement not received");
-                return;
-            }
-
-            game.SetPadMove(padMovement.Move, id);
-
         }
     }
 }

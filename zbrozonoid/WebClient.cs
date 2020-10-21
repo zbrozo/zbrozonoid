@@ -1,5 +1,4 @@
 ﻿using RestSharp;
-using zbrozonoid.AppSettings;
 
 namespace zbrozonoid
 {
@@ -7,9 +6,9 @@ namespace zbrozonoid
     {
         private readonly RestClient client;
 
-        public WebClient(Settings settings)
+        public WebClient(string url)
         {
-            client = new RestClient(settings.WebServiceAddress);
+            client = new RestClient(url);
         }
 
         public void Put(int id, string data)
