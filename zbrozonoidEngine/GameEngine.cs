@@ -212,7 +212,7 @@ namespace zbrozonoidEngine
 
         private void HitBrick(IBall currentBall, IEnumerable<int> bricksHit)
         {
-            if (GetBrickWithNumber(bricksHit, out KeyValuePair<IBrick, int>? brick))
+            if (Bricks.GetHitBrick(bricksHit, out KeyValuePair<IBrick, int>? brick))
             {
                 brick.Value.Key.IsHit = true;
                 --levelManager.GetCurrent().BeatableBricksNumber;
@@ -223,19 +223,6 @@ namespace zbrozonoidEngine
                 BrickHitEventArgs brickHitArgs = new BrickHitEventArgs(brick.Value.Value);
                 OnBrickHitEvent?.Invoke(this, brickHitArgs);
             }
-        }
-
-        private bool GetBrickWithNumber(IEnumerable<int> bricksHitList, out KeyValuePair<IBrick,int>? brick)
-        {
-            brick = null;
-
-            var bricksFound = Bricks.FilterByIndex(bricksHitList).Where(x => x.Key.IsBeatable && x.Key.IsVisible);
-            if (bricksFound.Any())
-            {
-                brick = bricksFound.First();
-                return true;
-            }
-            return false;
         }
 
         public void SetPadMove(int delta, uint manipulator)
