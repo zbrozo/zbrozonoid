@@ -1,0 +1,245 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+
+<Level>
+  <Background file="Backgrounds/background3.png"/>
+    
+  <Colors>
+    <Color id="0" valueR="0" valueG="255" valueB="255" />
+    <Color id="1" valueR="0" valueG="255" valueB="255" />
+    <Color id="2" valueR="0" valueG="255" valueB="255" />
+    <Color id="3" valueR="0" valueG="255" valueB="255" />
+  </Colors>
+    
+  <Rows>
+  
+    <Row id="0">
+      <Bricks>
+        <Brick column="0" color="0" type="0" />
+        <Brick column="1" color="8" type="2" />
+        <Brick column="2" color="8" type="2" />
+        <Brick column="3" color="8" type="2" />
+        <Brick column="4" color="8" type="2" />
+        <Brick column="5" color="8" type="2" />
+        <Brick column="6" color="8" type="2" />
+        <Brick column="7" color="8" type="2" />
+        <Brick column="8" color="8" type="2" />
+        <Brick column="9" color="8" type="2" />
+        <Brick column="10" color="8" type="2" />
+        <Brick column="11" color="8" type="2" />
+        <Brick column="12" color="8" type="2" />
+        <Brick column="13" color="8" type="2" />
+        <Brick column="14" color="8" type="2" />
+        <Brick column="15" color="8" type="2" />
+        <Brick column="16" color="8" type="2" />
+        <Brick column="17" color="8" type="2" />
+        <Brick column="18" color="8" type="2" />
+        <Brick column="19" color="8" type="2" />
+      </Bricks>
+    </Row>        
+
+    <Row id="2">
+      <Bricks>
+        <Brick column="0" color="1" type="4" />
+        <Brick column="1" color="1" type="1" />
+        <Brick column="2" color="1" type="1" />
+        <Brick column="3" color="1" type="1" />
+        <Brick column="4" color="1" type="1" />
+        <Brick column="5" color="1" type="1" />
+        <Brick column="6" color="1" type="1" />
+        <Brick column="7" color="1" type="1" />
+        <Brick column="8" color="1" type="1" />
+        <Brick column="9" color="1" type="1" />
+        <Brick column="10" color="1" type="1" />
+        <Brick column="11" color="1" type="1" />
+        <Brick column="12" color="1" type="1" />
+        <Brick column="13" color="1" type="1" />
+        <Brick column="14" color="1" type="1" />
+        <Brick column="15" color="1" type="1" />
+        <Brick column="16" color="1" type="1" />
+        <Brick column="17" color="1" type="1" />
+        <Brick column="18" color="1" type="1" />
+        <Brick column="19" color="1" type="4" />
+      </Bricks>
+    </Row>        
+        
+    <Row id="4">
+      <Bricks>
+        <Brick column="0" color="8" type="2" />
+        <Brick column="1" color="8" type="2" />
+        <Brick column="2" color="8" type="2" />
+        <Brick column="3" color="8" type="2" />
+        <Brick column="4" color="8" type="2" />
+        <Brick column="5" color="8" type="2" />
+        <Brick column="6" color="8" type="2" />
+        <Brick column="7" color="8" type="2" />
+        <Brick column="8" color="8" type="2" />
+        <Brick column="9" color="8" type="2" />
+        <Brick column="10" color="8" type="2" />
+        <Brick column="11" color="8" type="2" />
+        <Brick column="12" color="8" type="2" />
+        <Brick column="13" color="8" type="2" />
+        <Brick column="14" color="8" type="2" />
+        <Brick column="15" color="8" type="2" />
+        <Brick column="16" color="8" type="2" />
+        <Brick column="17" color="8" type="2" />
+        <Brick column="18" color="8" type="2" />
+        <Brick column="19" color="0" type="0" />
+      </Bricks>
+    </Row>        
+         
+    <Row id="6">
+      <Bricks>
+        <Brick column="0" color="1" type="4" />
+        <Brick column="1" color="1" type="1" />
+        <Brick column="2" color="1" type="1" />
+        <Brick column="3" color="1" type="1" />
+        <Brick column="4" color="1" type="1" />
+        <Brick column="5" color="1" type="1" />
+        <Brick column="6" color="1" type="1" />
+        <Brick column="7" color="1" type="1" />
+        <Brick column="8" color="1" type="1" />
+        <Brick column="9" color="1" type="1" />
+        <Brick column="10" color="1" type="1" />
+        <Brick column="11" color="1" type="1" />
+        <Brick column="12" color="1" type="1" />
+        <Brick column="13" color="1" type="1" />
+        <Brick column="14" color="1" type="3" />
+        <Brick column="15" color="1" type="1" />
+        <Brick column="16" color="1" type="1" />
+        <Brick column="17" color="1" type="1" />
+        <Brick column="18" color="1" type="1" />
+        <Brick column="19" color="1" type="4" />
+      </Bricks>
+    </Row>        
+        
+    <Row id="8">
+      <Bricks>
+        <Brick column="0" color="0" type="0" />
+        <Brick column="1" color="8" type="2" />
+        <Brick column="2" color="8" type="2" />
+        <Brick column="3" color="8" type="2" />
+        <Brick column="4" color="8" type="2" />
+        <Brick column="5" color="8" type="2" />
+        <Brick column="6" color="8" type="2" />
+        <Brick column="7" color="8" type="2" />
+        <Brick column="8" color="8" type="2" />
+        <Brick column="9" color="8" type="2" />
+        <Brick column="10" color="8" type="2" />
+        <Brick column="11" color="8" type="2" />
+        <Brick column="12" color="8" type="2" />
+        <Brick column="13" color="8" type="2" />
+        <Brick column="14" color="8" type="2" />
+        <Brick column="15" color="8" type="2" />
+        <Brick column="16" color="8" type="2" />
+        <Brick column="17" color="8" type="2" />
+        <Brick column="18" color="8" type="2" />
+        <Brick column="19" color="8" type="2" />
+      </Bricks>
+    </Row>        
+        
+    <Row id="10">
+      <Bricks>
+        <Brick column="0" color="1" type="4" />
+        <Brick column="1" color="1" type="1" />
+        <Brick column="2" color="1" type="1" />
+        <Brick column="3" color="1" type="1" />
+        <Brick column="4" color="1" type="1" />
+        <Brick column="5" color="1" type="1" />
+        <Brick column="6" color="1" type="1" />
+        <Brick column="7" color="1" type="1" />
+        <Brick column="8" color="1" type="1" />
+        <Brick column="9" color="1" type="1" />
+        <Brick column="10" color="1" type="1" />
+        <Brick column="11" color="1" type="1" />
+        <Brick column="12" color="1" type="1" />
+        <Brick column="13" color="1" type="1" />
+        <Brick column="14" color="1" type="1" />
+        <Brick column="15" color="1" type="1" />
+        <Brick column="16" color="1" type="1" />
+        <Brick column="17" color="1" type="1" />
+        <Brick column="18" color="1" type="1" />
+        <Brick column="19" color="1" type="4" />
+      </Bricks>
+    </Row>        
+        
+    <Row id="12">
+      <Bricks>
+        <Brick column="0" color="8" type="2" />
+        <Brick column="1" color="8" type="2" />
+        <Brick column="2" color="8" type="2" />
+        <Brick column="3" color="8" type="2" />
+        <Brick column="4" color="8" type="2" />
+        <Brick column="5" color="8" type="2" />
+        <Brick column="6" color="8" type="2" />
+        <Brick column="7" color="8" type="2" />
+        <Brick column="8" color="8" type="2" />
+        <Brick column="9" color="8" type="2" />
+        <Brick column="10" color="8" type="2" />
+        <Brick column="11" color="8" type="2" />
+        <Brick column="12" color="8" type="2" />
+        <Brick column="13" color="8" type="2" />
+        <Brick column="14" color="8" type="2" />
+        <Brick column="15" color="8" type="2" />
+        <Brick column="16" color="8" type="2" />
+        <Brick column="17" color="8" type="2" />
+        <Brick column="18" color="8" type="2" />
+        <Brick column="19" color="0" type="0" />
+      </Bricks>
+    </Row>
+        
+    <Row id="14">
+      <Bricks>
+        <Brick column="0" color="1" type="4" />
+        <Brick column="1" color="1" type="1" />
+        <Brick column="2" color="1" type="1" />
+        <Brick column="3" color="1" type="1" />
+        <Brick column="4" color="1" type="1" />
+        <Brick column="5" color="1" type="1" />
+        <Brick column="6" color="1" type="1" />
+        <Brick column="7" color="1" type="1" />
+        <Brick column="8" color="1" type="1" />
+        <Brick column="9" color="1" type="1" />
+        <Brick column="10" color="1" type="1" />
+        <Brick column="11" color="1" type="1" />
+        <Brick column="12" color="1" type="1" />
+        <Brick column="13" color="1" type="1" />
+        <Brick column="14" color="1" type="1" />
+        <Brick column="15" color="1" type="1" />
+        <Brick column="16" color="1" type="1" />
+        <Brick column="17" color="1" type="1" />
+        <Brick column="18" color="1" type="1" />
+        <Brick column="19" color="1" type="4" />
+      </Bricks>
+    </Row>        
+        
+    <Row id="16">
+      <Bricks>
+        <Brick column="0" color="0" type="0" />
+        <Brick column="1" color="8" type="2" />
+        <Brick column="2" color="8" type="2" />
+        <Brick column="3" color="8" type="2" />
+        <Brick column="4" color="8" type="2" />
+        <Brick column="5" color="8" type="2" />
+        <Brick column="6" color="8" type="2" />
+        <Brick column="7" color="8" type="2" />
+        <Brick column="8" color="8" type="2" />
+        <Brick column="9" color="8" type="2" />
+        <Brick column="10" color="8" type="2" />
+        <Brick column="11" color="8" type="2" />
+        <Brick column="12" color="8" type="2" />
+        <Brick column="13" color="8" type="2" />
+        <Brick column="14" color="8" type="2" />
+        <Brick column="15" color="8" type="2" />
+        <Brick column="16" color="8" type="2" />
+        <Brick column="17" color="8" type="2" />
+        <Brick column="18" color="8" type="2" />
+        <Brick column="19" color="8" type="2" />
+      </Bricks>
+    </Row>
+        
+        
+  </Rows>
+    
+</Level>
+
+        

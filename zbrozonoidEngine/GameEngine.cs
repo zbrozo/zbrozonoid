@@ -178,6 +178,11 @@ namespace zbrozonoidEngine
 
             ballBuilder.Create(GameConfig);
 
+            //ballStateMachine.GoIntoPlay();
+        }
+
+        public void StartBall()
+        {
             ballStateMachine.GoIntoPlay();
         }
 

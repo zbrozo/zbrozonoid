@@ -154,6 +154,11 @@ namespace zbrozonoid
             }
             else
             {
+                if (viewStateMachine.IsPlayState)
+                {
+                    game.StartBall();
+                }
+
                 if (viewStateMachine.IsStartState)
                 {
                     viewStateMachine.Transitions(game.GameState);

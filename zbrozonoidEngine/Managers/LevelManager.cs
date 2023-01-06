@@ -17,15 +17,14 @@ along with this program.If not, see<https://www.gnu.org/licenses/>.
 namespace zbrozonoidEngine.Managers
 {
     using System.Collections;
-
+    using System.IO;
     using zbrozonoidEngine.Interfaces;
 
     public class LevelManager : ILevelManager
     {
+        private readonly string LevelPath = "zbrozonoidAssets.Levels.";
 
-        private string LevelPath = "zbrozonoidAssets.Levels.";
-
-        private readonly string[] levelNames = new string[] {"Level1.xml", "Level2.xml"};
+        private readonly string[] levelNames = new string[] {"Level2.txt", "Level1.txt"};
         
         private ILevel level;
 
@@ -38,8 +37,16 @@ namespace zbrozonoidEngine.Managers
 
         public bool Load()
         {
-            level = new Level();
-            return level.Load(LevelPath + index.Current);
+            var name = index.Current.ToString();
+            if (Path.GetExtension(name) == ".txt")
+            {
+                level = new LevelTxt();
+            }
+            else
+            {
+                level = new Level();
+            }
+            return level.Load(LevelPath + name);
         }
 
         public ILevel GetCurrent()

@@ -47,6 +47,7 @@ namespace zbrozonoidEngine.Interfaces
         void InitPlay(ICollection<Player> players);
         void StartPlay();
         void StopPlay();
+        void StartBall();
 
         void GetScreenSize(out int width, out int height);
 

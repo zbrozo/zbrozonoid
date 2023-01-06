@@ -141,6 +141,7 @@
     <Compile Include="States\BallInPlayCommands\BorderCollisionCommand.cs" />
     <Compile Include="States\BallInPlayCommands\PadCollisionCommand.cs" />
     <Compile Include="Player.cs" />
+    <Compile Include="LevelTxt.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
