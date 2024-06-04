@@ -19,9 +19,7 @@ namespace zbrozonoidEngine
     using System;
     using System.Collections.Generic;
     using System.IO;
-    using System.Linq;
     using System.Reflection;
-    using System.Xml.Linq;
 
     using zbrozonoidEngine.Interfaces;
 
@@ -35,16 +33,56 @@ namespace zbrozonoidEngine
         public int BeatableBricksNumber { get; set; }
 
         private const int Margin = 12;
-
         private const int BlockWidth = 50;
-
         private const int BlockHeight = 25;
+        private const int MaxLineLength = 40;
+        private const int BlocksAmountInLine = MaxLineLength/2;
+        private const int BlocksAmountInColumn = 30;
 
-        private const int StartY = 150;
+        public List<IBrick> CreateNewBricks(List<IBrick> bricks, int offsetY)
+        {
+            List<IBrick> temporaryBricks = new List<IBrick>();
+
+            foreach (var brick in bricks)
+            {
+                var tmpBrick = new Brick(0, 0, 0);
+
+                Rectangle boundary = new Rectangle(
+                    brick.Boundary.Min.X,
+                    brick.Boundary.Min.Y + offsetY,
+                    brick.Boundary.Size.X,
+                    brick.Boundary.Size.Y);
+
+                tmpBrick.Type = brick.Type;
+                tmpBrick.IsHit = brick.IsHit;
+                tmpBrick.ColorNumber = brick.ColorNumber;
+                tmpBrick.Boundary = boundary;
+
+                temporaryBricks.Add(tmpBrick);
+            }
+
+            return temporaryBricks;
+        }
+
+        public IBrick CreateBrick(string data, int x, int y)
+        {
+            var brick = new Brick(0, 0, 0);
+            int ColorNumber = Convert.ToInt32(data.Substring(x * 2, 1), 16);
+            int Type = Convert.ToInt32(data.Substring(x * 2 + 1, 1), 16);
+            Rectangle Boundary = new Rectangle(x * BlockWidth + Margin, y * BlockHeight, BlockWidth, BlockHeight);
+
+            brick.Type = (BrickType)Type;
+            brick.ColorNumber = ColorNumber;
+            brick.Boundary = Boundary;
+            brick.IsHit = false;
+
+            return brick;
+        }
 
         public bool Load(string fileName)
         {
-            Bricks.Clear();
+            List<IBrick> tempBricks = new List<IBrick>();
+
             BeatableBricksNumber = 0;
 
             AssemblyName assemblyName = new AssemblyName(@"zbrozonoidAssets");
@@ -53,43 +91,43 @@ namespace zbrozonoidEngine
             using (Stream resourceStream = assembly.GetManifestResourceStream(fileName))
             {
                 if (resourceStream == null)
+                {
                     return false;
+                }
 
                 var reader = new StreamReader(resourceStream);
 
                 int y = 0;
+                string data = "";
+
                 while(reader.Peek() >= 0)
                 { 
-                    string data = reader.ReadLine();
+                    data = reader.ReadLine();
 
-                    if (data.Length == 40)
+                    if (data.Length == MaxLineLength)
                     {
-                        for (int x = 0; x < 20; x++)
+                        for (int x = 0; x < BlocksAmountInLine; x++)
                         {
-                            var brick = new Brick(0, 0, 0);
-                            int ColorNumber = Convert.ToInt32(data.Substring(x*2, 1), 16);
-                            int Type = Convert.ToInt32(data.Substring(x*2 + 1, 1), 16);
-                            Rectangle Boundary = new Rectangle(x * BlockWidth + Margin, y * BlockHeight + StartY, BlockWidth, BlockHeight);
-
-                            brick.Type = (BrickType)Type;
-                            brick.ColorNumber = ColorNumber;
-                            brick.Boundary = Boundary;
-                            brick.IsHit = false;
+                            IBrick brick = CreateBrick(data, x, y);
 
                             if (brick.IsBeatable)
                             {
                                 BeatableBricksNumber++;
                             }
-                            Bricks.Add(brick);
+
+                            tempBricks.Add(brick);
                         }
 
                         ++y;
                     }
-                    else
-                    {
-                        BackgroundPath = data;
-                    }
                 }
+
+                if (data.Length > 0)
+                {
+                    BackgroundPath = data;
+                }
+
+                Bricks = CreateNewBricks(tempBricks, (BlocksAmountInColumn - y) / 2 * BlockHeight);
             }
             return true;
         }
