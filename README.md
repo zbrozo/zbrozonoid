@@ -10,6 +10,13 @@ On Mint Linux 21.3 there is no libdl.so so I do:
 
 sudo ln -s /lib/x86_64-linux-gnu/libdl.so.2 /lib/libdl.so
 
+
+For remote two players mode there is web service in zbrozonoidWebService directory. 
+
+And it could be run: nodejs ./index.js
+
+But this is still during development.
+
 ![](zbrozonoid.png)
 
 
