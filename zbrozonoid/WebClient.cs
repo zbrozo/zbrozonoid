@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using RestSharp;
 
 namespace zbrozonoid
@@ -9,21 +10,26 @@ namespace zbrozonoid
 
         public WebClient(string url)
         {
-            Console.Write(url);
-            client = new RestClient(url);
+            var options = new RestClientOptions(url);
+            //  options.Timeout = new TimeSpan(300);
+            client = new RestClient(options);
         }
 
-        public void Put(int id, string data)
+        public async void Put(int id, string data)
         {
             var request = new RestRequest("values/" + id, Method.Put);
             request.AddStringBody(data, ContentType.Json);
-            client.Execute(request);
+            //request.Timeout = new TimeSpan(6000);
+            await client.ExecuteAsync(request);
         }
 
-        public string Get(int id)
+        public async Task<string> Get(int id)
         {
-            var request = new RestRequest("values/" + id, Method.Get);
-            var response = client.Execute(request);
+            var request = new RestRequest("values/" + id, Method.Get)
+            {
+                //Timeout = new TimeSpan(1000)
+            };
+            var response = await client.ExecuteAsync(request);
             return response.Content;
         }
     }

@@ -23,27 +23,30 @@ namespace zbrozonoid
             webClient = new WebClient(settings.WebServiceAddress);
         }
 
-        public async void PutAndGet(int movement, uint manipulatorId, Action<int, uint> setPadMove)
+        public void PutAndGet(int movement, uint manipulatorId, Action<int, uint> setPadMove)
         {
-            var result = await Task.Run(() =>
+            PadMovement result = null;
+            lock (webLock)
             {
-                lock (webLock)
-                {
-                    int webId = GetWebId(1);
-                    var movementJson = JsonConvert.SerializeObject(new PadMovement { PlayerId = webId, Move = movement });
-                    webClient.Put(webId, movementJson);
+                int webId = GetWebId(1);
+                var movementJson = JsonConvert.SerializeObject(new PadMovement { PlayerId = webId, Move = movement });
+                webClient.Put(webId, movementJson);
 
-                    var response = webClient.Get(GetWebId(2));
-                    var padMovement = JsonConvert.DeserializeObject<PadMovement>(response);
+                var response = webClient.Get(GetWebId(2));
+                if (response != null && response.Result != null)
+                {
+                    var padMovement = JsonConvert.DeserializeObject<PadMovement>(response.Result);
                     if (padMovement == null)
                     {
                         Logger.Error("Remote paddle movement not received");
-                        return null;
                     }
-
-                    return padMovement;
+                    else
+                    {
+                        result = padMovement;
+                    }
                 }
-            });
+            }
+
 
             if (result != null)
             {
