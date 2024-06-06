@@ -11,7 +11,6 @@ namespace zbrozonoid
         public WebClient(string url)
         {
             var options = new RestClientOptions(url);
-            //  options.Timeout = new TimeSpan(300);
             client = new RestClient(options);
         }
 
@@ -19,7 +18,6 @@ namespace zbrozonoid
         {
             var request = new RestRequest("values/" + id, Method.Put);
             request.AddStringBody(data, ContentType.Json);
-            //request.Timeout = new TimeSpan(6000);
             await client.ExecuteAsync(request);
         }
 

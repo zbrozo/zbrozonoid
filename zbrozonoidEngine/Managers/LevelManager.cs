@@ -24,7 +24,7 @@ namespace zbrozonoidEngine.Managers
     {
         private readonly string LevelPath = "zbrozonoidAssets.Levels.";
 
-        private readonly string[] levelNames = new string[] {"Level2.txt", "Level1.txt"};
+        private readonly string[] levelNames = new string[] {"Level1.txt", "Level2.txt"};
         
         private ILevel level;
 
@@ -44,7 +44,8 @@ namespace zbrozonoidEngine.Managers
             }
             else
             {
-                level = new Level();
+                // there was also xml level loader but I've abadoned that idea
+                //level = new Level();
             }
             return level.Load(LevelPath + name);
         }

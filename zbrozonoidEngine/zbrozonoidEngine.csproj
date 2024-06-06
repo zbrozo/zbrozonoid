@@ -76,7 +76,6 @@
     <Compile Include="Ball.cs" />
     <Compile Include="Border.cs" />
     <Compile Include="Brick.cs" />
-    <Compile Include="Level.cs" />
     <Compile Include="Pad.cs" />
     <Compile Include="RandomGenerator.cs" />
     <Compile Include="Screen.cs" />
