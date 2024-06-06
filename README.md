@@ -1,21 +1,49 @@
 # zbrozonoid
-a free arkanoid clone with two player mode (two mouses are needed)
+a free arkanoid clone with two player mode:
+- two mouses can be plugged
+- remote connection is available using web service (look at zbrozonoidWebService directory)
 
-  This app works on Mint Linux and Windows with Mono 5.16 and SFML 2.5 (installed with nuget). 
-I use Mono Develop IDE. But it can be also compiled with Visual Studio.
-
-ManyMouse library problem:
-
-On Mint Linux 21.3 there is no libdl.so so I do: 
-
-sudo ln -s /lib/x86_64-linux-gnu/libdl.so.2 /lib/libdl.so
-
+  This game works on Mint Linux and Windows with Mono 5.16 and SFML 2.5 (installed with nuget). 
+I use Mono Develop IDE. But also I've built this app with Visual Studio.
 
 For remote two players mode there is web service in zbrozonoidWebService directory. 
 
-And it could be run: nodejs ./index.js
+It could be run locally: nodejs ./index.js
 
-But this is still during development.
+Remote mode is still during development because I find it a bit slow.
+
+Anyway my configuration for having two pads when second one makes the same movement as the first one:
+
+settings.json file (notice that WebId is the same for both players):
+```
+{
+  "WebServiceAddress": "http://localhost:5000/api/",
+  "Remote": true,
+  "Players": {
+    "PlayersAmount": 2,
+    "PlayersDetails": [
+      {
+        "Nr": 1,
+        "WebId": 1,
+        "Location": 2
+      },
+      {
+        "Nr": 2,
+        "WebId": 1,
+        "Location": 0
+      }
+    ]
+  }
+}
+```
+
+Found issues:
+- ManyMouseLibrary: on Mint Linux 21.3 there is no libdl.so so I do: 
+
+`sudo ln -s /lib/x86_64-linux-gnu/libdl.so.2 /lib/libdl.so`
+
+
+
 
 ![](zbrozonoid.png)
 
