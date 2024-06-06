@@ -6,7 +6,7 @@ a free C# arkanoid clone with two player mode:
 This game works on Mint Linux and Windows with Mono 5.16 and SFML 2.5 (installed with nuget). 
 I use Mono Develop IDE. But also I've built this app with Visual Studio.
 
-This game was created to train OOP :)
+This game was created to train some OOP techniques :)
 
 For remote two players mode there is web service in zbrozonoidWebService directory. 
 
