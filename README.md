@@ -16,6 +16,8 @@ Remote mode is still during development because I find it a bit slow.
 
 Anyway, here is my configuration for having two pads when second one makes the same movement as the first one.
 Please create settings.json and notice that WebId is the same for both players (it means that second pad reads movement from the first pad which is moved by the player).
+Location means location of the pad, and that's value from `enum Edge`.
+
 ```
 {
   "WebServiceAddress": "http://localhost:5000/api/",
