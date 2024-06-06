@@ -15,7 +15,7 @@ It could be run locally: nodejs ./index.js
 Remote mode is still during development because I find it a bit slow.
 
 Anyway, here is my configuration for having two pads when second one makes the same movement as the first one.
-Please create settings.json and notice that WebId is the same for both players (it means that second player read move from the first player).
+Please create settings.json and notice that WebId is the same for both players (it means that second pad reads movement from the first pad which is moved by the player).
 ```
 {
   "WebServiceAddress": "http://localhost:5000/api/",
